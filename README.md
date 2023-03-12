@@ -85,11 +85,11 @@ lançamento) e colaborador (apontar horas extras).
 <br>
 
 > - [X] 13/02 a 03/03 - Kick-off
-> - [] 13/03 a 02/04 - Sprint 1
-> - [] 03/04 a 23/04 - Sprint 2
-> - [] 24/04 a 14/05 - Sprint 3
-> - [] 15/05 a 04/06 - Sptint 4
-> - [] 13/06 a 14/06 - Feira de soluções
+> - [-] 13/03 a 02/04 - Sprint 1
+> - [-] 03/04 a 23/04 - Sprint 2
+> - [-] 24/04 a 14/05 - Sprint 3
+> - [-] 15/05 a 04/06 - Sptint 4
+> - [-] 13/06 a 14/06 - Feira de soluções
 
 </details>
 
@@ -158,23 +158,23 @@ Insira o código aqui:
 <summary> Requisitos Funcionais </summary>
  <br>
 
-* Usuários devem ter perfis diferentes: administrador (acesso as informações de parametrização,
+> * Usuários devem ter perfis diferentes: administrador (acesso as informações de parametrização,
 extração de relatórios e aprovação), gestor (aprovação e lançamento) e colaborador (apontar
 horas);
-* Apontamento de horas extras e classificação das horas;
-* Lançamento de horas de sobreaviso;
-* No lançamento da hora extra especificar cliente, CR (centro de resultado), projeto, solicitante e
+> * Apontamento de horas extras e classificação das horas;
+> * Lançamento de horas de sobreaviso;
+> * No lançamento da hora extra especificar cliente, CR (centro de resultado), projeto, solicitante e
 justificativa;
-* Cadastro de clientes e CRs;
-* Recurso para aprovação de horas extras executadas;
-* Parametrização de sistema (período de fechamento das horas, percentual de classificação das
+> * Cadastro de clientes e CRs;
+> * Recurso para aprovação de horas extras executadas;
+> * Parametrização de sistema (período de fechamento das horas, percentual de classificação das
 horas extras e adicional noturno juntamente com as verbas salariais, definição dos horários de
 início e fim de horas noturnas);
-* Extração de relatório csv de todos os colaboradores com as horas trabalhadas (matrícula, nome,
+> * Extração de relatório csv de todos os colaboradores com as horas trabalhadas (matrícula, nome,
 verba, quantidade de horas, cliente, CR, projeto, justificativa);
-* Aplicar regras de horas extras e sobreavisos na extração (classificação de HEs e cálculo do
+> * Aplicar regras de horas extras e sobreavisos na extração (classificação de HEs e cálculo do
 sobreaviso considerando as HEs conflitantes);
-* Dashboard com acompanhamento em tempo real das horas extras executadas com filtro cliente,
+> * Dashboard com acompanhamento em tempo real das horas extras executadas com filtro cliente,
 CR e colaborador.
 </details>
 
