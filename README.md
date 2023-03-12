@@ -1,5 +1,5 @@
 
-![header read me](https://user-images.githubusercontent.com/111442399/194777358-24905c4f-e62b-414d-8754-b3ccaf878547.png)
+![header readme](https://user-images.githubusercontent.com/111442399/224566960-7fffdc88-952e-40f3-bb98-d7eb7001acee.png)
 # _**API 2º Semestre - Tecnologia em Banco de Dados 2022**_
 
 ## 📍 Sumário
@@ -26,6 +26,9 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
+![people](https://user-images.githubusercontent.com/111442399/224567046-a8991c65-dc20-4e26-a843-8af7dc77aff1.png)
+
+
 | Integrantes | Redes Sociais |
 |-------|--------|
 |[Jhonatan Lopes](https://github.com/jhonatanlop) | <a href="https://www.linkedin.com/in/jhonatan-oliveira-lopes/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = "mailto:jhooliveira.lopes@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href="https://www.instagram.com/jhonatan_lopes_lmao/?next=%2F" target="_blank"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
@@ -41,11 +44,14 @@
 
 
 <details>
-<summary> Tema </summary>
+<summary> Tema e objetivos </summary>
 <br>
 
-> * Aplicação desktop simples (CRUD). Os requisitos devem proporcionar uma modelagem de Banco de
-Dados relacional. A primeira entrega não deve envolver acesso ao Banco de Dados.
+![problema](https://user-images.githubusercontent.com/111442399/224567212-c15f3fa9-78db-4ef1-8ec5-354377ba34c4.png)
+
+> * Aplicação desktop simples (CRUD).
+> * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.
+> * A primeira entrega não deve envolver acesso ao Banco de Dados.
 
 </details>
 
@@ -54,22 +60,9 @@ Dados relacional. A primeira entrega não deve envolver acesso ao Banco de Dados
 <br>
 
 > * Modelar Banco de Dados relacional
-> * Levantar e Registrar Requisitos Funcionais e Não Funcionais usando técnicas de Métodos Ágeis e
-Tradicionais
+> * Levantar e Registrar Requisitos Funcionais e Não Funcionais usando técnicas de Métodos Ágeis e Tradicionais
 > * Projetar Arquitetura Lógica do Sistema
 > * Implementar Aplicação (com persistência) usando Linguagem de Programação Java Desktop
-</details>
-
-
-<details> 
-<summary> Objetivos </summary>
-<br>
-
-> * Desenvolvimento de um sistema que faça o controle da jornada de trabalho do colaborador, identifique e classifique horas extras, possibilite o
-controle das horas extras e sobreavisos.
-Acesso de administrador (master para os departamentos pessoal e financeiro), gestor (aprovação e
-lançamento) e colaborador (apontar horas extras).
-
 </details>
 
 <details>
@@ -84,12 +77,14 @@ lançamento) e colaborador (apontar horas extras).
 <summary> Prazos </summary>
 <br>
 
-> - [X] 13/02 a 03/03 - Kick-off
-> - [] 13/03 a 02/04 - Sprint 1
-> - [] 03/04 a 23/04 - Sprint 2
-> - [] 24/04 a 14/05 - Sprint 3
-> - [] 15/05 a 04/06 - Sptint 4
-> - [] 13/06 a 14/06 - Feira de soluções
+
+- [x] 13/02 a 03/03 - Kick-off
+- [ ] 13/03 a 02/04 - Sprint 1
+- [ ] 03/04 a 23/04 - Sprint 2
+- [ ] 24/04 a 14/05 - Sprint 3
+- [ ] 15/05 a 04/06 - Sptint 4
+- [ ] 13/06 a 14/06 - Feira de soluções
+
 
 </details>
 
@@ -102,7 +97,7 @@ lançamento) e colaborador (apontar horas extras).
 <summary> Tecnologias Utilizadas </summary>
 <br> 
 
-> * 
+![tools](https://user-images.githubusercontent.com/111442399/224567938-67735039-cb76-4420-8e29-5b9769946eed.png)
 
 </details>
 
