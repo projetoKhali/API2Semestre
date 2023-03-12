@@ -153,23 +153,23 @@ Insira o código aqui:
 <summary> Requisitos Funcionais </summary>
  <br>
 
-* Usuários devem ter perfis diferentes: administrador (acesso as informações de parametrização,
+> * Usuários devem ter perfis diferentes: administrador (acesso as informações de parametrização,
 extração de relatórios e aprovação), gestor (aprovação e lançamento) e colaborador (apontar
 horas);
-* Apontamento de horas extras e classificação das horas;
-* Lançamento de horas de sobreaviso;
-* No lançamento da hora extra especificar cliente, CR (centro de resultado), projeto, solicitante e
+> * Apontamento de horas extras e classificação das horas;
+> * Lançamento de horas de sobreaviso;
+> * No lançamento da hora extra especificar cliente, CR (centro de resultado), projeto, solicitante e
 justificativa;
-* Cadastro de clientes e CRs;
-* Recurso para aprovação de horas extras executadas;
-* Parametrização de sistema (período de fechamento das horas, percentual de classificação das
+> * Cadastro de clientes e CRs;
+> * Recurso para aprovação de horas extras executadas;
+> * Parametrização de sistema (período de fechamento das horas, percentual de classificação das
 horas extras e adicional noturno juntamente com as verbas salariais, definição dos horários de
 início e fim de horas noturnas);
-* Extração de relatório csv de todos os colaboradores com as horas trabalhadas (matrícula, nome,
+> * Extração de relatório csv de todos os colaboradores com as horas trabalhadas (matrícula, nome,
 verba, quantidade de horas, cliente, CR, projeto, justificativa);
-* Aplicar regras de horas extras e sobreavisos na extração (classificação de HEs e cálculo do
+> * Aplicar regras de horas extras e sobreavisos na extração (classificação de HEs e cálculo do
 sobreaviso considerando as HEs conflitantes);
-* Dashboard com acompanhamento em tempo real das horas extras executadas com filtro cliente,
+> * Dashboard com acompanhamento em tempo real das horas extras executadas com filtro cliente,
 CR e colaborador.
 </details>
 
