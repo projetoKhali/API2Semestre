@@ -174,7 +174,7 @@ CR e colaborador.
 </details>
 <br> 
 
-## **Backlog do Produto / User Stories **
+## ** Backlog do Produto / User Stories **
 
 <details>
 <summary> SPRINT 2: </summary>
