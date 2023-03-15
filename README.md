@@ -176,6 +176,7 @@ CR e colaborador.
 
 ## **Backlog do Produto / User Stories **
 
+<details>
 <summary> SPRINT 2: </summary>
 
 - Como colaborador devo ser capaz de apontar as minhas horas extras e sobreavisos no sistema para que meu gestor possa aprovar.  
