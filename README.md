@@ -186,25 +186,43 @@ CR e colaborador.
 ## **Backlog do Produto**
 
 <details>
- <summary> SPRINT 1 - </summary>
- <br>
+<summary> SPRINT 1 - </summary>
+<br>
   
- </details>
- <details>
+</details>
+<details>
  
- <summary> SPRINT 2 - </summary>
+<summary> SPRINT 2 - </summary>
+ 
+- Como colaborador devo ser capaz de apontar as minhas horas extras e sobreavisos no sistema para que meu gestor possa aprovar.  
+- Como colaborador preciso ter acesso ao estado dos meus lançamentos de hora extra e sobreaviso para saber se foram aprovadas.  
+- Como colaborador preciso ter acesso a justificativa fornecida pelo meu gestor caso meu apontamento de hora extra ou sobreaviso seja recusado.  
 
- </details>
+- Como gestor, devo ter acesso aos apontamentos e justificativas de hora extra e sobreaviso dos colaboradores das minhas squads para que eu seja capaz de aprová-las, fornecendo obrigatoriamente uma justificativa caso rejeite.  
+- Como gestor devo ser capaz de apontar as minhas horas extras e sobreavisos no sistema para que …. (quem aprova?)  
+
+- Como administrador preciso ter acesso a um conjunto das horas extras e sobreavisos de cada squad a cada mês para que eu seja capaz de aprová-los conforme combinado com os respectivos clientes.  
+
+</details>
  
- <details>
+<details>
+ 
 <summary> SPRINT 3 - </summary>
-
+ 
+- Como administrador preciso ser capaz de cadastrar, colaboradores, gestores e administradores para que eles sejam capazes de utilizar o sistema.  
+- Como administrador preciso ser capaz de cadastrar squads incluindo seus respectivos colaboradores e gestor.  
+- Como administrador preciso ser capaz de cadastrar clientes e seus respectivos projetos para que sejam referenciados durante o apontamento de horas extras e sobreavisos.  
+- Como administrador preciso ser capaz de configurar o sistema para definir os parâmetros que influenciarão na remuneração das horas extras e sobreavisos.  
+- Como administrador preciso ser capaz de gerar relatórios CSV contendo as horas trabalhadas e informações relacionadas.  
 
  </details>
  
   <details>
 <summary> SPRINT 4 - </summary>
-
+ 
+- Como colaborador preciso ter acesso a um Dashboard com informações da minha jornada de trabalho para minha análise.  
+- Como gestor preciso ter acesso a um Dashboard com informações da jornada de trabalho de todos os colaboradores das minhas squads para minha análise.  
+- Como administrador preciso ter acesso a um Dashboard com informações da jornada de trabalho de todos os colaboradores para minha análise.  
 
  </details>
 
