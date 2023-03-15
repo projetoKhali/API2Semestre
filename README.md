@@ -60,7 +60,7 @@
 <br>
 
 > * Modelar Banco de Dados relacional
-> * Levantar e Registrar Requisitos Funcionais e Não Funcionais usando técnicas de Métodos Ágeis e Tradicionais
+> * Levantar e registrar Requisitos Funcionais e Não Funcionais usando técnicas de Métodos Ágeis e Tradicionais
 > * Projetar Arquitetura Lógica do Sistema
 > * Implementar Aplicação (com persistência) usando Linguagem de Programação Java Desktop
 </details>
@@ -69,7 +69,7 @@
 <summary> Tríade da API </summary>
 <br>
 
-> * Linguagem de progrmação I, Modelagem e arquitetura de Banco de dados e Laboratório de desenvolvimento de Banco de Dados.
+> * Linguagem de programação I, Modelagem e arquitetura de Banco de dados e Laboratório de desenvolvimento de Banco de Dados.
 
 </details>
 <details>
