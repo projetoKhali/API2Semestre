@@ -138,15 +138,11 @@ Insira o código aqui:
 </details>
 
 <details>
-<summary> Diagrama do Banco de Dados </summary>
+<summary> Diagrama ERP </summary>
 <br>
 
-
-
-
-> ![Diagrama](https://user-images.githubusercontent.com/111443621/225487063-fc4a064e-cba4-4a0e-a1c6-93268773b579.png)
-
-> 15/03/2023 Release V1.0
+> ![Diagrama - ERP](https://user-images.githubusercontent.com/111443621/225767268-56d66fb9-6375-4402-9e66-204816affde0.png)
+> 15/03/2023 Release V1.2
 </details>
 
 <details>
