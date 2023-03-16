@@ -6,6 +6,7 @@
 
 - [ ] Back-End  
 - [ ] Front-End  
+- [ ] Documentação  
 
 # Sugestões  <br>
  - 
