@@ -186,7 +186,7 @@ CR e colaborador.
 - Como colaborador preciso ter acesso a justificativa fornecida pelo meu gestor caso meu apontamento de hora extra ou sobreaviso seja recusado.  
 
 - Como gestor, devo ter acesso aos apontamentos e justificativas de hora extra e sobreaviso dos colaboradores das minhas squads para que eu seja capaz de aprová-las, fornecendo obrigatoriamente uma justificativa caso rejeite.  
-- Como gestor devo ser capaz de apontar as minhas horas extras e sobreavisos no sistema para que …. (quem aprova?)  
+- Como gestor devo ser capaz de apontar as minhas horas extras e sobreavisos no sistema para contabilizar minhas horas extras e sobreavisos
 
 - Como administrador preciso ter acesso a um conjunto das horas extras e sobreavisos de cada squad a cada mês para que eu seja capaz de aprová-los conforme combinado com os respectivos clientes.  
 
