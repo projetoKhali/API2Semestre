@@ -138,6 +138,14 @@ Insira o código aqui:
 </details>
 
 <details>
+<summary> Diagrama do Banco de Dados </summary>
+<br>
+
+> ![Diagrama](https://imgcloud.s3.us-east-1.wasabisys.com/PBie1d5NiK.png)
+> 15/03/2023 Release V1.0
+</details>
+
+<details>
 <summary> Vídeos com Funcionalidades </summary>
 <br> 
 
