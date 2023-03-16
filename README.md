@@ -141,7 +141,11 @@ Insira o código aqui:
 <summary> Diagrama do Banco de Dados </summary>
 <br>
 
-> ![Diagrama](https://imgcloud.s3.us-east-1.wasabisys.com/PBie1d5NiK.png)
+
+
+
+> ![Diagrama](https://user-images.githubusercontent.com/111443621/225487063-fc4a064e-cba4-4a0e-a1c6-93268773b579.png)
+
 > 15/03/2023 Release V1.0
 </details>
 
