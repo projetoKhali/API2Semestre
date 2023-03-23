@@ -124,9 +124,13 @@ Insira o código aqui:
 
 <details>
 <summary> Wireframe do Produto </summary>
+
+![Wireframe](./wireframe/WireframeKhali.png)
+
+[Wireframe completo no Figma](https://www.figma.com/file/a8xnEloutQ7ILCqEmglRnC/Khali?node-id=12%3A126&t=cRE5sVSnaAiQtlc3-1)
+
 <br>
 
-> *
 
 </details>
 
