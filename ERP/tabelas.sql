@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS apontamento(
     hora_fim TIME null,
     usr_id INT NULL,
     prj_id INT NULL,
-    cliente INT NULL,
+    clt_id INT NULL,
     justificativa VARCHAR NULL,
     
     CONSTRAINT apontamento_pkey PRIMARY KEY (apt_id)
@@ -18,9 +18,10 @@ CREATE TABLE IF NOT EXISTS apontamento(
 CREATE TABLE IF NOT EXISTS usuario(
     usr_id serial NOT NULL,
     nome VARCHAR NULL,
-    prf_id INT NULL,
+    perfil VARCHAR NULL,
     matricula VARCHAR NULL,
     salario NUMERIC NULL,
+    sqd_id INT NULL,
     
     CONSTRAINT usuario_pkey PRIMARY KEY (usr_id)
 );
@@ -36,11 +37,11 @@ CREATE TABLE IF NOT EXISTS projeto(
 
 -- verificado
 CREATE TABLE IF NOT EXISTS aprovacao_gestor(
-    vrf_id serial NOT NULL,
+    gst_apv_id serial NOT NULL,
     apt_id INT NULL,
     usr_id INT NULL,
     aprovado BOOLEAN DEFAULT FALSE,
-    data_verificacao date NULL,
+    data_verificacao date DEFAULT now(),
 
     CONSTRAINT aprovacao_gestor_pkey PRIMARY KEY (vrf_id)
 );
@@ -57,19 +58,9 @@ CREATE TABLE IF NOT EXISTS aprovacao_adm(
 -- squad
 CREATE TABLE IF NOT EXISTS squad(
     sqd_id serial NOT NULL,
-    nome VARCHAR NULL,
-    usr_id INT NULL,
-    colaboradores VARCHAR NULL,
+    nome_squad VARCHAR NULL,
 
     CONSTRAINT squad_pkey PRIMARY KEY (sqd_id)
-);
-
--- perfil
-CREATE TABLE IF NOT EXISTS perfil(
-    prf_id serial NOT NULL,
-    nome VARCHAR NULL,
-
-    CONSTRAINT perfil_pkey PRIMARY KEY (prf_id)
 );
 
 -- atividade
@@ -84,7 +75,6 @@ CREATE TABLE IF NOT EXISTS atividade(
 -- cliente
 CREATE TABLE IF NOT EXISTS cliente(
     clt_id serial NOT NULL,
-    prj_id INT NULL,
     nome VARCHAR NULL,
 
     CONSTRAINT cliente_pkey PRIMARY KEY (clt_id)
