@@ -35,21 +35,22 @@ CREATE TABLE IF NOT EXISTS projeto(
     CONSTRAINT projeto_pkey PRIMARY KEY (prj_id)
 );
 
--- verificado
-CREATE TABLE IF NOT EXISTS aprovacao_gestor(
+-- aprovação do gestor
+CREATE TABLE IF NOT EXISTS aprovacao_gst(
     gst_apv_id serial NOT NULL,
     apt_id INT NULL,
-    usr_id INT NULL,
-    aprovado BOOLEAN DEFAULT FALSE,
+    usr_id INT NULL, -- usuário do gestor
+    aprovado_gst BOOLEAN DEFAULT FALSE,
     data_verificacao date DEFAULT now(),
 
-    CONSTRAINT aprovacao_gestor_pkey PRIMARY KEY (vrf_id)
+    CONSTRAINT aprovacao_gestor_pkey PRIMARY KEY (gst_apv_id)
 );
 
--- aprovado adm
+-- aprovação do adm
 CREATE TABLE IF NOT EXISTS aprovacao_adm(
     adm_apv_id serial NOT NULL,
-    vrf_id INT NULL,
+    gst_apv_id INT NULL,
+    usr_id INT NULL, -- usuário do adm
     aprovado_adm BOOLEAN DEFAULT NULL,
 
     CONSTRAINT aprovacao_adm_pkey PRIMARY KEY (adm_apv_id)
