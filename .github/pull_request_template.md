@@ -1,4 +1,5 @@
-Insira o ID da tarefa após o "#"  
-# resolve #1
+# Numero do issue
+Insira o ID da tarefa após o "#":  
+resolve #
 
 # Comentários adicionais:
