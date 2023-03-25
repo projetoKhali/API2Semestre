@@ -7,14 +7,12 @@ AS SELECT
     apontamento.hora_inicio,
     apontamento.hora_fim,
     usuario.nome as usuario_nome,
-    projeto.nome as projeto_nome,
-    cliente.nome as cliente_nome,
+    apontamento.projeto,
+    apontamento.cliente,
     apontamento.justificativa
     FROM apontamento
     -- fazendo join com as tabelas usuário, projeto e cliente.
-    JOIN usuario ON apontamento.usr_id = usuario.usr_id
-    JOIN projeto ON apontamento.prj_id = projeto.prj_id
-    JOIN cliente ON projeto.clt_id = clente.clt_id;
+    JOIN usuario ON apontamento.usr_id = usuario.usr_id;
 
 -- usuário
 CREATE OR REPLACE VIEW vw_usuario 
@@ -28,15 +26,6 @@ AS SELECT
     FROM usuario
     -- fazendo join com a tabela de squad's
     JOIN squad ON usuario.sqd_id = squad.sqd_id;
-
--- projeto
-CREATE OR REPLACE VIEW vw_projeto
-AS SELECT
-    projeto.prj_id,
-    projeto.nome,
-    cliente.nome as cliente_nome
-    from projeto
-    JOIN cliente on projeto.clt_id = cliente.clt_id;
 
 -- aprovação gestor
 CREATE OR REPLACE VIEW vw_aprovacao_gestor
