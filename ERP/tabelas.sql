@@ -8,7 +8,6 @@ CREATE TABLE IF NOT EXISTS apontamento(
     hora_fim TIME null,
     usr_id INT NULL,
     prj_id INT NULL,
-    clt_id INT NULL,
     justificativa VARCHAR NULL,
     
     CONSTRAINT apontamento_pkey PRIMARY KEY (apt_id)
@@ -36,7 +35,7 @@ CREATE TABLE IF NOT EXISTS projeto(
 );
 
 -- aprovação do gestor
-CREATE TABLE IF NOT EXISTS aprovacao_gst(
+CREATE TABLE IF NOT EXISTS aprovacao_gestor(
     gst_apv_id serial NOT NULL,
     apt_id INT NULL,
     usr_id INT NULL, -- usuário do gestor
@@ -59,7 +58,7 @@ CREATE TABLE IF NOT EXISTS aprovacao_adm(
 -- squad
 CREATE TABLE IF NOT EXISTS squad(
     sqd_id serial NOT NULL,
-    nome_squad VARCHAR NULL,
+    nome VARCHAR NULL,
 
     CONSTRAINT squad_pkey PRIMARY KEY (sqd_id)
 );
