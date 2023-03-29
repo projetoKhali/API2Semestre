@@ -145,8 +145,8 @@ Insira o código aqui:
 <summary> Diagrama ERP </summary>
 <br>
 
-> ![Diagrama - ERP](https://user-images.githubusercontent.com/111443621/225767268-56d66fb9-6375-4402-9e66-204816affde0.png)
-> 15/03/2023 Release V1.2
+> ![Diagrama ERP](https://user-images.githubusercontent.com/111443621/227737783-4daebd71-049a-4442-b3f3-19758f2da51d.png)
+> 25/03/2023 Release V3.0
 </details>
 
 <details>
