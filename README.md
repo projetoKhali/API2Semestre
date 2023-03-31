@@ -138,11 +138,13 @@ Insira o código aqui:
 </details>
 
 <details>
-<summary> Diagrama ERP </summary>
+<summary> Diagramas ERP </summary>
 <br>
 
-> ![Diagrama ERP](https://github.com/projetoKhali/API2Semestre/blob/9621f83416f2c10d4c8ed923ba713c8a456ffacc/Diagrama%20-%20Banco%20de%20Dados%20para%20Apontamento%20de%20HorasV3.png)
-> 31/03/2023 Release V3.0
+> ![31/03/2023 Release V3.0](./ERD/Diagrama%20-%20Banco%20de%20Dados%20para%20Apontamento%20de%20HorasV3.png)  
+
+> ![31/03/2023 Release V3.0](./ERD/Diagrama%20de%20Cardinalidade.png)  
+
 </details>
 
 <details>
