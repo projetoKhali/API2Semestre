@@ -141,8 +141,8 @@ Insira o código aqui:
 <summary> Diagrama ERP </summary>
 <br>
 
-> ![Diagrama ERP](https://user-images.githubusercontent.com/111443621/227737783-4daebd71-049a-4442-b3f3-19758f2da51d.png)
-> 25/03/2023 Release V3.0
+> ![Diagrama ERP](https://github.com/projetoKhali/API2Semestre/blob/9621f83416f2c10d4c8ed923ba713c8a456ffacc/Diagrama%20-%20Banco%20de%20Dados%20para%20Apontamento%20de%20HorasV3.png)
+> 31/03/2023 Release V3.0
 </details>
 
 <details>
