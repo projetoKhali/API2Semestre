@@ -1,3 +1,5 @@
+-- view v3
+
 -- Código para criação de views (visualizações das tabelas físicas)
 -- O código pode ser executado em qualqer ordem
 
@@ -9,6 +11,7 @@ AS SELECT
     usuario.nome as usuario_nome,
     apontamento.projeto,
     apontamento.cliente,
+    apontamento.atividade,
     apontamento.justificativa
     FROM apontamento
     -- fazendo join com as tabelas usuário, projeto e cliente.
@@ -22,40 +25,28 @@ AS SELECT
     usuario.perfil,
     usuario.matricula,
     usuario.salario,
-    squad.nome as nome_squad
+    centro_resultado.nome as nome_cr
     FROM usuario
-    -- fazendo join com a tabela de squad's
-    JOIN squad ON usuario.sqd_id = squad.sqd_id;
+    -- fazendo join com a tabela de centro de resultado
+    JOIN centro_resultado ON usuario.cr_id = centro_resultado.cr_id;
 
 -- aprovação gestor
-CREATE OR REPLACE VIEW vw_aprovacao_gestor
+CREATE OR REPLACE VIEW vw_aprovacao
 AS SELECT
-    aprovacao_gestor.gst_apv_id,
+    aprovacao.apv_id,
     apontamento.apt_id,
     usuario.usr_id as nome_gestor,
-    aprovacao_gestor.data_verificacao,
+    aprovacao.data_verificacao,
     -- condição para trocar [v] ou [] por 'Aprovado' e 'Reprovado'
-    CASE WHEN aprovacao_gestor.aprovado_gst THEN 'Aprovado'
-    ELSE 'Reprovado' END AS aprovacao_gestor
+    CASE WHEN aprovacao.aprovado THEN 'Aprovado'
+    ELSE 'Reprovado' END AS aprovacao
 
-    FROM aprovacao_gestor
-    JOIN apontamento ON aprovacao_gestor.apt_id = apontamento.apt_id
-    JOIN usuario ON aprovacao_gestor.usr_id = usuario.usr_id;
+    FROM aprovacao
+    JOIN apontamento ON aprovacao.apt_id = apontamento.apt_id
+    JOIN usuario ON aprovacao.usr_id = usuario.usr_id;
 
--- aprovado adm
-CREATE OR REPLACE VIEW vw_aprovacao_adm
+CREATE OR REPLACE VIEW vw_centro_resultado
 AS SELECT
-    aprovacao_adm.adm_apv_id,
-    usuario.usr_id as nome_adm,
-    
-    -- aprovação adm
-    CASE WHEN aprovacao_adm.aprovado_adm THEN 'Aprovado'
-    ELSE 'Reprovado' END AS aprovacao_administrador,
-
-    -- aprovação gestor
-    CASE WHEN aprovacao_gestor.aprovado_gst THEN 'Aprovado'
-    ELSE 'Reprovado' END AS aprovacao_gestor
-
-    FROM aprovacao_adm
-    JOIN aprovacao_gestor ON aprovacao_adm.gst_apv_id = aprovacao_gestor.gst_apv_id
-    JOIN usuario ON aprovacao_adm.usr_id = usuario.usr_id;
+    centro_resultado.cr_id,
+    centro_resultado.nome
+    FROM centro_resultado;
