@@ -11,8 +11,9 @@ CREATE TABLE IF NOT EXISTS apontamento(
     usr_id INT NULL,
     projeto VARCHAR NULL,
     cliente VARCHAR NULL,
-    atividade VARCHAR NULL,
+    tipo VARCHAR NULL,
     justificativa VARCHAR NULL,
+    cr_id INT NULL,
     
     CONSTRAINT apontamento_pkey PRIMARY KEY (apt_id)
 );
@@ -21,10 +22,11 @@ CREATE TABLE IF NOT EXISTS apontamento(
 CREATE TABLE IF NOT EXISTS usuario(
     usr_id serial NOT NULL,
     nome VARCHAR NULL,
-    perfil VARCHAR NULL,
+    email VARCHAR NULL,
+    senha VARCHAR NULL,
+    tipo VARCHAR NULL,
     matricula VARCHAR NULL,
-    salario NUMERIC NULL,
-    cr_id INT NULL,
+    verba NUMERIC NULL,
     
     CONSTRAINT usuario_pkey PRIMARY KEY (usr_id)
 );
