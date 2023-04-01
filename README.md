@@ -175,7 +175,7 @@ CR e colaborador.
 <br> 
 
 
-## ** Backlog do Produto / User Stories **
+## **Backlog do Produto / User Stories**
 
 
 <details>
@@ -213,10 +213,12 @@ CR e colaborador.
 
 <details>
 <summary> SPRINT 4: </summary>
-
-- Como colaborador preciso ter acesso a um Dashboard com informações da minha jornada de trabalho para minha análise.  
-- Como gestor preciso ter acesso a um Dashboard com informações da jornada de trabalho de todos os colaboradores das minhas squads para minha análise.  
-- Como administrador preciso ter acesso a um Dashboard com informações da jornada de trabalho de todos os colaboradores para minha análise.  
+ 
+ | COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
+ |---------|----------------------|------|------------|
+ | Administrador | acessar um Dashboard com informações da jornada de trabalho de todos os meus colaboradores | melhor visualização e tratamento dos dados. | 1 |
+ | Colaborador e Gestor | acessar um Dashboard com informações da minha jornada de trabalho | melhor visualização e tratamento dos dados. | 2 |
+ 
 
 </details>
 
@@ -227,41 +229,44 @@ CR e colaborador.
 <details>
 <summary> SPRINT 1: Documentação </summary>
 
-- Fluxograma.  
-- Burndown.  
-- Wireframe.  
-- ERP.  
-- Github Readme.  
+> * Fluxograma.  
+> * Wireframe.  
+> * ERP e Diagrama de Entidade Relacionamento com Cardinalidade. 
+> * Backlog por Sprint.
+> * Github Readme. 
+> * Burndown. 
 
 </details>
 
 <details>
-<summary> SPRINT 2: Apontamento de horas e aprovações </summary>
+<summary> SPRINT 2: Apontamento de horas, listagem e aprovações </summary>
 
-- Criação do sistema de apontamento de horas extras e sobreavisos.  
-- Funcionalidade de aprovação dos apontamentos pelo gestor.  
-- Funcionalidade de feedback do gestor ao rejeitar um apontamento.  
-- Agrupamento de lançamentos por squad e disponibilização para o administrador   
-- Funcionalidade de aprovação do administrador.  
+> * Criação do sistema de apontamento de horas extras e sobreavisos pelos colaboradores e gestores.  
+> * Listagem, para colaborador e gestor, dos seus próprios apontamentos.
+> * Listagem, para gestor, dos apontamentos lançados pela(s) sua(s) squad(s).
+> * Funcionalidade de avaliação dos apontamentos pelo gestor.  
+> * Funcionalidade de retorno para colaborador do status do seu apontamento (pendente, aprovado ou reprovado) e feedback. 
+> * Funcionalidade de listagem para administrador dos apontamentos previamente aprovados pelo gestor.
+
 
 </details>
 
 <details>
 <summary> SPRINT 3: Cadastro, parametrização e relatório </summary>
 
-- Sistema de cadastro de colaboradores, gestores e administradores.  
-- Sistema de cadastro de squads.  
-- Sistema de cadastro de clientes e projetos.  
-- Funcionalidade de parametrização do sistema.  
-- Funcionalidade de geração de relatórios CSV para o administrador.   
+> * Sistema de cadastro de colaboradores, gestores e administradores.  
+> * Sistema de cadastro de squads.  
+> * Sistema de cadastro de clientes e projetos.  
+> * Funcionalidade de parametrização do sistema.  
+> * Funcionalidade de geração de relatórios CSV para o administrador.   
 
 </details>
 
 <details>
 <summary> SPRINT 4: Dashboards </summary>
 
-- Criação do Dashboard de colaborador.  
-- Criação do Dashboard de gestor.  
-- Criação do Dashboard de administrador.  
+> * Criação do Dashboard de colaborador.  
+> * Criação do Dashboard de gestor.  
+> * Criação do Dashboard de administrador.  
 
 </details>
