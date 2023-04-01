@@ -199,12 +199,15 @@ CR e colaborador.
 <details>
 
 <summary> SPRINT 3: </summary>
+ 
+ | COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
+ |---------|----------------------|------|------------|
+ | Administrador | cadastrar colaboradores, gestores e administradores | que eu possa designá-los às permissões corretas no sistema. | 1 |
+ | Administrador | cadastrar squads incluindo seus respectivos colaboradores e gestor | que os apontamentos sejam corretamente associados aos Centros de Resultado. |  2|
+ | Administrador | cadastrar clientes e seus respectivos projetos | que sejam referenciados durante o apontamento de horas extras e sobreavisos. | 3 |
+ | Administrador | configurar os parâmetros do sistema | que meus colaboradores sejam remunerados corretamente. | 4 |
+ | Administrador | gerar relatórios CSV contendo as horas trabalhadas dos meus colaboradores | ter acesso aos dados fora do sistema. | 5 |
 
-- Como administrador preciso ser capaz de cadastrar, colaboradores, gestores e administradores para que eles sejam capazes de utilizar o sistema.  
-- Como administrador preciso ser capaz de cadastrar squads incluindo seus respectivos colaboradores e gestor.  
-- Como administrador preciso ser capaz de cadastrar clientes e seus respectivos projetos para que sejam referenciados durante o apontamento de horas extras e sobreavisos.  
-- Como administrador preciso ser capaz de configurar o sistema para definir os parâmetros que influenciarão na remuneração das horas extras e sobreavisos.  
-- Como administrador preciso ser capaz de gerar relatórios CSV contendo as horas trabalhadas e informações relacionadas.  
 
 </details>
 
