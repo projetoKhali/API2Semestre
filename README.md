@@ -181,14 +181,18 @@ CR e colaborador.
 <details>
 <summary> SPRINT 2: </summary>
 
-- Como colaborador devo ser capaz de apontar as minhas horas extras e sobreavisos no sistema para que meu gestor possa aprovar.  
-- Como colaborador preciso ter acesso ao estado dos meus lançamentos de hora extra e sobreaviso para saber se foram aprovadas.  
-- Como colaborador preciso ter acesso a justificativa fornecida pelo meu gestor caso meu apontamento de hora extra ou sobreaviso seja recusado.  
 
-- Como gestor, devo ter acesso aos apontamentos e justificativas de hora extra e sobreaviso dos colaboradores das minhas squads para que eu seja capaz de aprová-las, fornecendo obrigatoriamente uma justificativa caso rejeite.  
-- Como gestor devo ser capaz de apontar as minhas horas extras e sobreavisos no sistema para contabilizar minhas horas extras e sobreavisos
+| COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
+|---------|----------------------|------|------------|
+| Colaborador e Gestor | apontar as minhas horas extras e sobreavisos no sistema | que meu salário seja corretamente calculado. | 1 | 
+| Colaborador e Gestor | consultar o meu histórico de apontamentos | acompanhar se foram registradores corretamente. | 2 |
+| Gestor | consultar o histórico de apontamentos da(s) minha(s) squad(s) | facilitar o controle dos respectivos horas extras e sobreavisos feitos. | 3 |
+| Administrador | acessar os apontamentos de hora extra e sobreaviso de cada colaborador | melhor acompanhamento do respectivo período trabalhado. | 4 |
+| Gestor | aprovar ou rejeitar os apontamentos de hora extra e sobreaviso dos colaboradores da(s) minha(s) squad(s) | barrar apontamentos inválidos. | 5 |
+| Colaborador | acessar a justificativa fornecida pelo meu gestor caso meu apontamento de hora extra ou sobreaviso seja recusado | que eu possa corrigi-lo. | 6 |
+| Colaborador e Gestor | acessar o estado dos meus apontamentos de hora extra e sobreaviso | ser capaz de estimar minha remuneração. | 7 |
+| Administrador | visualizar os apontamentos que foram previamente aprovadoas pelos gestores | atender com o que foi combinado com os respectivos clientes. | 8 |
 
-- Como administrador preciso ter acesso a um conjunto das horas extras e sobreavisos de cada squad a cada mês para que eu seja capaz de aprová-los conforme combinado com os respectivos clientes.  
 
 </details>
 
