@@ -125,9 +125,21 @@ Insira o código aqui:
 <details>
 <summary> Wireframe do Produto </summary>
 
-![Wireframe](./wireframe/WireframeKhali.png)
+> * Fluxo do Usuário Colaborador
 
-[Wireframe completo no Figma](https://www.figma.com/file/a8xnEloutQ7ILCqEmglRnC/Khali?node-id=12%3A126&t=cRE5sVSnaAiQtlc3-1)
+https://user-images.githubusercontent.com/79020769/229376542-6ad0b8f7-d61d-47ab-93f5-1e40b159c8b6.mp4
+
+> * Fluxo do Usuário Gestor
+
+https://user-images.githubusercontent.com/79020769/229377143-7fabf142-0ccc-4ced-8f6c-5239deaa65c8.mp4
+
+> * Fluxo do Usuário Administrador
+
+https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-8bb1-ec22e0e94deb.mp4
+
+<br>
+
+> * [Wireframe completo no Figma](https://www.figma.com/file/Dj52xC9ivRB9TjDVtDcgh0/Wireframe_v2?node-id=36-1404&t=OMK6y94PUaXhuzYY-0)
 
 <br>
 
