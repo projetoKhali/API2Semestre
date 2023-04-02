@@ -28,36 +28,23 @@ AS SELECT
     usuario.senha,
     usuario.tipo,
     usuario.matricula,
-    usuario.verba-- aprovação gestor
-    CREATE OR REPLACE VIEW vw_aprovacao
-    AS SELECT
-        aprovacao.apv_id,
-        apontamento.apt_id,
-        usuario.usr_id as nome_gestor,
-        aprovacao.data_verificacao,
-        -- condição para trocar [v] ou [] por 'Aprovado' e 'Reprovado'
-        CASE WHEN aprovacao.aprovado THEN 'Aprovado'
-        ELSE 'Reprovado' END AS aprovacao
-    
-        FROM aprovacao
-        JOIN apontamento ON aprovacao.apt_id = apontamento.apt_id
-        JOIN usuario ON aprovacao.usr_id = usuario.usr_id;
+    usuario.verba
     FROM usuario;
 
--- aprovação gestor
-CREATE OR REPLACE VIEW vw_aprovacao
+CREATE OR REPLACE VIEW vw_avaliacao
 AS SELECT
-    aprovacao.apv_id,
+    avaliacao.apv_id,
     apontamento.apt_id,
     usuario.usr_id as nome_gestor,
-    aprovacao.data_verificacao,
+    avaliacao.data_verificacao,
     -- condição para trocar [v] ou [] por 'Aprovado' e 'Reprovado'
-    CASE WHEN aprovacao.aprovado THEN 'Aprovado'
-    ELSE 'Reprovado' END AS aprovacao
+    CASE WHEN avaliacao.aprovado THEN 'Aprovado'
+    ELSE 'Reprovado' END AS avaliacao
 
-    FROM aprovacao
-    JOIN apontamento ON aprovacao.apt_id = apontamento.apt_id
-    JOIN usuario ON aprovacao.usr_id = usuario.usr_id;
+    FROM avaliacao
+    JOIN apontamento ON avaliacao.apt_id = apontamento.apt_id
+    JOIN usuario ON avaliacao.usr_id = usuario.usr_id;
+
 
 CREATE OR REPLACE VIEW vw_centro_resultado
 AS SELECT

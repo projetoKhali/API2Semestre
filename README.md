@@ -141,7 +141,7 @@ Insira o código aqui:
 <summary> Diagramas ERP </summary>
 <br>
 
-> ![31/03/2023 Release V3.0](./ERD/Diagrama%20-%20Banco%20de%20Dados%20para%20Apontamento%20de%20HorasV4.png)  
+> ![31/03/2023 Release V3.0](https://user-images.githubusercontent.com/111443621/229374376-0243e7ee-ed4f-40a4-8f63-1688f1b6abce.png)
 
 > ![31/03/2023 Release V3.0](./ERD/Diagrama%20de%20Cardinalidade.png)  
 
