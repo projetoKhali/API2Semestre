@@ -1,5 +1,5 @@
 
-![header readme](https://user-images.githubusercontent.com/111442399/224566960-7fffdc88-952e-40f3-bb98-d7eb7001acee.png)
+![header readme](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/Novobanner.png?raw=true)
 # _**API 2º Semestre - Tecnologia em Banco de Dados 2022**_
 
 ## 📍 Sumário
@@ -26,7 +26,7 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
-![people](https://user-images.githubusercontent.com/111442399/224567046-a8991c65-dc20-4e26-a843-8af7dc77aff1.png)
+![people](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/EquipeNovo.png?raw=true)
 
 
 | Integrantes | Redes Sociais |
@@ -47,7 +47,7 @@
 <summary> Tema e objetivos </summary>
 <br>
 
-![problema](https://user-images.githubusercontent.com/111442399/224567212-c15f3fa9-78db-4ef1-8ec5-354377ba34c4.png)
+![problema](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/ObejtivoFinal.png?raw=true)
 
 > * Aplicação desktop simples (CRUD).
 > * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.
@@ -103,7 +103,7 @@
 <summary> Tecnologias Utilizadas </summary>
 <br> 
 
-![tools](https://user-images.githubusercontent.com/111442399/224567938-67735039-cb76-4420-8e29-5b9769946eed.png)
+![tools](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/TecnologiaNovo.png?raw=true)
 
 </details>
 
