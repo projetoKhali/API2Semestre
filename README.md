@@ -9,8 +9,8 @@
     * [Tecnologias e ambientação](#tecnologias-e-ambientação)
     * [Fluxos e manual de utilização](#fluxos-e-manual-de-utilização)
     * [Requisitos do projeto](#requisitos-do-projeto)
-    * [Backlog do Produto](#backlog-do-produto)
-    * [Backlog das Sprints](#backlog-das-sprints)
+    * [Backlog](#backlog)
+    * [Entregas](#entregas)
 
 <br>
 
@@ -72,14 +72,20 @@
 <br>
 
 - [x] 13/02 a 03/03 - Kick-off
-- [ ] 13/03 a 02/04 - Sprint 1
+- [x] 13/03 a 02/04 - Sprint 1
 - [ ] 03/04 a 23/04 - Sprint 2
 - [ ] 24/04 a 14/05 - Sprint 3
 - [ ] 15/05 a 04/06 - Sptint 4
 - [ ] 13/06 a 14/06 - Feira de soluções
 
 </details>
+<details>
+<summary> Burndown </summary>
+<br>
 
+![image](https://user-images.githubusercontent.com/79020769/229327304-5cb05add-b94f-427b-b283-424a713b270d.png)
+
+</details>
 <br> 
 
 # __*Produto*__
@@ -115,9 +121,13 @@ Insira o código aqui:
 
 <details>
 <summary> Wireframe do Produto </summary>
+
+![Wireframe](./wireframe/WireframeKhali.png)
+
+[Wireframe completo no Figma](https://www.figma.com/file/a8xnEloutQ7ILCqEmglRnC/Khali?node-id=12%3A126&t=cRE5sVSnaAiQtlc3-1)
+
 <br>
 
-> *
 
 </details>
 
@@ -125,7 +135,19 @@ Insira o código aqui:
 <summary> Fluxograma do Produto </summary>
 <br>
 
-> *
+[Figma](https://www.figma.com/file/CUEYlQV55LTSTeZUouoDqS/Fluxograma---API---2RP?node-id=1%3A2&t=uiDU6QFHUE06Vi8n-1)
+![Fluxograma - API - 2RP](Fluxograma%20-%20API%20-%202RP.png)
+
+</details>
+
+<details>
+<summary> Diagramas ERP </summary>
+<br>
+
+> ![31/03/2023 Release V3.0](./ERD/Diagrama%20-%20Banco%20de%20Dados%20para%20Apontamento%20de%20HorasV4.png)  
+
+> ![31/03/2023 Release V3.0](./ERD/Diagrama%20de%20Cardinalidade.png)  
+
 </details>
 
 <details>
@@ -174,9 +196,7 @@ CR e colaborador.
 </details>
 <br> 
 
-
 ## **Backlog do Produto / User Stories**
-
 
 <details>
 <summary> SPRINT 2: </summary>
@@ -193,7 +213,6 @@ CR e colaborador.
 | Colaborador e Gestor | acessar o estado dos meus apontamentos de hora extra e sobreaviso | ser capaz de estimar minha remuneração. | 7 |
 | Administrador | visualizar os apontamentos que foram previamente aprovadoas pelos gestores | atender com o que foi combinado com os respectivos clientes. | 8 |
 
-
 </details>
 
 <details>
@@ -208,6 +227,7 @@ CR e colaborador.
  | Administrador | configurar os parâmetros do sistema | que meus colaboradores sejam remunerados corretamente. | 4 |
  | Administrador | gerar relatórios CSV contendo as horas trabalhadas dos meus colaboradores | ter acesso aos dados fora do sistema. | 5 |
 
+</details>
 
 </details>
 
@@ -218,13 +238,12 @@ CR e colaborador.
  |---------|----------------------|------|------------|
  | Administrador | acessar um Dashboard com informações da jornada de trabalho de todos os meus colaboradores | melhor visualização e tratamento dos dados. | 1 |
  | Colaborador e Gestor | acessar um Dashboard com informações da minha jornada de trabalho | melhor visualização e tratamento dos dados. | 2 |
- 
 
 </details>
 
 <br>
 
-## **Backlog das Sprints**
+## **Entregas**
 
 <details>
 <summary> SPRINT 1: Documentação </summary>
@@ -233,7 +252,6 @@ CR e colaborador.
 > * Wireframe.  
 > * ERP e Diagrama de Entidade Relacionamento com Cardinalidade. 
 > * Backlog por Sprint.
-> * Github Readme. 
 > * Burndown. 
 
 </details>
@@ -248,6 +266,17 @@ CR e colaborador.
 > * Funcionalidade de retorno para colaborador do status do seu apontamento (pendente, aprovado ou reprovado) e feedback. 
 > * Funcionalidade de listagem para administrador dos apontamentos previamente aprovados pelo gestor.
 
+</details>
+
+<details>
+<summary> SPRINT 2: Apontamento de horas, listagem e aprovações </summary>
+
+> * Criação do sistema de apontamento de horas extras e sobreavisos pelos colaboradores e gestores.  
+> * Listagem, para colaborador e gestor, dos seus próprios apontamentos.
+> * Listagem, para gestor, dos apontamentos lançados pela(s) sua(s) squad(s).
+> * Funcionalidade de avaliação dos apontamentos pelo gestor.  
+> * Funcionalidade de retorno para colaborador do status do seu apontamento (pendente, aprovado ou reprovado) e feedback. 
+> * Funcionalidade de listagem para administrador dos apontamentos previamente aprovados pelo gestor.
 
 </details>
 
