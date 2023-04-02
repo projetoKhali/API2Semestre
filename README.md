@@ -196,7 +196,7 @@ CR e colaborador.
 </details>
 <br> 
 
-## **Backlog do Produto / User Stories**
+## **Backlog**
 
 <details>
 <summary> SPRINT 2: </summary>
@@ -253,18 +253,6 @@ CR e colaborador.
 > * ERP e Diagrama de Entidade Relacionamento com Cardinalidade. 
 > * Backlog por Sprint.
 > * Burndown. 
-
-</details>
-
-<details>
-<summary> SPRINT 2: Apontamento de horas, listagem e aprovações </summary>
-
-> * Criação do sistema de apontamento de horas extras e sobreavisos pelos colaboradores e gestores.  
-> * Listagem, para colaborador e gestor, dos seus próprios apontamentos.
-> * Listagem, para gestor, dos apontamentos lançados pela(s) sua(s) squad(s).
-> * Funcionalidade de avaliação dos apontamentos pelo gestor.  
-> * Funcionalidade de retorno para colaborador do status do seu apontamento (pendente, aprovado ou reprovado) e feedback. 
-> * Funcionalidade de listagem para administrador dos apontamentos previamente aprovados pelo gestor.
 
 </details>
 
