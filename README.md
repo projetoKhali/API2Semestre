@@ -12,11 +12,7 @@
     * [Backlog](#backlog)
     * [Entregas](#entregas)
 
-
 <br>
-
-
-   
 
 # _**Projeto API**_
 
@@ -27,7 +23,6 @@
 <br>
 
 ![people](https://user-images.githubusercontent.com/111442399/224567046-a8991c65-dc20-4e26-a843-8af7dc77aff1.png)
-
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -41,7 +36,6 @@
 |[Renato Mendes](https://github.com/RenatoCMMendes) |  <a href= - target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = - ><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href=- ><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 
 </details>
-
 
 <details>
 <summary> Tema e objetivos </summary>
@@ -77,14 +71,12 @@
 <summary> Prazos </summary>
 <br>
 
-
 - [x] 13/02 a 03/03 - Kick-off
 - [x] 13/03 a 02/04 - Sprint 1
 - [ ] 03/04 a 23/04 - Sprint 2
 - [ ] 24/04 a 14/05 - Sprint 3
 - [ ] 15/05 a 04/06 - Sptint 4
 - [ ] 13/06 a 14/06 - Feira de soluções
-
 
 </details>
 <details>
@@ -114,7 +106,6 @@
 ~~~java
 Insira o código aqui: 
 ~~~
-
 
 #### Digite em seu terminal os seguintes comandos:
 
@@ -173,7 +164,7 @@ Insira o código aqui:
 
 <details>
 <summary> Requisitos Funcionais </summary>
- <br>
+<br>
 
 > * Usuários devem ter perfis diferentes: administrador (acesso as informações de parametrização,
 extração de relatórios e aprovação), gestor (aprovação e lançamento) e colaborador (apontar
@@ -197,7 +188,7 @@ CR e colaborador.
 
 <details>
 <summary> Requisitos não funcionais </summary>
- <br>
+<br>
 
 > * Linguagem Java (requisito Fatec)
 > * Banco de Dados Relacional (requisito Fatec)
@@ -205,8 +196,7 @@ CR e colaborador.
 </details>
 <br> 
 
-## **Backlog**
-
+## **Backlog do Produto / User Stories**
 
 <details>
 <summary> SPRINT 2: </summary>
@@ -223,7 +213,6 @@ CR e colaborador.
 | Colaborador e Gestor | acessar o estado dos meus apontamentos de hora extra e sobreaviso | ser capaz de estimar minha remuneração. | 7 |
 | Administrador | visualizar os apontamentos que foram previamente aprovadoas pelos gestores | atender com o que foi combinado com os respectivos clientes. | 8 |
 
-
 </details>
 
 <details>
@@ -238,6 +227,7 @@ CR e colaborador.
  | Administrador | configurar os parâmetros do sistema | que meus colaboradores sejam remunerados corretamente. | 4 |
  | Administrador | gerar relatórios CSV contendo as horas trabalhadas dos meus colaboradores | ter acesso aos dados fora do sistema. | 5 |
 
+</details>
 
 </details>
 
@@ -248,7 +238,6 @@ CR e colaborador.
  |---------|----------------------|------|------------|
  | Administrador | acessar um Dashboard com informações da jornada de trabalho de todos os meus colaboradores | melhor visualização e tratamento dos dados. | 1 |
  | Colaborador e Gestor | acessar um Dashboard com informações da minha jornada de trabalho | melhor visualização e tratamento dos dados. | 2 |
- 
 
 </details>
 
@@ -263,7 +252,6 @@ CR e colaborador.
 > * Wireframe.  
 > * ERP e Diagrama de Entidade Relacionamento com Cardinalidade. 
 > * Backlog por Sprint.
-> * Github Readme. 
 > * Burndown. 
 
 </details>
@@ -278,6 +266,17 @@ CR e colaborador.
 > * Funcionalidade de retorno para colaborador do status do seu apontamento (pendente, aprovado ou reprovado) e feedback. 
 > * Funcionalidade de listagem para administrador dos apontamentos previamente aprovados pelo gestor.
 
+</details>
+
+<details>
+<summary> SPRINT 2: Apontamento de horas, listagem e aprovações </summary>
+
+> * Criação do sistema de apontamento de horas extras e sobreavisos pelos colaboradores e gestores.  
+> * Listagem, para colaborador e gestor, dos seus próprios apontamentos.
+> * Listagem, para gestor, dos apontamentos lançados pela(s) sua(s) squad(s).
+> * Funcionalidade de avaliação dos apontamentos pelo gestor.  
+> * Funcionalidade de retorno para colaborador do status do seu apontamento (pendente, aprovado ou reprovado) e feedback. 
+> * Funcionalidade de listagem para administrador dos apontamentos previamente aprovados pelo gestor.
 
 </details>
 
