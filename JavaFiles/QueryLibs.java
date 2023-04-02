@@ -75,4 +75,39 @@ public class QueryLibs {
             }
         }
     }
+
+    public static void collaboratorSelect(Connection conexao, int usuario_id) throws SQLException, IOException {
+        // verificação se a conexão é nula
+        if (conexao == null) {
+            System.out.println("Conexão é nula");
+            return; // Encerra o método se a conexão for nula
+        }
+        // string que carrega o comando em sql
+        String sql = "SELECT * FROM vw_apontamento WHERE usr_id = ?";
+
+        // execução da query
+        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+            statement.setInt(1, usuario_id);
+            ResultSet result = statement.executeQuery();
+
+            System.out.println(
+                    "Usuário - hora início - hora fim - projeto - cliente - atividade - justificativa - centro resultado");
+            while (result.next()) {
+                // itera sobre cada linha retornada pela consulta
+                // e extrai os valores das colunas necessárias
+                String hora_inicio = result.getString("hora_inicio");
+                String hora_fim = result.getString("hora_fim");
+                String usuario = result.getString("usuario_nome");
+                String projeto = result.getString("projeto");
+                String cliente = result.getString("cliente");
+                String tipo = result.getString("tipo");
+                String justif = result.getString("justificativa");
+                String centroR = result.getString("cr_nome");
+
+                // imprime os valores das colunas no terminal
+                System.out.println(usuario + " - " + hora_inicio + " - " + hora_fim + " - " + projeto + " - " + cliente
+                        + " - " + tipo + " - " + justif + " - " + centroR);
+            }
+        }
+    }
 }

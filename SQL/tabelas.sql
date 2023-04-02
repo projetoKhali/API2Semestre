@@ -1,4 +1,4 @@
--- versão 3.0
+-- tabelas v3.5
 
 -- Código para criação de tabelas do Diagrama ERP
 -- O código pode ser executado em qualqer ordem
@@ -32,14 +32,14 @@ CREATE TABLE IF NOT EXISTS usuario(
 );
 
 -- aprovação do gestor
-CREATE TABLE IF NOT EXISTS aprovacao(
+CREATE TABLE IF NOT EXISTS avaliacao(
     apv_id serial NOT NULL,
     apt_id INT NULL,
     usr_id INT NULL, -- usuário do gestor
     aprovado BOOLEAN DEFAULT FALSE,
     data_verificacao date DEFAULT now(),
 
-    CONSTRAINT aprovacao_pkey PRIMARY KEY (apv_id)
+    CONSTRAINT avaliacao_pkey PRIMARY KEY (apv_id)
 );
 
 -- centro de resultado

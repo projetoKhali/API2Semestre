@@ -40,10 +40,15 @@ public class SQLConnection {
         SQLConnection sqlConnection = new SQLConnection();
         Connection conexao = sqlConnection.connect();
         
-        String arquivoSql = "./SQL/Tabelas.sql";
-        QueryLibs.executeSqlFile(conexao, arquivoSql);
+        // executa arquivos sql passando o endereço do arquivo como parâmetro
+        // String arquivoSql = "./SQL/Tabelas.sql";
+        // QueryLibs.executeSqlFile(conexao, arquivoSql);
 
+        // faz inserts na tabela
         // QueryLibs.insertTable(conexao);
+
+        // tras os apontamentos referentes ao id do usuário passado como parâmetro
+        QueryLibs.collaboratorSelect(conexao, 1);
         conexao.close();
     }
 }
