@@ -42,6 +42,7 @@ AS SELECT
 -- VALUES ('jhow','jhow@fatec','jho<3bibs','adm','123131',1234);
 
 SELECT * FROM vw_apontamento WHERE usr_id = 1;
+
 CREATE OR REPLACE VIEW vw_avaliacao
 AS SELECT
     avaliacao.apv_id,
