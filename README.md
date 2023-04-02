@@ -197,41 +197,98 @@ CR e colaborador.
 </details>
 <br> 
 
-## **Backlog do Produto**
+## **Backlog do Produto / User Stories**
+
 
 <details>
- <summary> SPRINT 1 - </summary>
- <br>
-  
- </details>
- <details>
+<summary> SPRINT 2: </summary>
+
+
+| COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
+|---------|----------------------|------|------------|
+| Colaborador e Gestor | apontar as minhas horas extras e sobreavisos no sistema | que meu salário seja corretamente calculado. | 1 | 
+| Colaborador e Gestor | consultar o meu histórico de apontamentos | acompanhar se foram registradores corretamente. | 2 |
+| Gestor | consultar o histórico de apontamentos da(s) minha(s) squad(s) | facilitar o controle dos respectivos horas extras e sobreavisos feitos. | 3 |
+| Administrador | acessar os apontamentos de hora extra e sobreaviso de cada colaborador | melhor acompanhamento do respectivo período trabalhado. | 4 |
+| Gestor | aprovar ou rejeitar os apontamentos de hora extra e sobreaviso dos colaboradores da(s) minha(s) squad(s) | barrar apontamentos inválidos. | 5 |
+| Colaborador | acessar a justificativa fornecida pelo meu gestor caso meu apontamento de hora extra ou sobreaviso seja recusado | que eu possa corrigi-lo. | 6 |
+| Colaborador e Gestor | acessar o estado dos meus apontamentos de hora extra e sobreaviso | ser capaz de estimar minha remuneração. | 7 |
+| Administrador | visualizar os apontamentos que foram previamente aprovadoas pelos gestores | atender com o que foi combinado com os respectivos clientes. | 8 |
+
+
+</details>
+
+<details>
+
+<summary> SPRINT 3: </summary>
  
- <summary> SPRINT 2 - </summary>
+ | COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
+ |---------|----------------------|------|------------|
+ | Administrador | cadastrar colaboradores, gestores e administradores | que eu possa designá-los às permissões corretas no sistema. | 1 |
+ | Administrador | cadastrar squads incluindo seus respectivos colaboradores e gestor | que os apontamentos sejam corretamente associados aos Centros de Resultado. |  2|
+ | Administrador | cadastrar clientes e seus respectivos projetos | que sejam referenciados durante o apontamento de horas extras e sobreavisos. | 3 |
+ | Administrador | configurar os parâmetros do sistema | que meus colaboradores sejam remunerados corretamente. | 4 |
+ | Administrador | gerar relatórios CSV contendo as horas trabalhadas dos meus colaboradores | ter acesso aos dados fora do sistema. | 5 |
 
- </details>
+
+</details>
+
+<details>
+<summary> SPRINT 4: </summary>
  
- <details>
-<summary> SPRINT 3 - </summary>
-
-
- </details>
+ | COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
+ |---------|----------------------|------|------------|
+ | Administrador | acessar um Dashboard com informações da jornada de trabalho de todos os meus colaboradores | melhor visualização e tratamento dos dados. | 1 |
+ | Colaborador e Gestor | acessar um Dashboard com informações da minha jornada de trabalho | melhor visualização e tratamento dos dados. | 2 |
  
-  <details>
-<summary> SPRINT 4 - </summary>
 
+</details>
 
- </details>
-
- <br>
-
-
+<br>
 
 ## **Backlog das Sprints**
 
 <details>
-<summary> SPRINT 1 - </summary>
-	
+<summary> SPRINT 1: Documentação </summary>
 
- </details>
+> * Fluxograma.  
+> * Wireframe.  
+> * ERP e Diagrama de Entidade Relacionamento com Cardinalidade. 
+> * Backlog por Sprint.
+> * Github Readme. 
+> * Burndown. 
+
+</details>
 
 <details>
+<summary> SPRINT 2: Apontamento de horas, listagem e aprovações </summary>
+
+> * Criação do sistema de apontamento de horas extras e sobreavisos pelos colaboradores e gestores.  
+> * Listagem, para colaborador e gestor, dos seus próprios apontamentos.
+> * Listagem, para gestor, dos apontamentos lançados pela(s) sua(s) squad(s).
+> * Funcionalidade de avaliação dos apontamentos pelo gestor.  
+> * Funcionalidade de retorno para colaborador do status do seu apontamento (pendente, aprovado ou reprovado) e feedback. 
+> * Funcionalidade de listagem para administrador dos apontamentos previamente aprovados pelo gestor.
+
+
+</details>
+
+<details>
+<summary> SPRINT 3: Cadastro, parametrização e relatório </summary>
+
+> * Sistema de cadastro de colaboradores, gestores e administradores.  
+> * Sistema de cadastro de squads.  
+> * Sistema de cadastro de clientes e projetos.  
+> * Funcionalidade de parametrização do sistema.  
+> * Funcionalidade de geração de relatórios CSV para o administrador.   
+
+</details>
+
+<details>
+<summary> SPRINT 4: Dashboards </summary>
+
+> * Criação do Dashboard de colaborador.  
+> * Criação do Dashboard de gestor.  
+> * Criação do Dashboard de administrador.  
+
+</details>
