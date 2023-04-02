@@ -9,8 +9,8 @@
     * [Tecnologias e ambientação](#tecnologias-e-ambientação)
     * [Fluxos e manual de utilização](#fluxos-e-manual-de-utilização)
     * [Requisitos do projeto](#requisitos-do-projeto)
-    * [Backlog do Produto](#backlog-do-produto)
-    * [Backlog das Sprints](#backlog-das-sprints)
+    * [Backlog](#backlog)
+    * [Entregas](#entregas)
 
 
 <br>
@@ -79,7 +79,7 @@
 
 
 - [x] 13/02 a 03/03 - Kick-off
-- [ ] 13/03 a 02/04 - Sprint 1
+- [x] 13/03 a 02/04 - Sprint 1
 - [ ] 03/04 a 23/04 - Sprint 2
 - [ ] 24/04 a 14/05 - Sprint 3
 - [ ] 15/05 a 04/06 - Sptint 4
@@ -87,7 +87,13 @@
 
 
 </details>
+<details>
+<summary> Burndown </summary>
+<br>
 
+![image](https://user-images.githubusercontent.com/79020769/229327304-5cb05add-b94f-427b-b283-424a713b270d.png)
+
+</details>
 <br> 
 
 # __*Produto*__
@@ -197,7 +203,7 @@ CR e colaborador.
 </details>
 <br> 
 
-## **Backlog do Produto / User Stories**
+## **Backlog**
 
 
 <details>
@@ -246,7 +252,7 @@ CR e colaborador.
 
 <br>
 
-## **Backlog das Sprints**
+## **Entregas**
 
 <details>
 <summary> SPRINT 1: Documentação </summary>
