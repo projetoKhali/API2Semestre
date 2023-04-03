@@ -1,5 +1,9 @@
 
+<<<<<<< Updated upstream
 ![header readme](https://user-images.githubusercontent.com/111442399/224566960-7fffdc88-952e-40f3-bb98-d7eb7001acee.png)
+=======
+![header readme](.Docs/Banners/Novobanner.png?raw=true)
+>>>>>>> Stashed changes
 # _**API 2º Semestre - Tecnologia em Banco de Dados 2022**_
 
 ## 📍 Sumário
@@ -26,8 +30,12 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
+<<<<<<< Updated upstream
 ![people](https://user-images.githubusercontent.com/111442399/224567046-a8991c65-dc20-4e26-a843-8af7dc77aff1.png)
 
+=======
+![people](.Docs/Banners/EquipeNovo.png?raw=true)
+>>>>>>> Stashed changes
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -47,7 +55,11 @@
 <summary> Tema e objetivos </summary>
 <br>
 
+<<<<<<< Updated upstream
 ![problema](https://user-images.githubusercontent.com/111442399/224567212-c15f3fa9-78db-4ef1-8ec5-354377ba34c4.png)
+=======
+![problema](.Docs/Banners/ObejtivoFinal.png)
+>>>>>>> Stashed changes
 
 > * Aplicação desktop simples (CRUD).
 > * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.
@@ -103,7 +115,11 @@
 <summary> Tecnologias Utilizadas </summary>
 <br> 
 
+<<<<<<< Updated upstream
 ![tools](https://user-images.githubusercontent.com/111442399/224567938-67735039-cb76-4420-8e29-5b9769946eed.png)
+=======
+![tools](.Docs/Banners/TecnologiaNovo.png?raw=true)
+>>>>>>> Stashed changes
 
 </details>
 
@@ -145,16 +161,26 @@ Insira o código aqui:
 <br>
 
 [Figma](https://www.figma.com/file/CUEYlQV55LTSTeZUouoDqS/Fluxograma---API---2RP?node-id=1%3A2&t=uiDU6QFHUE06Vi8n-1)
-![Fluxograma - API - 2RP](Fluxograma%20-%20API%20-%202RP.png)
+![Fluxograma - API - 2RP](.Docs/Fluxograma%20-%20API%20-%202RP.png)
 
 </details>
 
 <details>
+<<<<<<< Updated upstream
 <summary> Diagrama ERP </summary>
 <br>
 
 > ![Diagrama ERP](https://user-images.githubusercontent.com/111443621/227737783-4daebd71-049a-4442-b3f3-19758f2da51d.png)
 > 25/03/2023 Release V3.0
+=======
+<summary> ERD e Diagrama de Cardinalidade </summary>
+<br>
+
+> ![31/03/2023 Release V3.0](https://user-images.githubusercontent.com/111443621/229374376-0243e7ee-ed4f-40a4-8f63-1688f1b6abce.png)
+
+> ![31/03/2023 Release V3.0](.Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
+
+>>>>>>> Stashed changes
 </details>
 
 <details>
@@ -259,7 +285,7 @@ CR e colaborador.
 
 > * Fluxograma.  
 > * Wireframe.  
-> * ERP e Diagrama de Entidade Relacionamento com Cardinalidade. 
+> * ERD e Diagrama de Entidade Relacionamento com Cardinalidade. 
 > * Backlog por Sprint.
 > * Github Readme. 
 > * Burndown. 
@@ -286,7 +312,7 @@ CR e colaborador.
 > * Sistema de cadastro de squads.  
 > * Sistema de cadastro de clientes e projetos.  
 > * Funcionalidade de parametrização do sistema.  
-> * Funcionalidade de geração de relatórios CSV para o administrador.   
+> * Funcionalidade de geração de relatórios CSV para o administrador.  
 
 </details>
 
