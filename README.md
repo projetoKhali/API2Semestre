@@ -1,5 +1,5 @@
 
-![header readme](.Docs/Banners/Novobanner.png)
+![header readme](./Docs/Banners/Novobanner.png)
 # _**API 2º Semestre - Tecnologia em Banco de Dados 2022**_
 
 ## 📍 Sumário
@@ -22,7 +22,7 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
-![people](.Docs/Banners/EquipeNovo.png)
+![people](./Docs/Banners/EquipeNovo.png)
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -41,7 +41,7 @@
 <summary> Tema e objetivos </summary>
 <br>
 
-![problema](.Docs/Banners/ObejtivoFinal.png)
+![problema](./Docs/Banners/ObejtivoFinal.png)
 
 > * Aplicação desktop simples (CRUD).
 > * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.
@@ -95,7 +95,7 @@
 <summary> Tecnologias Utilizadas </summary>
 <br> 
 
-![tools](.Docs/Banners/TecnologiaNovo.png)
+![tools](./Docs/Banners/TecnologiaNovo.png)
 
 </details>
 
@@ -148,7 +148,7 @@ https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-
 <br>
 
 [Figma](https://www.figma.com/file/CUEYlQV55LTSTeZUouoDqS/Fluxograma---API---2RP?node-id=1%3A2&t=uiDU6QFHUE06Vi8n-1)
-![Fluxograma - API - 2RP](.Docs/Fluxograma%20-%20API%20-%202RP.png)
+![Fluxograma - API - 2RP](./Docs/Fluxograma%20-%20API%20-%202RP.png)
 
 </details>
 
@@ -158,7 +158,7 @@ https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-
 
 > ![31/03/2023 Release V3.0](https://user-images.githubusercontent.com/111443621/229374376-0243e7ee-ed4f-40a4-8f63-1688f1b6abce.png)
 
-> ![31/03/2023 Release V3.0](.Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
+> ![31/03/2023 Release V3.0](./Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
 
 </details>
 
