@@ -1,9 +1,5 @@
 
-<<<<<<< HEAD
 ![header readme](.Docs/Banners/Novobanner.png?raw=true)
-=======
-![header readme](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/Novobanner.png?raw=true)
->>>>>>> main
 # _**API 2º Semestre - Tecnologia em Banco de Dados 2022**_
 
 ## 📍 Sumário
@@ -26,11 +22,7 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
-<<<<<<< HEAD
 ![people](.Docs/Banners/EquipeNovo.png?raw=true)
-=======
-![people](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/EquipeNovo.png?raw=true)
->>>>>>> main
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -49,11 +41,7 @@
 <summary> Tema e objetivos </summary>
 <br>
 
-<<<<<<< HEAD
 ![problema](.Docs/Banners/ObejtivoFinal.png)
-=======
-![problema](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/ObejtivoFinal.png?raw=true)
->>>>>>> main
 
 > * Aplicação desktop simples (CRUD).
 > * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.
@@ -107,11 +95,7 @@
 <summary> Tecnologias Utilizadas </summary>
 <br> 
 
-<<<<<<< HEAD
 ![tools](.Docs/Banners/TecnologiaNovo.png?raw=true)
-=======
-![tools](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/TecnologiaNovo.png?raw=true)
->>>>>>> main
 
 </details>
 
@@ -169,20 +153,12 @@ https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-
 </details>
 
 <details>
-<<<<<<< HEAD
 <summary> ERD e Diagrama de Cardinalidade </summary>
-=======
-<summary> Diagramas ERP </summary>
->>>>>>> main
 <br>
 
 > ![31/03/2023 Release V3.0](https://user-images.githubusercontent.com/111443621/229374376-0243e7ee-ed4f-40a4-8f63-1688f1b6abce.png)
 
-<<<<<<< HEAD
 > ![31/03/2023 Release V3.0](.Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
-=======
-> ![31/03/2023 Release V3.0](./ERD/Diagrama%20de%20Cardinalidade.png)  
->>>>>>> main
 
 </details>
 
