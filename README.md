@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
 ![header readme](.Docs/Banners/Novobanner.png?raw=true)
+=======
+![header readme](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/Novobanner.png?raw=true)
+>>>>>>> main
 # _**API 2º Semestre - Tecnologia em Banco de Dados 2022**_
 
 ## 📍 Sumário
@@ -12,11 +16,7 @@
     * [Backlog](#backlog)
     * [Entregas](#entregas)
 
-
 <br>
-
-
-   
 
 # _**Projeto API**_
 
@@ -26,7 +26,11 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
+<<<<<<< HEAD
 ![people](.Docs/Banners/EquipeNovo.png?raw=true)
+=======
+![people](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/EquipeNovo.png?raw=true)
+>>>>>>> main
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -41,12 +45,15 @@
 
 </details>
 
-
 <details>
 <summary> Tema e objetivos </summary>
 <br>
 
+<<<<<<< HEAD
 ![problema](.Docs/Banners/ObejtivoFinal.png)
+=======
+![problema](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/ObejtivoFinal.png?raw=true)
+>>>>>>> main
 
 > * Aplicação desktop simples (CRUD).
 > * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.
@@ -76,14 +83,12 @@
 <summary> Prazos </summary>
 <br>
 
-
 - [x] 13/02 a 03/03 - Kick-off
 - [x] 13/03 a 02/04 - Sprint 1
 - [ ] 03/04 a 23/04 - Sprint 2
 - [ ] 24/04 a 14/05 - Sprint 3
 - [ ] 15/05 a 04/06 - Sptint 4
 - [ ] 13/06 a 14/06 - Feira de soluções
-
 
 </details>
 <details>
@@ -102,7 +107,11 @@
 <summary> Tecnologias Utilizadas </summary>
 <br> 
 
+<<<<<<< HEAD
 ![tools](.Docs/Banners/TecnologiaNovo.png?raw=true)
+=======
+![tools](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/TecnologiaNovo.png?raw=true)
+>>>>>>> main
 
 </details>
 
@@ -113,7 +122,6 @@
 ~~~java
 Insira o código aqui: 
 ~~~
-
 
 #### Digite em seu terminal os seguintes comandos:
 
@@ -130,9 +138,21 @@ Insira o código aqui:
 <details>
 <summary> Wireframe do Produto </summary>
 
-![Wireframe](./wireframe/WireframeKhali.png)
+> * Fluxo do Usuário Colaborador
 
-[Wireframe completo no Figma](https://www.figma.com/file/a8xnEloutQ7ILCqEmglRnC/Khali?node-id=12%3A126&t=cRE5sVSnaAiQtlc3-1)
+https://user-images.githubusercontent.com/79020769/229376542-6ad0b8f7-d61d-47ab-93f5-1e40b159c8b6.mp4
+
+> * Fluxo do Usuário Gestor
+
+https://user-images.githubusercontent.com/79020769/229377143-7fabf142-0ccc-4ced-8f6c-5239deaa65c8.mp4
+
+> * Fluxo do Usuário Administrador
+
+https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-8bb1-ec22e0e94deb.mp4
+
+<br>
+
+> * [Wireframe completo no Figma](https://www.figma.com/file/Dj52xC9ivRB9TjDVtDcgh0/Wireframe_v2?node-id=36-1404&t=OMK6y94PUaXhuzYY-0)
 
 <br>
 
@@ -149,12 +169,20 @@ Insira o código aqui:
 </details>
 
 <details>
+<<<<<<< HEAD
 <summary> ERD e Diagrama de Cardinalidade </summary>
+=======
+<summary> Diagramas ERP </summary>
+>>>>>>> main
 <br>
 
 > ![31/03/2023 Release V3.0](https://user-images.githubusercontent.com/111443621/229374376-0243e7ee-ed4f-40a4-8f63-1688f1b6abce.png)
 
+<<<<<<< HEAD
 > ![31/03/2023 Release V3.0](.Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
+=======
+> ![31/03/2023 Release V3.0](./ERD/Diagrama%20de%20Cardinalidade.png)  
+>>>>>>> main
 
 </details>
 
@@ -172,7 +200,7 @@ Insira o código aqui:
 
 <details>
 <summary> Requisitos Funcionais </summary>
- <br>
+<br>
 
 > * Usuários devem ter perfis diferentes: administrador (acesso as informações de parametrização,
 extração de relatórios e aprovação), gestor (aprovação e lançamento) e colaborador (apontar
@@ -196,7 +224,7 @@ CR e colaborador.
 
 <details>
 <summary> Requisitos não funcionais </summary>
- <br>
+<br>
 
 > * Linguagem Java (requisito Fatec)
 > * Banco de Dados Relacional (requisito Fatec)
@@ -205,7 +233,6 @@ CR e colaborador.
 <br> 
 
 ## **Backlog**
-
 
 <details>
 <summary> SPRINT 2: </summary>
@@ -222,7 +249,6 @@ CR e colaborador.
 | Colaborador e Gestor | acessar o estado dos meus apontamentos de hora extra e sobreaviso | ser capaz de estimar minha remuneração. | 7 |
 | Administrador | visualizar os apontamentos que foram previamente aprovadoas pelos gestores | atender com o que foi combinado com os respectivos clientes. | 8 |
 
-
 </details>
 
 <details>
@@ -237,6 +263,7 @@ CR e colaborador.
  | Administrador | configurar os parâmetros do sistema | que meus colaboradores sejam remunerados corretamente. | 4 |
  | Administrador | gerar relatórios CSV contendo as horas trabalhadas dos meus colaboradores | ter acesso aos dados fora do sistema. | 5 |
 
+</details>
 
 </details>
 
@@ -247,7 +274,6 @@ CR e colaborador.
  |---------|----------------------|------|------------|
  | Administrador | acessar um Dashboard com informações da jornada de trabalho de todos os meus colaboradores | melhor visualização e tratamento dos dados. | 1 |
  | Colaborador e Gestor | acessar um Dashboard com informações da minha jornada de trabalho | melhor visualização e tratamento dos dados. | 2 |
- 
 
 </details>
 
@@ -262,7 +288,6 @@ CR e colaborador.
 > * Wireframe.  
 > * ERD e Diagrama de Entidade Relacionamento com Cardinalidade. 
 > * Backlog por Sprint.
-> * Github Readme. 
 > * Burndown. 
 
 </details>
@@ -276,7 +301,6 @@ CR e colaborador.
 > * Funcionalidade de avaliação dos apontamentos pelo gestor.  
 > * Funcionalidade de retorno para colaborador do status do seu apontamento (pendente, aprovado ou reprovado) e feedback. 
 > * Funcionalidade de listagem para administrador dos apontamentos previamente aprovados pelo gestor.
-
 
 </details>
 
