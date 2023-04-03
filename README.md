@@ -1,5 +1,5 @@
 
-![header readme](.Docs/Banners/Novobanner.png?raw=true)
+![header readme](.Docs/Banners/Novobanner.png)
 # _**API 2º Semestre - Tecnologia em Banco de Dados 2022**_
 
 ## 📍 Sumário
@@ -22,7 +22,7 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
-![people](.Docs/Banners/EquipeNovo.png?raw=true)
+![people](.Docs/Banners/EquipeNovo.png)
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -95,7 +95,7 @@
 <summary> Tecnologias Utilizadas </summary>
 <br> 
 
-![tools](.Docs/Banners/TecnologiaNovo.png?raw=true)
+![tools](.Docs/Banners/TecnologiaNovo.png)
 
 </details>
 
