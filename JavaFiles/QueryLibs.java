@@ -87,9 +87,13 @@ public class QueryLibs {
 
         // execução da query
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+
+            // substitui "?" pelo id passado no parâmetro
             statement.setInt(1, usuario_id);
+            // executa a query e salva o resultado na variável "result"
             ResultSet result = statement.executeQuery();
 
+            // cabeçalho
             System.out.println(
                     "Usuário - hora início - hora fim - projeto - cliente - atividade - justificativa - centro resultado");
             while (result.next()) {

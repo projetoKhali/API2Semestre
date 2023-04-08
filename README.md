@@ -1,5 +1,5 @@
 
-![header readme](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/Novobanner.png?raw=true)
+![header readme](./Docs/Banners/Novobanner.png)
 # _**API 2º Semestre - Tecnologia em Banco de Dados 2022**_
 
 ## 📍 Sumário
@@ -22,7 +22,7 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
-![people](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/EquipeNovo.png?raw=true)
+![people](./Docs/Banners/EquipeNovo.png)
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -41,7 +41,7 @@
 <summary> Tema e objetivos </summary>
 <br>
 
-![problema](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/ObejtivoFinal.png?raw=true)
+![problema](./Docs/Banners/ObejtivoFinal.png)
 
 > * Aplicação desktop simples (CRUD).
 > * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.
@@ -95,7 +95,7 @@
 <summary> Tecnologias Utilizadas </summary>
 <br> 
 
-![tools](https://github.com/projetoKhali/API2Semestre/blob/9-rebranding/Banners/TecnologiaNovo.png?raw=true)
+![tools](./Docs/Banners/TecnologiaNovo.png)
 
 </details>
 
@@ -122,9 +122,21 @@ Insira o código aqui:
 <details>
 <summary> Wireframe do Produto </summary>
 
-![Wireframe](./wireframe/WireframeKhali.png)
+> * Fluxo do Usuário Colaborador
 
-[Wireframe completo no Figma](https://www.figma.com/file/a8xnEloutQ7ILCqEmglRnC/Khali?node-id=12%3A126&t=cRE5sVSnaAiQtlc3-1)
+https://user-images.githubusercontent.com/79020769/229376542-6ad0b8f7-d61d-47ab-93f5-1e40b159c8b6.mp4
+
+> * Fluxo do Usuário Gestor
+
+https://user-images.githubusercontent.com/79020769/229377143-7fabf142-0ccc-4ced-8f6c-5239deaa65c8.mp4
+
+> * Fluxo do Usuário Administrador
+
+https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-8bb1-ec22e0e94deb.mp4
+
+<br>
+
+> * [Wireframe completo no Figma](https://www.figma.com/file/Dj52xC9ivRB9TjDVtDcgh0/Wireframe_v2?node-id=36-1404&t=OMK6y94PUaXhuzYY-0)
 
 <br>
 
@@ -136,17 +148,17 @@ Insira o código aqui:
 <br>
 
 [Figma](https://www.figma.com/file/CUEYlQV55LTSTeZUouoDqS/Fluxograma---API---2RP?node-id=1%3A2&t=uiDU6QFHUE06Vi8n-1)
-![Fluxograma - API - 2RP](Fluxograma%20-%20API%20-%202RP.png)
+![Fluxograma - API - 2RP](./Docs/Fluxograma%20-%20API%20-%202RP.png)
 
 </details>
 
 <details>
-<summary> Diagramas ERP </summary>
+<summary> ERD e Diagrama de Cardinalidade </summary>
 <br>
 
 > ![31/03/2023 Release V3.0](https://user-images.githubusercontent.com/111443621/229374376-0243e7ee-ed4f-40a4-8f63-1688f1b6abce.png)
 
-> ![31/03/2023 Release V3.0](./ERD/Diagrama%20de%20Cardinalidade.png)  
+> ![31/03/2023 Release V3.0](./Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
 
 </details>
 
@@ -196,7 +208,7 @@ CR e colaborador.
 </details>
 <br> 
 
-## **Backlog do Produto / User Stories**
+## **Backlog**
 
 <details>
 <summary> SPRINT 2: </summary>
@@ -250,21 +262,9 @@ CR e colaborador.
 
 > * Fluxograma.  
 > * Wireframe.  
-> * ERP e Diagrama de Entidade Relacionamento com Cardinalidade. 
+> * ERD e Diagrama de Entidade Relacionamento com Cardinalidade. 
 > * Backlog por Sprint.
 > * Burndown. 
-
-</details>
-
-<details>
-<summary> SPRINT 2: Apontamento de horas, listagem e aprovações </summary>
-
-> * Criação do sistema de apontamento de horas extras e sobreavisos pelos colaboradores e gestores.  
-> * Listagem, para colaborador e gestor, dos seus próprios apontamentos.
-> * Listagem, para gestor, dos apontamentos lançados pela(s) sua(s) squad(s).
-> * Funcionalidade de avaliação dos apontamentos pelo gestor.  
-> * Funcionalidade de retorno para colaborador do status do seu apontamento (pendente, aprovado ou reprovado) e feedback. 
-> * Funcionalidade de listagem para administrador dos apontamentos previamente aprovados pelo gestor.
 
 </details>
 
@@ -287,7 +287,7 @@ CR e colaborador.
 > * Sistema de cadastro de squads.  
 > * Sistema de cadastro de clientes e projetos.  
 > * Funcionalidade de parametrização do sistema.  
-> * Funcionalidade de geração de relatórios CSV para o administrador.   
+> * Funcionalidade de geração de relatórios CSV para o administrador.  
 
 </details>
 
