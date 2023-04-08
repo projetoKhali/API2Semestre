@@ -35,13 +35,6 @@ AS SELECT
 -- INSERT INTO apontamento (hora_inicio,hora_fim,usr_id,projeto,cliente,tipo,justificativa,cr_id)
 -- VALUES ('12:12:12','13:13:13',1,'api','2rp','hora extra','nota',1);
 
--- INSERT INTO centro_resultado (nome)
--- VALUES ('khali');
-
--- INSERT INTO usuario (nome,email,senha,tipo,matricula,verba)
--- VALUES ('jhow','jhow@fatec','jho<3bibs','adm','123131',1234);
-
-SELECT * FROM vw_apontamento WHERE usr_id = 1;
 CREATE OR REPLACE VIEW vw_avaliacao
 AS SELECT
     avaliacao.apv_id,
