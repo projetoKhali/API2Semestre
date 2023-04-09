@@ -40,47 +40,21 @@ public class QueryLibs {
         }
     }
 
-    public static void insertTable(Connection conexao) throws SQLException {
+    public static void insertTable(Connection conexao, Appointment Apt) throws SQLException {
         // código sql a ser executado, passando "?" como parâmetro de valors
        // código sql a ser executado, passando "?" como parâmetro de valors
-
-
-// ---------------------------------------------------------------------------
-
-    //    ArrayList<String> Lista = new ArrayList<>();
-    //    Scanner leia = new Scanner(System.in);
-    //    for (int i; i < 8; i++){
-    //        System.out.println("Digite o valor");
-    //        Lista.add(leia.nextLine());
-    //    }
-    //    String sql = "INSERT INTO tabela_teste (apt_id, hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    //    try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-    //        // substituindo os parâmetros "?" para valores desejados
-    //        statement.setString(1, Lista(0));
-    //        statement.setString(2, Lista(1));
-    //        statement.setString(3, Lista(2));
-    //        statement.setString(4, Lista(3));
-    //        statement.setString(5, Lista(4));
-    //        statement.setString(6, Lista(5));
-    //        statement.setString(7, Lista(6));
-    //        statement.setString(8, Lista(7));
-    //        statement.setString(8, Lista(8));
-    //------------------------------------------------------------------------
-
-        Apontamento Apt = new Apontamento();
-
         String sql = "INSERT INTO tabela_teste (apt_id, hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
-            statement.setString(1, "");
-            statement.setString(2, Apt.getHora_Inicio());
-            statement.setString(3, Apt.getHora_Fim());
-            statement.setString(4, Apt.getUsuario());
-            statement.setString(5, Apt.getProjeto());
-            statement.setString(6, Apt.getCliente());
-            statement.setString(7, Apt.getTipo());
-            statement.setString(8, Apt.getJustif());
-            statement.setString(8, Apt.getCentroR());
+            statement.setString(1, Apt.getId());
+            statement.setString(2, Apt.getStartDate());
+            statement.setString(3, Apt.getEndDate());
+            statement.setString(4, Apt.getRequester());
+            statement.setString(5, Apt.getProject());
+            statement.setString(6, Apt.getClient());
+            statement.setString(7, Apt.getType());
+            statement.setString(8, Apt.getJustification());
+            statement.setString(8, Apt.getSquad());
 
             // executa o update
             statement.executeUpdate();
