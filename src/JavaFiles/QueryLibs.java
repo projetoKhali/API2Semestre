@@ -1,6 +1,7 @@
 package JavaFiles;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -42,19 +43,20 @@ public class QueryLibs {
     }
 
     public static void insertTable(Connection conexao, Appointment Apt) throws SQLException {
+
         // código sql a ser executado, passando "?" como parâmetro de valors
        // código sql a ser executado, passando "?" como parâmetro de valors
-        String sql = "INSERT INTO tabela_teste (apt_id, hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO tabela_teste (hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
-            statement.setInt(1, Apt.getId());
-            statement.setString(2, Apt.getStartDate());
-            statement.setString(3, Apt.getEndDate());
-            statement.setString(4, Apt.getRequester());
-            statement.setString(5, Apt.getProject());
-            statement.setString(6, Apt.getClient());
-            statement.setString(7, Apt.getType());
-            statement.setString(8, Apt.getJustification());
+            // statement.setInt(1, Apt.getId());
+            statement.setString(1, Apt.getStartDate());
+            statement.setString(2, Apt.getEndDate());
+            statement.setInt(3, Apt.getRequester());
+            statement.setString(4, Apt.getProject());
+            statement.setString(5, Apt.getClient());
+            statement.setString(6, Apt.getType().toString());
+            statement.setString(7, Apt.getJustification());
             statement.setString(8, Apt.getSquad());
 
             // executa o update

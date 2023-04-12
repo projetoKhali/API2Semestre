@@ -6,6 +6,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import Classes.Appointment;
+
 public class SQLConnection {
 
     // Dados para conexão com banco
@@ -39,13 +41,14 @@ public class SQLConnection {
     public static void main(String[] args) throws SQLException, IOException {
         SQLConnection sqlConnection = new SQLConnection();
         Connection conexao = sqlConnection.connect();
+        Appointment apt = new Appointment();
         
         // executa arquivos sql passando o endereço do arquivo como parâmetro
         // String arquivoSql = "./SQL/Tabelas.sql";
         // QueryLibs.executeSqlFile(conexao, arquivoSql);
 
         // faz inserts na tabela
-        // QueryLibs.insertTable(conexao);
+        QueryLibs.insertTable(conexao, apt );
 
         // tras os apontamentos referentes ao id do usuário passado como parâmetro
         QueryLibs.collaboratorSelect(conexao, 1);
