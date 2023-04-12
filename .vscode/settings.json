@@ -1,0 +1,28 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "Alice",
+            "database": "Khali",
+            "username": "postgres",
+            "password": "Postgres!1@2#3"
+        }
+    ],
+    
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx.base.jar",
+        "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx.controls.jar",
+        "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx.fxml.jar",
+        "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx.graphics.jar",
+        "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx.media.jar",
+        "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx.swing.jar",
+        "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx.web.jar",
+        "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx-swt.jar"
+    ]
+}

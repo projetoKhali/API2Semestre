@@ -1,5 +1,5 @@
 
-![header readme](https://user-images.githubusercontent.com/111442399/224566960-7fffdc88-952e-40f3-bb98-d7eb7001acee.png)
+![header readme](./Docs/Banners/Novobanner.png)
 # _**API 2º Semestre - Tecnologia em Banco de Dados 2022**_
 
 ## 📍 Sumário
@@ -9,14 +9,10 @@
     * [Tecnologias e ambientação](#tecnologias-e-ambientação)
     * [Fluxos e manual de utilização](#fluxos-e-manual-de-utilização)
     * [Requisitos do projeto](#requisitos-do-projeto)
-    * [Backlog do Produto](#backlog-do-produto)
-    * [Backlog das Sprints](#backlog-das-sprints)
-
+    * [Backlog](#backlog)
+    * [Entregas](#entregas)
 
 <br>
-
-
-   
 
 # _**Projeto API**_
 
@@ -26,8 +22,7 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
-![people](https://user-images.githubusercontent.com/111442399/224567046-a8991c65-dc20-4e26-a843-8af7dc77aff1.png)
-
+![people](./Docs/Banners/EquipeNovo.png)
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -42,12 +37,11 @@
 
 </details>
 
-
 <details>
 <summary> Tema e objetivos </summary>
 <br>
 
-![problema](https://user-images.githubusercontent.com/111442399/224567212-c15f3fa9-78db-4ef1-8ec5-354377ba34c4.png)
+![problema](./Docs/Banners/ObejtivoFinal.png)
 
 > * Aplicação desktop simples (CRUD).
 > * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.
@@ -77,17 +71,21 @@
 <summary> Prazos </summary>
 <br>
 
-
 - [x] 13/02 a 03/03 - Kick-off
-- [ ] 13/03 a 02/04 - Sprint 1
+- [x] 13/03 a 02/04 - Sprint 1
 - [ ] 03/04 a 23/04 - Sprint 2
 - [ ] 24/04 a 14/05 - Sprint 3
 - [ ] 15/05 a 04/06 - Sptint 4
 - [ ] 13/06 a 14/06 - Feira de soluções
 
+</details>
+<details>
+<summary> Burndown </summary>
+<br>
+
+![image](https://user-images.githubusercontent.com/79020769/229327304-5cb05add-b94f-427b-b283-424a713b270d.png)
 
 </details>
-
 <br> 
 
 # __*Produto*__
@@ -97,7 +95,7 @@
 <summary> Tecnologias Utilizadas </summary>
 <br> 
 
-![tools](https://user-images.githubusercontent.com/111442399/224567938-67735039-cb76-4420-8e29-5b9769946eed.png)
+![tools](./Docs/Banners/TecnologiaNovo.png)
 
 </details>
 
@@ -108,7 +106,6 @@
 ~~~java
 Insira o código aqui: 
 ~~~
-
 
 #### Digite em seu terminal os seguintes comandos:
 
@@ -124,9 +121,25 @@ Insira o código aqui:
 
 <details>
 <summary> Wireframe do Produto </summary>
+
+> * Fluxo do Usuário Colaborador
+
+https://user-images.githubusercontent.com/79020769/229376542-6ad0b8f7-d61d-47ab-93f5-1e40b159c8b6.mp4
+
+> * Fluxo do Usuário Gestor
+
+https://user-images.githubusercontent.com/79020769/229377143-7fabf142-0ccc-4ced-8f6c-5239deaa65c8.mp4
+
+> * Fluxo do Usuário Administrador
+
+https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-8bb1-ec22e0e94deb.mp4
+
 <br>
 
-> *
+> * [Wireframe completo no Figma](https://www.figma.com/file/Dj52xC9ivRB9TjDVtDcgh0/Wireframe_v2?node-id=36-1404&t=OMK6y94PUaXhuzYY-0)
+
+<br>
+
 
 </details>
 
@@ -135,16 +148,18 @@ Insira o código aqui:
 <br>
 
 [Figma](https://www.figma.com/file/CUEYlQV55LTSTeZUouoDqS/Fluxograma---API---2RP?node-id=1%3A2&t=uiDU6QFHUE06Vi8n-1)
-![Fluxograma - API - 2RP](Fluxograma%20-%20API%20-%202RP.png)
+![Fluxograma - API - 2RP](./Docs/Fluxograma%20-%20API%20-%202RP.png)
 
 </details>
 
 <details>
-<summary> Diagrama ERP </summary>
+<summary> ERD e Diagrama de Cardinalidade </summary>
 <br>
 
-> ![Diagrama - ERP](https://user-images.githubusercontent.com/111443621/225767268-56d66fb9-6375-4402-9e66-204816affde0.png)
-> 15/03/2023 Release V1.2
+> ![31/03/2023 Release V3.0](https://user-images.githubusercontent.com/111443621/229374376-0243e7ee-ed4f-40a4-8f63-1688f1b6abce.png)
+
+> ![31/03/2023 Release V3.0](./Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
+
 </details>
 
 <details>
@@ -161,7 +176,7 @@ Insira o código aqui:
 
 <details>
 <summary> Requisitos Funcionais </summary>
- <br>
+<br>
 
 > * Usuários devem ter perfis diferentes: administrador (acesso as informações de parametrização,
 extração de relatórios e aprovação), gestor (aprovação e lançamento) e colaborador (apontar
@@ -185,7 +200,7 @@ CR e colaborador.
 
 <details>
 <summary> Requisitos não funcionais </summary>
- <br>
+<br>
 
 > * Linguagem Java (requisito Fatec)
 > * Banco de Dados Relacional (requisito Fatec)
@@ -193,41 +208,94 @@ CR e colaborador.
 </details>
 <br> 
 
-## **Backlog do Produto**
+## **Backlog**
 
 <details>
- <summary> SPRINT 1 - </summary>
- <br>
-  
- </details>
- <details>
- 
- <summary> SPRINT 2 - </summary>
-
- </details>
- 
- <details>
-<summary> SPRINT 3 - </summary>
+<summary> SPRINT 2: </summary>
 
 
- </details>
- 
-  <details>
-<summary> SPRINT 4 - </summary>
+| COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
+|---------|----------------------|------|------------|
+| Colaborador e Gestor | apontar as minhas horas extras e sobreavisos no sistema | que meu salário seja corretamente calculado. | 1 | 
+| Colaborador e Gestor | consultar o meu histórico de apontamentos | acompanhar se foram registradores corretamente. | 2 |
+| Gestor | consultar o histórico de apontamentos da(s) minha(s) squad(s) | facilitar o controle dos respectivos horas extras e sobreavisos feitos. | 3 |
+| Administrador | acessar os apontamentos de hora extra e sobreaviso de cada colaborador | melhor acompanhamento do respectivo período trabalhado. | 4 |
+| Gestor | aprovar ou rejeitar os apontamentos de hora extra e sobreaviso dos colaboradores da(s) minha(s) squad(s) | barrar apontamentos inválidos. | 5 |
+| Colaborador | acessar a justificativa fornecida pelo meu gestor caso meu apontamento de hora extra ou sobreaviso seja recusado | que eu possa corrigi-lo. | 6 |
+| Colaborador e Gestor | acessar o estado dos meus apontamentos de hora extra e sobreaviso | ser capaz de estimar minha remuneração. | 7 |
+| Administrador | visualizar os apontamentos que foram previamente aprovadoas pelos gestores | atender com o que foi combinado com os respectivos clientes. | 8 |
 
-
- </details>
-
- <br>
-
-
-
-## **Backlog das Sprints**
+</details>
 
 <details>
-<summary> SPRINT 1 - </summary>
-	
 
- </details>
+<summary> SPRINT 3: </summary>
+ 
+ | COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
+ |---------|----------------------|------|------------|
+ | Administrador | cadastrar colaboradores, gestores e administradores | que eu possa designá-los às permissões corretas no sistema. | 1 |
+ | Administrador | cadastrar squads incluindo seus respectivos colaboradores e gestor | que os apontamentos sejam corretamente associados aos Centros de Resultado. |  2|
+ | Administrador | cadastrar clientes e seus respectivos projetos | que sejam referenciados durante o apontamento de horas extras e sobreavisos. | 3 |
+ | Administrador | configurar os parâmetros do sistema | que meus colaboradores sejam remunerados corretamente. | 4 |
+ | Administrador | gerar relatórios CSV contendo as horas trabalhadas dos meus colaboradores | ter acesso aos dados fora do sistema. | 5 |
+
+</details>
+
+</details>
 
 <details>
+<summary> SPRINT 4: </summary>
+ 
+ | COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
+ |---------|----------------------|------|------------|
+ | Administrador | acessar um Dashboard com informações da jornada de trabalho de todos os meus colaboradores | melhor visualização e tratamento dos dados. | 1 |
+ | Colaborador e Gestor | acessar um Dashboard com informações da minha jornada de trabalho | melhor visualização e tratamento dos dados. | 2 |
+
+</details>
+
+<br>
+
+## **Entregas**
+
+<details>
+<summary> SPRINT 1: Documentação </summary>
+
+> * Fluxograma.  
+> * Wireframe.  
+> * ERD e Diagrama de Entidade Relacionamento com Cardinalidade. 
+> * Backlog por Sprint.
+> * Burndown. 
+
+</details>
+
+<details>
+<summary> SPRINT 2: Apontamento de horas, listagem e aprovações </summary>
+
+> * Criação do sistema de apontamento de horas extras e sobreavisos pelos colaboradores e gestores.  
+> * Listagem, para colaborador e gestor, dos seus próprios apontamentos.
+> * Listagem, para gestor, dos apontamentos lançados pela(s) sua(s) squad(s).
+> * Funcionalidade de avaliação dos apontamentos pelo gestor.  
+> * Funcionalidade de retorno para colaborador do status do seu apontamento (pendente, aprovado ou reprovado) e feedback. 
+> * Funcionalidade de listagem para administrador dos apontamentos previamente aprovados pelo gestor.
+
+</details>
+
+<details>
+<summary> SPRINT 3: Cadastro, parametrização e relatório </summary>
+
+> * Sistema de cadastro de colaboradores, gestores e administradores.  
+> * Sistema de cadastro de squads.  
+> * Sistema de cadastro de clientes e projetos.  
+> * Funcionalidade de parametrização do sistema.  
+> * Funcionalidade de geração de relatórios CSV para o administrador.  
+
+</details>
+
+<details>
+<summary> SPRINT 4: Dashboards </summary>
+
+> * Criação do Dashboard de colaborador.  
+> * Criação do Dashboard de gestor.  
+> * Criação do Dashboard de administrador.  
+
+</details>
