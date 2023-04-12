@@ -37,8 +37,8 @@ public class SQLConnection {
     }
 
     public static void main(String[] args) throws SQLException, IOException {
-        SQLConnection sqlConnection = new SQLConnection();
-        Connection conexao = sqlConnection.connect();
+        // SQLConnection sqlConnection = new SQLConnection();
+        // Connection conexao = sqlConnection.connect();
         
         // executa arquivos sql passando o endereço do arquivo como parâmetro
         // String arquivoSql = "./SQL/Tabelas.sql";
