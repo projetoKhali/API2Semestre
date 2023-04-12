@@ -1,3 +1,4 @@
+package Classes;
 import java.util.Date;
 
 /// Representação de um apontamento de Hora-Extra ou Sobreaviso dentro do sistema java.

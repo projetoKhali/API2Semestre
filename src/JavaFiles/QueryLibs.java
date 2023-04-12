@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Statement;
 
+import Classes.Appointment;
 
 public class QueryLibs {
 
@@ -46,7 +47,7 @@ public class QueryLibs {
         String sql = "INSERT INTO tabela_teste (apt_id, hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
-            statement.setString(1, Apt.getId());
+            statement.setInt(1, Apt.getId());
             statement.setString(2, Apt.getStartDate());
             statement.setString(3, Apt.getEndDate());
             statement.setString(4, Apt.getRequester());
