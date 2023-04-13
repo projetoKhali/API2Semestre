@@ -46,11 +46,11 @@ public class QueryLibs {
 
         // código sql a ser executado, passando "?" como parâmetro de valors
        // código sql a ser executado, passando "?" como parâmetro de valors
-        String sql = "INSERT INTO tabela_teste (hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
             // statement.setInt(1, Apt.getId());
-            statement.setString(1, Apt.getStartDate());
+            statement.setDateTime(1, Apt.getStartDate());
             statement.setString(2, Apt.getEndDate());
             statement.setInt(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
