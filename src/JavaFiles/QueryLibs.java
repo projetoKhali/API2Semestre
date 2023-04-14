@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Statement;
+import java.time.ZoneId;
 
 import Classes.Appointment;
 
@@ -50,8 +51,8 @@ public class QueryLibs {
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
             // statement.setInt(1, Apt.getId());
-            statement.setDateTime(1, Apt.getStartDate());
-            statement.setString(2, Apt.getEndDate());
+            statement.setObject(1, Date.from(Apt.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
+            statement.setObject(2, Date.from(Apt.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
             statement.setInt(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
