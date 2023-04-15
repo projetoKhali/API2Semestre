@@ -7,7 +7,7 @@ import java.util.Date;
 /// Instanciado utilizando os dados de um apontamento na tabela .sql como atributos.
 /// Utilizado para facilitar a conversação entre os sistemas dentro do código. 
 public class Appointment {
-    // private int id;                 // Identificação unica do apontamento.
+    private int id;                 // Identificação unica do apontamento.
     private int requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
     private AppointmentType type;   // Tipo de apontamento: Hora-Extra / Sobreaviso.
     private LocalDateTime startDate;       // Data de início do apontamento.
@@ -42,7 +42,7 @@ public class Appointment {
     }
 
     /// Métodos de acesso "GET" das variaveis do apontamento.
-    // public int getId() { return id; }
+    public int getId() { return id; }
     public AppointmentType getType() { return type; }
     public int getRequester() { return requester; }
     public LocalDateTime getStartDate() { return startDate; }
