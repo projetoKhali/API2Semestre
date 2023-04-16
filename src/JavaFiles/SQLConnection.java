@@ -62,7 +62,7 @@ public class SQLConnection {
         // QueryLibs.executeSqlFile(conexao, arquivoSql);
 
         // faz inserts na tabela
-        QueryLibs.insertTable(conexao, apt );
+        // QueryLibs.insertTable(conexao, apt );
 
         // tras os apontamentos referentes ao id do usuário passado como parâmetro
         QueryLibs.collaboratorSelect(conexao, 1);
