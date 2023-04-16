@@ -1,5 +1,3 @@
-package JavaFiles;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,22 +11,18 @@ public class QueryLibs {
 
     // método de selec simples
     public static void simpleSelect() throws SQLException {
-        // tenta iniciar uma conexão
+        // declara variável conexão fora do bloco try
+        Connection conexao = null;
+        
+        // tenta iniciar conexão com o Banco
         try {
-            // inicia a conexão com o Banco
             SQLConnection sqlConnection = new SQLConnection();
-            Connection conexao = SQLConnection.connect();
+            conexao = sqlConnection.connect();            
         } catch (Exception e) {
-            // descreve excessão
+            // exibe erros ao iniciar conexão caso haja
             System.out.println("Falha ao iniciar conexão: " + e);
-            return;
-        } finally {
-            if (conexao == null) {
-                System.out.println("Erro ao iniciar conexão!");
-                System.out.println("Query: simpleSelect");
-                return;
-            }
         }
+        
 
         // string que carrega o comando em sql
         String sql = "SELECT * FROM tabela";
@@ -54,35 +48,24 @@ public class QueryLibs {
 
         // tenta finalizar a conexão com banco
         try {
-            if (conexao != null){
-                conexao.close();
-            }
+            conexao.close();
         } catch (Exception e) {
             // descreve excesão
             System.out.println("Falha ao encerrar conexão: " + e);
-        } finally {
-            if (conexao != null){
-                System.out.println("Erro ao fechar conexão!");
-                System.out.println("Query: simpleSelect");
-            }
         }
     }
 
     public static void insertTable() throws SQLException {
-        // inicia conexão com banco para executar a query
+        // declara variável conexão fora do bloco try
+        Connection conexao = null;
+        
+        // tenta iniciar conexão com o Banco
         try {
             SQLConnection sqlConnection = new SQLConnection();
-            Connection conexao = sqlConnection.connect();
+            conexao = sqlConnection.connect();            
         } catch (Exception e) {
-            // descreve erro caso ocorra
+            // exibe erros ao iniciar conexão caso haja
             System.out.println("Falha ao iniciar conexão: " + e);
-            return;
-        } finally {
-            if (conexao == null) {
-                System.out.println("Erro ao iniciar conexão!");
-                System.out.println("Query: insertTable");
-                return;
-            }
         }
 
 
@@ -101,36 +84,24 @@ public class QueryLibs {
 
         // tenta fechar a conexão
         try {
-            if (conexao != null){
-                // fecha a conexão
-                conexao.close();
-            }
+            conexao.close();
         } catch (Exception ex) {
             // exibe erro ao tentar fechar conexão
             System.out.println("Falha ao fechar conexão: " + ex);
-        } finally {
-            if (conexao != null) {
-                System.out.println("Falha ao finalizar conexão!");
-                System.out.println("Query: insertTabel");
-            }
-        }
+        } 
     }
 
     public static void executeSqlFile(String arquivoSql) throws SQLException, IOException {
-        // tenta criar conexão com banco
+        // declara variável conexão fora do bloco try
+        Connection conexao = null;
+        
+        // tenta iniciar conexão com o Banco
         try {
-            // cria conexão
             SQLConnection sqlConnection = new SQLConnection();
-            Connection conexao = sqlConnection.connect();
+            conexao = sqlConnection.connect();            
         } catch (Exception e) {
-            // exibe erro ao criar conexão caso haja
+            // exibe erros ao iniciar conexão caso haja
             System.out.println("Falha ao iniciar conexão: " + e);
-            return;
-        } finally {
-            if (conexao == null) {
-                System.out.println("Falha ao iniciar conexão!");
-                System.out.println("Query: executeFile");
-            }
         }
         
         // tenta executar a query
@@ -151,33 +122,23 @@ public class QueryLibs {
 
         // tenta fechar conexão
         try {
-            if (conexao != null){
-                conexao.close();
-            }
+            conexao.close();
         } catch (Exception ex) {
             System.out.println("Falha ao fechar conexão: " + ex);
-        } finally {
-            if (conexao != null) {
-                System.out.println("Erro ao iniciar conexão!");
-                System.out.println("Query: executeSqlFile");
-                return;
-            }
         }
     }
 
     public static void collaboratorSelect(int usuario_id) throws SQLException, IOException {
+        // declara variável conexão fora do bloco try
+        Connection conexao = null;
+        
         // tenta iniciar conexão com o Banco
         try {
             SQLConnection sqlConnection = new SQLConnection();
-            Connection conexao = sqlConnection.connect();            
+            conexao = sqlConnection.connect();            
         } catch (Exception e) {
             // exibe erros ao iniciar conexão caso haja
             System.out.println("Falha ao iniciar conexão: " + e);
-        } finally {
-            if (conexao == null){
-                System.out.println("Falha ao inicar conexão com Banco");
-                System.out.println("Query: collaboratorSelect");
-            }
         }
 
         // string que carrega o comando em sql
@@ -189,6 +150,19 @@ public class QueryLibs {
             statement.setInt(1, usuario_id);
             // executa a query e salva o resultado na variável "result"
             ResultSet result = statement.executeQuery();
+
+            System.out.println(result);
+
+            // verifica se a consulta retornou resultados
+            // caso não tenha, exibe mensagem de erro e sai do método
+            // caso contrário, imprime os resultados na tela
+            // e itera sobre os resultados, extraindo os valores das colunas necessárias
+            // e imprime os valores das colunas no terminal
+            
+            if (!result.next()) {
+                System.out.println("Nenhum resultado encontrado");
+                return;
+            } 
 
             // cabeçalho
             System.out.println(
@@ -213,18 +187,11 @@ public class QueryLibs {
 
         // finaliza conexão com o Banco
         try {
-            if (conexão != null){
-                conexao.close();
-            }
+            conexao.close();
         } catch (Exception ex) {
             // exibe erro ao fechar conexão, caso haja
             System.out.println("Falha ao finalizar conexão: " + ex);
             return;
-        } finally {
-            if (conexao != null){
-                System.out.println("Falha ao finalizar conexão!");
-                System.out.println("Query: collaboratorSelect");
-            }
         }
     }
 }

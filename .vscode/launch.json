@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SQLConnection",
+            "request": "launch",
+            "mainClass": "SQLConnection",
+            "projectName": "API2Semestre_4f76aea2"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
