@@ -64,15 +64,19 @@ public class PrimaryController {
     @FXML
     private TableView<Appointment> tabela;
     
+    @FXML
     public void initialize(URL url, ResourceBundle resourceBundle){
-        col_squad.setCellValueFactory(new PropertyValueFactory<Appointment, String>("squad"));
+        col_squad.setCellValueFactory(new PropertyValueFactory<>("squad"));
                 
     }
     
+    @FXML
     void bt_horaExtra(ActionEvent event){
         Appointment appointment = new Appointment(cx_squad.getText(), cx_dataInicio.getValue(), cx_horaInicio.getText(),
                 cx_dataFinal.getValue(), cx_horaFinal.getText(), cx_cliente.getText(), cx_projeto.getText(), cx_justificativa.getText());
-                
+        System.out.print(appointment.getData_inicio());        
     }
+    
+    
 
 }

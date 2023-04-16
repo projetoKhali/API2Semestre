@@ -29,7 +29,7 @@ public class Appointment {
         return squad;
     }
 
-    public String getData_inicio() {
+    public LocalDate getData_inicio() {
         return data_inicio;
     }
 
@@ -37,7 +37,7 @@ public class Appointment {
         return hora_inicio;
     }
 
-    public String getData_final() {
+    public LocalDate getData_final() {
         return data_final;
     }
 
@@ -61,7 +61,7 @@ public class Appointment {
         this.squad = squad;
     }
 
-    public void setData_inicio(String data_inicio) {
+    public void setData_inicio(LocalDate data_inicio) {
         this.data_inicio = data_inicio;
     }
 
@@ -69,7 +69,7 @@ public class Appointment {
         this.hora_inicio = hora_inicio;
     }
 
-    public void setData_final(String data_final) {
+    public void setData_final(LocalDate data_final) {
         this.data_final = data_final;
     }
 
