@@ -45,14 +45,11 @@ public class SQLConnection {
         SQLConnection sqlConnection = new SQLConnection();
         Connection conexao = sqlConnection.connect();
 
-            LocalDateTime startDate = LocalDateTime.of(2009, 12, 25, 10, 07, 59);
-            LocalDateTime endDate = LocalDateTime.of(2009, 12, 25, 11, 07, 59);
-
             Appointment apt = new Appointment(
                 1,
                 AppointmentType.Overtime,
-                Timestamp.valueOf(startDate),
-                Timestamp.valueOf(endDate),
+                Timestamp.valueOf(LocalDateTime.of(2009, 12, 25, 10, 07, 59)),
+                Timestamp.valueOf(LocalDateTime.of(2009, 12, 25, 11, 07, 59)),
                 "Khali",
                 "2rp",
                 "api2sem",
