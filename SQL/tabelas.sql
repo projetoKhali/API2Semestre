@@ -1,4 +1,4 @@
--- versão 3.0
+-- tabelas v3.5
 
 -- Código para criação de tabelas do Diagrama ERP
 -- O código pode ser executado em qualqer ordem
