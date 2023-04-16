@@ -1,4 +1,4 @@
-module org.openjfx.API2Semestre {
+module API2Semestre {
     requires javafx.controls;
     requires javafx.fxml;
     requires java.sql;
