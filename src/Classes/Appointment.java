@@ -1,4 +1,5 @@
 package Classes;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -10,8 +11,8 @@ public class Appointment {
     // private int id;                 // Identificação unica do apontamento.
     private int requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
     private AppointmentType type;   // Tipo de apontamento: Hora-Extra / Sobreaviso.
-    private LocalDateTime startDate;       // Data de início do apontamento.
-    private LocalDateTime endDate;           // Data de término do apontamento.
+    private Timestamp startDate;       // Data de início do apontamento.
+    private Timestamp endDate;           // Data de término do apontamento.
     private String squad;           // Nome da squad pela qual o solicitante está prestando serviço nesse apontamento. TODO: mudar para referencia do tipo 'Squad'.
     private String client;          // Nome do cliente para qual o solicitante está prestando serviço nesse apontamento. TODO: remover cliente do apontamento pois futuramente consegue ser acessado dentro de "project".
     private String project;         // Nome do projeto para qual o solicitante está prestando serviço.
@@ -21,10 +22,10 @@ public class Appointment {
     /// Cria uma nova instancia de apontamento
     public Appointment(
         // int id,
-        AppointmentType type,
         int requester,
-        LocalDateTime startDate,
-        LocalDateTime endDate,
+        AppointmentType type,
+        Timestamp startDate,
+        Timestamp endDate,
         String squad,
         String client,
         String project,
@@ -45,8 +46,8 @@ public class Appointment {
     // public int getId() { return id; }
     public AppointmentType getType() { return type; }
     public int getRequester() { return requester; }
-    public LocalDateTime getStartDate() { return startDate; }
-    public LocalDateTime getEndDate() { return endDate; }
+    public Timestamp getStartDate() { return startDate; }
+    public Timestamp getEndDate() { return endDate; }
     public String getSquad() { return squad; }
     public String getClient() { return client; }
     public String getProject() { return project; }

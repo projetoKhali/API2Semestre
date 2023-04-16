@@ -51,8 +51,9 @@ public class QueryLibs {
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
             // statement.setInt(1, Apt.getId());
-            statement.setObject(1, Date.from(Apt.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
-            statement.setObject(2, Date.from(Apt.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
+            System.out.println(Apt.getStartDate());
+            statement.setTimestamp(1, Apt.getStartDate());
+            statement.setTimestamp(2, Apt.getEndDate());
             statement.setInt(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
