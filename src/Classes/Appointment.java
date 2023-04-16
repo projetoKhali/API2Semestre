@@ -1,14 +1,11 @@
 package Classes;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 /// Representação de um apontamento de Hora-Extra ou Sobreaviso dentro do sistema java.
 /// Instanciado utilizando os dados de um apontamento na tabela .sql como atributos.
 /// Utilizado para facilitar a conversação entre os sistemas dentro do código. 
 public class Appointment {
-    // private int id;                 // Identificação unica do apontamento.
+    private Integer id;                 // Identificação unica do apontamento.
     private int requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
     private AppointmentType type;   // Tipo de apontamento: Hora-Extra / Sobreaviso.
     private Timestamp startDate;       // Data de início do apontamento.
@@ -18,10 +15,8 @@ public class Appointment {
     private String project;         // Nome do projeto para qual o solicitante está prestando serviço.
     private String justification;   // Justificativa fornecida pelo solicitante para prestar esta Hora-Extra ou Sobreaviso.
 
-
     /// Cria uma nova instancia de apontamento
-    public Appointment(
-        // int id,
+    public Appointment (
         int requester,
         AppointmentType type,
         Timestamp startDate,
@@ -31,7 +26,30 @@ public class Appointment {
         String project,
         String justification
     ) {
-        // this.id = id;
+        this.id = null;
+        this.requester = requester;
+        this.type = type;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.squad = squad;
+        this.client = client;
+        this.project = project;
+        this.justification = justification;
+    }
+
+    /// Carrega uma instancia de apontamento existente
+    public Appointment (
+        int id,
+        int requester,
+        AppointmentType type,
+        Timestamp startDate,
+        Timestamp endDate,
+        String squad,
+        String client,
+        String project,
+        String justification
+    ) {
+        this.id = id;
         this.requester = requester;
         this.type = type;
         this.startDate = startDate;
@@ -43,7 +61,7 @@ public class Appointment {
     }
 
     /// Métodos de acesso "GET" das variaveis do apontamento.
-    // public int getId() { return id; }
+    public Integer getId() { return id; }
     public AppointmentType getType() { return type; }
     public int getRequester() { return requester; }
     public Timestamp getStartDate() { return startDate; }
@@ -54,14 +72,14 @@ public class Appointment {
     public String getJustification() { return justification; }
 
     /// Métodos de acesso "SET" das variaveis do apontamento para modificar os valores
-    // public void setId (int newId) { id = newId; }
-    // public void setType (AppointmentType newType) { type = newType; }
-    // public void setRequester (String newRequester) { requester = newRequester; }
-    // public void setStartDate (Date newStartDate) { startDate = newStartDate; }
-    // public void setEndDate (Date newEndDate) { endDate = newEndDate; }
-    // public void setSquad (String newSquad) { squad = newSquad; }
-    // public void setClient (String newClient) { client = newClient; }
-    // public void setProject (String newProject) { project = newProject; }
-    // public void setJustification (String newJustification) { justification = newJustification; }
+    // public void setId (int id) { this.id = id; }
+    // public void setType (AppointmentType type) { this.type = type; }
+    // public void setRequester (int requester) { this.requester = requester; }
+    // public void setStartDate (Date startDate) { this.startDate = startDate; }
+    // public void setEndDate (Date endDate) { this.endDate = endDate; }
+    // public void setSquad (String squad) { this.squad = squad; }
+    // public void setClient (String client) { this.client = client; }
+    // public void setProject (String project) { this.project = project; }
+    // public void setJustification (String justification) { this.justification = justification; }
 
 }
