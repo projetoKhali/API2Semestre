@@ -8,7 +8,7 @@ import java.util.Date;
 /// Utilizado para facilitar a conversação entre os sistemas dentro do código. 
 public class Appointment {
     private int id;                 // Identificação unica do apontamento.
-    private int requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
+    private String requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
     private AppointmentType type;   // Tipo de apontamento: Hora-Extra / Sobreaviso.
     private LocalDateTime startDate;       // Data de início do apontamento.
     private LocalDateTime endDate;           // Data de término do apontamento.
@@ -22,7 +22,7 @@ public class Appointment {
     public Appointment(
         // int id,
         AppointmentType type,
-        int requester,
+        String requester,
         LocalDateTime startDate,
         LocalDateTime endDate,
         String squad,
@@ -44,7 +44,7 @@ public class Appointment {
     /// Métodos de acesso "GET" das variaveis do apontamento.
     public int getId() { return id; }
     public AppointmentType getType() { return type; }
-    public int getRequester() { return requester; }
+    public String getRequester() { return requester; }
     public LocalDateTime getStartDate() { return startDate; }
     public LocalDateTime getEndDate() { return endDate; }
     public String getSquad() { return squad; }
