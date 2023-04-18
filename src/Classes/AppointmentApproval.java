@@ -10,7 +10,7 @@ public class AppointmentApproval {
     //Os status são: 0 - Pendente; 1 - Aprovado; 2 - Reprovado
     public static void updateTable(Connection conexao, boolean aprovado, int apt_id) throws SQLException {
         
-        String apv = "UPDATE tabela_teste SET aprovado = ? WHERE apt_id = ?";
+        String apv = "UPDATE apontamento SET aprovado = ? WHERE apt_id = ?";
 
         try(PreparedStatement statement = conexao.prepareStatement(apv)) {
             //Substitui os parâmetros "?" para os valores desejados
