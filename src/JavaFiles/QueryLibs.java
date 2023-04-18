@@ -31,7 +31,7 @@ public class QueryLibs {
     }
 
     // método de selec simples
-    public static void simpleSelect() throws SQLException {
+    public static void simpleSelect () throws SQLException {
         // tenta iniciar conexão com o Banco
         Connection conexao = getConnection();
 
@@ -67,12 +67,11 @@ public class QueryLibs {
         }
     }
 
-    public static void insertTable(Appointment Apt) throws SQLException {
+    public static void insertTable (Appointment Apt) throws SQLException {
 
         // código sql a ser executado, passando "?" como parâmetro de valors
         // tenta iniciar conexão com o Banco
         Connection conexao = getConnection();
-
 
         // código sql a ser executado, passando "?" como parâmetro de valors
         String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -105,7 +104,7 @@ public class QueryLibs {
         } 
     }
 
-    public static void executeSqlFile(String arquivoSql) throws SQLException, IOException {
+    public static void executeSqlFile (String arquivoSql) throws SQLException, IOException {
         // tenta iniciar conexão com o Banco
         Connection conexao = getConnection();
 
@@ -133,7 +132,7 @@ public class QueryLibs {
         }
     }
 
-    public static void collaboratorSelect(int usuario_id) throws SQLException, IOException {
+    public static void collaboratorSelect (int usuario_id) throws SQLException, IOException {
         // tenta iniciar conexão com o Banco
         Connection conexao = getConnection();
 
