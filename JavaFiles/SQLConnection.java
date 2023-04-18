@@ -7,9 +7,13 @@ import java.sql.SQLException;
 public class SQLConnection {
 
     static Connection conexao;
+
+    public Connection getConnection () {
+        return conexao;
+    }
     
     // método de conexão com banco
-    public Connection connect(){
+    public Connection connect() {
 
         // Dados para conexão com banco
         String host = "localhost"; // endereço do servidor

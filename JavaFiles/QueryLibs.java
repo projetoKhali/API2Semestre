@@ -9,12 +9,15 @@ import java.sql.Statement;
 
 public class QueryLibs {
 
-    // método de selec simples
-    public static void simpleSelect() throws SQLException {
-        // declara variável conexão fora do bloco try
-        Connection conexao = null;
-        
-        // tenta iniciar conexão com o Banco
+    // Retorna a conexão com o banco de dados atualmente ativa.
+    // Caso não exista conexão, uma nova conexão é criada.
+    private static Connection getConnection () throws Exception {
+        Connection conexao = SQLConnection.getConnection();
+
+        if (conexao != null) {
+            return conexao;
+        }
+
         try {
             SQLConnection sqlConnection = new SQLConnection();
             conexao = sqlConnection.connect();            
@@ -22,7 +25,13 @@ public class QueryLibs {
             // exibe erros ao iniciar conexão caso haja
             System.out.println("Falha ao iniciar conexão: " + e);
         }
-        
+
+    }
+
+    // método de selec simples
+    public static void simpleSelect() throws SQLException {
+        // tenta iniciar conexão com o Banco
+        Connection conexao = getConnection();
 
         // string que carrega o comando em sql
         String sql = "SELECT * FROM tabela";
@@ -35,6 +44,7 @@ public class QueryLibs {
 
             // processa o resultado aqui...
             while (result.next()) {
+
                 // itera sobre cada linha retornada pela consulta
                 // e extrai os valores das colunas necessárias
                 String coluna1 = result.getString("nome_da_coluna_1");
@@ -56,17 +66,8 @@ public class QueryLibs {
     }
 
     public static void insertTable() throws SQLException {
-        // declara variável conexão fora do bloco try
-        Connection conexao = null;
-        
         // tenta iniciar conexão com o Banco
-        try {
-            SQLConnection sqlConnection = new SQLConnection();
-            conexao = sqlConnection.connect();            
-        } catch (Exception e) {
-            // exibe erros ao iniciar conexão caso haja
-            System.out.println("Falha ao iniciar conexão: " + e);
-        }
+        Connection conexao = getConnection();
 
 
         // código sql a ser executado, passando "?" como parâmetro de valors
@@ -92,18 +93,9 @@ public class QueryLibs {
     }
 
     public static void executeSqlFile(String arquivoSql) throws SQLException, IOException {
-        // declara variável conexão fora do bloco try
-        Connection conexao = null;
-        
         // tenta iniciar conexão com o Banco
-        try {
-            SQLConnection sqlConnection = new SQLConnection();
-            conexao = sqlConnection.connect();            
-        } catch (Exception e) {
-            // exibe erros ao iniciar conexão caso haja
-            System.out.println("Falha ao iniciar conexão: " + e);
-        }
-        
+        Connection conexao = getConnection();
+
         // tenta executar a query
         try (BufferedReader br = new BufferedReader(new FileReader(arquivoSql))) {
             String linha;
@@ -129,17 +121,8 @@ public class QueryLibs {
     }
 
     public static void collaboratorSelect(int usuario_id) throws SQLException, IOException {
-        // declara variável conexão fora do bloco try
-        Connection conexao = null;
-        
         // tenta iniciar conexão com o Banco
-        try {
-            SQLConnection sqlConnection = new SQLConnection();
-            conexao = sqlConnection.connect();            
-        } catch (Exception e) {
-            // exibe erros ao iniciar conexão caso haja
-            System.out.println("Falha ao iniciar conexão: " + e);
-        }
+        Connection conexao = getConnection();
 
         // string que carrega o comando em sql
         String sql = "SELECT * FROM vw_apontamento WHERE usr_id = ?";
@@ -158,7 +141,7 @@ public class QueryLibs {
             // caso contrário, imprime os resultados na tela
             // e itera sobre os resultados, extraindo os valores das colunas necessárias
             // e imprime os valores das colunas no terminal
-            
+
             if (!result.next()) {
                 System.out.println("Nenhum resultado encontrado");
                 return;
