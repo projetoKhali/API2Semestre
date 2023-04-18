@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Statement;
 
+import Classes.Appointment;
+
 public class QueryLibs {
 
     public static void simpleSelect(Connection conexao) throws SQLException {
@@ -34,18 +36,29 @@ public class QueryLibs {
                 double coluna3 = result.getDouble("nome_da_coluna_3");
 
                 // imprime os valores das colunas no terminal
-                System.out.println(coluna1 + " - " + coluna2 + " - " + coluna3);
+                System.out.println(coluna1 + " | " + coluna2 + " | " + coluna3);
             }
         }
     }
 
-    public static void insertTable(Connection conexao) throws SQLException {
+    public static void insertTable(Connection conexao, Appointment Apt) throws SQLException {
+
         // código sql a ser executado, passando "?" como parâmetro de valors
-        String sql = "INSERT INTO tabela_teste (nome, nome2) values (?, ?)";
+        // código sql a ser executado, passando "?" como parâmetro de valors
+        String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
-            statement.setString(1, "jhow");
-            statement.setString(2, "nicole");
+            // statement.setInt(1, Apt.getId());
+            // System.out.println(Apt.getStartDate());
+            statement.setTimestamp(1, Apt.getStartDate());
+            statement.setTimestamp(2, Apt.getEndDate());
+            statement.setString(3, Apt.getRequester());
+            statement.setString(4, Apt.getProject());
+            statement.setString(5, Apt.getClient());
+            statement.setString(6, Apt.getType() == AppointmentType.Overtime);
+            statement.setString(7, Apt.getJustification());
+            statement.setString(8, Apt.getSquad());
+
             // executa o update
             statement.executeUpdate();
             // exibe erros ao executar a query
@@ -95,7 +108,7 @@ public class QueryLibs {
 
             // cabeçalho
             System.out.println(
-                    "Usuário - hora início - hora fim - projeto - cliente - atividade - justificativa - centro resultado");
+                    "Usuário | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
             while (result.next()) {
                 // itera sobre cada linha retornada pela consulta
                 // e extrai os valores das colunas necessárias
@@ -109,8 +122,8 @@ public class QueryLibs {
                 String centroR = result.getString("cr_nome");
 
                 // imprime os valores das colunas no terminal
-                System.out.println(usuario + " - " + hora_inicio + " - " + hora_fim + " - " + projeto + " - " + cliente
-                        + " - " + tipo + " - " + justif + " - " + centroR);
+                System.out.println(usuario + " | " + hora_inicio + " | " + hora_fim + " | " + projeto + " | " + cliente
+                        + " | " + tipo + " | " + justif + " | " + centroR);
             }
         }
     }

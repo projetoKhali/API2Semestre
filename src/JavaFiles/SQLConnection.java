@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
+import Classes.Appointment;
+import Classes.AppointmentType;
 
 public class SQLConnection {
 
@@ -39,13 +44,25 @@ public class SQLConnection {
     public static void main(String[] args) throws SQLException, IOException {
         SQLConnection sqlConnection = new SQLConnection();
         Connection conexao = sqlConnection.connect();
+
+            Appointment apt = new Appointment(
+                "Fulano",
+                AppointmentType.Overtime,
+                Timestamp.valueOf(LocalDateTime.of(2009, 12, 25, 10, 07, 59)),
+                Timestamp.valueOf(LocalDateTime.of(2009, 12, 25, 11, 07, 59)),
+                "Khali",
+                "2rp",
+                "api2sem",
+                "pqsim"
+            );
+        
         
         // executa arquivos sql passando o endereço do arquivo como parâmetro
         // String arquivoSql = "./SQL/Tabelas.sql";
         // QueryLibs.executeSqlFile(conexao, arquivoSql);
 
         // faz inserts na tabela
-        // QueryLibs.insertTable(conexao);
+        // QueryLibs.insertTable(conexao, apt );
 
         // tras os apontamentos referentes ao id do usuário passado como parâmetro
         QueryLibs.collaboratorSelect(conexao, 1);
