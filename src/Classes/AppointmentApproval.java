@@ -8,13 +8,13 @@ public class AppointmentApproval {
 
     //Função de aprovação/reprovação de um apontamento de hora-extra ou sobreaviso
     //Os status são: 0 - Pendente; 1 - Aprovado; 2 - Reprovado
-    public static void updateTable(Connection conexao, int aprovado, int apt_id) throws SQLException {
+    public static void updateTable(Connection conexao, boolean aprovado, int apt_id) throws SQLException {
         
         String apv = "UPDATE tabela_teste SET aprovado = ? WHERE apt_id = ?";
 
         try(PreparedStatement statement = conexao.prepareStatement(apv)) {
             //Substitui os parâmetros "?" para os valores desejados
-            statement.setInt(1, 1);
+            statement.setInt(1, aprovado ? 1 : 2);
             statement.setInt(2, apt_id);
             
             //Executa o update
