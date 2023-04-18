@@ -14,16 +14,14 @@ import java.time.LocalDate;
  * @author User
  */
 // método que converte data em LocalDate e tempo em string para Timestamp
-public class Type_switch {
-    public static Timestamp to_timestamp(LocalDate dateInput, String timeInput){
+public class DateConverter {
+    public static Timestamp inputToTimestamp (LocalDate dateInput, String timeInput) {
         Date date = Date.valueOf(dateInput);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String str_date = format.format(date);
         String str_date_time = str_date + " " + timeInput + ":00";
         Timestamp timestamp = Timestamp.valueOf(str_date_time);
         return timestamp;
-        
-        
     }
     
 }

@@ -46,7 +46,7 @@ public class SQLConnection {
         Connection conexao = sqlConnection.connect();
 
             Appointment apt = new Appointment(
-                1,
+                "teste",
                 AppointmentType.Overtime,
                 Timestamp.valueOf(LocalDateTime.of(2009, 12, 25, 10, 07, 59)),
                 Timestamp.valueOf(LocalDateTime.of(2009, 12, 25, 11, 07, 59)),

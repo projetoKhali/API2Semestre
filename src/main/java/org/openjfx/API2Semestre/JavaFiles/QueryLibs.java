@@ -53,7 +53,7 @@ public class QueryLibs {
             // System.out.println(Apt.getStartDate());
             statement.setTimestamp(1, Apt.getStartDate());
             statement.setTimestamp(2, Apt.getEndDate());
-            statement.setInt(3, Apt.getRequester());
+            statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
             statement.setString(6, Apt.getType().toString());
