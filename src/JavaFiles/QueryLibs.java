@@ -1,7 +1,6 @@
 package JavaFiles;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,7 +8,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Statement;
-import java.time.ZoneId;
 
 import Classes.Appointment;
 
@@ -38,7 +36,7 @@ public class QueryLibs {
                 double coluna3 = result.getDouble("nome_da_coluna_3");
 
                 // imprime os valores das colunas no terminal
-                System.out.println(coluna1 + " - " + coluna2 + " - " + coluna3);
+                System.out.println(coluna1 + " | " + coluna2 + " | " + coluna3);
             }
         }
     }
@@ -46,17 +44,18 @@ public class QueryLibs {
     public static void insertTable(Connection conexao, Appointment Apt) throws SQLException {
 
         // código sql a ser executado, passando "?" como parâmetro de valors
-       // código sql a ser executado, passando "?" como parâmetro de valors
+        // código sql a ser executado, passando "?" como parâmetro de valors
         String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
             // statement.setInt(1, Apt.getId());
-            statement.setObject(1, Date.from(Apt.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
-            statement.setObject(2, Date.from(Apt.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
-            statement.setInt(3, Apt.getRequester());
+            // System.out.println(Apt.getStartDate());
+            statement.setTimestamp(1, Apt.getStartDate());
+            statement.setTimestamp(2, Apt.getEndDate());
+            statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
-            statement.setString(6, Apt.getType().toString());
+            statement.setString(6, Apt.getType() == AppointmentType.Overtime);
             statement.setString(7, Apt.getJustification());
             statement.setString(8, Apt.getSquad());
 
@@ -109,7 +108,7 @@ public class QueryLibs {
 
             // cabeçalho
             System.out.println(
-                    "Usuário - hora início - hora fim - projeto - cliente - atividade - justificativa - centro resultado");
+                    "Usuário | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
             while (result.next()) {
                 // itera sobre cada linha retornada pela consulta
                 // e extrai os valores das colunas necessárias
@@ -123,8 +122,8 @@ public class QueryLibs {
                 String centroR = result.getString("cr_nome");
 
                 // imprime os valores das colunas no terminal
-                System.out.println(usuario + " - " + hora_inicio + " - " + hora_fim + " - " + projeto + " - " + cliente
-                        + " - " + tipo + " - " + justif + " - " + centroR);
+                System.out.println(usuario + " | " + hora_inicio + " | " + hora_fim + " | " + projeto + " | " + cliente
+                        + " | " + tipo + " | " + justif + " | " + centroR);
             }
         }
     }
