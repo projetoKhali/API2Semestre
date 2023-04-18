@@ -11,6 +11,9 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import org.openjfx.API2Semestre.Classes.Appointment;
+import static org.openjfx.API2Semestre.Classes.AppointmentType.OnNotice;
+import static org.openjfx.API2Semestre.Classes.AppointmentType.Overtime;
+import org.openjfx.API2Semestre.Type_switch;
 
 public class PrimaryController {
 
@@ -72,20 +75,35 @@ public class PrimaryController {
     }
     
     @FXML
-    void bt_horaExtra(ActionEvent event){
+    void inputHoraExtra(ActionEvent event){
         Appointment appointment = new Appointment(
             0,
-            cx_squad.getText(), 
-            cx_dataInicio.getValue(),
-            cx_horaInicio.getText(),
-            cx_dataFinal.getValue(),
-            cx_horaFinal.getText(),
+            Overtime,
+            Type_switch.to_timestamp(cx_dataInicio.getValue(),cx_horaInicio.getText()),
+            Type_switch.to_timestamp(cx_dataFinal.getValue(),cx_horaFinal.getText()),
+            cx_squad.getText(),
             cx_cliente.getText(),
             cx_projeto.getText(),
             cx_justificativa.getText()
         );
-        System.out.print(appointment.getData_inicio());        
+        //System.out.print(appointment.getStartDate());        
     }
+    
+      @FXML
+    void inputSobreaviso(ActionEvent event) {
+        Appointment appointment = new Appointment(
+            0,
+            OnNotice,
+            Type_switch.to_timestamp(cx_dataInicio.getValue(),cx_horaInicio.getText()),
+            Type_switch.to_timestamp(cx_dataFinal.getValue(),cx_horaFinal.getText()),
+            cx_squad.getText(),
+            cx_cliente.getText(),
+            cx_projeto.getText(),
+            cx_justificativa.getText()
+        );
+
+    }
+
     
     
 
