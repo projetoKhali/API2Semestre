@@ -3,6 +3,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
+import Classes.Appointment;
+import Classes.AppointmentType;
 
 public class SQLConnection {
 
@@ -49,7 +54,7 @@ public class SQLConnection {
         // QueryLibs.executeSqlFile(conexao, arquivoSql);
 
         // faz inserts na tabela
-        // QueryLibs.insertTable(conexao);
+        // QueryLibs.insertTable(conexao, apt );
 
         // tras os apontamentos referentes ao id do usuário passado como parâmetro
         QueryLibs.collaboratorSelect(1);
