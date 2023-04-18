@@ -2,6 +2,9 @@ package org.openjfx.API2Semestre;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
+import org.openjfx.API2Semestre.Classes.Appointment;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -20,22 +23,22 @@ public class PrimaryController {
     private Button bt_sobreaviso;
 
     @FXML
-    private TableColumn<Appointment2, String> col_extraOUsobreaviso;
+    private TableColumn<Appointment, String> col_extraOUsobreaviso;
 
     @FXML
-    private TableColumn<Appointment2, String> col_feedback;
+    private TableColumn<Appointment, String> col_feedback;
 
     @FXML
-    private TableColumn<Appointment2, String> col_periodo;
+    private TableColumn<Appointment, String> col_periodo;
 
     @FXML
-    private TableColumn<Appointment2, String> col_squad;
+    private TableColumn<Appointment, String> col_squad;
 
     @FXML
-    private TableColumn<Appointment2, String> col_status;
+    private TableColumn<Appointment, String> col_status;
 
     @FXML
-    private TableColumn<Appointment2, String> col_total;
+    private TableColumn<Appointment, String> col_total;
 
     @FXML
     private TextField cx_cliente;
@@ -62,16 +65,16 @@ public class PrimaryController {
     private TextField cx_squad;
 
     @FXML
-    private TableView<Appointment2> tabela;
+    private TableView<Appointment> tabela;
     
     public void initialize(URL url, ResourceBundle resourceBundle){
-        col_squad.setCellValueFactory(new PropertyValueFactory<Appointment2, String>("squad"));
+        col_squad.setCellValueFactory(new PropertyValueFactory<Appointment, String>("squad"));
                 
     }
     
     void bt_horaExtra(ActionEvent event){
-        Appointment2 _appointment = new Appointment2(cx_squad.getText(), cx_dataInicio.getValue(), cx_horaInicio.getText(),
-                cx_dataFinal.getValue(), cx_horaFinal.getText(), cx_cliente.getText(), cx_projeto.getText(), cx_justificativa.getText());
+        // Appointment _appointment = new Appointment(cx_squad.getText(), cx_dataInicio.getValue(), cx_horaInicio.getText(),
+        //         cx_dataFinal.getValue(), cx_horaFinal.getText(), cx_cliente.getText(), cx_projeto.getText(), cx_justificativa.getText());
                 
     }
 
