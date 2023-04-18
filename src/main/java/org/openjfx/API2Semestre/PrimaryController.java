@@ -86,7 +86,7 @@ public class PrimaryController {
             cx_projeto.getText(),
             cx_justificativa.getText()
         );
-        //System.out.print(appointment.getStartDate());        
+        System.out.print(appointment.getStartDate());        
     }
     
       @FXML
