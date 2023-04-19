@@ -1,3 +1,5 @@
+package JavaFiles;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,10 +9,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Statement;
 
+import java.time.Date;
+
 import Classes.Appointment;
 
 public class QueryLibs {
 
+    
     // Retorna a conexão com o banco de dados atualmente ativa.
     // Caso não exista conexão, uma nova conexão é criada.
     private static Connection getConnection () throws Exception {
@@ -30,10 +35,10 @@ public class QueryLibs {
 
     }
 
-    // método de selec simples
-    public static void simpleSelect () throws SQLException {
-        // tenta iniciar conexão com o Banco
-        Connection conexao = getConnection();
+    public static void simpleSelect(Connection conexao) throws SQLException {
+        // método que executa um select simples
+        // recebe como parâmetro uma conexão com o banco de dados
+        // e pode lançar uma exceção SQLException
 
         // string que carrega o comando em sql
         String sql = "SELECT * FROM tabela";
@@ -46,7 +51,6 @@ public class QueryLibs {
 
             // processa o resultado aqui...
             while (result.next()) {
-
                 // itera sobre cada linha retornada pela consulta
                 // e extrai os valores das colunas necessárias
                 String coluna1 = result.getString("nome_da_coluna_1");
@@ -57,22 +61,11 @@ public class QueryLibs {
                 System.out.println(coluna1 + " | " + coluna2 + " | " + coluna3);
             }
         }
-
-        // tenta finalizar a conexão com banco
-        try {
-            conexao.close();
-        } catch (Exception e) {
-            // descreve excesão
-            System.out.println("Falha ao encerrar conexão: " + e);
-        }
     }
 
-    public static void insertTable (Appointment Apt) throws SQLException {
+    public static void insertTable(Connection conexao, Appointment Apt) throws SQLException {
 
         // código sql a ser executado, passando "?" como parâmetro de valors
-        // tenta iniciar conexão com o Banco
-        Connection conexao = getConnection();
-
         // código sql a ser executado, passando "?" como parâmetro de valors
         String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
@@ -94,21 +87,14 @@ public class QueryLibs {
         } catch (Exception ex) {
             System.out.println("Erro ao executar a query: " + ex.getMessage());
         }
-
-        // tenta fechar a conexão
-        try {
-            conexao.close();
-        } catch (Exception ex) {
-            // exibe erro ao tentar fechar conexão
-            System.out.println("Falha ao fechar conexão: " + ex);
-        } 
     }
 
-    public static void executeSqlFile (String arquivoSql) throws SQLException, IOException {
-        // tenta iniciar conexão com o Banco
-        Connection conexao = getConnection();
-
-        // tenta executar a query
+    public static void executeSqlFile(Connection conexao, String arquivoSql) throws SQLException, IOException {
+        // Verifica se a conexão não é nula
+        if (conexao == null) {
+            System.out.println("Conexão é nula");
+            return; // Encerra o método se a conexão for nula
+        }
         try (BufferedReader br = new BufferedReader(new FileReader(arquivoSql))) {
             String linha;
             StringBuilder sb = new StringBuilder();
@@ -123,19 +109,14 @@ public class QueryLibs {
                 statement.execute(sql);
             }
         }
-
-        // tenta fechar conexão
-        try {
-            conexao.close();
-        } catch (Exception ex) {
-            System.out.println("Falha ao fechar conexão: " + ex);
-        }
     }
 
-    public static void collaboratorSelect (int usuario_id) throws SQLException, IOException {
-        // tenta iniciar conexão com o Banco
-        Connection conexao = getConnection();
-
+    public static void collaboratorSelect(Connection conexao, int usuario_id) throws SQLException, IOException {
+        // verificação se a conexão é nula
+        if (conexao == null) {
+            System.out.println("Conexão é nula");
+            return; // Encerra o método se a conexão for nula
+        }
         // string que carrega o comando em sql
         String sql = "SELECT * FROM vw_apontamento WHERE usr_id = ?";
 
@@ -147,21 +128,9 @@ public class QueryLibs {
             // executa a query e salva o resultado na variável "result"
             ResultSet result = statement.executeQuery();
 
-            System.out.println(result);
-
-            // verifica se a consulta retornou resultados
-            // caso não tenha, exibe mensagem de erro e sai do método
-            // caso contrário, imprime os resultados na tela
-            // e itera sobre os resultados, extraindo os valores das colunas necessárias
-            // e imprime os valores das colunas no terminal
-
-            if (!result.next()) {
-                System.out.println("Nenhum resultado encontrado");
-                return;
-            } 
-
             // cabeçalho
-            System.out.println("Usuário | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
+            System.out.println(
+                    "Usuário | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
             while (result.next()) {
                 // itera sobre cada linha retornada pela consulta
                 // e extrai os valores das colunas necessárias
@@ -175,25 +144,9 @@ public class QueryLibs {
                 String centroR = result.getString("cr_nome");
 
                 // imprime os valores das colunas no terminal
-                System.out.println(usuario
-                    + " | " + hora_inicio
-                    + " | " + hora_fim
-                    + " | " + projeto
-                    + " | " + cliente
-                    + " | " + tipo
-                    + " | " + justif
-                    + " | " + centroR
-                );
+                System.out.println(usuario + " | " + hora_inicio + " | " + hora_fim + " | " + projeto + " | " + cliente
+                        + " | " + tipo + " | " + justif + " | " + centroR);
             }
-        }
-
-        // finaliza conexão com o Banco
-        try {
-            conexao.close();
-        } catch (Exception ex) {
-            // exibe erro ao fechar conexão, caso haja
-            System.out.println("Falha ao finalizar conexão: " + ex);
-            return;
         }
     }
     public static void updateTable(Connection conexao, Appointment Apt) throws SQLException {
@@ -204,8 +157,8 @@ public class QueryLibs {
         String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, usr_id = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ? WHERE apt_id = ?";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
-            statement.setObject(1, Date.from(Apt.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
-            statement.setObject(2, Date.from(Apt.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
+            statement.setObject(1, Date.from(Apt.getStartDate().toInstant()));
+            statement.setObject(2, Date.from(Apt.getEndDate().toInstant()));
             statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
@@ -238,5 +191,3 @@ public class QueryLibs {
             System.out.println("Erro ao executar a query: " + ex.getMessage());
         }
     }
-
-}
