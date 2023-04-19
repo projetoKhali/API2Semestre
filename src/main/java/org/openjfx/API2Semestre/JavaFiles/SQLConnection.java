@@ -1,3 +1,5 @@
+package org.openjfx.API2Semestre.JavaFiles;
+
 import java.io.IOException;
 // importando pacotes para conexão sql
 import java.sql.Connection;
@@ -6,10 +8,14 @@ import java.sql.SQLException;
 
 public class SQLConnection {
 
-    static Connection conexao;
+    private static Connection conexao;
+
+    public static Connection getConnection () {
+        return conexao;
+    }
     
     // método de conexão com banco
-    public Connection connect(){
+    public Connection connect() {
 
         // Dados para conexão com banco
         String host = "host"; // endereço do servidor
@@ -46,12 +52,13 @@ public class SQLConnection {
             System.out.println("Falha ao se conectar ao Banco de dados");
         }
         
+        
         // executa arquivos sql passando o endereço do arquivo como parâmetro
         String arquivoSql = "./SQL/Tabelas.sql";
         QueryLibs.executeSqlFile(arquivoSql);
 
         // faz inserts na tabela
-        // QueryLibs.insertTable(conexao);
+        // QueryLibs.insertTable(conexao, apt );
 
         // tras os apontamentos referentes ao id do usuário passado como parâmetro
         // QueryLibs.collaboratorSelect(1);
