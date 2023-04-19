@@ -1,19 +1,16 @@
+package org.openjfx.API2Semestre.JavaFiles;
+
 import java.io.IOException;
 // importando pacotes para conexão sql
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-
-import Classes.Appointment;
-import Classes.AppointmentType;
 
 public class SQLConnection {
 
-    static Connection conexao;
+    private static Connection conexao;
 
-    public Connection getConnection () {
+    public static Connection getConnection () {
         return conexao;
     }
     
