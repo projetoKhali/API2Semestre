@@ -9,6 +9,16 @@
             "database": "Khali",
             "username": "postgres",
             "password": "Postgres!1@2#3"
+        },
+        {
+            "previewLimit": 50,
+            "server": "containers-us-west-20.railway.app",
+            "port": 6496,
+            "driver": "PostgreSQL",
+            "username": "postgres",
+            "password": "Qj8WUGMq3uftmpIy4lKQ",
+            "database": "railway",
+            "name": "RailWay"
         }
     ],
     
@@ -27,5 +37,7 @@
         "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx.swing.jar",
         "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx.web.jar",
         "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx-swt.jar"
-    ]
+    ],
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.dependency.syncWithFolderExplorer": false
 }
