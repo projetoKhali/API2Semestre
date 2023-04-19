@@ -78,6 +78,7 @@ public class QueryLibs {
             // executa o update
             statement.executeUpdate();
             // exibe erros ao executar a query
+            System.out.println("Query executada com Sucesso!");
         } catch (Exception ex) {
             System.out.println("Erro ao executar a query: " + ex.getMessage());
         }
@@ -118,6 +119,7 @@ public class QueryLibs {
                 // executa as instruções SQL contidas no arquivo
                 statement.execute(sql);
             }
+            System.out.println("Query executada com Sucesso!");
         }
 
         // tenta fechar conexão
