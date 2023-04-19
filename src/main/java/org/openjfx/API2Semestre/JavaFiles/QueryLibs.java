@@ -32,8 +32,10 @@ public class QueryLibs {
 
         } catch (Exception e) {
             // exibe erros ao iniciar conexão caso haja
-            System.out.println("Falha ao iniciar conexão: " + e);
-            throw(e);
+            // System.out.println("Falha ao iniciar conexão: " + e);
+            // throw(e);
+            e.printStackTrace();
+            return null;
         }
 
     }

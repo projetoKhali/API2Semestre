@@ -1,6 +1,10 @@
 package org.openjfx.API2Semestre.JavaFiles;
 
+// importando pacotes para leitura de arquivo
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
+
 // importando pacotes para conexão sql
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,14 +19,42 @@ public class SQLConnection {
     }
     
     // método de conexão com banco
-    public Connection connect() {
+    public Connection connect() throws IOException {
+
+        String[] env = new String[] {
+            "host",
+            "port",
+            "userName",
+            "password",
+            "database",
+        };
+
+        BufferedReader br = null;
+        try {
+            br = new BufferedReader(new FileReader("./.env"));
+            String line = br.readLine();
+            
+            int index = 0;
+
+            while (line != null) {
+                env[index] = line.split(":")[1];
+                
+                line = br.readLine();
+                index++;
+            }
+
+
+        } finally {
+            if (br != null) br.close();
+        }
 
         // Dados para conexão com banco
-        String host = "host"; // endereço do servidor
-        String port = "port"; // porta de conexão do servidor
-        String userName = "userName"; // nome do usuário para acesso ao banco
-        String password = "password"; // senha do usuário para acesso ao banco
-        String database = "database"; // nome do banco de dados a ser utilizado
+        String host = env[0]; // endereço do servidor
+        String port = env[1]; // porta de conexão do servidor
+        String userName = env[2]; // nome do usuário para acesso ao banco
+        String password = env[3]; // senha do usuário para acesso ao banco
+        String database = env[4]; // nome do banco de dados a ser utilizado
+
         // driver de conexão
         String driver = "jdbc:postgresql://" + host + ":" + port + "/" + database;
         
