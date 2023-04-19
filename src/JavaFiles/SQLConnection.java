@@ -49,6 +49,7 @@ public class SQLConnection {
         // SQLConnection sqlConnection = new SQLConnection();
         // Connection conexao = sqlConnection.connect();
         
+        
         // executa arquivos sql passando o endereço do arquivo como parâmetro
         // String arquivoSql = "./SQL/Tabelas.sql";
         // QueryLibs.executeSqlFile(conexao, arquivoSql);

@@ -161,8 +161,7 @@ public class QueryLibs {
             } 
 
             // cabeçalho
-            System.out.println(
-                    "Usuário | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
+            System.out.println("Usuário | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
             while (result.next()) {
                 // itera sobre cada linha retornada pela consulta
                 // e extrai os valores das colunas necessárias
@@ -176,8 +175,15 @@ public class QueryLibs {
                 String centroR = result.getString("cr_nome");
 
                 // imprime os valores das colunas no terminal
-                System.out.println(usuario + " | " + hora_inicio + " | " + hora_fim + " | " + projeto + " | " + cliente
-                        + " | " + tipo + " | " + justif + " | " + centroR);
+                System.out.println(usuario
+                    + " | " + hora_inicio
+                    + " | " + hora_fim
+                    + " | " + projeto
+                    + " | " + cliente
+                    + " | " + tipo
+                    + " | " + justif
+                    + " | " + centroR
+                );
             }
         }
 
@@ -190,4 +196,47 @@ public class QueryLibs {
             return;
         }
     }
+    public static void updateTable(Connection conexao, Appointment Apt) throws SQLException {
+
+        // código sql a ser executado, passando "?" como parâmetro de valors
+        // No SQL abaixo, o ID do apontamento é o parâmentro para a atualização. O ultimo stratement é o getId, então será necessario coletar o ID do apantamento
+        //para reconhecer qual apontamento será atualizado.
+        String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, usr_id = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ? WHERE apt_id = ?";
+        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+            // substituindo os parâmetros "?" para valores desejados
+            statement.setObject(1, Date.from(Apt.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
+            statement.setObject(2, Date.from(Apt.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
+            statement.setString(3, Apt.getRequester());
+            statement.setString(4, Apt.getProject());
+            statement.setString(5, Apt.getClient());
+            statement.setString(6, Apt.getType().toString());
+            statement.setString(7, Apt.getJustification());
+            statement.setString(8, Apt.getSquad());
+            statement.setInt(9, Apt.getId());
+
+            // executa o update
+            statement.executeUpdate();
+            // exibe erros ao executar a query
+        } catch (Exception ex) {
+            System.out.println("Erro ao executar a query: " + ex.getMessage());
+        }
+    }
+    public static void deleteIdAppointment(Connection conexao, Appointment Apt) throws SQLException {
+
+        // código sql a ser executado, passando "?" como parâmetro de valors
+        // Como base no ID do apontamento ele exclui todas regristro dentro da condição "Coluna apt_id = ID do apontamento"
+        String sql = "DELETE FROM apontamento WHERE apt_id = ?";
+        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+            // substituindo os parâmetros "?" para valores desejados
+            statement.setInt(1, Apt.getId());
+
+
+            // executa o update
+            statement.executeUpdate();
+            // exibe erros ao executar a query
+        } catch (Exception ex) {
+            System.out.println("Erro ao executar a query: " + ex.getMessage());
+        }
+    }
+
 }
