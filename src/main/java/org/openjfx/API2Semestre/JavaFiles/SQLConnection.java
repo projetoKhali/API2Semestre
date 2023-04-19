@@ -1,6 +1,5 @@
 package org.openjfx.API2Semestre.JavaFiles;
 
-import java.io.IOException;
 // importando pacotes para conexão sql
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -42,20 +41,4 @@ public class SQLConnection {
         return conexao;
     }
 
-    public static void main(String[] args) throws SQLException, IOException {
-        // SQLConnection sqlConnection = new SQLConnection();
-        // Connection conexao = sqlConnection.connect();
-        
-        
-        // executa arquivos sql passando o endereço do arquivo como parâmetro
-        // String arquivoSql = "./SQL/Tabelas.sql";
-        // QueryLibs.executeSqlFile(conexao, arquivoSql);
-
-        // faz inserts na tabela
-        // QueryLibs.insertTable(conexao, apt );
-
-        // tras os apontamentos referentes ao id do usuário passado como parâmetro
-        QueryLibs.collaboratorSelect(1);
-        conexao.close();
-    }
 }
