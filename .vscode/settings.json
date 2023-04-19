@@ -12,7 +12,10 @@
         }
     ],
     
-    "java.project.sourcePaths": ["src"],
+    "java.project.sourcePaths": [
+        "src",
+        "JavaFiles"
+    ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
@@ -25,5 +28,6 @@
         "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx.web.jar",
         "c:\\Program Files\\Java\\openjfx-20_windows-x64_bin-sdk (2)\\javafx-sdk-20\\lib\\javafx-swt.jar"
     ],
-    "java.configuration.updateBuildConfiguration": "interactive"
+    "java.configuration.updateBuildConfiguration": "interactive",
+    "java.dependency.syncWithFolderExplorer": false
 }

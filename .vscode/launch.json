@@ -6,20 +6,6 @@
     "configurations": [
         {
             "type": "java",
-            "name": "SQLConnection",
-            "request": "launch",
-            "mainClass": "JavaFiles.SQLConnection",
-            "projectName": "API2Semestre_4f76aea2"
-        },
-        {
-            "type": "java",
-            "name": "SQLConnection",
-            "request": "launch",
-            "mainClass": "JavaFiles.SQLConnection",
-            "projectName": "API2Semestre_e80d4f1a"
-        },
-        {
-            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
@@ -29,7 +15,7 @@
             "name": "App",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "Teste_f3375731",
+            "projectName": "API2Semestre",
             "vmArgs": "--module-path \"C:/Program Files/Java/openjfx-20_windows-x64_bin-sdk (2)/javafx-sdk-20/lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]

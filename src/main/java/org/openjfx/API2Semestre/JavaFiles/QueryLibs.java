@@ -11,10 +11,37 @@ import java.sql.Statement;
 import java.util.Date;
 
 import org.openjfx.API2Semestre.Classes.Appointment;
+import org.openjfx.API2Semestre.Classes.AppointmentType;
 
 public class QueryLibs {
 
-    public static void simpleSelect(Connection conexao) throws SQLException {
+    
+    // Retorna a conexão com o banco de dados atualmente ativa.
+    // Caso não exista conexão, uma nova conexão é criada.
+    private static Connection getConnection () {
+        Connection conexao = SQLConnection.getConnection();
+
+        if (conexao != null) {
+            return conexao;
+        }
+
+        try {
+            SQLConnection sqlConnection = new SQLConnection();
+            conexao = sqlConnection.connect();            
+            return conexao;
+
+        } catch (Exception e) {
+            // exibe erros ao iniciar conexão caso haja
+            System.out.println("Falha ao iniciar conexão: " + e);
+            throw(e);
+        }
+
+    }
+
+    public static void simpleSelect () throws SQLException {
+
+        Connection conexao = getConnection();
+
         // método que executa um select simples
         // recebe como parâmetro uma conexão com o banco de dados
         // e pode lançar uma exceção SQLException
@@ -42,8 +69,9 @@ public class QueryLibs {
         }
     }
 
-    public static void insertTable(Connection conexao, Appointment Apt) throws SQLException {
+    public static void insertTable(Appointment Apt) throws SQLException {
 
+        Connection conexao = getConnection();
 
         // código sql a ser executado, passando "?" como parâmetro de valors
         // código sql a ser executado, passando "?" como parâmetro de valors
@@ -57,7 +85,7 @@ public class QueryLibs {
             statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
-            statement.setString(6, Apt.getType().toString());
+            statement.setBoolean(6, Apt.getType() == AppointmentType.Overtime);
             statement.setString(7, Apt.getJustification());
             statement.setString(8, Apt.getSquad());
 
@@ -69,12 +97,10 @@ public class QueryLibs {
         }
     }
 
-    public static void executeSqlFile(Connection conexao, String arquivoSql) throws SQLException, IOException {
-        // Verifica se a conexão não é nula
-        if (conexao == null) {
-            System.out.println("Conexão é nula");
-            return; // Encerra o método se a conexão for nula
-        }
+    public static void executeSqlFile(String arquivoSql) throws SQLException, IOException {
+
+        Connection conexao = getConnection();
+
         try (BufferedReader br = new BufferedReader(new FileReader(arquivoSql))) {
             String linha;
             StringBuilder sb = new StringBuilder();
@@ -91,25 +117,24 @@ public class QueryLibs {
         }
     }
 
-    public static void collaboratorSelect(Connection conexao, int usuario_id) throws SQLException, IOException {
-        // verificação se a conexão é nula
-        if (conexao == null) {
-            System.out.println("Conexão é nula");
-            return; // Encerra o método se a conexão for nula
-        }
+    public static void collaboratorSelect(int usuario_id) throws SQLException, IOException {
+        
+        Connection conexao = getConnection();
+
         // string que carrega o comando em sql
         String sql = "SELECT * FROM vw_apontamento WHERE usr_id = ?";
 
         // execução da query
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+
             // substitui "?" pelo id passado no parâmetro
             statement.setInt(1, usuario_id);
             // executa a query e salva o resultado na variável "result"
             ResultSet result = statement.executeQuery();
 
             // cabeçalho
-            System.out.println(
-                    "Usuário | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
+            System.out.println("Usuário | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
+
             while (result.next()) {
                 // itera sobre cada linha retornada pela consulta
                 // e extrai os valores das colunas necessárias
@@ -123,12 +148,22 @@ public class QueryLibs {
                 String centroR = result.getString("cr_nome");
 
                 // imprime os valores das colunas no terminal
-                System.out.println(usuario + " | " + hora_inicio + " | " + hora_fim + " | " + projeto + " | " + cliente
-                        + " | " + tipo + " | " + justif + " | " + centroR);
+                System.out.println(usuario
+                    + " | " + hora_inicio
+                    + " | " + hora_fim
+                    + " | " + projeto
+                    + " | " + cliente
+                    + " | " + tipo
+                    + " | " + justif
+                    + " | " + centroR
+                );
             }
         }
     }
-    public static void updateTable(Connection conexao, Appointment Apt) throws SQLException {
+
+    public static void updateTable(Appointment Apt) throws SQLException {
+
+        Connection conexao = getConnection();
 
         // código sql a ser executado, passando "?" como parâmetro de valors
         // No SQL abaixo, o ID do apontamento é o parâmentro para a atualização. O ultimo stratement é o getId, então será necessario coletar o ID do apantamento
@@ -153,7 +188,10 @@ public class QueryLibs {
             System.out.println("Erro ao executar a query: " + ex.getMessage());
         }
     }
-    public static void deleteIdAppointment(Connection conexao, Appointment Apt) throws SQLException {
+
+    public static void deleteIdAppointment (Appointment Apt) throws SQLException {
+
+        Connection conexao = getConnection();
 
         // código sql a ser executado, passando "?" como parâmetro de valors
         // Como base no ID do apontamento ele exclui todas regristro dentro da condição "Coluna apt_id = ID do apontamento"
@@ -170,5 +208,4 @@ public class QueryLibs {
             System.out.println("Erro ao executar a query: " + ex.getMessage());
         }
     }
-
 }
