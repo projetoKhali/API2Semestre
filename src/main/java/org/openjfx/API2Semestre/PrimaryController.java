@@ -3,8 +3,6 @@ package org.openjfx.API2Semestre;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import org.openjfx.API2Semestre.Classes.Appointment;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,6 +11,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+
+import org.openjfx.API2Semestre.Classes.Appointment;
+import org.openjfx.API2Semestre.Classes.AppointmentType;
 
 public class PrimaryController {
 
@@ -67,15 +68,34 @@ public class PrimaryController {
     @FXML
     private TableView<Appointment> tabela;
     
+    @FXML
     public void initialize(URL url, ResourceBundle resourceBundle){
-        col_squad.setCellValueFactory(new PropertyValueFactory<Appointment, String>("squad"));
-                
+        col_squad.setCellValueFactory(new PropertyValueFactory<>("squad"));
     }
-    
-    void bt_horaExtra(ActionEvent event){
-        // Appointment _appointment = new Appointment(cx_squad.getText(), cx_dataInicio.getValue(), cx_horaInicio.getText(),
-        //         cx_dataFinal.getValue(), cx_horaFinal.getText(), cx_cliente.getText(), cx_projeto.getText(), cx_justificativa.getText());
-                
+
+    @FXML
+    void inputHoraExtra(ActionEvent event){
+        inputAppointment(AppointmentType.Overtime);
+    }
+
+    @FXML
+    void inputSobreaviso(ActionEvent event) {
+        inputAppointment(AppointmentType.OnNotice);
+    }
+
+    void inputAppointment (AppointmentType type) {
+        Appointment appointment = new Appointment(
+            "Fulano",
+            type,
+            DateConverter.inputToTimestamp(cx_dataInicio.getValue(),cx_horaInicio.getText()),
+            DateConverter.inputToTimestamp(cx_dataFinal.getValue(),cx_horaFinal.getText()),
+            cx_squad.getText(),
+            cx_cliente.getText(),
+            cx_projeto.getText(),
+            cx_justificativa.getText()
+        );
+        System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
+        // QueryLibs.insertTable(null, appointment);
     }
 
 }
