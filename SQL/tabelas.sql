@@ -6,8 +6,8 @@
 -- apontamento
 CREATE TABLE IF NOT EXISTS apontamento(
     apt_id serial NOT NULL,
-    hora_inicio TIME null,
-    hora_fim TIME null,
+    hora_inicio TIMESTAMP null,
+    hora_fim TIMESTAMP null,
     usr_id INT NULL,
     projeto VARCHAR NULL,
     cliente VARCHAR NULL,

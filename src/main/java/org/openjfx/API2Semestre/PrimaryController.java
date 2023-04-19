@@ -2,6 +2,7 @@ package org.openjfx.API2Semestre;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,12 +11,9 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+
 import org.openjfx.API2Semestre.Classes.Appointment;
 import org.openjfx.API2Semestre.Classes.AppointmentType;
-import org.openjfx.API2Semestre.JavaFiles.QueryLibs;
-
-import static org.openjfx.API2Semestre.Classes.AppointmentType.OnNotice;
-import static org.openjfx.API2Semestre.Classes.AppointmentType.Overtime;
 
 public class PrimaryController {
 
@@ -77,12 +75,12 @@ public class PrimaryController {
 
     @FXML
     void inputHoraExtra(ActionEvent event){
-        inputAppointment(Overtime);
+        inputAppointment(AppointmentType.Overtime);
     }
 
     @FXML
     void inputSobreaviso(ActionEvent event) {
-        inputAppointment(OnNotice);
+        inputAppointment(AppointmentType.OnNotice);
     }
 
     void inputAppointment (AppointmentType type) {

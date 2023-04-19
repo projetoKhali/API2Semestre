@@ -75,7 +75,7 @@ public class Appointment {
     /// Métodos de acesso "SET" das variaveis do apontamento para modificar os valores
     // public void setId (int id) { this.id = id; }
     // public void setType (AppointmentType type) { this.type = type; }
-    // public void setRequester (int requester) { this.requester = requester; }
+    // public void setRequester (String requester) { this.requester = requester; }
     // public void setStartDate (Date startDate) { this.startDate = startDate; }
     // public void setEndDate (Date endDate) { this.endDate = endDate; }
     // public void setSquad (String squad) { this.squad = squad; }
