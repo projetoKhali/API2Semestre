@@ -1,4 +1,4 @@
-package JavaFiles;
+package org.openjfx.API2Semestre.JavaFiles;
 
 import java.io.IOException;
 // importando pacotes para conexão sql
@@ -8,8 +8,8 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-import Classes.Appointment;
-import Classes.AppointmentType;
+import org.openjfx.API2Semestre.Classes.Appointment;
+import org.openjfx.API2Semestre.Classes.AppointmentType;
 
 public class SQLConnection {
 
@@ -24,10 +24,10 @@ public class SQLConnection {
     static Connection conexao;
 
     // método de conexão com banco
-    public Connection connect(){
+    public Connection connect () {
         try {
             //carrega a classe do driver do PostgreSQL na memória permitindo comunicação com o banco de dados
-            Class.forName("org.postgresql.Driver");
+            Class.forName("Khali.postgresql.Driver");
 
             // objeto "conexao" para execução de comandos SQL
             conexao = DriverManager.getConnection(driver, userName, password);
@@ -41,7 +41,7 @@ public class SQLConnection {
         return conexao;
     }
 
-    public static void main(String[] args) throws SQLException, IOException {
+    public static void main (String[] args) throws SQLException, IOException {
         SQLConnection sqlConnection = new SQLConnection();
         Connection conexao = sqlConnection.connect();
 
@@ -62,10 +62,10 @@ public class SQLConnection {
     //     // QueryLibs.executeSqlFile(conexao, arquivoSql);
 
         // faz inserts na tabela
-        // QueryLibs.insertTable(conexao, apt );
+        QueryLibs.insertTable(conexao, apt );
 
     //     // tras os apontamentos referentes ao id do usuário passado como parâmetro
     //     QueryLibs.collaboratorSelect(conexao, 1);
     //     conexao.close();
-    // }
+    }
 }

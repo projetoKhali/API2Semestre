@@ -1,4 +1,4 @@
-package JavaFiles;
+package org.openjfx.API2Semestre.JavaFiles;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,8 +8,9 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Statement;
+import java.util.Date;
 
-import Classes.Appointment;
+import org.openjfx.API2Semestre.Classes.Appointment;
 
 public class QueryLibs {
 
@@ -43,6 +44,7 @@ public class QueryLibs {
 
     public static void insertTable(Connection conexao, Appointment Apt) throws SQLException {
 
+
         // código sql a ser executado, passando "?" como parâmetro de valors
         // código sql a ser executado, passando "?" como parâmetro de valors
         String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -55,7 +57,7 @@ public class QueryLibs {
             statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
-            statement.setString(6, Apt.getType() == AppointmentType.Overtime);
+            statement.setString(6, Apt.getType().toString());
             statement.setString(7, Apt.getJustification());
             statement.setString(8, Apt.getSquad());
 
@@ -100,7 +102,6 @@ public class QueryLibs {
 
         // execução da query
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-
             // substitui "?" pelo id passado no parâmetro
             statement.setInt(1, usuario_id);
             // executa a query e salva o resultado na variável "result"
@@ -135,8 +136,8 @@ public class QueryLibs {
         String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, usr_id = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ? WHERE apt_id = ?";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
-            statement.setObject(1, Date.from(Apt.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
-            statement.setObject(2, Date.from(Apt.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
+            statement.setObject(1, Date.from(Apt.getStartDate().toInstant()));
+            statement.setObject(2, Date.from(Apt.getEndDate().toInstant()));
             statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
