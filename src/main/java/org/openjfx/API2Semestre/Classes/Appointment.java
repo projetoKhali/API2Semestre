@@ -6,7 +6,8 @@ import java.sql.Timestamp;
 /// Utilizado para facilitar a conversação entre os sistemas dentro do código. 
 public class Appointment {
     private Integer id;                 // Identificação unica do apontamento.
-    private int requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
+    // private int requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
+    private String requester;
     private AppointmentType type;   // Tipo de apontamento: Hora-Extra / Sobreaviso.
     private Timestamp startDate;       // Data de início do apontamento.
     private Timestamp endDate;           // Data de término do apontamento.
@@ -17,7 +18,7 @@ public class Appointment {
 
     /// Cria uma nova instancia de apontamento
     public Appointment (
-        int requester,
+        String requester,
         AppointmentType type,
         Timestamp startDate,
         Timestamp endDate,
@@ -40,7 +41,7 @@ public class Appointment {
     /// Carrega uma instancia de apontamento existente
     public Appointment (
         int id,
-        int requester,
+        String requester,
         AppointmentType type,
         Timestamp startDate,
         Timestamp endDate,
@@ -63,7 +64,7 @@ public class Appointment {
     /// Métodos de acesso "GET" das variaveis do apontamento.
     public Integer getId() { return id; }
     public AppointmentType getType() { return type; }
-    public int getRequester() { return requester; }
+    public String getRequester() { return requester; }
     public Timestamp getStartDate() { return startDate; }
     public Timestamp getEndDate() { return endDate; }
     public String getSquad() { return squad; }
@@ -74,7 +75,7 @@ public class Appointment {
     /// Métodos de acesso "SET" das variaveis do apontamento para modificar os valores
     // public void setId (int id) { this.id = id; }
     // public void setType (AppointmentType type) { this.type = type; }
-    // public void setRequester (int requester) { this.requester = requester; }
+    // public void setRequester (String requester) { this.requester = requester; }
     // public void setStartDate (Date startDate) { this.startDate = startDate; }
     // public void setEndDate (Date endDate) { this.endDate = endDate; }
     // public void setSquad (String squad) { this.squad = squad; }

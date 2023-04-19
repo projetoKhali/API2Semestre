@@ -24,7 +24,7 @@ public class SQLConnection {
     static Connection conexao;
 
     // método de conexão com banco
-    public Connection connect(){
+    public Connection connect () {
         try {
             //carrega a classe do driver do PostgreSQL na memória permitindo comunicação com o banco de dados
             Class.forName("Khali.postgresql.Driver");
@@ -41,12 +41,12 @@ public class SQLConnection {
         return conexao;
     }
 
-    public static void main(String[] args) throws SQLException, IOException {
+    public static void main (String[] args) throws SQLException, IOException {
         SQLConnection sqlConnection = new SQLConnection();
         Connection conexao = sqlConnection.connect();
 
             Appointment apt = new Appointment(
-                1,
+                "Fulano",
                 AppointmentType.Overtime,
                 Timestamp.valueOf(LocalDateTime.of(2009, 12, 25, 10, 07, 59)),
                 Timestamp.valueOf(LocalDateTime.of(2009, 12, 25, 11, 07, 59)),
@@ -67,5 +67,5 @@ public class SQLConnection {
     //     // tras os apontamentos referentes ao id do usuário passado como parâmetro
     //     QueryLibs.collaboratorSelect(conexao, 1);
     //     conexao.close();
-    // }
+    }
 }

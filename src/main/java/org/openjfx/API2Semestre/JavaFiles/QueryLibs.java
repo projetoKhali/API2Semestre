@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Statement;
+import java.util.Date;
 
 import org.openjfx.API2Semestre.Classes.Appointment;
 
@@ -53,7 +54,7 @@ public class QueryLibs {
             // System.out.println(Apt.getStartDate());
             statement.setTimestamp(1, Apt.getStartDate());
             statement.setTimestamp(2, Apt.getEndDate());
-            statement.setInt(3, Apt.getRequester());
+            statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
             statement.setString(6, Apt.getType().toString());
@@ -135,8 +136,8 @@ public class QueryLibs {
         String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, usr_id = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ? WHERE apt_id = ?";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
-            statement.setObject(1, Date.from(Apt.getStartDate().atZone(ZoneId.systemDefault()).toInstant()));
-            statement.setObject(2, Date.from(Apt.getEndDate().atZone(ZoneId.systemDefault()).toInstant()));
+            statement.setObject(1, Date.from(Apt.getStartDate().toInstant()));
+            statement.setObject(2, Date.from(Apt.getEndDate().toInstant()));
             statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
