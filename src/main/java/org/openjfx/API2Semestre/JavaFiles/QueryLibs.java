@@ -15,44 +15,43 @@ import org.openjfx.API2Semestre.Classes.AppointmentType;
 
 public class QueryLibs {
 
-    
-    // Retorna a conexão com o banco de dados atualmente ativa.
-    // Caso não exista conexão, uma nova conexão é criada.
+    /// Retorna a conexão com o banco de dados atualmente ativa.
+    /// Caso não exista conexão, uma nova conexão é criada.
     private static Connection getConnection () {
+        
+        // Chama SQLConnection.getConnection() para retornar a conexão caso haja uma salva atualmente
         Connection conexao = SQLConnection.getConnection();
 
+        // Se a conexão não for nula, retorna
         if (conexao != null) {
             return conexao;
-        }
-
-        try {
-            SQLConnection sqlConnection = new SQLConnection();
-            conexao = sqlConnection.connect();            
-            return conexao;
-
-        } catch (Exception e) {
-            // exibe erros ao iniciar conexão caso haja
-            // System.out.println("Falha ao iniciar conexão: " + e);
+        
+        // Não existe uma conexão previamente estabelecida, cria uma nova e retorna
+        } try {
+            return new SQLConnection().connect();
+        
+        // Em caso de erro ao estabelecer uma nova conexão
+        } catch (Exception ex) {
             // throw(e);
-            e.printStackTrace();
+
+            System.out.println("QueryLibs.getConnection() -- Erro: Falha ao iniciar conexão!");
+            ex.printStackTrace();
             return null;
         }
 
     }
 
-    public static void simpleSelect () throws SQLException {
-
+    /// Método que executa um select simples dos apontametos de um usuário.
+    /// Pode lançar uma exceção SQLException.
+    public static void simpleSelect (String requester) throws SQLException {
         Connection conexao = getConnection();
 
-        // método que executa um select simples
-        // recebe como parâmetro uma conexão com o banco de dados
-        // e pode lançar uma exceção SQLException
-
         // string que carrega o comando em sql
-        String sql = "SELECT * FROM tabela";
+        String sql = "SELECT * FROM apontamento WHERE requester = ?";
 
         // execução da query
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+            statement.setString(1, requester);
             // prepara a declaração SQL para ser executada usando a conexão fornecida
             // e executa a consulta
             ResultSet result = statement.executeQuery();
@@ -71,13 +70,13 @@ public class QueryLibs {
         }
     }
 
-    public static void insertTable(Appointment Apt) throws SQLException {
+    /// Insere um apontamento no banco de dados.
+    public static void insertTable (Appointment Apt) throws SQLException {
 
         Connection conexao = getConnection();
 
         // código sql a ser executado, passando "?" como parâmetro de valors
-        // código sql a ser executado, passando "?" como parâmetro de valors
-        String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, usr_id, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, requester, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
             // statement.setInt(1, Apt.getId());
@@ -93,38 +92,46 @@ public class QueryLibs {
 
             // executa o update
             statement.executeUpdate();
-            // exibe erros ao executar a query
+
+        // exibe erros ao executar a query
         } catch (Exception ex) {
-            System.out.println("Erro ao executar a query: " + ex.getMessage());
+            System.out.println("QueryLibs.insertTable() -- Erro: Falha na execução da Query!");
+            ex.printStackTrace();
         }
     }
 
-    public static void executeSqlFile(String arquivoSql) throws SQLException, IOException {
-
+    /// Executa um arquivo SQL no caminho especificado.
+    public static void executeSqlFile (String file_path) throws SQLException, IOException {
         Connection conexao = getConnection();
 
-        try (BufferedReader br = new BufferedReader(new FileReader(arquivoSql))) {
-            String linha;
+        // Abre o arquivo e inicializa um StringBuilder para a leitura dos comandos SQL
+        try (BufferedReader br = new BufferedReader(new FileReader(file_path))) {
             StringBuilder sb = new StringBuilder();
+            String linha;
+
+            // Lê a próxima linha. Repete enquanto linha não for nula
             while ((linha = br.readLine()) != null) {
-                // adiciona a linha ao StringBuilder
-                sb.append(linha);
-                sb.append(System.lineSeparator()); // Adiciona quebra de linha ao final de cada linha lida
+
+                // adiciona a linha ao StringBuilder e quebra de linha ao final
+                sb.append(linha).append(System.lineSeparator());
             }
-            String sql = sb.toString(); // Converte o StringBuilder em uma String
+
+            // Converte o StringBuilder em uma String
+            String sql = sb.toString();
+            
+            // executa as instruções SQL contidas no arquivo
             try (Statement statement = conexao.createStatement()) {
-                // executa as instruções SQL contidas no arquivo
                 statement.execute(sql);
             }
         }
     }
 
-    public static void collaboratorSelect(int usuario_id) throws SQLException, IOException {
+    public static void collaboratorSelect (int usuario_id) throws SQLException, IOException {
         
         Connection conexao = getConnection();
 
         // string que carrega o comando em sql
-        String sql = "SELECT * FROM vw_apontamento WHERE usr_id = ?";
+        String sql = "SELECT * FROM vw_apontamento WHERE requester = ?";
 
         // execução da query
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
@@ -163,7 +170,8 @@ public class QueryLibs {
         }
     }
 
-    public static void updateTable(Appointment Apt) throws SQLException {
+    /// Atualiza um apontamento no banco de dados.
+    public static void updateTable (Appointment Apt) throws SQLException {
 
         Connection conexao = getConnection();
 
@@ -185,12 +193,15 @@ public class QueryLibs {
 
             // executa o update
             statement.executeUpdate();
-            // exibe erros ao executar a query
+
+        // exibe erros ao executar a query
         } catch (Exception ex) {
-            System.out.println("Erro ao executar a query: " + ex.getMessage());
+            System.out.println("QueryLibs.updateTable() -- Erro: Falha na execução da Query!");
+            ex.printStackTrace();
         }
     }
 
+    /// Remove um apontamento do banco de dados.
     public static void deleteIdAppointment (Appointment Apt) throws SQLException {
 
         Connection conexao = getConnection();
@@ -199,15 +210,17 @@ public class QueryLibs {
         // Como base no ID do apontamento ele exclui todas regristro dentro da condição "Coluna apt_id = ID do apontamento"
         String sql = "DELETE FROM apontamento WHERE apt_id = ?";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+
             // substituindo os parâmetros "?" para valores desejados
             statement.setInt(1, Apt.getId());
 
-
             // executa o update
             statement.executeUpdate();
-            // exibe erros ao executar a query
+
+        // exibe erros ao executar a query
         } catch (Exception ex) {
-            System.out.println("Erro ao executar a query: " + ex.getMessage());
+            System.out.println("QueryLibs.deleteIdAppointment() -- Erro: Falha na execução da Query!");
+            ex.printStackTrace();
         }
     }
 }
