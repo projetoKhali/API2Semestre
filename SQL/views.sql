@@ -3,7 +3,7 @@
 -- Código para criação de views (visualizações das tabelas físicas)
 -- O código pode ser executado em qualqer ordem
 
-CREATE OR REPLACE VIEW vw_apontamento 
+CREATE OR REPLACE VIEW public.vw_apontamento 
 AS SELECT
     apontamento.apt_id,
     apontamento.hora_inicio,
@@ -15,14 +15,19 @@ AS SELECT
     apontamento.tipo,
     apontamento.justificativa,
     apontamento.cr_id,
-    centro_resultado.nome as cr_nome
+    centro_resultado.nome as cr_nome,
+    CASE 
+        WHEN apontamento.aprovacao = 0 THEN 'Pendente',
+        WHEN apontamento.aprovacao = 1 THEN 'Aprovado',
+        ELSE 'Reproved' END AS aprovacao
+
     FROM apontamento
     -- fazendo join com as tabelas usuário, projeto e cliente.
     JOIN usuario ON apontamento.requester = usuario.nome
     JOIN centro_resultado on apontamento.cr_id = centro_resultado.cr_id;
 
 -- usuário
-CREATE OR REPLACE VIEW vw_usuario 
+CREATE OR REPLACE VIEW public.vw_usuario 
 AS SELECT
     usuario.usr_id,
     usuario.nome,
@@ -35,7 +40,7 @@ AS SELECT
 -- INSERT INTO apontamento (hora_inicio,hora_fim,usr_id,projeto,cliente,tipo,justificativa,cr_id)
 -- VALUES ('12:12:12','13:13:13',1,'api','2rp','hora extra','nota',1);
 
-CREATE OR REPLACE VIEW vw_avaliacao
+CREATE OR REPLACE VIEW public.vw_avaliacao
 AS SELECT
     avaliacao.apv_id,
     apontamento.apt_id,
@@ -51,7 +56,7 @@ AS SELECT
     JOIN usuario ON avaliacao.usr_id = usuario.usr_id;
 
 
-CREATE OR REPLACE VIEW vw_centro_resultado
+CREATE OR REPLACE VIEW public.vw_centro_resultado
 AS SELECT
     centro_resultado.cr_id,
     centro_resultado.nome
