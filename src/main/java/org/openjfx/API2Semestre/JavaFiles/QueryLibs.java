@@ -67,7 +67,10 @@ public class QueryLibs {
                 // imprime os valores das colunas no terminal
                 System.out.println(coluna1 + " | " + coluna2 + " | " + coluna3);
             }
+        }catch (Exception e) {
+            System.out.println("Erro ao executar query: " + e);
         }
+        conexao.close();
     }
 
     /// Insere um apontamento no banco de dados.
@@ -76,7 +79,7 @@ public class QueryLibs {
         Connection conexao = getConnection();
 
         // código sql a ser executado, passando "?" como parâmetro de valors
-        String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, requester, projeto, cliente, tipo, justificativa, cr_id) values (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, requester, projeto, cliente, tipo, justificativa, cr_id, aprovacao) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
             // statement.setInt(1, Apt.getId());
@@ -89,9 +92,14 @@ public class QueryLibs {
             statement.setBoolean(6, Apt.getType() == AppointmentType.Overtime);
             statement.setString(7, Apt.getJustification());
             statement.setString(8, Apt.getSquad());
+            statement.setInt(9, Apt.getAprovacao());
 
             // executa o update
             statement.executeUpdate();
+
+            // envia mudanças para conexão remota
+            conexao.commit();
+            conexao.close();
 
         // exibe erros ao executar a query
         } catch (Exception ex) {
@@ -122,7 +130,12 @@ public class QueryLibs {
             // executa as instruções SQL contidas no arquivo
             try (Statement statement = conexao.createStatement()) {
                 statement.execute(sql);
+                // envia mudanças para conexão remota
+                conexao.commit();
+            } catch (Exception e){
+                System.out.println("erro ao executar query: " + e);
             }
+            conexao.close();
         }
     }
 
@@ -155,6 +168,7 @@ public class QueryLibs {
                 String tipo = result.getString("tipo");
                 String justif = result.getString("justificativa");
                 String centroR = result.getString("cr_nome");
+                String aprovacao = result.getString("aprovacao");
 
                 // imprime os valores das colunas no terminal
                 System.out.println(usuario
@@ -165,9 +179,12 @@ public class QueryLibs {
                     + " | " + tipo
                     + " | " + justif
                     + " | " + centroR
+                    + " | " + aprovacao
                 );
             }
         }
+        // fecha a conexão
+        conexao.close();
     }
 
     /// Atualiza um apontamento no banco de dados.
@@ -194,6 +211,9 @@ public class QueryLibs {
             // executa o update
             statement.executeUpdate();
 
+            conexao.commit();
+            conexao.close();
+
         // exibe erros ao executar a query
         } catch (Exception ex) {
             System.out.println("QueryLibs.updateTable() -- Erro: Falha na execução da Query!");
@@ -216,6 +236,9 @@ public class QueryLibs {
 
             // executa o update
             statement.executeUpdate();
+
+            conexao.commit();
+            conexao.close();
 
         // exibe erros ao executar a query
         } catch (Exception ex) {

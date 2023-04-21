@@ -15,6 +15,7 @@ public class Appointment {
     private String client;          // Nome do cliente para qual o solicitante está prestando serviço nesse apontamento. TODO: remover cliente do apontamento pois futuramente consegue ser acessado dentro de "project".
     private String project;         // Nome do projeto para qual o solicitante está prestando serviço.
     private String justification;   // Justificativa fornecida pelo solicitante para prestar esta Hora-Extra ou Sobreaviso.
+    private int aprovacao;
 
     /// Cria uma nova instancia de apontamento
     public Appointment (
@@ -71,6 +72,7 @@ public class Appointment {
     public String getClient() { return client; }
     public String getProject() { return project; }
     public String getJustification() { return justification; }
+    public int getAprovacao() { return aprovacao; }
 
     /// Métodos de acesso "SET" das variaveis do apontamento para modificar os valores
     // public void setId (int id) { this.id = id; }
@@ -82,5 +84,6 @@ public class Appointment {
     // public void setClient (String client) { this.client = client; }
     // public void setProject (String project) { this.project = project; }
     // public void setJustification (String justification) { this.justification = justification; }
+    // public int setAprovacao(int status) { return aprovacao; }
 
 }
