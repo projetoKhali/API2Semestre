@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import org.openjfx.API2Semestre.Classes.Appointment;
 import org.openjfx.API2Semestre.Classes.AppointmentType;
+import org.openjfx.API2Semestre.JavaFiles.QueryLibs;
 
 public class PrimaryController {
 
@@ -95,7 +96,7 @@ public class PrimaryController {
             cx_justificativa.getText()
         );
         System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
-        // QueryLibs.insertTable(null, appointment);
+        QueryLibs.insertTable(appointment);
     }
 
 }
