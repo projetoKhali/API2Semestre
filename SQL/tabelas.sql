@@ -4,22 +4,23 @@
 -- O código pode ser executado em qualqer ordem
 
 -- apontamento
-CREATE TABLE IF NOT EXISTS apontamento(
+CREATE TABLE IF NOT EXISTS public.apontamento(
     apt_id serial NOT NULL,
     hora_inicio TIMESTAMP null,
     hora_fim TIMESTAMP null,
     requester VARCHAR NULL,
     projeto VARCHAR NULL,
     cliente VARCHAR NULL,
-    tipo VARCHAR NULL,
+    tipo BOOLEAN NULL,
     justificativa VARCHAR NULL,
     cr_id VARCHAR NULL,
+    aprovacao INT 0,
     
     CONSTRAINT apontamento_pkey PRIMARY KEY (apt_id)
 );
 
 -- usuário
-CREATE TABLE IF NOT EXISTS usuario(
+CREATE TABLE IF NOT EXISTS public.usuario(
     usr_id serial NOT NULL,
     nome VARCHAR NULL,
     email VARCHAR NULL,
@@ -31,19 +32,8 @@ CREATE TABLE IF NOT EXISTS usuario(
     CONSTRAINT usuario_pkey PRIMARY KEY (usr_id)
 );
 
--- aprovação do gestor
-CREATE TABLE IF NOT EXISTS avaliacao(
-    apv_id serial NOT NULL,
-    apt_id INT NULL,
-    usr_id INT NULL, -- usuário do gestor
-    aprovado BOOLEAN DEFAULT FALSE,
-    data_verificacao date DEFAULT now(),
-
-    CONSTRAINT avaliacao_pkey PRIMARY KEY (apv_id)
-);
-
 -- centro de resultado
-CREATE TABLE IF NOT EXISTS centro_resultado(
+CREATE TABLE IF NOT EXISTS public.centro_resultado(
     cr_id serial NOT NULL,
     nome VARCHAR NULL,
 

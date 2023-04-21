@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.time.LocalDate;
 
 import org.openjfx.API2Semestre.DateConverter;
@@ -37,7 +38,6 @@ public class SQLConnection {
         BufferedReader br = null;
         try {
             br = new BufferedReader(new FileReader("./.env"));
-            
             // loop through the array "env" and overwrite it's contents with the file's contents.
             // each line contains "field:value", we extract only the value by doing a split on ":" 
             // and accessing the index 1 of the result. If we reach the end of the file while trying to
@@ -69,6 +69,7 @@ public class SQLConnection {
 
             // objeto "conexao" para execução de comandos SQL
             conexao = DriverManager.getConnection(driver, userName, password);
+            conexao.setAutoCommit(false);
 
         // tratamento de erros
         } catch (ClassNotFoundException ex) {
@@ -79,6 +80,7 @@ public class SQLConnection {
             ex.printStackTrace();
         } 
         return conexao;
+
     }
 
     public static void main(String[] args) throws SQLException, IOException {
@@ -93,7 +95,7 @@ public class SQLConnection {
         
         
         // executa arquivos sql passando o endereço do arquivo como parâmetro
-        QueryLibs.executeSqlFile("./SQL/Tabelas.sql");
+        // QueryLibs.executeSqlFile("./SQL/Tabelas.sql");
 
         // teste
         Appointment apt = new Appointment(
@@ -101,19 +103,19 @@ public class SQLConnection {
             AppointmentType.Overtime,
             DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
             DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-            "squadx",
-            "clienteteste",
-            "projetoteste",
-            "tinha uns trampo"
+            "khali",
+            "2rp",
+            "api2sem",
+            "paulo chamou"
         );
 
         // Erro ao executar a query: ERROR: column "requester" of relation "apontamento" does not exist
         //      Posição: 49
         // Erro ao executar a query: ERROR: column "usr_id" is of type integer but expression is of type character varying
         //      Dica: You will need to rewrite or cast the expression.
-        //      Posição: 119
+        // //      Posição: 119
         QueryLibs.insertTable(apt);
-        QueryLibs.simpleSelect("testemtloko");
+        // QueryLibs.simpleSelect("testemtloko");
 
         // tras os apontamentos referentes ao id do usuário passado como parâmetro
         // QueryLibs.collaboratorSelect(1);
