@@ -1,4 +1,4 @@
-package org.openjfx.API2Semestre.Classes;
+package org.openjfx.api2semestre.classes;
 
 /// Define o tipo de apontamento entre Hora-Extra ou Sobreaviso
 public enum AppointmentType {

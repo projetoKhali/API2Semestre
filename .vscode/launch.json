@@ -8,8 +8,8 @@
             "type": "java",
             "name": "SQLConnection",
             "request": "launch",
-            "mainClass": "org.openjfx.API2Semestre/org.openjfx.API2Semestre.JavaFiles.SQLConnection",
-            "projectName": "API2Semestre"
+            "mainClass": "org.openjfx.api2semestre/org.openjfx.api2semestre.JavaFiles.SQLConnection",
+            "projectName": "api2semestre"
         },
         {
             "type": "java",
@@ -22,7 +22,7 @@
             "name": "App",
             "request": "launch",
             "mainClass": "App",
-            "projectName": "API2Semestre",
+            "projectName": "api2semestre",
             "vmArgs": "--module-path \"C:/Program Files/Java/openjfx-20_windows-x64_bin-sdk (2)/javafx-sdk-20/lib\" --add-modules javafx.controls,javafx.fxml"
         }
     ]

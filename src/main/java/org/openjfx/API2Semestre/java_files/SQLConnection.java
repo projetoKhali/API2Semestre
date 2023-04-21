@@ -1,4 +1,4 @@
-package org.openjfx.API2Semestre.JavaFiles;
+package org.openjfx.api2semestre.java_files;
 
 // importando pacotes para leitura de arquivo
 import java.io.BufferedReader;
@@ -9,11 +9,11 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDate;
+// import java.time.LocalDate;
 
-import org.openjfx.API2Semestre.DateConverter;
-import org.openjfx.API2Semestre.Classes.Appointment;
-import org.openjfx.API2Semestre.Classes.AppointmentType;
+// import org.openjfx.api2semestre.DateConverter;
+// import org.openjfx.api2semestre.classes.Appointment;
+// import org.openjfx.api2semestre.classes.AppointmentType;
 
 public class SQLConnection {
 
@@ -41,7 +41,7 @@ public class SQLConnection {
             // loop through the array "env" and overwrite it's contents with the file's contents.
             // each line contains "field:value", we extract only the value by doing a split on ":" 
             // and accessing the index 1 of the result. If we reach the end of the file while trying to
-            // call br.readline(), we catch the exepction
+            // call br.readline(), we catch the exception
             for (int i = 0; i < env.length; i++) {
                 env[i] = br.readLine().split(":")[1];                
             }
@@ -81,44 +81,44 @@ public class SQLConnection {
         return conexao;
     }
 
-    public static void main(String[] args) throws SQLException, IOException {
-        // SQLConnection sqlConnection = new SQLConnection();
-        // Connection conexao = sqlConnection.connect();
+    // public static void main(String[] args) throws SQLException, IOException {
+    //     // SQLConnection sqlConnection = new SQLConnection();
+    //     // Connection conexao = sqlConnection.connect();
 
-        // if (conexao != null) {
-        //     System.out.println("Conexão feita com sucesso!");
-        // } else {
-        //     System.out.println("Falha ao se conectar ao Banco de dados");
-        // }
+    //     // if (conexao != null) {
+    //     //     System.out.println("Conexão feita com sucesso!");
+    //     // } else {
+    //     //     System.out.println("Falha ao se conectar ao Banco de dados");
+    //     // }
         
         
-        // executa arquivos sql passando o endereço do arquivo como parâmetro
-        QueryLibs.executeSqlFile("./SQL/Tabelas.sql");
+    //     // executa arquivos sql passando o endereço do arquivo como parâmetro
+    //     // QueryLibs.executeSqlFile("./SQL/Tabelas.sql");
 
-        // teste
-        Appointment apt = new Appointment(
-            "testemtloko",
-            AppointmentType.Overtime,
-            DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-            DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-            "squadx",
-            "clienteteste",
-            "projetoteste",
-            "tinha uns trampo"
-        );
+    //     // teste
+    //     Appointment apt = new Appointment(
+    //         "testemtloko",
+    //         AppointmentType.Overtime,
+    //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+    //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+    //         "squadx",
+    //         "clienteteste",
+    //         "projetoteste",
+    //         "tinha uns trampo"
+    //     );
 
-        // Erro ao executar a query: ERROR: column "requester" of relation "apontamento" does not exist
-        //      Posição: 49
-        // Erro ao executar a query: ERROR: column "usr_id" is of type integer but expression is of type character varying
-        //      Dica: You will need to rewrite or cast the expression.
-        //      Posição: 119
-        QueryLibs.insertTable(apt);
-        QueryLibs.simpleSelect("testemtloko");
+    //     // Erro ao executar a query: ERROR: column "requester" of relation "apontamento" does not exist
+    //     //      Posição: 49
+    //     // Erro ao executar a query: ERROR: column "usr_id" is of type integer but expression is of type character varying
+    //     //      Dica: You will need to rewrite or cast the expression.
+    //     //      Posição: 119
+    //     QueryLibs.insertTable(apt);
+    //     QueryLibs.simpleSelect("testemtloko");
 
-        // tras os apontamentos referentes ao id do usuário passado como parâmetro
-        // QueryLibs.collaboratorSelect(1);
-        if (conexao != null) {
-            conexao.close();
-        }
-    }
+    //     // tras os apontamentos referentes ao id do usuário passado como parâmetro
+    //     // QueryLibs.collaboratorSelect(1);
+    //     if (conexao != null) {
+    //         conexao.close();
+    //     }
+    // }
 }

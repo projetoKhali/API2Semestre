@@ -1,4 +1,4 @@
-package org.openjfx.API2Semestre;
+package org.openjfx.api2semestre;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -32,6 +32,7 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+        System.setProperty("javafx.fxml.debug", "true");
         launch();
     }
 

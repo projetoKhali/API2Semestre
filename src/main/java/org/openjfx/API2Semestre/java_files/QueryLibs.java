@@ -1,4 +1,4 @@
-package org.openjfx.API2Semestre.JavaFiles;
+package org.openjfx.api2semestre.java_files;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -10,8 +10,8 @@ import java.io.IOException;
 import java.sql.Statement;
 import java.util.Date;
 
-import org.openjfx.API2Semestre.Classes.Appointment;
-import org.openjfx.API2Semestre.Classes.AppointmentType;
+import org.openjfx.api2semestre.classes.Appointment;
+import org.openjfx.api2semestre.classes.AppointmentType;
 
 public class QueryLibs {
 
