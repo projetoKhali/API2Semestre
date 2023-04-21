@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "SQLConnection",
+            "request": "launch",
+            "mainClass": "org.openjfx.API2Semestre/org.openjfx.API2Semestre.JavaFiles.SQLConnection",
+            "projectName": "API2Semestre"
+        },
+        {
+            "type": "java",
             "name": "Current File",
             "request": "launch",
             "mainClass": "${file}"
