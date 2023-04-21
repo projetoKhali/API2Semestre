@@ -17,20 +17,22 @@ public class QueryLibs {
 
     /// Retorna a conexão com o banco de dados atualmente ativa.
     /// Caso não exista conexão, uma nova conexão é criada.
-    private static Connection getConnection () {
-        
-        // Chama SQLConnection.getConnection() para retornar a conexão caso haja uma salva atualmente
+    private static Connection getConnection() {
+
+        // Chama SQLConnection.getConnection() para retornar a conexão caso haja uma
+        // salva atualmente
         Connection conexao = SQLConnection.getConnection();
 
         // Se a conexão não for nula, retorna
         if (conexao != null) {
             return conexao;
-        
-        // Não existe uma conexão previamente estabelecida, cria uma nova e retorna
-        } try {
+
+            // Não existe uma conexão previamente estabelecida, cria uma nova e retorna
+        }
+        try {
             return new SQLConnection().connect();
-        
-        // Em caso de erro ao estabelecer uma nova conexão
+
+            // Em caso de erro ao estabelecer uma nova conexão
         } catch (Exception ex) {
             // throw(e);
 
@@ -43,7 +45,7 @@ public class QueryLibs {
 
     /// Método que executa um select simples dos apontametos de um usuário.
     /// Pode lançar uma exceção SQLException.
-    public static void simpleSelect (String requester) throws SQLException {
+    public static void simpleSelect(String requester) throws SQLException {
         Connection conexao = getConnection();
 
         // string que carrega o comando em sql
@@ -67,14 +69,14 @@ public class QueryLibs {
                 // imprime os valores das colunas no terminal
                 System.out.println(coluna1 + " | " + coluna2 + " | " + coluna3);
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("Erro ao executar query: " + e);
         }
         conexao.close();
     }
 
     /// Insere um apontamento no banco de dados.
-    public static void insertTable (Appointment Apt) throws SQLException {
+    public static void insertTable(Appointment Apt) throws SQLException {
 
         Connection conexao = getConnection();
 
@@ -101,7 +103,7 @@ public class QueryLibs {
             conexao.commit();
             conexao.close();
 
-        // exibe erros ao executar a query
+            // exibe erros ao executar a query
         } catch (Exception ex) {
             System.out.println("QueryLibs.insertTable() -- Erro: Falha na execução da Query!");
             ex.printStackTrace();
@@ -109,7 +111,7 @@ public class QueryLibs {
     }
 
     /// Executa um arquivo SQL no caminho especificado.
-    public static void executeSqlFile (String file_path) throws SQLException, IOException {
+    public static void executeSqlFile(String file_path) throws SQLException, IOException {
         Connection conexao = getConnection();
 
         // Abre o arquivo e inicializa um StringBuilder para a leitura dos comandos SQL
@@ -126,21 +128,21 @@ public class QueryLibs {
 
             // Converte o StringBuilder em uma String
             String sql = sb.toString();
-            
+
             // executa as instruções SQL contidas no arquivo
             try (Statement statement = conexao.createStatement()) {
                 statement.execute(sql);
                 // envia mudanças para conexão remota
                 conexao.commit();
-            } catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("erro ao executar query: " + e);
             }
             conexao.close();
         }
     }
 
-    public static void collaboratorSelect (int usuario_id) throws SQLException, IOException {
-        
+    public static void collaboratorSelect(int usuario_id) throws SQLException, IOException {
+
         Connection conexao = getConnection();
 
         // string que carrega o comando em sql
@@ -155,7 +157,8 @@ public class QueryLibs {
             ResultSet result = statement.executeQuery();
 
             // cabeçalho
-            System.out.println("Usuário | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
+            System.out.println(
+                    "Usuário | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
 
             while (result.next()) {
                 // itera sobre cada linha retornada pela consulta
@@ -172,15 +175,14 @@ public class QueryLibs {
 
                 // imprime os valores das colunas no terminal
                 System.out.println(usuario
-                    + " | " + hora_inicio
-                    + " | " + hora_fim
-                    + " | " + projeto
-                    + " | " + cliente
-                    + " | " + tipo
-                    + " | " + justif
-                    + " | " + centroR
-                    + " | " + aprovacao
-                );
+                        + " | " + hora_inicio
+                        + " | " + hora_fim
+                        + " | " + projeto
+                        + " | " + cliente
+                        + " | " + tipo
+                        + " | " + justif
+                        + " | " + centroR
+                        + " | " + aprovacao);
             }
         }
         // fecha a conexão
@@ -188,13 +190,15 @@ public class QueryLibs {
     }
 
     /// Atualiza um apontamento no banco de dados.
-    public static void updateTable (Appointment Apt) throws SQLException {
+    public static void updateTable(Appointment Apt) throws SQLException {
 
         Connection conexao = getConnection();
 
         // código sql a ser executado, passando "?" como parâmetro de valors
-        // No SQL abaixo, o ID do apontamento é o parâmentro para a atualização. O ultimo stratement é o getId, então será necessario coletar o ID do apantamento
-        //para reconhecer qual apontamento será atualizado.
+        // No SQL abaixo, o ID do apontamento é o parâmentro para a atualização. O
+        // ultimo stratement é o getId, então será necessario coletar o ID do
+        // apantamento
+        // para reconhecer qual apontamento será atualizado.
         String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, usr_id = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ? WHERE apt_id = ?";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
@@ -214,7 +218,7 @@ public class QueryLibs {
             conexao.commit();
             conexao.close();
 
-        // exibe erros ao executar a query
+            // exibe erros ao executar a query
         } catch (Exception ex) {
             System.out.println("QueryLibs.updateTable() -- Erro: Falha na execução da Query!");
             ex.printStackTrace();
@@ -222,12 +226,13 @@ public class QueryLibs {
     }
 
     /// Remove um apontamento do banco de dados.
-    public static void deleteIdAppointment (Appointment Apt) throws SQLException {
+    public static void deleteIdAppointment(Appointment Apt) throws SQLException {
 
         Connection conexao = getConnection();
 
         // código sql a ser executado, passando "?" como parâmetro de valors
-        // Como base no ID do apontamento ele exclui todas regristro dentro da condição "Coluna apt_id = ID do apontamento"
+        // Como base no ID do apontamento ele exclui todas regristro dentro da condição
+        // "Coluna apt_id = ID do apontamento"
         String sql = "DELETE FROM apontamento WHERE apt_id = ?";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
 
@@ -240,10 +245,69 @@ public class QueryLibs {
             conexao.commit();
             conexao.close();
 
-        // exibe erros ao executar a query
+            // exibe erros ao executar a query
         } catch (Exception ex) {
             System.out.println("QueryLibs.deleteIdAppointment() -- Erro: Falha na execução da Query!");
             ex.printStackTrace();
         }
+    }
+
+    public static void testConnection() throws SQLException {
+        Connection conexao = getConnection();
+
+        // cria tabela, insere dados, deleta dados e deleta tabela
+        try {
+            // cria tabela de teste
+            String sql = "create table if not exists teste(nome varchar null);";
+            try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+                statement.executeUpdate();
+            } catch (Exception e) {
+                System.out.println("QueryLibs.testConnection() -- erro: " + e);
+                System.out.println("erro ao criar tabela");
+            }
+            // insere dado na tabela
+            sql = "insert into teste(nome) values(?)";
+            try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+                statement.setString(1, "teste de insert");
+                statement.executeUpdate();
+            } catch (Exception e) {
+                System.out.println("QuerLibs.testConnection() --erro: " + e);
+                System.out.println("erro ao inserir dado na tabela");
+            }
+            // faz um select na tabela
+            sql = "select * from teste;";
+            try (PreparedStatement statement = conexao.prepareStatement(sql)){
+                ResultSet result = statement.executeQuery();
+                while (result.next()) {
+                    String nome = result.getString("nome");
+                    System.out.println(nome);
+                }
+            } catch (Exception e) {
+                System.out.println("QuerLibs.testConnection() --erro: " + e);
+                System.out.println("erro ao pesquisar dados da tabela");
+            }
+            // deleta dado da tabela
+            sql = "delete from teste;";
+            try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+                statement.executeUpdate();
+            } catch (Exception e) {
+                System.out.println("QueryLibs.testeConnection() -- erro: " + e);
+                System.out.println("erro ao deletar dado da tabela");
+            }
+            // deleta tabela
+            sql = "drop table teste cascade;";
+            try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+                statement.executeUpdate();
+            } catch (Exception e) {
+                System.out.println("QueryLibs.testeConnection() -- erro: " + e);
+                System.out.println("erro ao deletar tabela");
+            }
+
+            conexao.commit();
+        } catch (Exception e) {
+            System.out.println("Querylibs.testConnection: " + e);
+        }
+        // fecha conexão
+        conexao.close();
     }
 }

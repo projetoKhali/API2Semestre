@@ -45,7 +45,6 @@ public class SQLConnection {
             for (int i = 0; i < env.length; i++) {
                 env[i] = br.readLine().split(":")[1];                
             }
-
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -63,6 +62,7 @@ public class SQLConnection {
         // driver de conexão
         String driver = "jdbc:postgresql://" + host + ":" + port + "/" + database;
         
+        // tenta abrir conexão
         try {
             //carrega a classe do driver do PostgreSQL na memória permitindo comunicação com o banco de dados
             Class.forName("org.postgresql.Driver");
@@ -70,6 +70,12 @@ public class SQLConnection {
             // objeto "conexao" para execução de comandos SQL
             conexao = DriverManager.getConnection(driver, userName, password);
             conexao.setAutoCommit(false);
+            
+            try {
+                QueryLibs.testConnection();
+            } catch (Exception e) {
+                System.out.println("erro: " + e);
+            }
 
         // tratamento de erros
         } catch (ClassNotFoundException ex) {
@@ -84,8 +90,8 @@ public class SQLConnection {
     }
 
     public static void main(String[] args) throws SQLException, IOException {
-        // SQLConnection sqlConnection = new SQLConnection();
-        // Connection conexao = sqlConnection.connect();
+        SQLConnection sqlConnection = new SQLConnection();
+        Connection conexao = sqlConnection.connect();
 
         // if (conexao != null) {
         //     System.out.println("Conexão feita com sucesso!");
@@ -98,23 +104,23 @@ public class SQLConnection {
         // QueryLibs.executeSqlFile("./SQL/Tabelas.sql");
 
         // teste
-        Appointment apt = new Appointment(
-            "testemtloko",
-            AppointmentType.Overtime,
-            DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-            DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-            "khali",
-            "2rp",
-            "api2sem",
-            "paulo chamou"
-        );
+        // Appointment apt = new Appointment(
+        //     "testemtloko",
+        //     AppointmentType.Overtime,
+        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+        //     "khali",
+        //     "2rp",
+        //     "api2sem",
+        //     "paulo chamou"
+        // );
 
         // Erro ao executar a query: ERROR: column "requester" of relation "apontamento" does not exist
         //      Posição: 49
         // Erro ao executar a query: ERROR: column "usr_id" is of type integer but expression is of type character varying
         //      Dica: You will need to rewrite or cast the expression.
         // //      Posição: 119
-        QueryLibs.insertTable(apt);
+        // QueryLibs.insertTable(apt);
         // QueryLibs.simpleSelect("testemtloko");
 
         // tras os apontamentos referentes ao id do usuário passado como parâmetro
