@@ -3,7 +3,7 @@ module org.openjfx.api2semestre {
     requires transitive javafx.fxml;
     requires transitive java.sql;
 
-    opens org.openjfx.api2semestre to javafx.fxml;
+    opens org.openjfx.api2semestre.view_controllers to javafx.fxml;
     opens org.openjfx.api2semestre.custom_tags to javafx.fxml;
     exports org.openjfx.api2semestre;
 }

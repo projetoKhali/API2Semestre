@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.java_files;
+package org.openjfx.api2semestre.database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

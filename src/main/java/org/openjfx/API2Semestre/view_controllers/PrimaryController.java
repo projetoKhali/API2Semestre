@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre;
+package org.openjfx.api2semestre.view_controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;

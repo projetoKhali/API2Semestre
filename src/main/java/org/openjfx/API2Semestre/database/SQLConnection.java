@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.java_files;
+package org.openjfx.api2semestre.database;
 
 // importando pacotes para leitura de arquivo
 import java.io.BufferedReader;
