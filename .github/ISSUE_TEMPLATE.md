@@ -8,7 +8,7 @@
 # 🤓 Especificações <br> 
 `Quais pontos importantes devem ser levados em consideração para a execução desta tarefa?`
 
- -
+ - 
 
 <br>
 
@@ -22,6 +22,6 @@
 # 🚧 Dependências  <br>
 `Essa tarefa depende de outras tarefas estarem concluídas? Insira o #ID do(s) Issue(s)`
 
- - #00
+ - #0
 
 <br>  
