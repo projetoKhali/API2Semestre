@@ -1,6 +1,5 @@
 package org.openjfx.api2semestre.view_controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ResourceBundle;
@@ -8,24 +7,19 @@ import java.util.ResourceBundle;
 import org.openjfx.api2semestre.classes.Appointment;
 import org.openjfx.api2semestre.classes.AppointmentType;
 
-import org.openjfx.api2semestre.custom_tags.Permission;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
-import org.openjfx.api2semestre.templates.AppointmentDisplay;
 import org.openjfx.api2semestre.utils.DateConverter;
-
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.ListView;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
+import javafx.scene.control.cell.CheckBoxTableCell;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class PrimaryController implements Initializable {
 
@@ -81,9 +75,8 @@ public class PrimaryController implements Initializable {
     private TextField cx_squad;
 
     @FXML 
-    private ListView<AppointmentDisplay> lv_appointments;
+    private TableView<Appointment> tabela;
     
-    private ObservableList<AppointmentDisplay> apts;
  
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -91,7 +84,7 @@ public class PrimaryController implements Initializable {
 
         // System.out.println("oi " + view);
 
-        Appointment[] appointments = new Appointment[] {
+        final var items = FXCollections.observableArrayList(
             new Appointment(
                 "teste1",
                 AppointmentType.Overtime,
@@ -101,7 +94,7 @@ public class PrimaryController implements Initializable {
                 "2rp",
                 "api2sem",
                 "oi"
-            ),
+            ).setSelected(true),
             new Appointment(
                 "teste2",
                 AppointmentType.OnNotice,
@@ -122,20 +115,25 @@ public class PrimaryController implements Initializable {
                 "api2sem",
                 "eai"
             )
-        };
+        );
+
+        
+        final var columns = tabela.getColumns();
+
+        columns.get(0).setCellValueFactory( new PropertyValueFactory<>( "selected" ));
+        columns.get(0).setCellFactory( tc -> new CheckBoxTableCell<>());
 
 
-        apts = lv_appointments.getItems();
+        columns.get(0 + 1).setCellValueFactory( new PropertyValueFactory<>( "aprovacao" ));
+        columns.get(1 + 1).setCellValueFactory( new PropertyValueFactory<>( "squad" ));
+        columns.get(2 + 1).setCellValueFactory( new PropertyValueFactory<>( "type" ));
+        columns.get(3 + 1).setCellValueFactory( new PropertyValueFactory<>( "startDate" ));
+        columns.get(4 + 1).setCellValueFactory( new PropertyValueFactory<>( "endDate" ));
+        columns.get(5 + 1).setCellValueFactory( new PropertyValueFactory<>( "client" ));
+        columns.get(6 + 1).setCellValueFactory( new PropertyValueFactory<>( "project" ));
+        // columns.get(0).setCellValueFactory( new PropertyValueFactory<>( "justification" ));
 
-        for (Appointment apt : appointments) {
-
-            // AppointmentDisplay aptDisplay = FXMLLoader.load(AppointmentDisplay.class.getResource("AppointmentDisplay.fxml"));
-            AppointmentDisplay aptDisplay = new AppointmentDisplay();    
-    
-            // aptDisplay.setAppointment(apt);
-            apts.add(aptDisplay);
-            
-        }
+        tabela.setItems( items );        
 
     }
 
@@ -165,12 +163,14 @@ public class PrimaryController implements Initializable {
 
         // System.out.println("oi " + view);
 
-        ObservableList<Permission> permissions = view.getPermissions();
-        System.out.println(permissions.size() + " Permissions");
+        // ObservableList<Permission> permissions = view.getPermissions();
+        // System.out.println(permissions.size() + " Permissions");
 
-        for (Permission p: permissions) {
-            System.out.println("Permission: " + p.getValue());
-        }
+        // for (Permission p: permissions) {
+        //     System.out.println("Permission: " + p.getValue());
+        // }
+
+
 
     }
 

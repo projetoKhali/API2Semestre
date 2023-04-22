@@ -16,6 +16,16 @@ public class Appointment {
     private String project;         // Nome do projeto para qual o solicitante está prestando serviço.
     private String justification;   // Justificativa fornecida pelo solicitante para prestar esta Hora-Extra ou Sobreaviso.
     private int aprovacao;
+    private Boolean selected;
+
+    public Boolean isSelected() {
+        return selected;
+    }
+
+    public Appointment setSelected(boolean selected) {
+        this.selected = selected;
+        return this;
+    }
 
     /// Cria uma nova instancia de apontamento
     public Appointment (
