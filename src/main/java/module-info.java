@@ -5,6 +5,6 @@ module org.openjfx.api2semestre {
 
     opens org.openjfx.api2semestre.view_controllers to javafx.fxml;
     opens org.openjfx.api2semestre.custom_tags to javafx.fxml;
-    opens org.openjfx.api2semestre.classes to javafx.base;
+    opens org.openjfx.api2semestre.view_utils to javafx.base;
     exports org.openjfx.api2semestre;
 }

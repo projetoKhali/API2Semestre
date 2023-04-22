@@ -2,13 +2,17 @@ package org.openjfx.api2semestre.view_controllers;
 
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.classes.Appointment;
 import org.openjfx.api2semestre.classes.AppointmentType;
 
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
-import org.openjfx.api2semestre.utils.DateConverter;
+import org.openjfx.api2semestre.data_utils.DateConverter;
+import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,7 +79,7 @@ public class PrimaryController implements Initializable {
     private TextField cx_squad;
 
     @FXML 
-    private TableView<Appointment> tabela;
+    private TableView<AppointmentWrapper> tabela;
     
  
     @Override
@@ -84,7 +88,7 @@ public class PrimaryController implements Initializable {
 
         // System.out.println("oi " + view);
 
-        final var items = FXCollections.observableArrayList(
+        final List<Appointment> items = List.of(
             new Appointment(
                 "teste1",
                 AppointmentType.Overtime,
@@ -94,7 +98,7 @@ public class PrimaryController implements Initializable {
                 "2rp",
                 "api2sem",
                 "oi"
-            ).setSelected(true),
+            ),
             new Appointment(
                 "teste2",
                 AppointmentType.OnNotice,
@@ -124,7 +128,7 @@ public class PrimaryController implements Initializable {
         columns.get(0).setCellFactory( tc -> new CheckBoxTableCell<>());
 
 
-        columns.get(0 + 1).setCellValueFactory( new PropertyValueFactory<>( "aprovacao" ));
+        columns.get(0 + 1).setCellValueFactory( new PropertyValueFactory<>( "status" ));
         columns.get(1 + 1).setCellValueFactory( new PropertyValueFactory<>( "squad" ));
         columns.get(2 + 1).setCellValueFactory( new PropertyValueFactory<>( "type" ));
         columns.get(3 + 1).setCellValueFactory( new PropertyValueFactory<>( "startDate" ));
@@ -133,7 +137,11 @@ public class PrimaryController implements Initializable {
         columns.get(6 + 1).setCellValueFactory( new PropertyValueFactory<>( "project" ));
         // columns.get(0).setCellValueFactory( new PropertyValueFactory<>( "justification" ));
 
-        tabela.setItems( items );        
+        tabela.setItems(
+            FXCollections.observableArrayList(
+                items.stream().map((Appointment apt) -> new AppointmentWrapper(apt)).collect(Collectors.toList())
+            )
+        );
 
     }
 

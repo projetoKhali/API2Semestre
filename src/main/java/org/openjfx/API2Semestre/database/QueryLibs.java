@@ -11,7 +11,6 @@ import java.sql.Statement;
 import java.util.Date;
 
 import org.openjfx.api2semestre.classes.Appointment;
-import org.openjfx.api2semestre.classes.AppointmentType;
 
 public class QueryLibs {
 
@@ -81,10 +80,10 @@ public class QueryLibs {
             statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
-            statement.setBoolean(6, Apt.getType() == AppointmentType.Overtime);
+            statement.setBoolean(6, Apt.getType().getBooleanValue());
             statement.setString(7, Apt.getJustification());
             statement.setString(8, Apt.getSquad());
-            statement.setInt(9, Apt.getAprovacao());
+            statement.setInt(9, Apt.getStatus().getIntValue());
 
             // executa o update
             statement.executeUpdate();
@@ -180,7 +179,7 @@ public class QueryLibs {
     }
 
     /// Atualiza um apontamento no banco de dados.
-    public static void updateTable(Appointment Apt) throws SQLException {
+    public static void updateTable (Appointment Apt) throws SQLException {
 
         Connection conexao = getConnection();
 
@@ -197,10 +196,10 @@ public class QueryLibs {
             statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
-            statement.setString(6, Apt.getType().toString());
+            statement.setBoolean(6, Apt.getType().getBooleanValue());
             statement.setString(7, Apt.getJustification());
             statement.setString(8, Apt.getSquad());
-            statement.setInt(9, Apt.getId());
+            statement.setString(9, Apt.getSquad());
 
             // executa o update
             statement.executeUpdate();
