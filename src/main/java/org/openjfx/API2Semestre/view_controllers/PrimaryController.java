@@ -130,8 +130,9 @@ public class PrimaryController implements Initializable {
         for (Appointment apt : appointments) {
 
             // AppointmentDisplay aptDisplay = FXMLLoader.load(AppointmentDisplay.class.getResource("AppointmentDisplay.fxml"));
-            AppointmentDisplay aptDisplay = new AppointmentDisplay();
-            aptDisplay.setAppointment(apt);
+            AppointmentDisplay aptDisplay = new AppointmentDisplay();    
+    
+            // aptDisplay.setAppointment(apt);
             apts.add(aptDisplay);
             
         }

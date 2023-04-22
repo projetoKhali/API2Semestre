@@ -5,8 +5,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.Group?>
 
-<AppointmentDisplay >
+<Group xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/l">
    <HBox alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="448.0" spacing="8.0">
       <children>
          <AnchorPane maxHeight="-Infinity" prefHeight="24.0" prefWidth="56.0">
@@ -50,4 +52,4 @@
          <Insets left="8.0" right="8.0" />
       </padding>
    </HBox>
-</AppointmentDisplay>
+</Group>
