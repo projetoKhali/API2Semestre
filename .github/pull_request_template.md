@@ -8,14 +8,14 @@
 # 🚀 Extras <br>  
 `Essa entrega inclui alguma feature extra concluída ou em progress? Cite-a(s)`
 
- -
+ - 
 
 <br>
 
 # 🐞Bugs <br>  
 `Essa entrega inclui algum bug não-solucionado? Cite-o(s)`
 
- -
+ - 
 
 <br>
 
