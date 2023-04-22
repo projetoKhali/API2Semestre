@@ -1,5 +1,6 @@
 package org.openjfx.api2semestre.view_controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -12,15 +13,20 @@ import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
-// import org.openjfx.API2Semestre.Classes.Appointment;
+import org.openjfx.api2semestre;
 // import org.openjfx.API2Semestre.Classes.AppointmentType;
 // import org.openjfx.API2Semestre.JavaFiles.QueryLibs;
 
@@ -34,6 +40,10 @@ public class PrimaryController implements Initializable {
 
     @FXML
     private Button bt_sobreaviso;
+    
+    @FXML
+    private Button bt_testePopUp;
+
 
     @FXML
     private TableColumn<Appointment, String> col_extraOUsobreaviso;
@@ -119,6 +129,24 @@ public class PrimaryController implements Initializable {
         for (Permission p: permissions) {
             System.out.println("Permission: " + p.getValue());
         }
+
+    }
+    
+    @FXML
+    void showPopUp(ActionEvent event) throws IOException {
+        Stage stage;
+        Parent root;
+        if(event.getSource()==bt_testePopUp){
+            stage = new Stage();
+            root = FXMLLoader.load(getClass().getResource("popUpFeedback.fxml"));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(bt_testePopUp.getScene().getWindow());
+            stage.showAndWait();
+        }
+        
+        
+        
 
     }
 
