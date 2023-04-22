@@ -127,14 +127,14 @@ public class PrimaryController implements Initializable {
         columns.get(0).setCellValueFactory( new PropertyValueFactory<>( "selected" ));
         columns.get(0).setCellFactory( tc -> new CheckBoxTableCell<>());
 
-
-        columns.get(0 + 1).setCellValueFactory( new PropertyValueFactory<>( "status" ));
-        columns.get(1 + 1).setCellValueFactory( new PropertyValueFactory<>( "squad" ));
-        columns.get(2 + 1).setCellValueFactory( new PropertyValueFactory<>( "type" ));
-        columns.get(3 + 1).setCellValueFactory( new PropertyValueFactory<>( "startDate" ));
-        columns.get(4 + 1).setCellValueFactory( new PropertyValueFactory<>( "endDate" ));
-        columns.get(5 + 1).setCellValueFactory( new PropertyValueFactory<>( "client" ));
-        columns.get(6 + 1).setCellValueFactory( new PropertyValueFactory<>( "project" ));
+        columns.get(1).setCellValueFactory( new PropertyValueFactory<>( "status" ));
+        columns.get(2).setCellValueFactory( new PropertyValueFactory<>( "squad" ));
+        columns.get(3).setCellValueFactory( new PropertyValueFactory<>( "type" ));
+        columns.get(4).setCellValueFactory( new PropertyValueFactory<>( "startDate" ));
+        columns.get(5).setCellValueFactory( new PropertyValueFactory<>( "endDate" ));
+        columns.get(6).setCellValueFactory( new PropertyValueFactory<>( "client" ));
+        columns.get(7).setCellValueFactory( new PropertyValueFactory<>( "project" ));
+        columns.get(8).setCellValueFactory( new PropertyValueFactory<>( "total" ));
         // columns.get(0).setCellValueFactory( new PropertyValueFactory<>( "justification" ));
 
         tabela.setItems(

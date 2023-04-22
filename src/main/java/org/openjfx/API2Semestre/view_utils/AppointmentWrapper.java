@@ -3,7 +3,6 @@ package org.openjfx.api2semestre.view_utils;
 import java.sql.Timestamp;
 
 import org.openjfx.api2semestre.classes.Appointment;
-import org.openjfx.api2semestre.classes.Status;
 
 public class AppointmentWrapper {
 
@@ -22,10 +21,13 @@ public class AppointmentWrapper {
     public String getClient() { return appointment.getClient(); }
     public String getProject() { return appointment.getProject(); }
     public String getJustification() { return appointment.getJustification(); }
-    public String getStatus() {
-        Status status = appointment.getStatus();
-        // if (status == null) { return Status.STATUS[0].getStringValue(); } // status should never be null
-        return status.getStringValue();
+    public String getStatus() { return appointment.getStatus().getStringValue(); }
+    public String getTotal() {
+        long milliseconds = getEndDate().getTime() - getStartDate().getTime();
+        long hours = milliseconds / (60 * 60 * 1000);
+        long minutes = (milliseconds / (60 * 1000)) % 60;
+        if (minutes == 0) return (hours + "h");
+        return String.format("%:%02d", hours, minutes);
     }
 
     public Boolean isSelected() {
