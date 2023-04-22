@@ -1,6 +1,8 @@
 package org.openjfx.api2semestre.view_controllers;
 
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ResourceBundle;
 
 import org.openjfx.api2semestre.classes.Appointment;
@@ -8,17 +10,22 @@ import org.openjfx.api2semestre.classes.AppointmentType;
 
 import org.openjfx.api2semestre.custom_tags.Permission;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
+import org.openjfx.api2semestre.templates.AppointmentDisplay;
+import org.openjfx.api2semestre.utils.DateConverter;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.ListView;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 
 public class PrimaryController implements Initializable {
 
@@ -73,14 +80,62 @@ public class PrimaryController implements Initializable {
     @FXML
     private TextField cx_squad;
 
-    @FXML
-    private TableView<Appointment> tabela;
+    @FXML 
+    private ListView<AppointmentDisplay> lv_appointments;
     
+    private ObservableList<AppointmentDisplay> apts;
+ 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        col_squad.setCellValueFactory(new PropertyValueFactory<>("squad"));
+        // col_squad.setCellValueFactory(new PropertyValueFactory<>("squad"));
 
         // System.out.println("oi " + view);
+
+        Appointment[] appointments = new Appointment[] {
+            new Appointment(
+                "teste1",
+                AppointmentType.Overtime,
+                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+                "khali",
+                "2rp",
+                "api2sem",
+                "oi"
+            ),
+            new Appointment(
+                "teste2",
+                AppointmentType.OnNotice,
+                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+                "khali",
+                "2rp",
+                "api2sem",
+                "olá"
+            ),
+            new Appointment(
+                "teste3",
+                AppointmentType.Overtime,
+                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+                "khali",
+                "2rp",
+                "api2sem",
+                "eai"
+            )
+        };
+
+
+        apts = lv_appointments.getItems();
+
+        for (Appointment apt : appointments) {
+
+            // AppointmentDisplay aptDisplay = FXMLLoader.load(AppointmentDisplay.class.getResource("AppointmentDisplay.fxml"));
+            AppointmentDisplay aptDisplay = new AppointmentDisplay();
+            aptDisplay.setAppointment(apt);
+            apts.add(aptDisplay);
+            
+        }
+
     }
 
     @FXML

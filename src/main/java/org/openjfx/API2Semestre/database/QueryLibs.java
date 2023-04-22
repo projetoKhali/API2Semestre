@@ -19,16 +19,6 @@ public class QueryLibs {
     /// Caso não exista conexão, uma nova conexão é criada.
     private static Connection getConnection() {
 
-        // Chama SQLConnection.getConnection() para retornar a conexão caso haja uma
-        // salva atualmente
-        Connection conexao = SQLConnection.getConnection();
-
-        // Se a conexão não for nula, retorna
-        if (conexao != null) {
-            return conexao;
-
-            // Não existe uma conexão previamente estabelecida, cria uma nova e retorna
-        }
         try {
             return new SQLConnection().connect();
 

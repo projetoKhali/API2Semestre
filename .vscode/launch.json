@@ -8,6 +8,13 @@
             "type": "java",
             "name": "SQLConnection",
             "request": "launch",
+            "mainClass": "org.openjfx.api2semestre/org.openjfx.api2semestre.database.SQLConnection",
+            "projectName": "api2semestre"
+        },
+        {
+            "type": "java",
+            "name": "SQLConnection",
+            "request": "launch",
             "mainClass": "org.openjfx.api2semestre/org.openjfx.api2semestre.JavaFiles.SQLConnection",
             "projectName": "api2semestre"
         },

@@ -9,19 +9,16 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
-// import org.openjfx.api2semestre.DateConverter;
-// import org.openjfx.api2semestre.classes.Appointment;
-// import org.openjfx.api2semestre.classes.AppointmentType;
+import org.openjfx.api2semestre.classes.Appointment;
+import org.openjfx.api2semestre.classes.AppointmentType;
+import org.openjfx.api2semestre.utils.DateConverter;
 
 public class SQLConnection {
 
-    private static Connection conexao;
+    private Connection conexao;
 
-    public static Connection getConnection () {
-        return conexao;
-    }
-    
     // método de conexão com banco
     public Connection connect() throws IOException {
 
@@ -35,7 +32,7 @@ public class SQLConnection {
 
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("./.env"));
+            br = new BufferedReader(new FileReader("././.env"));
             // loop through the array "env" and overwrite it's contents with the file's contents.
             // each line contains "field:value", we extract only the value by doing a split on ":" 
             // and accessing the index 1 of the result. If we reach the end of the file while trying to
@@ -88,8 +85,8 @@ public class SQLConnection {
     }
 
     // public static void main(String[] args) throws SQLException, IOException {
-    //     SQLConnection sqlConnection = new SQLConnection();
-    //     Connection conexao = sqlConnection.connect();
+    //     // SQLConnection sqlConnection = new SQLConnection();
+    //     // Connection conexao = sqlConnection.connect();
 
     //     // if (conexao != null) {
     //     //     System.out.println("Conexão feita com sucesso!");
@@ -98,33 +95,35 @@ public class SQLConnection {
     //     // }
         
         
-        // executa arquivos sql passando o endereço do arquivo como parâmetro
-        // QueryLibs.executeSqlFile("./SQL/Tabelas.sql");
+    //     // executa arquivos sql passando o endereço do arquivo como parâmetro
+    //     QueryLibs.executeSqlFile("./SQL/Tabelas.sql");
 
-        // teste
-        // Appointment apt = new Appointment(
-        //     "testemtloko",
-        //     AppointmentType.Overtime,
-        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-        //     "khali",
-        //     "2rp",
-        //     "api2sem",
-        //     "paulo chamou"
-        // );
+    //     // teste
+    //     Appointment apt = new Appointment(
+    //         "testemtloko",
+    //         AppointmentType.Overtime,
+    //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+    //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+    //         "khali",
+    //         "2rp",
+    //         "api2sem",
+    //         "paulo chamou"
+    //     );
 
-        // Erro ao executar a query: ERROR: column "requester" of relation "apontamento" does not exist
-        //      Posição: 49
-        // Erro ao executar a query: ERROR: column "usr_id" is of type integer but expression is of type character varying
-        //      Dica: You will need to rewrite or cast the expression.
-        // //      Posição: 119
-        // QueryLibs.insertTable(apt);
-        // QueryLibs.simpleSelect("testemtloko");
+    //     // Erro ao executar a query: ERROR: column "requester" of relation "apontamento" does not exist
+    //     //      Posição: 49
+    //     // Erro ao executar a query: ERROR: column "usr_id" is of type integer but expression is of type character varying
+    //     //      Dica: You will need to rewrite or cast the expression.
+    //     //      Posição: 119
+    //     QueryLibs.insertTable(apt);
+    //     QueryLibs.simpleSelect("testemtloko");
+
+    //     System.out.println("oi");
 
     //     // tras os apontamentos referentes ao id do usuário passado como parâmetro
     //     // QueryLibs.collaboratorSelect(1);
-    //     if (conexao != null) {
-    //         conexao.close();
-    //     }
+    //     // if (conexao != null) {
+    //     //     conexao.close();
+    //     // }
     // }
 }
