@@ -3,6 +3,7 @@ package org.openjfx.api2semestre.view_controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.jar.Attributes.Name;
 
 import org.openjfx.api2semestre.classes.Appointment;
 import org.openjfx.api2semestre.classes.AppointmentType;
@@ -134,20 +135,27 @@ public class PrimaryController implements Initializable {
     
     @FXML
     void showPopUp(ActionEvent event) throws IOException {
+          popUp("popUpFeedback.fxml", bt_testePopUp);
+    
+    }
+    
+    // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName
+    void popUp(String fileName, Button botao) throws IOException{
+        
         Stage stage;
         Parent root;
-        if(event.getSource()==bt_testePopUp){
-            stage = new Stage();
-            root = FXMLLoader.load(getClass().getResource("popUpFeedback.fxml"));
-            stage.setScene(new Scene(root));
-            stage.initModality(Modality.APPLICATION_MODAL);
-            stage.initOwner(bt_testePopUp.getScene().getWindow());
-            stage.showAndWait();
-        }
-        
-        
-        
-
+//        if(event.getSource()==bt_testePopUp){
+        stage = new Stage();
+        root = FXMLLoader.load(getClass().getResource(fileName));
+        stage.setScene(new Scene(root));
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(botao.getScene().getWindow());
+        stage.showAndWait();
+    
     }
+        
+         
+
+    
 
 }
