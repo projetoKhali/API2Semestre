@@ -9,8 +9,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.FlowPane?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="826.0" snapToPixel="false" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.API2Semestre.PrimaryController">
+<?import org.openjfx.api2semestre.custom_tags.ViewConfig?>
+<?import org.openjfx.api2semestre.custom_tags.Permission?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="826.0" snapToPixel="false" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.PrimaryController">
    <children>
+      <ViewConfig name="primary" fx:id="view">
+         <permissions>
+            <Permission>Appoint</Permission>
+
+         </permissions>
+      </ViewConfig>
       <FlowPane layoutX="14.0" layoutY="14.0" prefHeight="75.0" prefWidth="799.0" snapToPixel="false">
          <children>
             <TextField fx:id="cx_squad" prefHeight="25.0" prefWidth="95.0" promptText="Squad">

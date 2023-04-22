@@ -1,3 +1,5 @@
-.env
+*.env
 bin/
 target/
+.info
+.vscode/settings.json

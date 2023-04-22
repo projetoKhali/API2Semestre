@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.openjfx.api2semestre.custom_tags.ViewConfig?>
+<?import javafx.scene.Group?>
+
+<org.openjfx.api2semestre.custom_tags.ViewConfig 
+    xmlns="http://javafx.com/javafx/10.0.1" 
+    xmlns:fx="http://javafx.com/fxml" 
+    fx:controller="org.openjfx.api2semestre.custom_tags.ViewConfig" 
+    name="default" 
+    fx:id="view"
+>
+    <permissions>
+        <Permission></Permission>
+    </permissions>
+</org.openjfx.api2semestre.custom_tags.ViewConfig>
