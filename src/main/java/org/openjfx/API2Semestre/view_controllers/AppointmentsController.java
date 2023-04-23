@@ -110,7 +110,8 @@ public class AppointmentsController implements Initializable {
             instructions.add(new PrettyTableCellInstruction<>(Optional.of("Aprovado"), new Color(0.43, 0.84, 0.47, 1)));
             instructions.add(new PrettyTableCellInstruction<>(Optional.of("Rejeitado"), new Color(0.87, 0.43, 0.43, 1)));
             
-            return new PrettyTableCell<>(column, instructions.toArray(new PrettyTableCellInstruction[0]));
+            // return new PrettyTableCell<>(column, instructions.toArray(new PrettyTableCellInstruction[0]));
+            return new PrettyTableCell<>(instructions.toArray(new PrettyTableCellInstruction[0]));
         });
         col_squad.setCellValueFactory( new PropertyValueFactory<>( "squad" ));
         col_tipo.setCellValueFactory( new PropertyValueFactory<>( "type" ));

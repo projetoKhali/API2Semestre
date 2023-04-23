@@ -3,10 +3,8 @@ package org.openjfx.api2semestre.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -15,7 +13,6 @@ import java.util.List;
 
 import org.openjfx.api2semestre.classes.Appointment;
 import org.openjfx.api2semestre.classes.AppointmentType;
-import org.openjfx.api2semestre.classes.Status;
 
 public class QueryLibs {
 
@@ -227,7 +224,7 @@ public class QueryLibs {
         // ultimo stratement é o getId, então será necessario coletar o ID do
         // apantamento
         // para reconhecer qual apontamento será atualizado.
-        String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, usr_id = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ? WHERE apt_id = ?";
+        String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, requester = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ? WHERE apt_id = ?";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
             statement.setObject(1, Date.from(Apt.getStartDate().toInstant()));
@@ -238,7 +235,7 @@ public class QueryLibs {
             statement.setBoolean(6, Apt.getType().getBooleanValue());
             statement.setString(7, Apt.getJustification());
             statement.setString(8, Apt.getSquad());
-            statement.setString(9, Apt.getSquad());
+            statement.setInt(9, Apt.getId());
 
             // executa o update
             statement.executeUpdate();
