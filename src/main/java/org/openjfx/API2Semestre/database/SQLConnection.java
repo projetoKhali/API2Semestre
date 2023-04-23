@@ -83,11 +83,11 @@ public class SQLConnection {
     //     // SQLConnection sqlConnection = new SQLConnection();
     //     // Connection conexao = sqlConnection.connect();
 
-        if (conexao != null) {
-            System.out.println("Conexão feita com sucesso!");
-        } else {
-            System.out.println("Falha ao se conectar ao Banco de dados");
-        }
+//        if (conexao != null) {
+//            System.out.println("Conexão feita com sucesso!");
+//        } else {
+//            System.out.println("Falha ao se conectar ao Banco de dados");
+//        }
         
         
     //     // executa arquivos sql passando o endereço do arquivo como parâmetro

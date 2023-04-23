@@ -12,7 +12,7 @@
 <!-- <?import org.openjfx.api2semestre.custom_tags.ViewConfig?>
 <?import org.openjfx.api2semestre.custom_tags.Permission?> -->
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="826.0" snapToPixel="false" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.PrimaryController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="826.0" snapToPixel="false" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.PrimaryControllerPopUp">
    <children>
       <!-- <ViewConfig name="primary" fx:id="view">
          <permissions>
@@ -68,7 +68,7 @@
                   <Insets top="7.0" />
                </FlowPane.margin>
             </Button>
-            <TableView fx:id="tabela" prefHeight="200.0" prefWidth="791.0" editable="true">
+            <TableView fx:id="tabela" editable="true" prefHeight="200.0" prefWidth="791.0">
                <columns>
                   <!-- <TableColumn fx:id="col_selecionar" editable="true" prefWidth="24.0" text="☐" /> -->
                   <TableColumn fx:id="col_status" editable="false" prefWidth="96.0" text="Status" />
