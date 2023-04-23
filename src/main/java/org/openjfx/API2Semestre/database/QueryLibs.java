@@ -168,7 +168,7 @@ public class QueryLibs {
             // System.out.println("Usuário | id | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
             
             while (result.next()) {
-                System.out.println("oi result.next()");
+                // System.out.println("oi result.next()");
                 // itera sobre cada linha retornada pela consulta
                 // e extrai os valores das colunas necessárias
                 int id = result.getInt("apt_id");
