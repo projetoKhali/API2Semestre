@@ -226,19 +226,20 @@ public class QueryLibs {
         // ultimo stratement é o getId, então será necessario coletar o ID do
         // apantamento
         // para reconhecer qual apontamento será atualizado.
-        String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, requester = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ?, justificativa = ?, feedback = ? WHERE apt_id = ?";
+        String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, requester = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ?, aprovacao = ?, justificativa = ?, feedback = ? WHERE apt_id = ?";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
-            statement.setObject(1, Date.from(Apt.getStartDate().toInstant()));
-            statement.setObject(2, Date.from(Apt.getEndDate().toInstant()));
+            statement.setObject(1, Apt.getStartDate());
+            statement.setObject(2, Apt.getEndDate());
             statement.setString(3, Apt.getRequester());
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
             statement.setBoolean(6, Apt.getType().getBooleanValue());
             statement.setString(7, Apt.getSquad());
-            statement.setString(8, Apt.getJustification());
-            statement.setString(9, Apt.getFeedback());
-            statement.setInt(10, Apt.getId());
+            statement.setInt(8, Apt.getStatus().getIntValue());
+            statement.setString(9, Apt.getJustification());
+            statement.setString(10, Apt.getFeedback());
+            statement.setInt(11, Apt.getId());
 
             // executa o update
             statement.executeUpdate();

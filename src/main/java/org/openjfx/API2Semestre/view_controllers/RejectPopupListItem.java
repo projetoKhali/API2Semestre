@@ -3,19 +3,21 @@ package org.openjfx.api2semestre.view_controllers;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import javafx.collections.FXCollections;
-import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.paint.Color;
+
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
 import org.openjfx.api2semestre.view_utils.PrettyTableCell;
 import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.paint.Color;
 
-public class PopUpFeedbackController {
+public class RejectPopupListItem {
 
     @FXML
     private TableView<AppointmentWrapper> tabela;
@@ -45,20 +47,19 @@ public class PopUpFeedbackController {
     private TableColumn<AppointmentWrapper, String> col_total;
    
     @FXML
-    private Label lb_feedback;
+    private TextField textField;
 
-    
-    public static AppointmentWrapper apt_selected;
-    
-    
+    public AppointmentWrapper apt_selected;
+
     public void initialize(){
-        // System.out.println("testeoi");
-        lb_feedback.setText(apt_selected.getFeedback());
-        buildTable();
+
+    }
+
+    public String getFeedback () {
+        return textField.getText();
     }
     
-    
-    private void buildTable () {
+    public void buildTable () {
         // col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
         // TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
@@ -81,4 +82,6 @@ public class PopUpFeedbackController {
     
         tabela.setItems(FXCollections.observableArrayList(List.of(apt_selected)));
     }
+
+
 }
