@@ -37,4 +37,12 @@ public enum Status {
         throw new IllegalArgumentException("Invalid Status value: " + index);
     }
 
+    // returns the status of the given index
+    public static Status of (String stringValue) {
+        for (Status status : STATUS) {
+            if (status.stringValue.equals(stringValue)) return status;
+        }
+        throw new IllegalArgumentException("Invalid Status value: " + stringValue);
+    }
+    
 }

@@ -19,7 +19,7 @@ public class AppointmentWrapper implements HasSelectedProperty {
     }
 
     public String formatTime (Timestamp timestamp) {
-        return new SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(timestamp.getTime()));
+        return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(timestamp.getTime()));
     }
 
     public String getType() { return appointment.getType().getStringValue(); }
@@ -29,15 +29,15 @@ public class AppointmentWrapper implements HasSelectedProperty {
     public String getSquad() { return appointment.getSquad(); }
     public String getClient() { return appointment.getClient(); }
     public String getProject() { return appointment.getProject(); }
-    public String getJustification() { return appointment.getJustification(); }
     public String getStatus() { return appointment.getStatus().getStringValue(); }
     public String getTotal() {
         long milliseconds = appointment.getEndDate().getTime() - appointment.getStartDate().getTime();
         long hours = milliseconds / (60 * 60 * 1000);
         long minutes = (milliseconds / (60 * 1000)) % 60;
         if (minutes == 0) return (hours + "h");
-        return String.format("%:%02d", hours, minutes);
+        return String.format(hours + ":%02d", minutes);
     }
+    public String getJustification() { return appointment.getJustification(); }
 
     @Override
     public BooleanProperty selectedProperty() {

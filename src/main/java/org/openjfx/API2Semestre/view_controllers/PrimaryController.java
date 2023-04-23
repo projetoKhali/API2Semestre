@@ -111,91 +111,51 @@ public class PrimaryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-        // col_squad.setCellValueFactory(new PropertyValueFactory<>("squad"));
+    // col_squad.setCellValueFactory(new PropertyValueFactory<>("squad"));
 
-        // System.out.println("oi " + view);
+        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        // QueryLibs.executeSqlFile("./SQL/views.sql");
 
-        // final List<Appointment> items = List.of(
-        //     new Appointment(
-        //         "teste1",
-        //         AppointmentType.Overtime,
-        //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-        //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-        //         "khali",
-        //         "2rp",
-        //         "api2sem",
-        //         "oi"
-        //     ),
-        //     new Appointment(
-        //         "teste2",
-        //         AppointmentType.OnNotice,
-        //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-        //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-        //         "khali",
-        //         "2rp",
-        //         "api2sem",
-        //         "olá"
-        //     ).setStatus(1),
-        //     new Appointment(
-        //         "teste3",
-        //         AppointmentType.Overtime,
-        //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-        //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-        //         "khali",
-        //         "2rp",
-        //         "api2sem",
-        //         "eai"
-        //     ).setStatus(2)
-        // );
-
-        try {
-            QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-            QueryLibs.executeSqlFile("./SQL/views.sql");
+        // QueryLibs.insertTable(new Appointment(
+        //     "teste",
+        //     AppointmentType.Overtime,
+        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+        //     "khali",
+        //     "2rp",
+        //     "api2sem",
+        //     "teste1"
+        // ));
+        // QueryLibs.insertTable(new Appointment(
+        //     "teste",
+        //     AppointmentType.Overtime,
+        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+        //     "khali",
+        //     "2rp",
+        //     "api2sem",
+        //     "teste2"
+        // ));
+        // QueryLibs.insertTable(new Appointment(
+        //     "teste",
+        //     AppointmentType.Overtime,
+        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+        //     "khali",
+        //     "2rp",
+        //     "api2sem",
+        //     "teste3"
+        // ));
     
-            QueryLibs.insertTable(new Appointment(
-                "teste",
-                AppointmentType.Overtime,
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-                "khali",
-                "2rp",
-                "api2sem",
-                "teste1"
-            ));
-            QueryLibs.insertTable(new Appointment(
-                "teste",
-                AppointmentType.Overtime,
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-                "khali",
-                "2rp",
-                "api2sem",
-                "teste2"
-            ));
-            QueryLibs.insertTable(new Appointment(
-                "teste",
-                AppointmentType.Overtime,
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-                "khali",
-                "2rp",
-                "api2sem",
-                "teste3"
-            ));
+        buildTable();
 
-            var items = QueryLibs.collaboratorSelect("teste");
-        
-            loadedAppointments = FXCollections.observableArrayList(
-                Arrays.asList(items).stream().map((Appointment apt) -> new AppointmentWrapper(apt)).collect(Collectors.toList())
-            );
-            // col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
-            // TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
-    
-        } catch (Exception e) { 
-            System.out.println("fuck");
-            e.printStackTrace();
-        }
+        updateTable();
 
+    }
+
+    private void buildTable () {
+        // col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
+        // TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
         col_status.setCellFactory(column -> {
             List<PrettyTableCellInstruction<AppointmentWrapper, String>> instructions = new ArrayList<>();
@@ -213,9 +173,17 @@ public class PrimaryController implements Initializable {
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
         // asdasdasdasdas( new PropertyValueFactory<>( "justification" ));
+    }
+
+    private void updateTable () {
+        Appointment[] items = QueryLibs.collaboratorSelect("Fulano");
+        System.out.println(items.length + " appointments returned from select ");
+    
+        loadedAppointments = FXCollections.observableArrayList(
+            Arrays.asList(items).stream().map((Appointment apt) -> new AppointmentWrapper(apt)).collect(Collectors.toList())
+        );
 
         tabela.setItems(loadedAppointments);
-
     }
 
     @FXML
@@ -240,7 +208,7 @@ public class PrimaryController implements Initializable {
             cx_justificativa.getText()
         );
         System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
-        // QueryLibs.insertTable(null, appointment);
+        QueryLibs.insertTable(appointment);
 
         loadedAppointments.add(new AppointmentWrapper(appointment));
 
