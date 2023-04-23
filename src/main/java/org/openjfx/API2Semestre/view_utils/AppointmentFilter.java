@@ -40,7 +40,7 @@ public class AppointmentFilter {
         Optional<TableColumn<AppointmentWrapper, String>> col_squad,
         Optional<TableColumn<AppointmentWrapper, String>> col_cliente,
         Optional<TableColumn<AppointmentWrapper, String>> col_projeto,
-        Status status
+        Optional<Status> status
     ) {
         return apply(
             appointments,
@@ -52,7 +52,7 @@ public class AppointmentFilter {
             getValueOfTextField(col_cliente),
             getValueOfTextField(col_projeto),
             Optional.empty(),
-            Optional.of(status)
+            status
         );
     }
 

@@ -165,7 +165,7 @@ public class ApprovalsController implements Initializable {
             col_squad_enableFilter.get() ? Optional.of(col_squad) : Optional.empty(),
             col_cliente_enableFilter.get() ? Optional.of(col_cliente) : Optional.empty(),
             col_projeto_enableFilter.get() ? Optional.of(col_projeto) : Optional.empty(),
-            Status.Pending
+            Optional.of(Status.Pending)
         );
 
         displayedAppointments = FXCollections.observableArrayList(

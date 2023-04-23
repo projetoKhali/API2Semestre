@@ -2,16 +2,6 @@
     "sqltools.connections": [
         {
             "previewLimit": 50,
-            "server": "localhost",
-            "port": 5432,
-            "driver": "PostgreSQL",
-            "name": "Alice",
-            "database": "Khali",
-            "username": "postgres",
-            "password": "Postgres!1@2#3"
-        },
-        {
-            "previewLimit": 50,
             "server": "containers-us-west-20.railway.app",
             "port": 6496,
             "driver": "PostgreSQL",
@@ -24,7 +14,6 @@
     
     "java.project.sourcePaths": [
         "src",
-        "JavaFiles"
     ],
     "java.project.outputPath": "bin",
     "java.project.referencedLibraries": [
