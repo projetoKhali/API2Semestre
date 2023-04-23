@@ -14,8 +14,9 @@ AS SELECT
     apontamento.cliente,
     apontamento.tipo,
     apontamento.justificativa,
-    apontamento.cr_id,
+    apontamento.cr_id as centro_resultado,
     CASE 
+        -- verifica se apontamento foi aprovado ou reprovado
         WHEN apontamento.aprovacao = 0 THEN 'Pendente'
         WHEN apontamento.aprovacao = 1 THEN 'Aprovado'
         ELSE 'Reproved' END AS aprovacao
@@ -34,3 +35,32 @@ AS SELECT
     usuario.tipo,
     usuario.matricula
     FROM usuario;
+
+-- resultado
+CREATE OR REPLACE VIEW public.vw_centro_resultado
+AS SELECT
+    centro_resultado.cr_id,
+    centro_resultado.nome,
+    centro_resultado.codigo,
+    centro_resultado.sigla,
+    centro_resultado.usr_id,
+    usuario.nome as usuario_nome
+
+    FROM centro_resultado
+    left JOIN usuario on centro_resultado.usr_id = usuario.usr_id;
+
+-- cliente
+CREATE OR REPLACE VIEW public.vw_cliente
+AS SELECT
+    cliente.cli_id,
+    cliente.nome,
+    cliente.cnpj,
+    FROM cliente;
+
+-- pertence
+CREATE OR REPLACE VIEW public.vw_pertence
+AS SELECT
+    pertence.ptc_id,
+    pertence.usr_id,
+    pertence.cr_id,
+    FROM pertence;

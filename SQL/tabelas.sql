@@ -39,7 +39,7 @@ CREATE TABLE IF NOT EXISTS public.centro_resultado(
     nome VARCHAR NULL,
     codigo VARCHAR NULL,
     sigla VARCHAR NULL,
-    gtr_id INT NULL,
+    usr_id INT NULL,
 
     CONSTRAINT centro_resultado_pkey PRIMARY KEY (cr_id)
 );
