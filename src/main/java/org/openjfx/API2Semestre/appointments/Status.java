@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.classes;
+package org.openjfx.api2semestre.appointments;
 
 // Represents the Appointment's status in the app
 public enum Status {

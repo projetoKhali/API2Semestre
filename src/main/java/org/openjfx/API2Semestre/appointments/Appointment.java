@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.classes;
+package org.openjfx.api2semestre.appointments;
 import java.sql.Timestamp;
 
 /// Representação de um apontamento de Hora-Extra ou Sobreaviso dentro do sistema java.

@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.classes;
+package org.openjfx.api2semestre.appointments;
 
 import java.util.Optional;
 

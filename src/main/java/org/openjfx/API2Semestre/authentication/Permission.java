@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.classes;
+package org.openjfx.api2semestre.authentication;
 
 // Represents the user's permissions in the app
 public enum Permission {

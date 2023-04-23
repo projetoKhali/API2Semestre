@@ -8,16 +8,24 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-/**
- * JavaFX App
- */
+import org.openjfx.api2semestre.authentication.Profile;
+
 public class App extends Application {
+
+    private static final Profile access = Profile.Administrator;
 
     private static Scene scene;
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("appointments"), 826, 400);
+
+        scene = new Scene(loadFXML(
+            (access == Profile.Administrator) ? "login_provisory_adm" : 
+            (access == Profile.Gestor) ? "login_provisory_ges" : 
+            "login_provisory_col" 
+        ));
+
+        // scene = new Scene(loadFXML("appointments"), 826, 400);
         // scene = new Scene(loadFXML("approvals"), 826, 400);
         // scene = new Scene(loadFXML("listagemAdm"), 826, 400);
         stage.setScene(scene);

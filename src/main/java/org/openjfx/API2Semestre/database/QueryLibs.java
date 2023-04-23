@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.openjfx.api2semestre.classes.Appointment;
-import org.openjfx.api2semestre.classes.AppointmentType;
+import org.openjfx.api2semestre.appointments.Appointment;
+import org.openjfx.api2semestre.appointments.AppointmentType;
 
 public class QueryLibs {
 

@@ -7,7 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import org.openjfx.api2semestre.classes.Appointment;
+import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_macros.TableCheckBoxMacros;

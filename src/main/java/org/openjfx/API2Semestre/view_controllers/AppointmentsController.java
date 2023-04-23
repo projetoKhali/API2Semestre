@@ -8,9 +8,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import org.openjfx.api2semestre.classes.Appointment;
-import org.openjfx.api2semestre.classes.AppointmentType;
-
+import org.openjfx.api2semestre.appointments.Appointment;
+import org.openjfx.api2semestre.appointments.AppointmentType;
+import org.openjfx.api2semestre.appointments.Status;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.data_utils.DateConverter;
 import org.openjfx.api2semestre.database.QueryLibs;
@@ -37,7 +37,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.openjfx.api2semestre.classes.Status;
 
 public class AppointmentsController implements Initializable {
 
