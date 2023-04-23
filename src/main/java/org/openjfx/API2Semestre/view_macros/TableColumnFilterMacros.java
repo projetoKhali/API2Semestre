@@ -48,8 +48,7 @@ public final class TableColumnFilterMacros {
                 textField.onKeyTypedProperty().set(
                     editEvent -> {
                         enableFilter.set(enableFilterCallback.get());
-                        ApprovalsController.printFilters();
-                        System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
+                        // System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
                     }
                 );
 
@@ -59,8 +58,7 @@ public final class TableColumnFilterMacros {
                     column.setGraphic(defaultColumnTitleLabel);
                     defaultColumnTitleLabel.setText(textField.getText());
                     enableFilter.set(enableFilterCallback.get());
-                    ApprovalsController.printFilters();
-                    System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
+                    // System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
                 });
 
                 // When the TextField loses focus, set the column header text to its previous value
@@ -70,8 +68,7 @@ public final class TableColumnFilterMacros {
                         column.setGraphic(defaultColumnTitleLabel);
                         defaultColumnTitleLabel.setText(defaultTitle);
                         enableFilter.set(false);
-                        ApprovalsController.printFilters();
-                        System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
+                        // System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
                     }
                 });
             }
