@@ -1,5 +1,5 @@
 *.env
 bin/
 target/
-.info
+*.info
 .vscode/
