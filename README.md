@@ -73,7 +73,7 @@
 
 - [x] 13/02 a 03/03 - Kick-off
 - [x] 13/03 a 02/04 - Sprint 1
-- [ ] 03/04 a 23/04 - Sprint 2
+- [x] 03/04 a 23/04 - Sprint 2
 - [ ] 24/04 a 14/05 - Sprint 3
 - [ ] 15/05 a 04/06 - Sptint 4
 - [ ] 13/06 a 14/06 - Feira de soluções
