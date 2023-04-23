@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "main.java.org.openjfx.api2semestre.App",
+            "projectName": "API2Semestre_4c641714"
+        },
+        {
+            "type": "java",
+            "name": "SQLConnection",
+            "request": "launch",
+            "mainClass": "org.openjfx.api2semestre/org.openjfx.api2semestre.database.SQLConnection",
+            "projectName": "API2Semestre"
+        },
+        {
+            "type": "java",
             "name": "SQLConnection",
             "request": "launch",
             "mainClass": "org.openjfx.api2semestre/org.openjfx.api2semestre.database.SQLConnection",

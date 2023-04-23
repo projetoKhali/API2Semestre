@@ -16,18 +16,16 @@ public final class TableCheckBoxMacros {
     /// Given a Table of T and the given TableColumn of T and Boolean:
     /// Replaces the column's header with an "select / deselect all" checkbox.
     /// Binds the neccessary callbacks to each row's checkboxes as well
-    /// Also disables the Sorting function of the TableColumn
-    public static final <T extends HasSelectedProperty> void setCheckBoxHeader (
+    public static final <T extends HasSelectedProperty> CheckBox setCheckBoxHeader (
         TableView<T> table,
         TableColumn<T, Boolean> column
     ) {
-        column.setSortable(false);
         CheckBox selectAllCheckbox = new CheckBox();
         selectAllCheckbox.setAlignment(Pos.TOP_RIGHT);
         selectAllCheckbox.setOnAction(event -> {
             boolean newValue = selectAllCheckbox.isSelected();
-            for (T aptWrapper : table.getItems()) {
-                aptWrapper.setSelected(newValue);
+            for (T item : table.getItems()) {
+                item.setSelected(newValue);
             }
         });
 
@@ -73,6 +71,7 @@ public final class TableCheckBoxMacros {
                 }
             }
         );
+        return selectAllCheckbox;
     }
 
 

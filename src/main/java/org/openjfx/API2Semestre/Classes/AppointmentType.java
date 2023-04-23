@@ -1,5 +1,7 @@
 package org.openjfx.api2semestre.classes;
 
+import java.util.Optional;
+
 /// Define o tipo de apontamento entre Hora-Extra ou Sobreaviso
 public enum AppointmentType {
     Overtime(true, "Hora-Extra"),
@@ -27,6 +29,14 @@ public enum AppointmentType {
 
     public static AppointmentType of (boolean booleanValue) {
         return booleanValue ? AppointmentType.Overtime : AppointmentType.OnNotice;
+    }
+
+    public static Optional<AppointmentType> ofOptional (String stringValue) {
+        return 
+            Overtime.stringValue.equals(stringValue) ? Optional.of(Overtime) : 
+            OnNotice.stringValue.equals(stringValue) ? Optional.of(OnNotice) : 
+            Optional.empty()
+        ;
     }
     
 }

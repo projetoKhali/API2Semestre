@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS public.apontamento(
     justificativa VARCHAR NULL,
     cr_id VARCHAR NULL,
     aprovacao INT DEFAULT 0,
+    feedback VARCHAR NULL,
     
     CONSTRAINT apontamento_pkey PRIMARY KEY (apt_id)
 );

@@ -15,7 +15,8 @@ AS SELECT
     apontamento.tipo,
     apontamento.justificativa,
     apontamento.cr_id,
-    apontamento.aprovacao 
+    apontamento.aprovacao,
+    apontamento.feedback 
     -- CASE 
     --     WHEN apontamento.aprovacao = 0 THEN 'Pendente'
     --     WHEN apontamento.aprovacao = 1 THEN 'Aprovado'
