@@ -1,5 +1,6 @@
 package org.openjfx.api2semestre.view_controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -23,7 +24,9 @@ import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -34,8 +37,12 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 // import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import org.openjfx.api2semestre.classes.Status;
 
 public class PrimaryController implements Initializable {
 
@@ -111,42 +118,6 @@ public class PrimaryController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-    // col_squad.setCellValueFactory(new PropertyValueFactory<>("squad"));
-
-        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        // QueryLibs.executeSqlFile("./SQL/views.sql");
-
-        // QueryLibs.insertTable(new Appointment(
-        //     "teste",
-        //     AppointmentType.Overtime,
-        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-        //     "khali",
-        //     "2rp",
-        //     "api2sem",
-        //     "teste1"
-        // ));
-        // QueryLibs.insertTable(new Appointment(
-        //     "teste",
-        //     AppointmentType.Overtime,
-        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-        //     "khali",
-        //     "2rp",
-        //     "api2sem",
-        //     "teste2"
-        // ));
-        // QueryLibs.insertTable(new Appointment(
-        //     "teste",
-        //     AppointmentType.Overtime,
-        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-        //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-        //     "khali",
-        //     "2rp",
-        //     "api2sem",
-        //     "teste3"
-        // ));
-    
         buildTable();
 
         updateTable();
@@ -173,6 +144,27 @@ public class PrimaryController implements Initializable {
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
         // asdasdasdasdas( new PropertyValueFactory<>( "justification" ));
+        
+        
+        tabela.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        @Override
+        public void handle(MouseEvent event) {
+            if (event.getClickCount() == 1) {
+                // Get the selected row
+                Appointment selectedItem = tabela.getSelectionModel().getSelectedItem().getAppointment();
+                if (selectedItem != null && selectedItem.getStatus()==Status.Rejected) {
+                    // Do something with the selected row
+//                    System.out.println(selectedItem.toString());
+                    popUp("popUpFeedback.fxml");
+                    
+                      
+                }
+            }
+        }
+
+        });
+
+        
     }
 
     private void updateTable () {
@@ -224,27 +216,33 @@ public class PrimaryController implements Initializable {
 
     }
     
-    @FXML
-    void showPopUp(ActionEvent event) throws IOException {
-          popUp("popUpFeedback.fxml", bt_testePopUp);
-    
-    }
+//    @FXML
+//    void showPopUp(ActionEvent event) throws IOException {
+//          popUp("popUpFeedback.fxml");
+//    
+//    }
     
     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName
-    void popUp(String fileName, Button botao) throws IOException{
+    void popUp(String fileName){
+        try{
         
-        Stage stage;
-        Parent root;
-//        if(event.getSource()==bt_testePopUp){
-        stage = new Stage();
-        root = FXMLLoader.load(getClass().getResource(fileName));
-        stage.setScene(new Scene(root));
-        stage.initModality(Modality.APPLICATION_MODAL);
-        stage.initOwner(botao.getScene().getWindow());
-        stage.showAndWait();
+            Stage stage;
+            Parent root;
+           
+            stage = new Stage();
     
+            root = FXMLLoader.load(getClass().getResource(fileName));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(tabela.getScene().getWindow());
+            stage.showAndWait();
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
         
+    
          
 
     
