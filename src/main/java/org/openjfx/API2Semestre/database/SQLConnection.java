@@ -9,11 +9,6 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.time.LocalDate;
-
-import org.openjfx.api2semestre.classes.Appointment;
-import org.openjfx.api2semestre.classes.AppointmentType;
-import org.openjfx.api2semestre.utils.DateConverter;
 
 public class SQLConnection {
 
@@ -66,11 +61,11 @@ public class SQLConnection {
             conexao = DriverManager.getConnection(driver, userName, password);
             conexao.setAutoCommit(false);
             
-            try {
-                QueryLibs.testConnection();
-            } catch (Exception e) {
-                System.out.println("erro: " + e);
-            }
+            // try {
+            //     QueryLibs.testConnection();
+            // } catch (Exception e) {
+            //     System.out.println("erro: " + e);
+            // }
 
         // tratamento de erros
         } catch (ClassNotFoundException ex) {

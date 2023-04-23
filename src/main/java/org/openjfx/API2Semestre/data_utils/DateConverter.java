@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package org.openjfx.api2semestre.utils;
+package org.openjfx.api2semestre.data_utils;
 
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -19,9 +19,8 @@ public class DateConverter {
         Date date = Date.valueOf(dateInput);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String str_date = format.format(date);
-        String str_date_time = str_date + " " + timeInput + ":00";
+        String str_date_time = str_date + " " + (timeInput.length() <3 ? timeInput + ":00" : timeInput) + ":00";
         Timestamp timestamp = Timestamp.valueOf(str_date_time);
         return timestamp;
     }
-    
 }

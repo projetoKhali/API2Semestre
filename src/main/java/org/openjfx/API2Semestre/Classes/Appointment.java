@@ -15,7 +15,32 @@ public class Appointment {
     private String client;          // Nome do cliente para qual o solicitante está prestando serviço nesse apontamento. TODO: remover cliente do apontamento pois futuramente consegue ser acessado dentro de "project".
     private String project;         // Nome do projeto para qual o solicitante está prestando serviço.
     private String justification;   // Justificativa fornecida pelo solicitante para prestar esta Hora-Extra ou Sobreaviso.
-    private int aprovacao;
+    private Status status;
+
+    private Appointment (
+        Integer id,
+        String requester,
+        AppointmentType type,
+        Timestamp startDate,
+        Timestamp endDate,
+        String squad,
+        String client,
+        String project,
+        String justification,
+        Status status
+    ) {
+        this.id = id;
+        this.requester = requester;
+        this.type = type;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.squad = squad;
+        this.client = client;
+        this.project = project;
+        this.justification = justification;
+        this.status = status;
+    }
+
 
     /// Cria uma nova instancia de apontamento
     public Appointment (
@@ -28,15 +53,18 @@ public class Appointment {
         String project,
         String justification
     ) {
-        this.id = null;
-        this.requester = requester;
-        this.type = type;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.squad = squad;
-        this.client = client;
-        this.project = project;
-        this.justification = justification;
+        this(
+            null,
+            requester,
+            type,
+            startDate,
+            endDate,
+            squad,
+            client,
+            project,
+            justification,
+            Status.of(0)
+        );
     }
 
     /// Carrega uma instancia de apontamento existente
@@ -49,17 +77,21 @@ public class Appointment {
         String squad,
         String client,
         String project,
-        String justification
+        String justification,
+        int status
     ) {
-        this.id = id;
-        this.requester = requester;
-        this.type = type;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.squad = squad;
-        this.client = client;
-        this.project = project;
-        this.justification = justification;
+        this(
+            id,
+            requester,
+            type,
+            startDate,
+            endDate,
+            squad,
+            client,
+            project,
+            justification,
+            Status.of(status)
+        );
     }
 
     /// Métodos de acesso "GET" das variaveis do apontamento.
@@ -72,7 +104,7 @@ public class Appointment {
     public String getClient() { return client; }
     public String getProject() { return project; }
     public String getJustification() { return justification; }
-    public int getAprovacao() { return aprovacao; }
+    public Status getStatus() { return status; }
 
     /// Métodos de acesso "SET" das variaveis do apontamento para modificar os valores
     // public void setId (int id) { this.id = id; }
@@ -84,6 +116,6 @@ public class Appointment {
     // public void setClient (String client) { this.client = client; }
     // public void setProject (String project) { this.project = project; }
     // public void setJustification (String justification) { this.justification = justification; }
-    // public int setAprovacao(int status) { return aprovacao; }
+    public Appointment setStatus(int status) { this.status = Status.of(status); return this; }
 
 }
