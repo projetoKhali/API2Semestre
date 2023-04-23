@@ -9,7 +9,6 @@ import org.openjfx.api2semestre.view_utils.PrettyTableCell;
 import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -17,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 
-public class RejectPopupListItem {
+public class RejectPopupListItem implements PopupController {
 
     @FXML
     private TableView<AppointmentWrapper> tabela;
@@ -49,7 +48,17 @@ public class RejectPopupListItem {
     @FXML
     private TextField textField;
 
-    public AppointmentWrapper apt_selected;
+    private AppointmentWrapper apt_selected;
+
+    @Override
+    public AppointmentWrapper getSelected() {
+        return apt_selected;
+    }
+
+    @Override
+    public void setSelected(AppointmentWrapper aptWrapper) {
+        apt_selected = aptWrapper;
+    }
 
     public void initialize(){
 

@@ -158,7 +158,8 @@ public class ListagemAdmController implements Initializable {
             col_fim_enableFilter.get() ? Optional.of(col_fim) : Optional.empty(),
             col_squad_enableFilter.get() ? Optional.of(col_squad) : Optional.empty(),
             col_cliente_enableFilter.get() ? Optional.of(col_cliente) : Optional.empty(),
-            col_projeto_enableFilter.get() ? Optional.of(col_projeto) : Optional.empty()
+            col_projeto_enableFilter.get() ? Optional.of(col_projeto) : Optional.empty(),
+            Optional.empty()
         );
 
         displayedAppointments = FXCollections.observableArrayList(
