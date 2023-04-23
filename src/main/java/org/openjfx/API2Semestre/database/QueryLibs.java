@@ -8,10 +8,13 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 
 import org.openjfx.api2semestre.classes.Appointment;
+import org.openjfx.api2semestre.classes.AppointmentType;
+import org.openjfx.api2semestre.classes.Status;
 
 public class QueryLibs {
 
@@ -35,7 +38,7 @@ public class QueryLibs {
 
     /// Método que executa um select simples dos apontametos de um usuário.
     /// Pode lançar uma exceção SQLException.
-    public static void simpleSelect(String requester) throws SQLException {
+    public static void simpleSelect (String requester) {
         Connection conexao = getConnection();
 
         // string que carrega o comando em sql
@@ -59,15 +62,15 @@ public class QueryLibs {
                 // imprime os valores das colunas no terminal
                 System.out.println(coluna1 + " | " + coluna2 + " | " + coluna3);
             }
+            conexao.close();
         } catch (Exception ex) {
             System.out.println("QueryLibs.simpleSelect() -- Erro ao executar query");
             ex.printStackTrace();
         }
-        conexao.close();
     }
 
     /// Insere um apontamento no banco de dados.
-    public static void insertTable(Appointment Apt) throws SQLException {
+    public static void insertTable (Appointment Apt) {
 
         Connection conexao = getConnection();
 
@@ -102,11 +105,14 @@ public class QueryLibs {
     }
 
     /// Executa um arquivo SQL no caminho especificado.
-    public static void executeSqlFile (String file_path) throws SQLException, IOException {
+    public static void executeSqlFile (String file_path) {
         Connection conexao = getConnection();
 
         // Abre o arquivo e inicializa um StringBuilder para a leitura dos comandos SQL
-        try (BufferedReader br = new BufferedReader(new FileReader(file_path))) {
+        try {
+
+            BufferedReader br = new BufferedReader(new FileReader(file_path));
+
             StringBuilder sb = new StringBuilder();
             String linha;
 
@@ -120,87 +126,98 @@ public class QueryLibs {
             // Converte o StringBuilder em uma String
             String sql = sb.toString();
 
+            // System.out.println("QueryLibs.executeSqlFile() -- File loaded, executing SQL commands:\n" + sql);
+
             // executa as instruções SQL contidas no arquivo
-            try (Statement statement = conexao.createStatement()) {
-                statement.execute(sql);
-                // envia mudanças para conexão remota
-                conexao.commit();
-            } catch (Exception ex) {
-                System.out.println("QueryLibs.executeSqlFile() -- Erro ao executar query para o arquivo " + file_path);
-                ex.printStackTrace();
-            }
+            Statement statement = conexao.createStatement();
+
+            statement.execute(sql);
+            // envia mudanças para conexão remota
+            conexao.commit();
             conexao.close();
+            br.close();
+                
+        } catch (Exception ex) {
+            System.out.println("QueryLibs.executeSqlFile() -- Erro ao executar query para o arquivo " + file_path);
+            ex.printStackTrace();
         }
+        
     }
 
-    public static Appointment[] collaboratorSelect(String requester) throws SQLException, IOException {
+    public static Appointment[] collaboratorSelect (String requester) {
 
         Connection conexao = getConnection();
 
         // string que carrega o comando em sql
         String sql = "SELECT * FROM vw_apontamento WHERE requester = ?";
-
+        
         var appointments = new ArrayList<Appointment>();
-
+        
         // execução da query
-        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
+        try {
+
+            PreparedStatement statement = conexao.prepareStatement(sql);
 
             // substitui "?" pelo id passado no parâmetro
             statement.setString(1, requester);
             // executa a query e salva o resultado na variável "result"
             ResultSet result = statement.executeQuery();
-
+            
             // cabeçalho
-            System.out.println("Usuário | id | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
-
+            // System.out.println("Usuário | id | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
+            
             while (result.next()) {
+                System.out.println("oi result.next()");
                 // itera sobre cada linha retornada pela consulta
                 // e extrai os valores das colunas necessárias
-                String id = result.getString("id");
-                String hora_inicio = result.getString("hora_inicio");
-                String hora_fim = result.getString("hora_fim");
+                int id = result.getInt("apt_id");
+                Timestamp hora_inicio = new Timestamp(((Date) result.getObject("hora_inicio")).getTime());
+                Timestamp hora_fim = new Timestamp(((Date) result.getObject("hora_fim")).getTime());
                 // String requester = result.getString("usuario_nome");
                 String projeto = result.getString("projeto");
                 String cliente = result.getString("cliente");
-                String tipo = result.getString("tipo");
+                boolean tipo = result.getBoolean("tipo");
                 String justif = result.getString("justificativa");
-                String centroR = result.getString("cr_nome");
-                String aprovacao = result.getString("aprovacao");
+                String centroR = result.getString("cr_id");
+                int aprovacao = result.getInt("aprovacao");
 
-                // appointments.add(new Appointment(
-                //     Integer.parseInt(id),
-                //     requester,
-                //     hora_inicio,
-                //     hora_fim,
-                //     projeto,
-                //     cliente,
-                //     tipo,
-                //     justif,
-                //     centroR,
-                //     aprovacao
-                // ));
+                appointments.add(new Appointment(
+                    id,
+                    requester,
+                    AppointmentType.of(tipo),
+                    hora_inicio,
+                    hora_fim,
+                    projeto,
+                    cliente,
+                    justif,
+                    centroR,
+                    aprovacao
+                ));
 
-                // imprime os valores das colunas no terminal
-                System.out.println(requester
-                        + " | " + id
-                        + " | " + hora_inicio
-                        + " | " + hora_fim
-                        + " | " + projeto
-                        + " | " + cliente
-                        + " | " + tipo
-                        + " | " + justif
-                        + " | " + centroR
-                        + " | " + aprovacao);
+                // // imprime os valores das colunas no terminal
+                // System.out.println(requester
+                //         + " | " + id
+                //         + " | " + hora_inicio
+                //         + " | " + hora_fim
+                //         + " | " + projeto
+                //         + " | " + cliente
+                //         + " | " + tipo
+                //         + " | " + justif
+                //         + " | " + centroR
+                //         + " | " + aprovacao);
             }
+            // fecha a conexão
+            conexao.close();
+    
+        } catch (Exception ex) {
+            System.out.println("QueryLibs.collaboratorSelect() -- Erro ao executar query");
+            ex.printStackTrace();
         }
-        // fecha a conexão
-        conexao.close();
-
         return appointments.toArray(new Appointment[0]);
     }
 
     /// Atualiza um apontamento no banco de dados.
-    public static void updateTable (Appointment Apt) throws SQLException {
+    public static void updateTable (Appointment Apt) {
 
         Connection conexao = getConnection();
 
@@ -236,7 +253,7 @@ public class QueryLibs {
     }
 
     /// Remove um apontamento do banco de dados.
-    public static void deleteIdAppointment(Appointment Apt) throws SQLException {
+    public static void deleteIdAppointment(Appointment Apt) {
 
         Connection conexao = getConnection();
 
@@ -262,7 +279,7 @@ public class QueryLibs {
         }
     }
 
-    public static void testConnection(Connection conexao) throws SQLException {
+    public static void testConnection(Connection conexao) {
         // Connection conexao = getConnection(); // Add param to testConnection so that it doesn't call getConnection() creating infinite loop
 
         // cria tabela, insere dados, deleta dados e deleta tabela

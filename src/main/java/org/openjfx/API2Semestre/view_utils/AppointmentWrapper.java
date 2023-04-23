@@ -19,7 +19,7 @@ public class AppointmentWrapper implements HasSelectedProperty {
     }
 
     public String formatTime (Timestamp timestamp) {
-        return new SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(timestamp.getTime()));
+        return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(timestamp.getTime()));
     }
 
     public String getType() { return appointment.getType().getStringValue(); }
@@ -36,7 +36,7 @@ public class AppointmentWrapper implements HasSelectedProperty {
         long hours = milliseconds / (60 * 60 * 1000);
         long minutes = (milliseconds / (60 * 1000)) % 60;
         if (minutes == 0) return (hours + "h");
-        return String.format("%:%02d", hours, minutes);
+        return String.format(hours + ":%02d", minutes);
     }
 
     @Override

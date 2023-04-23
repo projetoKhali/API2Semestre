@@ -143,41 +143,42 @@ public class PrimaryController implements Initializable {
         // );
 
         try {
-            QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-            QueryLibs.executeSqlFile("./SQL/views.sql");
+            // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+            // QueryLibs.executeSqlFile("./SQL/views.sql");
     
-            QueryLibs.insertTable(new Appointment(
-                "teste",
-                AppointmentType.Overtime,
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-                "khali",
-                "2rp",
-                "api2sem",
-                "teste1"
-            ));
-            QueryLibs.insertTable(new Appointment(
-                "teste",
-                AppointmentType.Overtime,
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-                "khali",
-                "2rp",
-                "api2sem",
-                "teste2"
-            ));
-            QueryLibs.insertTable(new Appointment(
-                "teste",
-                AppointmentType.Overtime,
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-                DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-                "khali",
-                "2rp",
-                "api2sem",
-                "teste3"
-            ));
+            // QueryLibs.insertTable(new Appointment(
+            //     "teste",
+            //     AppointmentType.Overtime,
+            //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+            //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+            //     "khali",
+            //     "2rp",
+            //     "api2sem",
+            //     "teste1"
+            // ));
+            // QueryLibs.insertTable(new Appointment(
+            //     "teste",
+            //     AppointmentType.Overtime,
+            //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+            //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+            //     "khali",
+            //     "2rp",
+            //     "api2sem",
+            //     "teste2"
+            // ));
+            // QueryLibs.insertTable(new Appointment(
+            //     "teste",
+            //     AppointmentType.Overtime,
+            //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
+            //     DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
+            //     "khali",
+            //     "2rp",
+            //     "api2sem",
+            //     "teste3"
+            // ));
 
-            var items = QueryLibs.collaboratorSelect("teste");
+            Appointment[] items = QueryLibs.collaboratorSelect("Fulano");
+            System.out.println(items.length + " appointments returned from select ");
         
             loadedAppointments = FXCollections.observableArrayList(
                 Arrays.asList(items).stream().map((Appointment apt) -> new AppointmentWrapper(apt)).collect(Collectors.toList())
@@ -186,7 +187,6 @@ public class PrimaryController implements Initializable {
             // TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
     
         } catch (Exception e) { 
-            System.out.println("fuck");
             e.printStackTrace();
         }
 
@@ -234,7 +234,7 @@ public class PrimaryController implements Initializable {
             cx_justificativa.getText()
         );
         System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
-        // QueryLibs.insertTable(null, appointment);
+        QueryLibs.insertTable(appointment);
 
         loadedAppointments.add(new AppointmentWrapper(appointment));
 

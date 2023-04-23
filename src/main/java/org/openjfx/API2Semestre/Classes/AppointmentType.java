@@ -24,5 +24,9 @@ public enum AppointmentType {
     public String getStringValue() {
         return stringValue;
     }
+
+    public static AppointmentType of (boolean booleanValue) {
+        return booleanValue ? AppointmentType.Overtime : AppointmentType.OnNotice;
+    }
     
 }
