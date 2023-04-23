@@ -1,0 +1,248 @@
+// about the topic: Reading a specific tag from an FXML file in a JavaFX project:
+
+// let's say i want to read this specific tag that i have on each view:
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import org.openjfx.api2semestre.custom_tags.ViewConfig?>
+<?import javafx.scene.Group?>
+
+<org.openjfx.api2semestre.custom_tags.ViewConfig 
+    xmlns="http://javafx.com/javafx/10.0.1" 
+    xmlns:fx="http://javafx.com/fxml" 
+    fx:controller="org.openjfx.api2semestre.custom_tags.ViewConfig" 
+    name="default" 
+    fx:id="view"
+>
+    <permissions>
+        <Permission></Permission>
+    </permissions>
+</org.openjfx.api2semestre.custom_tags.ViewConfig>
+
+// this fxml tag contains the following properties:
+
+    private StringProperty name = new SimpleStringProperty();
+    private ListProperty<Permission> permissions = new SimpleListProperty<>(FXCollections.observableArrayList());
+
+// the <Permission> tag stores only an string value:
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<fx:define>
+    <Permission fx:factory="fromValue" />
+</fx:define>
+
+// This is the <Permission> tag class:
+
+package org.openjfx.api2semestre.custom_tags;
+import javafx.beans.DefaultProperty;
+
+/// Custom FXML tag that acts as a list-item inside ViewConfig.
+/// Each Permission tag inside of a ViewConfig contains the value of one Permission enum as a String value
+@DefaultProperty("value")
+public class Permission {
+    
+    // static array of Permission enum to reference during Permission tag instantiation
+    private static final org.openjfx.api2semestre.classes.Permission[] PERMISSIONS 
+    = org.openjfx.api2semestre.classes.Permission.values();
+
+    // the Permission value
+    private String value;
+
+    // Empty constructor required by JavaFX
+    public Permission (){
+        super();
+    }
+
+    // Get method for the String value of the Permission tag
+    public String getValue() {
+        return value;
+    }
+
+    // Sets the value of the Permission tag to the given String value.
+    // 
+    // This method validates the given value and throws an IllegalArgumentException in case of an invalid value.
+    // Values must match the values contained in the Permission enum:
+    // src\main\java\org\openjfx\api2semestre\classes\Permission.java
+    // 
+    // Examples of valid and invalid values:
+    // 
+    // <Permission>oi</Permission> <!-- This will throw an IllegalArgumentException since "oi" is not a Permission-->
+    // <Permission>Validate</Permission> <!-- This is a valid tag since the Permission enum contains this value-->
+    // <Permission>this is an invalid value</Permission> <!-- This will also throw an IllegalArgumentException -->    
+    public Permission setValue (String value) {
+        for (org.openjfx.api2semestre.classes.Permission permission : PERMISSIONS) {
+            if (permission.getStringValue().equals(value)) {
+                this.value = value;
+                return this;
+            }
+        }
+        throw new IllegalArgumentException("Invalid permission value: at" + value);
+    }
+
+    // Creates a new Permission tag from the given String value.
+    // Usage, while creating a new View (.fxml) file :
+    // 
+    // <ViewConfig>
+    //     <permissions>
+    //         <Permission>Appoint</Permission>         <!-- Permission tag in this line-->
+    //     </permissions>
+    // </ViewConfig>
+    // 
+    // Make sure to create the Permission tags inside between the "<permissions>" and "</permissions>" tags 
+    // inside the ViewConfig tag as shown above. You can add as many Permission tags as needed for the view.
+    public static Permission fromValue(String value) {
+        return new Permission().setValue(value);
+    }
+}
+
+// This is the Permission enum class:
+
+package org.openjfx.api2semestre.classes;
+
+// Represents the user's permissions in the app
+public enum Permission {
+
+    // List of every Permission:
+    // To add new permissions to the enum, insert them with a coma ( , ) at the end.
+    // The last item on the list should have a semicolon instead ( ; ) to indicate the end of the list of values of the enum
+    Appoint("Appoint"),
+    Validate("Validate"),
+    Register("Register");
+
+    // The String value between the parentheses of each of the enum values above
+    private String stringValue;
+
+    // Create a new Permission from a string. Exclusively for the list above
+    private Permission (String value) {
+        this.stringValue = value;
+    }
+
+    // returns the string value of the Permission
+    public String getStringValue() {
+        return stringValue;
+    }
+}
+
+// In my app, i want to read each view fxml file's ViewConfig tag to retrieve the list of Permission on the tag and based on some logic, match the permissions of the user with those of the ViewConfig of the view. If the user contains every permission that the ViewConfig of that particular view, i want them to have access to that view. The access will be done through a lateral menu with a button for each view that the user has access to. The text on the button will be the "name" property of the ViewConfig tag inside of the view. The window will have two sections: one section for this lateral menu and another section that spams the remaining of the window with that view.
+
+// how could i go about implementing that based on what i have already?
+
+
+
+
+
+
+
+
+To retrieve the list of permissions from each ViewConfig tag, you can use the FXMLLoader class provided by JavaFX. 
+
+First, you need to load the FXML file using the FXMLLoader.load() method. Then, you can access the ViewConfig tag using the fx:id you assigned to it. Finally, you can retrieve the list of permissions from the ViewConfig tag using the getPermissions() method.
+
+Here's an example code snippet that shows how to retrieve the list of permissions from a ViewConfig tag:
+
+```java
+FXMLLoader loader = new FXMLLoader(getClass().getResource("path/to/view.fxml"));
+Parent root = loader.load();
+
+ViewConfig viewConfig = (ViewConfig) loader.getNamespace().get("view");
+List<Permission> permissions = viewConfig.getPermissions();
+```
+
+In the code above, replace "path/to/view.fxml" with the actual path to your FXML file. Also, make sure to replace "view" with the fx:id you assigned to the ViewConfig tag.
+
+Once you have the list of permissions for a ViewConfig, you can compare them with the user's permissions to determine if the user has access to that view. You can then create a button for that view in the lateral menu and set its text to the name property of the ViewConfig tag.
+
+To display the view when the user clicks on the button, you can use the setCenter() method of a BorderPane (assuming you're using a BorderPane as the root node of your scene). Here's an example code snippet that shows how to set the center node of a BorderPane:
+
+```java
+BorderPane root = new BorderPane();
+// create lateral menu and add buttons for views that the user has access to
+// ...
+
+// set initial view to the first view that the user has access to
+Node initialView = // get the node for the initial view (e.g. using FXMLLoader.load())
+root.setCenter(initialView);
+
+// add event handlers to the buttons to switch the center node to the corresponding view
+// ...
+```
+
+In the code above, you can create the lateral menu and add buttons for the views that the user has access to. Then, you can set the initial view to the first view that the user has access to by getting the node for that view (e.g. using FXMLLoader.load()) and calling the setCenter() method of the BorderPane. Finally, you can add event handlers to the buttons to switch the center node to the corresponding view when the user clicks on a button.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Sure, here's how you can continue with your implementation:
+
+1. Create a `ViewConfig` class that will hold the information of each view's `ViewConfig` tag. It should have fields for `name` and `permissions`, as well as getter and setter methods for each field.
+
+2. In your main application class, create a method that will read each FXML file, retrieve the `ViewConfig` tag, and create a new instance of the `ViewConfig` class for each view. You can use the `FXMLLoader` class to load each FXML file and retrieve the `ViewConfig` tag.
+
+3. Store each `ViewConfig` instance in a data structure such as a `HashMap` where the key is the name of the view and the value is the corresponding `ViewConfig` instance.
+
+4. When the user logs in and accesses the lateral menu, retrieve their permissions and check them against each `ViewConfig` instance in the data structure. If the user has all the permissions listed in a `ViewConfig` instance, add a button to the lateral menu with the name of the view as its label.
+
+5. When the user clicks a button in the lateral menu, retrieve the corresponding `ViewConfig` instance from the data structure and use it to load the view's FXML file and display it in the main window.
+
+Here's an example code snippet for step 2:
+
+```java
+private Map<String, ViewConfig> viewConfigs = new HashMap<>();
+
+private void loadViewConfigs() {
+    // Assuming your FXML files are stored in a directory called "views"
+    File viewsDir = new File("views");
+
+    // Loop through each FXML file in the directory
+    for (File fxmlFile : viewsDir.listFiles((dir, name) -> name.endsWith(".fxml"))) {
+        try {
+            // Load the FXML file and retrieve the ViewConfig tag
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(fxmlFile.toURI().toURL());
+            ViewConfig viewConfig = loader.load().lookup("#view");
+
+            // Create a new ViewConfig instance and add it to the data structure
+            String viewName = viewConfig.getName();
+            List<Permission> permissions = viewConfig.getPermissions();
+            viewConfigs.put(viewName, new ViewConfig(viewName, permissions));
+        } catch (IOException e) {
+            // Handle exception
+        }
+    }
+}
+```
+
+And here's an example code snippet for step 4:
+
+```java
+private void loadLateralMenu() {
+    // Assuming the user's permissions are stored in a list called "userPermissions"
+    List<Permission> userPermissions = getUserPermissions();
+
+    // Loop through each ViewConfig instance in the data structure
+    for (ViewConfig viewConfig : viewConfigs.values()) {
+        // Check if the user has all the permissions listed in the ViewConfig instance
+        if (userPermissions.containsAll(viewConfig.getPermissions())) {
+            // Create a new button and add it to the lateral menu
+            String viewName = viewConfig.getName();
+            Button viewButton = new Button(viewName);
+            viewButton.setOnAction(event -> loadView(viewName));
+            lateralMenu.getChildren().add(viewButton);
+        }
+    }
+}
+``` 
+
+Note that these code snippets are just examples and may need to be modified to fit your specific implementation.
+
