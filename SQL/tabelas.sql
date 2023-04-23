@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS public.apontamento(
     justificativa VARCHAR NULL,
     cr_id VARCHAR NULL,
     aprovacao INT DEFAULT 0,
+    verba INT null,
     
     CONSTRAINT apontamento_pkey PRIMARY KEY (apt_id)
 );
@@ -36,6 +37,27 @@ CREATE TABLE IF NOT EXISTS public.usuario(
 CREATE TABLE IF NOT EXISTS public.centro_resultado(
     cr_id serial NOT NULL,
     nome VARCHAR NULL,
+    codigo VARCHAR NULL,
+    sigla VARCHAR NULL,
+    gtr_id INT NULL,
 
     CONSTRAINT centro_resultado_pkey PRIMARY KEY (cr_id)
+);
+
+-- cliente
+CREATE TABLE IF NOT EXISTS public.cliente(
+    cli_id serial NOT NULL,
+    nome VARCHAR NULL,
+    cnpj VARCHAR NULL,
+
+    CONSTRAINT  cliente_pkey PRIMARY KEY (cli_id)
+);
+
+-- pertence
+CREATE  TABLE IF NOT EXISTS public.pertence(
+    ptc_id serial NOT NULL,
+    usr_id INT NULL,
+    cr_id INT NULL,
+
+    CONSTRAINT pertence_pkey PRIMARY KEY (ptc_id)
 );
