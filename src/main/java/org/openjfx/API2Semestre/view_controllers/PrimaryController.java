@@ -21,6 +21,8 @@ import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
 import org.openjfx.api2semestre.view_utils.PrettyTableCell;
 import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
 
+import org.openjfx.api2semestre.view_controllers.PopUpFeedbackController;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,6 +34,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -121,6 +124,7 @@ public class PrimaryController implements Initializable {
         buildTable();
 
         updateTable();
+        
 
     }
 
@@ -151,18 +155,23 @@ public class PrimaryController implements Initializable {
         public void handle(MouseEvent event) {
             if (event.getClickCount() == 1) {
                 // Get the selected row
-                Appointment selectedItem = tabela.getSelectionModel().getSelectedItem().getAppointment();
-                if (selectedItem != null && selectedItem.getStatus()==Status.Rejected) {
+                AppointmentWrapper selectedItem = tabela.getSelectionModel().getSelectedItem();
+                
+                if (selectedItem != null && selectedItem.getAppointment().getStatus()==Status.Pending) {
                     // Do something with the selected row
 //                    System.out.println(selectedItem.toString());
+                    PopUpFeedbackController.apt_selected = selectedItem;
                     popUp("popUpFeedback.fxml");
-                    
                       
                 }
+                
             }
         }
 
         });
+//        PopUpFeedbackController popup = new PopUpFeedbackController();
+//        Label lb_feedback = popup.getLb_feedback();
+//        lb_feedback.setText("oi");
 
         
     }
@@ -231,7 +240,7 @@ public class PrimaryController implements Initializable {
            
             stage = new Stage();
     
-            root = FXMLLoader.load(getClass().getResource(fileName));
+            root = FXMLLoader.load(PopUpFeedbackController.class.getResource(fileName));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(tabela.getScene().getWindow());

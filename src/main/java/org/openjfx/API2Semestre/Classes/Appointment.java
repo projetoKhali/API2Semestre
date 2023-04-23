@@ -16,6 +16,7 @@ public class Appointment {
     private String project;         // Nome do projeto para qual o solicitante está prestando serviço.
     private String justification;   // Justificativa fornecida pelo solicitante para prestar esta Hora-Extra ou Sobreaviso.
     private Status status;
+    private String feedback;
 
     private Appointment (
         Integer id,
@@ -27,7 +28,8 @@ public class Appointment {
         String client,
         String project,
         String justification,
-        Status status
+        Status status,
+        String feedback
     ) {
         this.id = id;
         this.requester = requester;
@@ -39,6 +41,7 @@ public class Appointment {
         this.project = project;
         this.justification = justification;
         this.status = status;
+        this.feedback = feedback;
     }
 
 
@@ -63,7 +66,8 @@ public class Appointment {
             client,
             project,
             justification,
-            Status.of(0)
+            Status.of(0),
+            null
         );
     }
 
@@ -78,7 +82,8 @@ public class Appointment {
         String client,
         String project,
         String justification,
-        int status
+        int status,
+        String feedback
     ) {
         this(
             id,
@@ -90,7 +95,8 @@ public class Appointment {
             client,
             project,
             justification,
-            Status.of(status)
+            Status.of(status),
+            feedback
         );
     }
 
@@ -105,6 +111,7 @@ public class Appointment {
     public String getProject() { return project; }
     public String getJustification() { return justification; }
     public Status getStatus() { return status; }
+    public String getFeedback() { return feedback; }
 
     /// Métodos de acesso "SET" das variaveis do apontamento para modificar os valores
     // public void setId (int id) { this.id = id; }
@@ -117,5 +124,6 @@ public class Appointment {
     // public void setProject (String project) { this.project = project; }
     // public void setJustification (String justification) { this.justification = justification; }
     public Appointment setStatus(int status) { this.status = Status.of(status); return this; }
+    public void setFeedback (String feedback) {this.feedback = feedback; }
 
 }

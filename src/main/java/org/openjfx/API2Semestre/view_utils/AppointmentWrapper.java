@@ -43,6 +43,7 @@ public class AppointmentWrapper implements HasSelectedProperty {
         return String.format(hours + ":%02d", minutes);
     }
     public String getJustification() { return appointment.getJustification(); }
+    public String getFeedback() { return appointment.getFeedback(); }
 
     @Override
     public BooleanProperty selectedProperty() {
