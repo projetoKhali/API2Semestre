@@ -4,6 +4,7 @@
 -- O código pode ser executado em qualqer ordem
 
 -- apontamento
+-- apontamento
 CREATE TABLE IF NOT EXISTS public.apontamento(
     apt_id serial NOT NULL,
     hora_inicio TIMESTAMP null,
@@ -14,7 +15,7 @@ CREATE TABLE IF NOT EXISTS public.apontamento(
     tipo BOOLEAN NULL,
     justificativa VARCHAR NULL,
     cr_id VARCHAR NULL,
-    aprovacao INT 0,
+    aprovacao INT DEFAULT 0,
     
     CONSTRAINT apontamento_pkey PRIMARY KEY (apt_id)
 );
@@ -27,7 +28,6 @@ CREATE TABLE IF NOT EXISTS public.usuario(
     senha VARCHAR NULL,
     tipo VARCHAR NULL,
     matricula VARCHAR NULL,
-    verba NUMERIC NULL,
     
     CONSTRAINT usuario_pkey PRIMARY KEY (usr_id)
 );

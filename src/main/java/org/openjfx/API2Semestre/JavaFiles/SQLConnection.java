@@ -72,7 +72,8 @@ public class SQLConnection {
             conexao.setAutoCommit(false);
             
             try {
-                QueryLibs.testConnection();
+                // QueryLibs.testConnection();
+                QueryLibs.executeSqlFile("./SQL/Tabelas.sql");
             } catch (Exception e) {
                 System.out.println("erro: " + e);
             }
@@ -92,6 +93,8 @@ public class SQLConnection {
     public static void main(String[] args) throws SQLException, IOException {
         SQLConnection sqlConnection = new SQLConnection();
         Connection conexao = sqlConnection.connect();
+
+        // QueryLibs.testConnection();
 
         // if (conexao != null) {
         //     System.out.println("Conexão feita com sucesso!");
