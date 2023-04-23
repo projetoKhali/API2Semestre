@@ -1,42 +1,57 @@
 package org.openjfx.api2semestre.view_utils;
 
+import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 
 import org.openjfx.api2semestre.classes.Appointment;
 
-public class AppointmentWrapper {
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
+public class AppointmentWrapper implements HasSelectedProperty {
 
     private Appointment appointment;
-    private Boolean selected;
+    private SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
 
     public AppointmentWrapper (Appointment appointment) {
         this.appointment = appointment;
     }
 
+    public String formatTime (Timestamp timestamp) {
+        return new SimpleDateFormat("dd/MM/yyyy hh:mm").format(new Date(timestamp.getTime()));
+    }
+
     public String getType() { return appointment.getType().getStringValue(); }
     public String getRequester() { return appointment.getRequester(); }
-    public Timestamp getStartDate() { return appointment.getStartDate(); }
-    public Timestamp getEndDate() { return appointment.getEndDate(); }
+    public String getStartDate() { return formatTime(appointment.getStartDate()); }
+    public String getEndDate() { return formatTime(appointment.getEndDate()); }
     public String getSquad() { return appointment.getSquad(); }
     public String getClient() { return appointment.getClient(); }
     public String getProject() { return appointment.getProject(); }
     public String getJustification() { return appointment.getJustification(); }
     public String getStatus() { return appointment.getStatus().getStringValue(); }
     public String getTotal() {
-        long milliseconds = getEndDate().getTime() - getStartDate().getTime();
+        long milliseconds = appointment.getEndDate().getTime() - appointment.getStartDate().getTime();
         long hours = milliseconds / (60 * 60 * 1000);
         long minutes = (milliseconds / (60 * 1000)) % 60;
         if (minutes == 0) return (hours + "h");
         return String.format("%:%02d", hours, minutes);
     }
 
-    public Boolean isSelected() {
+    @Override
+    public BooleanProperty selectedProperty() {
         return selected;
     }
 
-    public AppointmentWrapper setSelected(boolean selected) {
-        this.selected = selected;
-        return this;
+    @Override
+    public boolean getSelected() {
+        return selected.get();
+    }
+
+    @Override
+    public void setSelected(boolean selected) {
+        this.selected.set(selected);
     }
 
 }

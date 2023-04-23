@@ -61,11 +61,11 @@ public class SQLConnection {
             conexao = DriverManager.getConnection(driver, userName, password);
             conexao.setAutoCommit(false);
             
-            try {
-                QueryLibs.testConnection();
-            } catch (Exception e) {
-                System.out.println("erro: " + e);
-            }
+            // try {
+            //     QueryLibs.testConnection();
+            // } catch (Exception e) {
+            //     System.out.println("erro: " + e);
+            // }
 
         // tratamento de erros
         } catch (ClassNotFoundException ex) {

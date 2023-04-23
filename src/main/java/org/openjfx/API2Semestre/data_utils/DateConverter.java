@@ -19,9 +19,8 @@ public class DateConverter {
         Date date = Date.valueOf(dateInput);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         String str_date = format.format(date);
-        String str_date_time = str_date + " " + timeInput + ":00";
+        String str_date_time = str_date + " " + (timeInput.length() <3 ? timeInput + ":00" : timeInput) + ":00";
         Timestamp timestamp = Timestamp.valueOf(str_date_time);
         return timestamp;
     }
-    
 }

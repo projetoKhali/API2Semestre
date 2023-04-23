@@ -70,16 +70,15 @@
             </Button>
             <TableView fx:id="tabela" prefHeight="200.0" prefWidth="791.0" editable="true">
                <columns>
-                  <TableColumn fx:id="col_selecionar" editable="true" prefWidth="24.0" text="☐" />
+                  <!-- <TableColumn fx:id="col_selecionar" editable="true" prefWidth="24.0" text="☐" /> -->
                   <TableColumn fx:id="col_status" editable="false" prefWidth="96.0" text="Status" />
                   <TableColumn fx:id="col_squad" editable="true" prefWidth="128" text="Squad" />
-                  <TableColumn fx:id="col_extraOUsobreaviso" editable="false" prefWidth="128" text="Extra/Sobreaviso" />
+                  <TableColumn fx:id="col_tipo" editable="false" prefWidth="128" text="Tipo" />
                   <TableColumn fx:id="col_inicio" editable="false" prefWidth="128.0" text="Inicio" />
                   <TableColumn fx:id="col_fim" editable="false" prefWidth="128.0" text="Fim" />
                   <TableColumn fx:id="col_cliente" editable="false" prefWidth="128.0" text="Cliente" />
                   <TableColumn fx:id="col_projeto" editable="false" prefWidth="128.0" text="Projeto" />
                   <TableColumn fx:id="col_total" editable="false" prefWidth="64.0" text="total" />
-                  <!-- <TableColumn fx:id="col_total" editable="false" prefWidth="116" text="Total" /> -->
                   <!-- <TableColumn fx:id="col_feedback" editable="false" prefWidth="112" text="Feedback" /> -->
                </columns>
                <FlowPane.margin>

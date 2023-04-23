@@ -116,6 +116,6 @@ public class Appointment {
     // public void setClient (String client) { this.client = client; }
     // public void setProject (String project) { this.project = project; }
     // public void setJustification (String justification) { this.justification = justification; }
-    // public Status setStatus(int status) { return aprovacao; }
+    public Appointment setStatus(int status) { this.status = Status.of(status); return this; }
 
 }
