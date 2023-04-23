@@ -188,10 +188,10 @@ public class QueryLibs {
                     AppointmentType.of(tipo),
                     hora_inicio,
                     hora_fim,
-                    projeto,
-                    cliente,
-                    justif,
                     centroR,
+                    cliente,
+                    projeto,
+                    justif,
                     aprovacao
                 ));
 

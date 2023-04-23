@@ -29,7 +29,6 @@ public class AppointmentWrapper implements HasSelectedProperty {
     public String getSquad() { return appointment.getSquad(); }
     public String getClient() { return appointment.getClient(); }
     public String getProject() { return appointment.getProject(); }
-    public String getJustification() { return appointment.getJustification(); }
     public String getStatus() { return appointment.getStatus().getStringValue(); }
     public String getTotal() {
         long milliseconds = appointment.getEndDate().getTime() - appointment.getStartDate().getTime();
@@ -38,6 +37,7 @@ public class AppointmentWrapper implements HasSelectedProperty {
         if (minutes == 0) return (hours + "h");
         return String.format(hours + ":%02d", minutes);
     }
+    public String getJustification() { return appointment.getJustification(); }
 
     @Override
     public BooleanProperty selectedProperty() {

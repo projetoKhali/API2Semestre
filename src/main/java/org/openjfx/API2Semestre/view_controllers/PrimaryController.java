@@ -140,23 +140,16 @@ public class PrimaryController implements Initializable {
         //     "api2sem",
         //     "teste3"
         // ));
-
-        Appointment[] items = QueryLibs.collaboratorSelect("Fulano");
-        System.out.println(items.length + " appointments returned from select ");
-    
-        loadedAppointments = FXCollections.observableArrayList(
-            Arrays.asList(items).stream().map((Appointment apt) -> new AppointmentWrapper(apt)).collect(Collectors.toList())
-        );
-        // col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
-        // TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
     
         buildTable();
 
-        tabela.setItems(loadedAppointments);
+        updateTable();
 
     }
 
     private void buildTable () {
+        // col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
+        // TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
         col_status.setCellFactory(column -> {
             List<PrettyTableCellInstruction<AppointmentWrapper, String>> instructions = new ArrayList<>();
@@ -174,6 +167,17 @@ public class PrimaryController implements Initializable {
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
         // asdasdasdasdas( new PropertyValueFactory<>( "justification" ));
+    }
+
+    private void updateTable () {
+        Appointment[] items = QueryLibs.collaboratorSelect("Fulano");
+        System.out.println(items.length + " appointments returned from select ");
+    
+        loadedAppointments = FXCollections.observableArrayList(
+            Arrays.asList(items).stream().map((Appointment apt) -> new AppointmentWrapper(apt)).collect(Collectors.toList())
+        );
+
+        tabela.setItems(loadedAppointments);
     }
 
     @FXML
