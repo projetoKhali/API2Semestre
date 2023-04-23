@@ -79,28 +79,13 @@ public class ApprovalsController implements Initializable {
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
     
-    private CheckBox selectAllCheckbox;
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
     
-        instance = this;
-
         buildTable();
 
         updateTable();
 
-    }
-
-    private static ApprovalsController instance;
-    public static void printFilters () {
-        System.out.println("col_requester_enableFilter: " + instance.col_requester_enableFilter.get());
-        System.out.println("col_squad_enableFilter: " + instance.col_squad_enableFilter.get());
-        System.out.println("col_tipo_enableFilter: " + instance.col_tipo_enableFilter.get());
-        System.out.println("col_inicio_enableFilter: " + instance.col_inicio_enableFilter.get());
-        System.out.println("col_fim_enableFilter: " + instance.col_fim_enableFilter.get());
-        System.out.println("col_cliente_enableFilter: " + instance.col_cliente_enableFilter.get());
-        System.out.println("col_projeto_enableFilter: " + instance.col_projeto_enableFilter.get());
     }
 
     private void buildTable () {
@@ -126,16 +111,16 @@ public class ApprovalsController implements Initializable {
         col_squad_enableFilter.addListener(applyFilterCallback);
 
         col_tipo.setCellValueFactory( new PropertyValueFactory<>( "type" ));
-        TableColumnFilterMacros.setTextFieldHeader(col_tipo, "Tipo", col_tipo_enableFilter);
-        col_tipo_enableFilter.addListener(applyFilterCallback);
+        // TableColumnFilterMacros.setTextFieldHeader(col_tipo, "Tipo", col_tipo_enableFilter);
+        // col_tipo_enableFilter.addListener(applyFilterCallback);
 
         col_inicio.setCellValueFactory( new PropertyValueFactory<>( "startDate" ));
-        TableColumnFilterMacros.setTextFieldHeader(col_inicio, "Início", col_inicio_enableFilter);
-        col_inicio_enableFilter.addListener(applyFilterCallback);
+        // TableColumnFilterMacros.setTextFieldHeader(col_inicio, "Início", col_inicio_enableFilter);
+        // col_inicio_enableFilter.addListener(applyFilterCallback);
 
         col_fim.setCellValueFactory( new PropertyValueFactory<>( "endDate" ));
-        TableColumnFilterMacros.setTextFieldHeader(col_fim, "Fim", col_fim_enableFilter);
-        col_fim_enableFilter.addListener(applyFilterCallback);
+        // TableColumnFilterMacros.setTextFieldHeader(col_fim, "Fim", col_fim_enableFilter);
+        // col_fim_enableFilter.addListener(applyFilterCallback);
 
         col_cliente.setCellValueFactory( new PropertyValueFactory<>( "client" ));
         TableColumnFilterMacros.setTextFieldHeader(col_cliente, "Cliente", col_cliente_enableFilter);

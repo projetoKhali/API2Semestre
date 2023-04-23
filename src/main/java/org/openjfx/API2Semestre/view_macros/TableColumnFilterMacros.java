@@ -18,10 +18,10 @@ public final class TableColumnFilterMacros {
     /// Binds the neccessary callbacks to each row's TextFieldes as well
     public static final <T> void setTextFieldHeader (
         TableColumn<T, String> column,
-        String titleb,
+        String defaultTitle,
         BooleanProperty enableFilter
     ) {
-        final String defaultTitle = "|" + titleb + "|";
+        // final String defaultTitle = "|" + titleb + "|";
         // Define the onClick function for the column header
         column.setText(null);
         Label defaultColumnTitleLabel = new Label(defaultTitle);
