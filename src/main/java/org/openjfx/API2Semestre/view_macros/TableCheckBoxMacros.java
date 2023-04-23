@@ -16,7 +16,7 @@ public final class TableCheckBoxMacros {
     /// Given a Table of T and the given TableColumn of T and Boolean:
     /// Replaces the column's header with an "select / deselect all" checkbox.
     /// Binds the neccessary callbacks to each row's checkboxes as well
-    public static final <T extends HasSelectedProperty> void setCheckBoxHeader (
+    public static final <T extends HasSelectedProperty> CheckBox setCheckBoxHeader (
         TableView<T> table,
         TableColumn<T, Boolean> column
     ) {
@@ -71,6 +71,7 @@ public final class TableCheckBoxMacros {
                 }
             }
         );
+        return selectAllCheckbox;
     }
 
 

@@ -1,9 +1,15 @@
 package org.openjfx.api2semestre.view_macros;
 
 import javafx.scene.control.TextField;
+
+import java.util.function.Supplier;
+
+import org.openjfx.api2semestre.view_controllers.ApprovalsController;
+
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+
 
 public final class TableColumnFilterMacros {
     
@@ -15,27 +21,35 @@ public final class TableColumnFilterMacros {
         String titleb,
         BooleanProperty enableFilter
     ) {
-        final String title = "|" + titleb + "|";
+        final String defaultTitle = "|" + titleb + "|";
         // Define the onClick function for the column header
         column.setText(null);
-        Label defaultColumnTitleLabel = new Label(title);
+        Label defaultColumnTitleLabel = new Label(defaultTitle);
         column.setGraphic(defaultColumnTitleLabel);
         defaultColumnTitleLabel.setMaxWidth(Double.MAX_VALUE);
         defaultColumnTitleLabel.setOnMouseClicked(clickEvent -> {
             if (clickEvent.getClickCount() == 1) {
+
                 // Create a TextField and set it as the header graphic
                 TextField textField = new TextField();
-                textField.setText(title);
+                textField.setText(defaultTitle);
                 column.setGraphic(textField);
 
                 // Focus the TextField and select all its contents
                 textField.requestFocus();
                 textField.selectAll();
 
-                textField.onInputMethodTextChangedProperty().set(
+                Supplier<Boolean> enableFilterCallback = () -> {
+                    String currentTextFieldText = textField.getText();
+                    return currentTextFieldText.length() > 0 && !currentTextFieldText.equals(defaultTitle);
+                };
+
+                // When text inside TextField changes
+                textField.onKeyTypedProperty().set(
                     editEvent -> {
-                        enableFilter.set(textField.getText().length() > 0);
-                        System.out.println("FilterMacros -- title: " + title + " | filter: " + enableFilter);
+                        enableFilter.set(enableFilterCallback.get());
+                        ApprovalsController.printFilters();
+                        System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
                     }
                 );
 
@@ -44,19 +58,20 @@ public final class TableColumnFilterMacros {
                     column.setText(null);
                     column.setGraphic(defaultColumnTitleLabel);
                     defaultColumnTitleLabel.setText(textField.getText());
-                    enableFilter.set(false);
-                    System.out.println("FilterMacros -- title: " + title + " | filter: " + enableFilter);
+                    enableFilter.set(enableFilterCallback.get());
+                    ApprovalsController.printFilters();
+                    System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
                 });
 
                 // When the TextField loses focus, set the column header text to its previous value
                 // but only if TextField doesn't contain text
                 textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
-                    String currentTextFieldText = textField.getText();
-                    if (!newValue && (currentTextFieldText.length() == 0 || currentTextFieldText.equals(title))) {
+                    if (!newValue && !enableFilterCallback.get()) {
                         column.setGraphic(defaultColumnTitleLabel);
-                        defaultColumnTitleLabel.setText(title);
+                        defaultColumnTitleLabel.setText(defaultTitle);
                         enableFilter.set(false);
-                        System.out.println("FilterMacros -- title: " + title + " | filter: " + enableFilter);
+                        ApprovalsController.printFilters();
+                        System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
                     }
                 });
             }

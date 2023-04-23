@@ -17,11 +17,14 @@ import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -76,14 +79,28 @@ public class ApprovalsController implements Initializable {
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
     
+    private CheckBox selectAllCheckbox;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
     
+        instance = this;
+
         buildTable();
 
         updateTable();
 
+    }
+
+    private static ApprovalsController instance;
+    public static void printFilters () {
+        System.out.println("col_requester_enableFilter: " + instance.col_requester_enableFilter.get());
+        System.out.println("col_squad_enableFilter: " + instance.col_squad_enableFilter.get());
+        System.out.println("col_tipo_enableFilter: " + instance.col_tipo_enableFilter.get());
+        System.out.println("col_inicio_enableFilter: " + instance.col_inicio_enableFilter.get());
+        System.out.println("col_fim_enableFilter: " + instance.col_fim_enableFilter.get());
+        System.out.println("col_cliente_enableFilter: " + instance.col_cliente_enableFilter.get());
+        System.out.println("col_projeto_enableFilter: " + instance.col_projeto_enableFilter.get());
     }
 
     private void buildTable () {
@@ -91,48 +108,44 @@ public class ApprovalsController implements Initializable {
         // tabela.setTableMenuButtonVisible(false);
 
         col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
-        col_selecionar.setReorderable(false);
-        // col_selecionar.setResizable(false);
         TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
 
+        ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                applyFilter();
+            }
+        };
+
         col_requester.setCellValueFactory( new PropertyValueFactory<>( "requester" ));
-        col_requester.setReorderable(false);
-        // col_requester.setResizable(false);
         TableColumnFilterMacros.setTextFieldHeader(col_requester, "Solicitante", col_requester_enableFilter);
+        col_requester_enableFilter.addListener(applyFilterCallback);
 
         col_squad.setCellValueFactory( new PropertyValueFactory<>( "squad" ));
-        col_squad.setReorderable(false);
-        // col_squad.setResizable(false);
         TableColumnFilterMacros.setTextFieldHeader(col_squad, "CR", col_squad_enableFilter);
+        col_squad_enableFilter.addListener(applyFilterCallback);
 
         col_tipo.setCellValueFactory( new PropertyValueFactory<>( "type" ));
-        col_tipo.setReorderable(false);
-        // col_tipo.setResizable(false);
         TableColumnFilterMacros.setTextFieldHeader(col_tipo, "Tipo", col_tipo_enableFilter);
+        col_tipo_enableFilter.addListener(applyFilterCallback);
 
         col_inicio.setCellValueFactory( new PropertyValueFactory<>( "startDate" ));
-        col_inicio.setReorderable(false);
-        // col_inicio.setResizable(false);
         TableColumnFilterMacros.setTextFieldHeader(col_inicio, "Início", col_inicio_enableFilter);
+        col_inicio_enableFilter.addListener(applyFilterCallback);
 
         col_fim.setCellValueFactory( new PropertyValueFactory<>( "endDate" ));
-        col_fim.setReorderable(false);
-        // col_fim.setResizable(false);
         TableColumnFilterMacros.setTextFieldHeader(col_fim, "Fim", col_fim_enableFilter);
+        col_fim_enableFilter.addListener(applyFilterCallback);
 
         col_cliente.setCellValueFactory( new PropertyValueFactory<>( "client" ));
-        col_cliente.setReorderable(false);
-        // col_cliente.setResizable(false);
         TableColumnFilterMacros.setTextFieldHeader(col_cliente, "Cliente", col_cliente_enableFilter);
+        col_cliente_enableFilter.addListener(applyFilterCallback);
 
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
-        col_projeto.setReorderable(false);
-        // col_projeto.setResizable(false);
         TableColumnFilterMacros.setTextFieldHeader(col_projeto, "Projeto", col_projeto_enableFilter);
+        col_projeto_enableFilter.addListener(applyFilterCallback);
 
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
-        col_total.setReorderable(false);
-        // col_total.setResizable(false);
     }
 
     private void updateTable () {
@@ -140,6 +153,17 @@ public class ApprovalsController implements Initializable {
         System.out.println(items.length + " appointments returned from select ");
     
         loadedAppointments = Arrays.asList(items);
+
+        displayedAppointments = FXCollections.observableArrayList(
+            loadedAppointments.stream().map((Appointment apt) -> new AppointmentWrapper(apt)).collect(Collectors.toList())
+        );
+
+        tabela.setItems(displayedAppointments);
+    }
+
+    private void applyFilter () {
+
+        System.out.println("applyFilter");
 
         List<Appointment> appointmentsToDisplay = AppointmentFilter.filterFromView(
             loadedAppointments,
@@ -157,6 +181,10 @@ public class ApprovalsController implements Initializable {
         );
 
         tabela.setItems(displayedAppointments);
+        tabela.refresh();
+
+        col_selecionar.setGraphic(null);
+        TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
     }
 
     
