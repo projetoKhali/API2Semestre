@@ -87,7 +87,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <!-- <Button fx:id="bt_testePopUp" layoutX="350.0" layoutY="330.0" mnemonicParsing="false" onAction="#showPopUp" text="Teste pop up" /> -->
    </children>
    <padding>
       <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />

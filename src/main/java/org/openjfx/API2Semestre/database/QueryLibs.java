@@ -178,6 +178,7 @@ public class QueryLibs {
                 String justif = result.getString("justificativa");
                 String centroR = result.getString("cr_id");
                 int aprovacao = result.getInt("aprovacao");
+                String feedback = result.getString("feedback");
 
                 appointments.add(new Appointment(
                     id,
@@ -189,7 +190,8 @@ public class QueryLibs {
                     cliente,
                     projeto,
                     justif,
-                    aprovacao
+                    aprovacao,
+                    feedback
                 ));
 
                 // // imprime os valores das colunas no terminal
@@ -224,7 +226,7 @@ public class QueryLibs {
         // ultimo stratement é o getId, então será necessario coletar o ID do
         // apantamento
         // para reconhecer qual apontamento será atualizado.
-        String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, requester = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ? WHERE apt_id = ?";
+        String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, requester = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ?, justificativa = ?, feedback = ? WHERE apt_id = ?";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
             statement.setObject(1, Date.from(Apt.getStartDate().toInstant()));
@@ -233,9 +235,10 @@ public class QueryLibs {
             statement.setString(4, Apt.getProject());
             statement.setString(5, Apt.getClient());
             statement.setBoolean(6, Apt.getType().getBooleanValue());
-            statement.setString(7, Apt.getJustification());
-            statement.setString(8, Apt.getSquad());
-            statement.setInt(9, Apt.getId());
+            statement.setString(7, Apt.getSquad());
+            statement.setString(8, Apt.getJustification());
+            statement.setString(9, Apt.getFeedback());
+            statement.setInt(10, Apt.getId());
 
             // executa o update
             statement.executeUpdate();

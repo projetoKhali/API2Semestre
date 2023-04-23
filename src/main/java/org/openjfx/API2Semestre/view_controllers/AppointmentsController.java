@@ -21,15 +21,23 @@ import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import org.openjfx.api2semestre.classes.Status;
 
 public class AppointmentsController implements Initializable {
 
@@ -97,7 +105,6 @@ public class AppointmentsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-
         buildTable();
 
         updateTable();
@@ -121,6 +128,22 @@ public class AppointmentsController implements Initializable {
         col_cliente.setCellValueFactory( new PropertyValueFactory<>( "client" ));
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
+        
+        tabela.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                if (event.getClickCount() != 1) return;
+
+                Status targetStatus = Status.Pending; // TODO: change to Rejected in production
+                AppointmentWrapper selectedItem = tabela.getSelectionModel().getSelectedItem();
+                if (selectedItem == null || selectedItem.getAppointment().getStatus() != targetStatus) return;
+
+                // System.out.println(selectedItem.toString());
+                PopUpFeedbackController.apt_selected = selectedItem;
+                popUp("popUpFeedback.fxml");
+                                    
+            }
+        });
     }
 
     private void updateTable () {
@@ -171,28 +194,28 @@ public class AppointmentsController implements Initializable {
 
 
     }
-    
-//     @FXML
-//     void showPopUp(ActionEvent event) throws IOException {
-//           popUp("popUpFeedback.fxml", bt_testePopUp);
-    
-//     }
-    
-//     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName
-//     void popUp(String fileName, Button botao) throws IOException{
         
-//         Stage stage;
-//         Parent root;
-// //        if(event.getSource()==bt_testePopUp){
-//         stage = new Stage();
-//         root = FXMLLoader.load(getClass().getResource(fileName));
-//         stage.setScene(new Scene(root));
-//         stage.initModality(Modality.APPLICATION_MODAL);
-//         stage.initOwner(botao.getScene().getWindow());
-//         stage.showAndWait();
-    
-//     }
+    // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName
+    void popUp(String fileName){
+        try{
         
+            Stage stage;
+            Parent root;
+           
+            stage = new Stage();
+    
+            root = FXMLLoader.load(PopUpFeedbackController.class.getResource(fileName));
+            stage.setScene(new Scene(root));
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(tabela.getScene().getWindow());
+            stage.showAndWait();
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+        
+    
          
 
     

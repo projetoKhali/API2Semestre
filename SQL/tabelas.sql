@@ -23,14 +23,14 @@ CREATE TABLE IF NOT EXISTS public.apontamento(
 
 -- usuário
 CREATE TABLE IF NOT EXISTS public.usuario(
-    usr_id serial NOT NULL,
+    requester serial NOT NULL,
     nome VARCHAR NULL,
     email VARCHAR NULL,
     senha VARCHAR NULL,
     tipo VARCHAR NULL,
     matricula VARCHAR NULL,
     
-    CONSTRAINT usuario_pkey PRIMARY KEY (usr_id)
+    CONSTRAINT usuario_pkey PRIMARY KEY (requester)
 );
 
 -- centro de resultado

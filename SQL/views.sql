@@ -16,7 +16,7 @@ AS SELECT
     apontamento.justificativa,
     apontamento.cr_id,
     apontamento.aprovacao,
-    apontamento.feedback 
+    apontamento.feedback
     -- CASE 
     --     WHEN apontamento.aprovacao = 0 THEN 'Pendente'
     --     WHEN apontamento.aprovacao = 1 THEN 'Aprovado'
@@ -30,7 +30,7 @@ AS SELECT
 -- usuário
 CREATE OR REPLACE VIEW public.vw_usuario 
 AS SELECT
-    usuario.usr_id,
+    usuario.requester,
     usuario.nome,
     usuario.email,
     usuario.senha,

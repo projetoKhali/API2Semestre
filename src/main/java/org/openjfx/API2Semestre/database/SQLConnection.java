@@ -107,7 +107,7 @@ public class SQLConnection {
 
     //     // Erro ao executar a query: ERROR: column "requester" of relation "apontamento" does not exist
     //     //      Posição: 49
-    //     // Erro ao executar a query: ERROR: column "usr_id" is of type integer but expression is of type character varying
+    //     // Erro ao executar a query: ERROR: column "requester" is of type integer but expression is of type character varying
     //     //      Dica: You will need to rewrite or cast the expression.
     //     //      Posição: 119
     //     QueryLibs.insertTable(apt);

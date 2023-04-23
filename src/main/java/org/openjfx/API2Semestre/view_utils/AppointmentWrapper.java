@@ -12,6 +12,10 @@ import javafx.beans.property.SimpleBooleanProperty;
 public class AppointmentWrapper implements HasSelectedProperty {
 
     private Appointment appointment;
+
+    public Appointment getAppointment() {
+        return appointment;
+    }
     private SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
 
     public AppointmentWrapper (Appointment appointment) {
@@ -22,6 +26,7 @@ public class AppointmentWrapper implements HasSelectedProperty {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(timestamp.getTime()));
     }
 
+    
     public String getType() { return appointment.getType().getStringValue(); }
     public String getRequester() { return appointment.getRequester(); }
     public String getStartDate() { return formatTime(appointment.getStartDate()); }
@@ -38,6 +43,7 @@ public class AppointmentWrapper implements HasSelectedProperty {
         return String.format(hours + ":%02d", minutes);
     }
     public String getJustification() { return appointment.getJustification(); }
+    public String getFeedback() { return appointment.getFeedback(); }
 
     @Override
     public BooleanProperty selectedProperty() {
