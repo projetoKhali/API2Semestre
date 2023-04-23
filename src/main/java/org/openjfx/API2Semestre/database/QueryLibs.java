@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.openjfx.api2semestre.classes.Appointment;
 import org.openjfx.api2semestre.classes.AppointmentType;
@@ -151,7 +152,7 @@ public class QueryLibs {
         // string que carrega o comando em sql
         String sql = "SELECT * FROM vw_apontamento WHERE requester = ?";
         
-        var appointments = new ArrayList<Appointment>();
+        List<Appointment> appointments = new ArrayList<Appointment>();
         
         // execução da query
         try {
