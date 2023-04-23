@@ -39,7 +39,8 @@ public class AppointmentFilter {
         Optional<TableColumn<AppointmentWrapper, String>> col_fim,
         Optional<TableColumn<AppointmentWrapper, String>> col_squad,
         Optional<TableColumn<AppointmentWrapper, String>> col_cliente,
-        Optional<TableColumn<AppointmentWrapper, String>> col_projeto
+        Optional<TableColumn<AppointmentWrapper, String>> col_projeto,
+        Status status
     ) {
         return apply(
             appointments,
@@ -51,7 +52,7 @@ public class AppointmentFilter {
             getValueOfTextField(col_cliente),
             getValueOfTextField(col_projeto),
             Optional.empty(),
-            Optional.empty()
+            Optional.of(status)
         );
     }
 
@@ -76,42 +77,15 @@ public class AppointmentFilter {
         Optional<Status> status
     ) {
         return appointments.stream().filter((Appointment appointment) -> {
-            if (requester.isPresent() && !appointment.getRequester().contains(requester.get())) {
-                System.out.println("AppointmentFilter.apply() -- '" + requester.get() +"'filters out requester '" + appointment.getRequester() + "'");
-                return false;
-            }
-            if (type.isPresent() && !appointment.getType().equals(type.get())) {
-                System.out.println("AppointmentFilter.apply() -- '" + type.get() +"'filters out type '" + appointment.getType() + "'");
-                return false;
-            }
-            if (startDate.isPresent() && !appointment.getStartDate().equals(startDate.get())) {
-                System.out.println("AppointmentFilter.apply() -- '" + startDate.get() +"'filters out startDate '" + appointment.getStartDate() + "'");
-                return false;
-            }
-            if (endDate.isPresent() && !appointment.getEndDate().equals(endDate.get())) {
-                System.out.println("AppointmentFilter.apply() -- '" + endDate.get() +"'filters out endDate '" + appointment.getEndDate() + "'");
-                return false;
-            }
-            if (squad.isPresent() && !appointment.getSquad().contains(squad.get())) {
-                System.out.println("AppointmentFilter.apply() -- '" + squad.get() +"'filters out squad '" + appointment.getSquad() + "'");
-                return false;
-            }
-            if (client.isPresent() && !appointment.getClient().contains(client.get())) {
-                System.out.println("AppointmentFilter.apply() -- '" + client.get() +"'filters out client '" + appointment.getClient() + "'");
-                return false;
-            }
-            if (project.isPresent() && !appointment.getProject().contains(project.get())) {
-                System.out.println("AppointmentFilter.apply() -- '" + project.get() +"'filters out project '" + appointment.getProject() + "'");
-                return false;
-            }
-            if (justification.isPresent() && !appointment.getJustification().contains(justification.get())) {
-                System.out.println("AppointmentFilter.apply() -- '" + justification.get() +"'filters out justification '" + appointment.getJustification() + "'");
-                return false;
-            }
-            if (status.isPresent() && !appointment.getStatus().equals(status.get())) {
-                System.out.println("AppointmentFilter.apply() -- '" + status.get() +"'filters out status '" + appointment.getStatus() + "'");
-                return false;
-            }
+            if (requester.isPresent() && !appointment.getRequester().contains(requester.get())) return false;
+            if (type.isPresent() && !appointment.getType().equals(type.get())) return false;
+            if (startDate.isPresent() && !appointment.getStartDate().equals(startDate.get())) return false;
+            if (endDate.isPresent() && !appointment.getEndDate().equals(endDate.get())) return false;
+            if (squad.isPresent() && !appointment.getSquad().contains(squad.get())) return false;
+            if (client.isPresent() && !appointment.getClient().contains(client.get())) return false;
+            if (project.isPresent() && !appointment.getProject().contains(project.get())) return false;
+            if (justification.isPresent() && !appointment.getJustification().contains(justification.get())) return false;
+            if (status.isPresent() && !appointment.getStatus().equals(status.get())) return false;
             return true;
         }).collect(Collectors.toList());
 

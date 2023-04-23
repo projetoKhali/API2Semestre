@@ -1,6 +1,8 @@
 package org.openjfx.api2semestre.view_controllers;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -8,6 +10,7 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.classes.Appointment;
+import org.openjfx.api2semestre.classes.Status;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_macros.TableCheckBoxMacros;
@@ -22,12 +25,21 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class ApprovalsController implements Initializable {
 
@@ -90,8 +102,6 @@ public class ApprovalsController implements Initializable {
 
     private void buildTable () {
 
-        // tabela.setTableMenuButtonVisible(false);
-
         col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
         TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
 
@@ -139,11 +149,7 @@ public class ApprovalsController implements Initializable {
     
         loadedAppointments = Arrays.asList(items);
 
-        displayedAppointments = FXCollections.observableArrayList(
-            loadedAppointments.stream().map((Appointment apt) -> new AppointmentWrapper(apt)).collect(Collectors.toList())
-        );
-
-        tabela.setItems(displayedAppointments);
+        applyFilter();
     }
 
     private void applyFilter () {
@@ -158,7 +164,8 @@ public class ApprovalsController implements Initializable {
             col_fim_enableFilter.get() ? Optional.of(col_fim) : Optional.empty(),
             col_squad_enableFilter.get() ? Optional.of(col_squad) : Optional.empty(),
             col_cliente_enableFilter.get() ? Optional.of(col_cliente) : Optional.empty(),
-            col_projeto_enableFilter.get() ? Optional.of(col_projeto) : Optional.empty()
+            col_projeto_enableFilter.get() ? Optional.of(col_projeto) : Optional.empty(),
+            Status.Pending
         );
 
         displayedAppointments = FXCollections.observableArrayList(
@@ -172,29 +179,91 @@ public class ApprovalsController implements Initializable {
         TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
     }
 
-    
-//     @FXML
-//     void showPopUp(ActionEvent event) throws IOException {
-//           popUp("popUpFeedback.fxml", bt_testePopUp);
-    
-//     }
-    
-//     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName
-//     void popUp(String fileName, Button botao) throws IOException{
-        
-//         Stage stage;
-//         Parent root;
-// //        if(event.getSource()==bt_testePopUp){
-//         stage = new Stage();
-//         root = FXMLLoader.load(getClass().getResource(fileName));
-//         stage.setScene(new Scene(root));
-//         stage.initModality(Modality.APPLICATION_MODAL);
-//         stage.initOwner(botao.getScene().getWindow());
-//         stage.showAndWait();
-    
-//     }
-        
-         
+    private List<AppointmentWrapper> getSelected () {
+        return displayedAppointments.stream().filter((AppointmentWrapper apt) -> apt.getSelected()).collect(Collectors.toList());
+    }
 
+    @FXML
+    private void showPopUp () {
+        createPopup();
+    }
+
+    private Stage createPopup() {
+
+        // Get the list of items from the main application
+        List<AppointmentWrapper> selectedAppointments = getSelected();
+
+        // Create a new stage for the popup
+        Stage popupStage = new Stage();
+        popupStage.initModality(Modality.APPLICATION_MODAL);
+        popupStage.setTitle("Rejeitar " + selectedAppointments.size() + " apontamentos selecionados");
+
+        // Create a VBox to hold the HBox controls for each item
+        VBox vbox = new VBox();
+        vbox.setSpacing(8);
+        vbox.setPadding(new Insets(16));
+
+        List<RejectPopupListItem> controllers = selectedAppointments.stream().map((AppointmentWrapper aptWrapper) -> {
+            try {
+                // Load the FXML file for the list item
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("rejectPopupListItem.fxml"));
+                VBox listItem = loader.load();
+                RejectPopupListItem controller = loader.getController();
+
+
+                controller.apt_selected = aptWrapper;
+                controller.buildTable();
+
+                // TextField textField = (TextField) listItem.lookup("#textField");
+
+                // Add the HBox to the VBox
+                vbox.getChildren().add(listItem);
+
+                return controller;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }).collect(Collectors.toList());
+
+        // Create a scroll pane to hold the VBox
+        ScrollPane scrollPane = new ScrollPane();
+        scrollPane.setContent(vbox);
+        scrollPane.setFitToWidth(true);
+
+        // Create a button to close the popup
+        Button closeButton = new Button("Rejeitar");
+        closeButton.setOnAction(event -> {
+            List<Appointment> appointments = new ArrayList<>();
+            for (RejectPopupListItem controller : controllers) {
+                String feedback = controller.getFeedback();
+                if (feedback == null || feedback.isEmpty()) {
+                    System.out.println("feedback não preenchido");
+                    return;
+                }
+                Appointment appointment = controller.apt_selected.getAppointment();
+                appointment.setFeedback(feedback);
+                appointment.setStatus(2);
+                appointments.add(appointment);;
+            }
+            for (Appointment appointment : appointments) {
+                QueryLibs.updateTable(appointment);
+                System.out.println("Apontamento atualizado");
+            }
+            popupStage.close();
+            updateTable();
+        });
+
+        // Create a VBox to hold the scroll pane and close button
+        VBox root = new VBox(scrollPane, closeButton);
+
+        // Create a scene for the popup
+        Scene scene = new Scene(root, 800, 400);
+        popupStage.setScene(scene);
+        popupStage.showAndWait();
+    
+        return popupStage;
+    }
 
 }
