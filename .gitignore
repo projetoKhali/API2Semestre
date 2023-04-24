@@ -8,7 +8,3 @@ target/
 .vscode/settings.json
 *.vscode/settings.json
 .json
-.classpath
-*.classpath
-.project
-*.project
