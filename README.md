@@ -161,7 +161,7 @@ https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-
 
 > ![31/03/2023 Release V3.0](./Docs/ERD/Diagrama%20-%20Banco%20de%20Dados%20para%20Apontamento%20de%20HorasV5.png)
 
-> ![31/03/2023 Release V3.0](./Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
+> ![Diagrama de Cardinalidades](./Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
 
 </details>
 
