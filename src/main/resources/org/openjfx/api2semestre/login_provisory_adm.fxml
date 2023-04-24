@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.login.LoginAdm">
    <children>
       <ImageView fitHeight="61.0" fitWidth="131.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -31,7 +31,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField maxWidth="400.0" prefHeight="25.0" prefWidth="158.0" />
+                  <TextField fx:id="tf_name" maxWidth="400.0" prefHeight="25.0" prefWidth="158.0" />
                </children>
             </HBox>
             <VBox>
@@ -41,7 +41,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="80.0" prefWidth="250.0" />
+                  <TextField fx:id="tf_manages" prefHeight="80.0" prefWidth="250.0" />
                </children>
                <padding>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
@@ -54,7 +54,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="80.0" prefWidth="250.0" />
+                  <TextField fx:id="tf_member" prefHeight="80.0" prefWidth="250.0" />
                </children>
                <padding>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
@@ -68,7 +68,7 @@
             <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
          </padding>
       </VBox>
-      <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Entrar">
+      <Button onAction="#login" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Entrar">
          <font>
             <Font size="18.0" />
          </font>

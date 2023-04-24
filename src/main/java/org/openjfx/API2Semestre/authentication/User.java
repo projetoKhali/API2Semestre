@@ -40,7 +40,7 @@ public class User {
     public String getSenha() { return senha; }
     public String getMatricula() { return matricula; }
 
-    public List<String> getCr_isMemberOf() { return cr_isMemberOf; }
+    public List<String> getIsMemberOfCRs() { return cr_isMemberOf; }
     public List<String> getManagesCRs() { return cr_manaegdBy; }
 
     // public void setNome(String nome) { this.nome = nome; }
