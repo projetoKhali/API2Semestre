@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.classes;
+package org.openjfx.api2semestre.authentication;
 
 // Represents the user's permissions in the app
 public enum Permission {
@@ -8,7 +8,8 @@ public enum Permission {
     // The last item on the list should have a semicolon instead ( ; ) to indicate the end of the list of values of the enum
     Appoint("Appoint"),
     Validate("Validate"),
-    Register("Register");
+    Register("Register"),
+    FullAccess("FullAccess");
 
     // The String value between the parentheses of each of the enum values above
     private String stringValue;

@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.openjfx.api2semestre.classes.Appointment;
-import org.openjfx.api2semestre.classes.AppointmentType;
+import org.openjfx.api2semestre.appointments.Appointment;
+import org.openjfx.api2semestre.appointments.AppointmentType;
 
 public class QueryLibs {
 
@@ -205,6 +205,69 @@ public class QueryLibs {
                 //         + " | " + justif
                 //         + " | " + centroR
                 //         + " | " + aprovacao);
+            }
+            // fecha a conexão
+            conexao.close();
+    
+        } catch (Exception ex) {
+            System.out.println("QueryLibs.collaboratorSelect() -- Erro ao executar query");
+            ex.printStackTrace();
+        }
+        return appointments.toArray(new Appointment[0]);
+    }
+
+    public static Appointment[] squadSelect (String squadName) {
+
+        Connection conexao = getConnection();
+
+        // string que carrega o comando em sql
+        String sql = "SELECT * FROM vw_apontamento WHERE cr_id = ?";
+        
+        List<Appointment> appointments = new ArrayList<Appointment>();
+        
+        // execução da query
+        try {
+
+            PreparedStatement statement = conexao.prepareStatement(sql);
+
+            // substitui "?" pelo id passado no parâmetro
+            statement.setString(1, squadName);
+            // executa a query e salva o resultado na variável "result"
+            ResultSet result = statement.executeQuery();
+            
+            // cabeçalho
+            // System.out.println("Usuário | id | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
+            
+            while (result.next()) {
+                // System.out.println("oi result.next()");
+                // itera sobre cada linha retornada pela consulta
+                // e extrai os valores das colunas necessárias
+                int id = result.getInt("apt_id");
+                Timestamp hora_inicio = new Timestamp(((Date) result.getObject("hora_inicio")).getTime());
+                Timestamp hora_fim = new Timestamp(((Date) result.getObject("hora_fim")).getTime());
+                String requester = result.getString("requester");
+                String projeto = result.getString("projeto");
+                String cliente = result.getString("cliente");
+                boolean tipo = result.getBoolean("tipo");
+                String justif = result.getString("justificativa");
+                String centroR = result.getString("cr_id");
+                int aprovacao = result.getInt("aprovacao");
+                String feedback = result.getString("feedback");
+
+                appointments.add(new Appointment(
+                    id,
+                    requester,
+                    AppointmentType.of(tipo),
+                    hora_inicio,
+                    hora_fim,
+                    centroR,
+                    cliente,
+                    projeto,
+                    justif,
+                    aprovacao,
+                    feedback
+                ));
+
             }
             // fecha a conexão
             conexao.close();

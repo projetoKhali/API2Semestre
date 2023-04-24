@@ -7,8 +7,8 @@ import javafx.beans.DefaultProperty;
 public class Permission {
     
     // static array of Permission enum to reference during Permission tag instantiation
-    private static final org.openjfx.api2semestre.classes.Permission[] PERMISSIONS 
-    = org.openjfx.api2semestre.classes.Permission.values();
+    private static final org.openjfx.api2semestre.authentication.Permission[] PERMISSIONS 
+    = org.openjfx.api2semestre.authentication.Permission.values();
 
     // the Permission value
     private String value;
@@ -35,7 +35,7 @@ public class Permission {
     // <Permission>Validate</Permission> <!-- This is a valid tag since the Permission enum contains this value-->
     // <Permission>this is an invalid value</Permission> <!-- This will also throw an IllegalArgumentException -->    
     public Permission setValue (String value) {
-        for (org.openjfx.api2semestre.classes.Permission permission : PERMISSIONS) {
+        for (org.openjfx.api2semestre.authentication.Permission permission : PERMISSIONS) {
             if (permission.getStringValue().equals(value)) {
                 this.value = value;
                 return this;

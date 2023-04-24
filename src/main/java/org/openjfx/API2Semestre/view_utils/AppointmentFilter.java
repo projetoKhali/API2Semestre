@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.openjfx.api2semestre.classes.Appointment;
-import org.openjfx.api2semestre.classes.AppointmentType;
-import org.openjfx.api2semestre.classes.Status;
+import org.openjfx.api2semestre.appointments.Appointment;
+import org.openjfx.api2semestre.appointments.AppointmentType;
+import org.openjfx.api2semestre.appointments.Status;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;

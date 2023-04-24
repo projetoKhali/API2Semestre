@@ -9,8 +9,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-import org.openjfx.api2semestre.classes.Appointment;
-import org.openjfx.api2semestre.classes.Status;
+import org.openjfx.api2semestre.appointments.Appointment;
+import org.openjfx.api2semestre.appointments.Status;
+import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_macros.TableCheckBoxMacros;
@@ -142,10 +143,15 @@ public class ApprovalsController implements Initializable {
     }
 
     private void updateTable () {
-        Appointment[] items = QueryLibs.collaboratorSelect("Fulano");
-        System.out.println(items.length + " appointments returned from select ");
+        List<Appointment> items = List.of();
+        for (String centroResultado : Authentication.getCurrentUser().getManagesCRs()) {
+            for(Appointment apt : QueryLibs.squadSelect(centroResultado)) {
+                items.add(apt);
+            }
+        }
+        System.out.println(items.size() + " appointments returned from select ");
     
-        loadedAppointments = Arrays.asList(items);
+        loadedAppointments = items;
 
         applyFilter();
     }
