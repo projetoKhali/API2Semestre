@@ -22,7 +22,7 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
-![people](./Docs/Banners/EquipeNovo.png)
+![people](./Docs/Banners/NovobannerEquipe.png)
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -98,7 +98,7 @@
 <summary> Tecnologias Utilizadas </summary>
 <br> 
 
-![tools](./Docs/Banners/TecnologiaNovo.png)
+![tools](./Docs/Banners/NovobannerTecnologias.png)
 
 </details>
 
