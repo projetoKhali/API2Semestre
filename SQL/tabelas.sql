@@ -1,6 +1,6 @@
 -- tabelas v3.5
 
--- Código para criação de tabelas do Diagrama ERP
+-- Código para criação de tabelas do Diagrama ERD
 -- O código pode ser executado em qualqer ordem
 
 -- apontamento
