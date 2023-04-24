@@ -34,11 +34,6 @@ public class ListagemAdmController implements Initializable {
     @FXML
     private ViewConfig view;
 
-    @FXML
-    private Button btn_approve;
-
-    @FXML
-    private Button btn_reject;
 
     @FXML
     private TableColumn<AppointmentWrapper, Boolean> col_selecionar;
