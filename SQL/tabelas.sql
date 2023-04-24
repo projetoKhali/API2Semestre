@@ -16,20 +16,21 @@ CREATE TABLE IF NOT EXISTS public.apontamento(
     justificativa VARCHAR NULL,
     cr_id VARCHAR NULL,
     aprovacao INT DEFAULT 0,
+    feedback VARCHAR NULL,
     
     CONSTRAINT apontamento_pkey PRIMARY KEY (apt_id)
 );
 
 -- usuário
 CREATE TABLE IF NOT EXISTS public.usuario(
-    usr_id serial NOT NULL,
+    requester serial NOT NULL,
     nome VARCHAR NULL,
     email VARCHAR NULL,
     senha VARCHAR NULL,
     tipo VARCHAR NULL,
     matricula VARCHAR NULL,
     
-    CONSTRAINT usuario_pkey PRIMARY KEY (usr_id)
+    CONSTRAINT usuario_pkey PRIMARY KEY (requester)
 );
 
 -- centro de resultado

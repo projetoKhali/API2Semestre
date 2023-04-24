@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.openjfx</groupId>
-    <artifactId>API2Semestre</artifactId>
+    <artifactId>api2semestre</artifactId>
     <version>1.0-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -41,7 +41,7 @@
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.8</version>
                 <configuration>
-                    <mainClass>org.openjfx.API2Semestre.App</mainClass>
+                    <mainClass>org.openjfx.api2semestre.App</mainClass>
                 </configuration>
                 <executions>
                     <execution>
