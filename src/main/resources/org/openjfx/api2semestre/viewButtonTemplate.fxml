@@ -4,7 +4,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<Button mnemonicParsing="false" onAction="#enterView" prefHeight="25.0" prefWidth="216.0" text="Button" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="BaseController">
+<Button mnemonicParsing="false" onAction="#enterView" prefHeight="25.0" prefWidth="216.0" text="Button" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.ViewButtonController">
    <font>
       <Font size="16.0" />
    </font>
