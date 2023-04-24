@@ -15,9 +15,12 @@ public class App extends Application {
     private static final Profile access = Profile.Administrator;
 
     private static Scene scene;
+    private static Stage stage;
+    private static void setStage (Stage newStage) { stage = newStage; }
 
     @Override
     public void start(Stage stage) throws IOException {
+        setStage(stage);
 
         scene = new Scene(loadFXML(
             (access == Profile.Administrator) ? "login_provisory_adm" : 
@@ -30,6 +33,19 @@ public class App extends Application {
         // scene = new Scene(loadFXML("listagemAdm"), 826, 400);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static void changeView (String viewFxmlFile) {
+        try {
+            Parent root = loadFXML(viewFxmlFile);
+            scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+
+        } catch (Exception ex) {
+            System.out.println("App.changeView() -- Erro!");
+            ex.printStackTrace();
+        }
     }
 
     static void setRoot(String fxml) throws IOException {
