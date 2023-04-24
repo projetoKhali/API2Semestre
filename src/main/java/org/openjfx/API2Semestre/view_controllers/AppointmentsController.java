@@ -133,7 +133,7 @@ public class AppointmentsController implements Initializable {
             public void handle(MouseEvent event) {
                 if (event.getClickCount() != 1) return;
 
-                Status targetStatus = Status.Pending; // TODO: change to Rejected in production
+                Status targetStatus = Status.Rejected; // TODO: change to Rejected in production
                 AppointmentWrapper selectedItem = tabela.getSelectionModel().getSelectedItem();
                 if (selectedItem == null || selectedItem.getAppointment().getStatus() != targetStatus) return;
 

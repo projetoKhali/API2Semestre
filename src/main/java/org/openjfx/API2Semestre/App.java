@@ -25,7 +25,7 @@ public class App extends Application {
             "login_provisory_col" 
         ));
 
-        // scene = new Scene(loadFXML("appointments"), 826, 400);
+        scene = new Scene(loadFXML("appointments"), 826, 400);
         // scene = new Scene(loadFXML("approvals"), 826, 400);
         // scene = new Scene(loadFXML("listagemAdm"), 826, 400);
         stage.setScene(scene);
