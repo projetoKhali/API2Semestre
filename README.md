@@ -167,9 +167,15 @@ https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-
 
 <details>
 <summary> Vídeos com Funcionalidades </summary>
+
+
+https://user-images.githubusercontent.com/79020769/233886119-ace28f22-fccd-45e4-aaa3-85e3d52fce98.mp4
+
+
+
 <br> 
 
-> * 
+
 
 </details>
 
