@@ -3,6 +3,7 @@ package org.openjfx.api2semestre.view_controllers.login;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.authentication.Authentication;
@@ -15,7 +16,9 @@ import org.openjfx.api2semestre.views_manager.ViewsManager;
 public class ProvisoryLogin {
 
     public static List<String> parseSquads (String inputString) throws Exception {
-        return Arrays.asList(inputString.split(",")).stream().map(squad -> squad.trim()).collect(Collectors.toList());
+        List<String> result = Arrays.asList(inputString.split(",")).stream().map(squad -> squad.trim()).collect(Collectors.toList());
+        if (!result.isEmpty()) return result;
+        return List.of();
     }
 
     public static String handleViews () throws Exception {

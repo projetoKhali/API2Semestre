@@ -16,5 +16,9 @@ public class Authentication {
         return true;
     }
 
+    public static void logout () {
+        currentUser = null;
+    }
+
 
 }

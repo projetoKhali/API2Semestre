@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
 import org.openjfx.api2semestre.appointments.Status;
+import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.data_utils.DateConverter;
 import org.openjfx.api2semestre.database.QueryLibs;
@@ -133,7 +134,7 @@ public class AppointmentsController implements Initializable {
             public void handle(MouseEvent event) {
                 if (event.getClickCount() != 1) return;
 
-                Status targetStatus = Status.Pending; // TODO: change to Rejected in production
+                Status targetStatus = Status.Rejected; // TODO: change to Rejected in production
                 AppointmentWrapper selectedItem = tabela.getSelectionModel().getSelectedItem();
                 if (selectedItem == null || selectedItem.getAppointment().getStatus() != targetStatus) return;
 
@@ -146,7 +147,7 @@ public class AppointmentsController implements Initializable {
     }
 
     private void updateTable () {
-        Appointment[] items = QueryLibs.collaboratorSelect("Fulano");
+        Appointment[] items = QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getNome());
         System.out.println(items.length + " appointments returned from select ");
     
         loadedAppointments = FXCollections.observableArrayList(
