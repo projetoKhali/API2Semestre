@@ -9,7 +9,6 @@ AS SELECT
     apontamento.hora_inicio,
     apontamento.hora_fim,
     apontamento.requester,
-    usuario.nome as usuario_nome,
     apontamento.projeto,
     apontamento.cliente,
     apontamento.tipo,
@@ -21,9 +20,7 @@ AS SELECT
         WHEN apontamento.aprovacao = 1 THEN 'Aprovado'
         ELSE 'Reproved' END AS aprovacao
 
-    FROM apontamento
-    -- fazendo join com as tabelas usuário, projeto e cliente.
-    JOIN usuario ON apontamento.requester = usuario.nome;
+    FROM apontamento;
 
 -- usuário
 CREATE OR REPLACE VIEW public.vw_usuario 
@@ -54,7 +51,7 @@ CREATE OR REPLACE VIEW public.vw_cliente
 AS SELECT
     cliente.cli_id,
     cliente.nome,
-    cliente.cnpj,
+    cliente.cnpj
     FROM cliente;
 
 -- pertence
@@ -62,5 +59,5 @@ CREATE OR REPLACE VIEW public.vw_pertence
 AS SELECT
     pertence.ptc_id,
     pertence.usr_id,
-    pertence.cr_id,
+    pertence.cr_id
     FROM pertence;
