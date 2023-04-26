@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
@@ -20,7 +21,7 @@ import org.openjfx.api2semestre.views_manager.ViewsManager;
 public class App extends Application {
 
     // mude o perfil de acesso para logar com diferentes permissões
-    private static final Profile access = Profile.Gestor;
+    private static final Profile access = Profile.Administrator;
 
     private static Scene scene;
     private static Stage stage;
@@ -30,6 +31,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
+        QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        QueryLibs.executeSqlFile("./SQL/views.sql");
+
         setStage(stage);
 
         loginView();
