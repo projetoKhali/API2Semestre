@@ -171,7 +171,7 @@ public class ListagemAdmController implements Initializable {
     
 //     @FXML
 //     void showPopUp(ActionEvent event) throws IOException {
-//           popUp("popUpFeedback.fxml", bt_testePopUp);
+//           popUp("popups/popUpFeedback", bt_testePopUp);
     
 //     }
     

@@ -1,9 +1,7 @@
 package org.openjfx.api2semestre.view_controllers;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -15,6 +13,7 @@ import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.data_utils.DateConverter;
 import org.openjfx.api2semestre.database.QueryLibs;
+import org.openjfx.api2semestre.view_controllers.popups.PopUpFeedbackController;
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
 import org.openjfx.api2semestre.view_utils.PrettyTableCell;
 import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
@@ -110,16 +109,15 @@ public class AppointmentsController implements Initializable {
         updateTable();
     }
 
+    @SuppressWarnings("unchecked")
     private void buildTable () {
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
         col_status.setCellFactory(column -> {
-            List<PrettyTableCellInstruction<AppointmentWrapper, String>> instructions = new ArrayList<>();
-            instructions.add(new PrettyTableCellInstruction<>(Optional.of("Pendente"), new Color(0.97, 1, 0.6, 1)));
-            instructions.add(new PrettyTableCellInstruction<>(Optional.of("Aprovado"), new Color(0.43, 0.84, 0.47, 1)));
-            instructions.add(new PrettyTableCellInstruction<>(Optional.of("Rejeitado"), new Color(0.87, 0.43, 0.43, 1)));
-            
-            // return new PrettyTableCell<>(column, instructions.toArray(new PrettyTableCellInstruction[0]));
-            return new PrettyTableCell<>(instructions.toArray(new PrettyTableCellInstruction[0]));
+            return new PrettyTableCell<AppointmentWrapper, String>(new PrettyTableCellInstruction[] {
+                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Pendente"), new Color(0.97, 1, 0.6, 1)),
+                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Aprovado"), new Color(0.43, 0.84, 0.47, 1)),
+                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Rejeitado"), new Color(0.87, 0.43, 0.43, 1))
+            });
         });
         col_squad.setCellValueFactory( new PropertyValueFactory<>( "squad" ));
         col_tipo.setCellValueFactory( new PropertyValueFactory<>( "type" ));
@@ -140,7 +138,7 @@ public class AppointmentsController implements Initializable {
 
                 // System.out.println(selectedItem.toString());
                 PopUpFeedbackController.apt_selected = selectedItem;
-                popUp("popUpFeedback.fxml");
+                popUp("popups/popUpFeedback");
                                     
             }
         });

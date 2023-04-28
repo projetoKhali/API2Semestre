@@ -4,8 +4,6 @@ import javafx.scene.control.TextField;
 
 import java.util.function.Supplier;
 
-import org.openjfx.api2semestre.view_controllers.ApprovalsController;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;

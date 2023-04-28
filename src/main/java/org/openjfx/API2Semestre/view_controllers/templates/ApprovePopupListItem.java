@@ -1,9 +1,9 @@
-package org.openjfx.api2semestre.view_controllers;
+package org.openjfx.api2semestre.view_controllers.templates;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.openjfx.api2semestre.view_controllers.popups.PopupController;
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
 import org.openjfx.api2semestre.view_utils.PrettyTableCell;
 import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 
-public class RejectPopupListItem implements PopupController {
+public class ApprovePopupListItem implements PopupController {
 
     @FXML
     private TableView<AppointmentWrapper> tabela;
@@ -64,21 +64,15 @@ public class RejectPopupListItem implements PopupController {
 
     }
 
-    public String getFeedback () {
-        return textField.getText();
-    }
-    
+    @SuppressWarnings("unchecked")
     public void buildTable () {
-        // col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
-        // TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
         col_status.setCellFactory(column -> {
-            List<PrettyTableCellInstruction<AppointmentWrapper, String>> instructions = new ArrayList<>();
-            instructions.add(new PrettyTableCellInstruction<>(Optional.of("Pendente"), new Color(0.97, 1, 0.6, 1)));
-            instructions.add(new PrettyTableCellInstruction<>(Optional.of("Aprovado"), new Color(0.43, 0.84, 0.47, 1)));
-            instructions.add(new PrettyTableCellInstruction<>(Optional.of("Rejeitado"), new Color(0.87, 0.43, 0.43, 1)));
-            
-            return new PrettyTableCell<>(instructions.toArray(new PrettyTableCellInstruction[0]));
+            return new PrettyTableCell<AppointmentWrapper, String>(new PrettyTableCellInstruction[] {
+                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Pendente"), new Color(0.97, 1, 0.6, 1)),
+                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Aprovado"), new Color(0.43, 0.84, 0.47, 1)),
+                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Rejeitado"), new Color(0.87, 0.43, 0.43, 1))
+            });
         });
         col_squad.setCellValueFactory( new PropertyValueFactory<>( "squad" ));
         col_tipo.setCellValueFactory( new PropertyValueFactory<>( "type" ));
@@ -87,7 +81,6 @@ public class RejectPopupListItem implements PopupController {
         col_cliente.setCellValueFactory( new PropertyValueFactory<>( "client" ));
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
-        // asdasdasdasdas( new PropertyValueFactory<>( "justification" ));
     
         tabela.setItems(FXCollections.observableArrayList(List.of(apt_selected)));
     }

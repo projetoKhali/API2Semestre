@@ -4,8 +4,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -13,7 +11,7 @@ import java.io.IOException;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.view_controllers.BaseController;
-import org.openjfx.api2semestre.view_controllers.ViewButtonController;
+import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 
@@ -38,9 +36,9 @@ public class App extends Application {
     public static void loginView () {
         try {
             scene = new Scene(loadFXML(
-                (access == Profile.Administrator) ? "login_provisory_adm" : 
-                (access == Profile.Gestor) ? "login_provisory_ges" : 
-                "login_provisory_col" 
+                (access == Profile.Administrator) ? "login/provisory_adm" : 
+                (access == Profile.Gestor) ? "login/provisory_ges" : 
+                "login/provisory_col" 
             ));
 
             stage.setScene(scene);
@@ -70,7 +68,7 @@ public class App extends Application {
             baseController.getAp_content().getChildren().add(module);
     
             for (View view : ViewsManager.getViews()) {
-                FXMLLoader viewButtonLoader = new FXMLLoader(App.class.getResource("viewButtonTemplate.fxml"));
+                FXMLLoader viewButtonLoader = new FXMLLoader(App.class.getResource("templates/viewButtonTemplate.fxml"));
                 // baseController.getVb_views().getChildren().clear();
                 baseController.getVb_views().getChildren().add(viewButtonLoader.load());
                 ViewButtonController viewButtonTemplateController = viewButtonLoader.getController();

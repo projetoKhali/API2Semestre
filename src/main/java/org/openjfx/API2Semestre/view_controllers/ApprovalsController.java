@@ -3,7 +3,6 @@ package org.openjfx.api2semestre.view_controllers;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -14,6 +13,10 @@ import org.openjfx.api2semestre.appointments.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.database.QueryLibs;
+import org.openjfx.api2semestre.view_controllers.popups.PopupCallbackHandler;
+import org.openjfx.api2semestre.view_controllers.popups.PopupController;
+import org.openjfx.api2semestre.view_controllers.templates.ApprovePopupListItem;
+import org.openjfx.api2semestre.view_controllers.templates.RejectPopupListItem;
 import org.openjfx.api2semestre.view_macros.TableCheckBoxMacros;
 import org.openjfx.api2semestre.view_macros.TableColumnFilterMacros;
 import org.openjfx.api2semestre.view_utils.AppointmentFilter;
@@ -191,7 +194,7 @@ public class ApprovalsController implements Initializable {
     private void showApprovePopup (ActionEvent event) throws IOException {
         System.out.println("showApprovePopup");
         createPopup(
-            "approvePopupListItem.fxml",
+            "templates/approvePopupListItem.fxml",
             "Aprovar",
             (List<ApprovePopupListItem> controllers) -> {
                 System.out.println("showApprovePopup callback");
@@ -210,7 +213,7 @@ public class ApprovalsController implements Initializable {
     private void showRejectPopup (ActionEvent event) throws IOException {
         System.out.println("showRejectPopup");
         createPopup(
-            "rejectPopupListItem.fxml",
+            "popups/rejectPopupListItem.fxml",
             "Rejeitar",
             (List<RejectPopupListItem> controllers) -> {
                 System.out.println("showRejectPopup callback");
