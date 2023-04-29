@@ -77,7 +77,7 @@ public class App extends Application {
 
             }
 
-            stage.show();
+            // stage.show();
 
         } catch (Exception ex) {
             System.out.println("App.changeView() -- Erro!");

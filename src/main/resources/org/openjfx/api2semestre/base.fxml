@@ -3,41 +3,44 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/19" fx:controller="org.openjfx.api2semestre.view_controllers.BaseController">
-  <items>
-      <VBox alignment="TOP_CENTER" spacing="24.0">
+
+<HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.BaseController">
+   <children>
+      <VBox alignment="CENTER" maxWidth="-Infinity" prefWidth="224.0" spacing="24.0">
          <children>
-            <ImageView fitHeight="61.0" fitWidth="181.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="61.0" fitWidth="181.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                <image>
                   <Image url="@imagens/logoKhali.png" />
                </image>
+               <VBox.margin>
+                  <Insets top="16.0" />
+               </VBox.margin>
             </ImageView>
-            <Label fx:id="lb_currentUser" text="Logado como Fulano">
+            <Label fx:id="lb_currentUser" text="Logado como Fulano" VBox.vgrow="NEVER">
                <font>
                   <Font size="16.0" />
                </font>
             </Label>
             <VBox fx:id="vb_views" prefHeight="200.0" prefWidth="100.0" VBox.vgrow="ALWAYS" />
-            <Button mnemonicParsing="false" onAction="#logout" prefHeight="35.0" prefWidth="277.0" text="Sair" textAlignment="CENTER">
-               <font>
-                  <Font size="16.0" />
-               </font>
+            <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" onAction="#logout" prefHeight="28.0" prefWidth="277.0" style="-fx-background-radius: 4;" text="Sair" textAlignment="CENTER" VBox.vgrow="NEVER">
                <VBox.margin>
-                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+                  <Insets bottom="8.0" left="4.0" right="4.0" top="8.0" />
                </VBox.margin>
+               <font>
+                  <Font size="14.0" />
+               </font>
             </Button>
          </children>
       </VBox>
-    <AnchorPane fx:id="ap_content" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0" />
-  </items>
+      <VBox fx:id="ap_content" prefHeight="560.0" prefWidth="764.0" />
+   </children>
    <padding>
-      <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+      <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
    </padding>
-</SplitPane>
+</HBox>
