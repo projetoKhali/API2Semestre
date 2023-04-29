@@ -45,6 +45,7 @@ public final class TableColumnFilterMacros {
                 // When text inside TextField changes
                 textField.onKeyTypedProperty().set(
                     editEvent -> {
+                        System.out.println(editEvent.getCharacter());
                         enableFilter.set(enableFilterCallback.get());
                         // System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
                     }

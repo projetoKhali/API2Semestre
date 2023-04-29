@@ -12,7 +12,7 @@
 <!-- <?import org.openjfx.api2semestre.custom_tags.ViewConfig?>
 <?import org.openjfx.api2semestre.custom_tags.Permission?> -->
 
-<VBox id="AnchorPane" prefHeight="400.0" prefWidth="826.0" snapToPixel="false" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.AppointmentsController">
+<VBox id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="826.0" snapToPixel="false" spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.AppointmentsController">
    <children>
       <!-- <ViewConfig name="primary" fx:id="view">
          <permissions>
@@ -20,67 +20,67 @@
 
          </permissions>
       </ViewConfig> -->
-      <FlowPane layoutX="14.0" layoutY="14.0" prefHeight="75.0" prefWidth="799.0" snapToPixel="false">
+      <FlowPane hgap="8.0" maxWidth="1.7976931348623157E308" snapToPixel="false" vgap="8.0">
          <children>
-            <TextField fx:id="cx_squad" prefHeight="25.0" prefWidth="95.0" promptText="Squad">
+            <TextField fx:id="cx_squad" prefHeight="24.0" prefWidth="95.0" promptText="Squad">
                <FlowPane.margin>
-                  <Insets right="7.0" />
+                  <Insets />
                </FlowPane.margin></TextField>
-            <DatePicker fx:id="cx_dataInicio" prefHeight="25.0" prefWidth="114.0" promptText="Data início">
+            <DatePicker fx:id="cx_dataInicio" prefHeight="24.0" prefWidth="114.0" promptText="Data início">
                <FlowPane.margin>
-                  <Insets right="7.0" />
+                  <Insets />
                </FlowPane.margin></DatePicker>
-            <TextField fx:id="cx_horaInicio" prefHeight="25.0" prefWidth="90.0" promptText="Hora início">
+            <TextField fx:id="cx_horaInicio" prefHeight="24.0" prefWidth="90.0" promptText="Hora início">
                <FlowPane.margin>
                   <Insets right="7.0" />
                </FlowPane.margin></TextField>
-            <DatePicker fx:id="cx_dataFinal" prefHeight="25.0" prefWidth="114.0" promptText="Data final">
+            <DatePicker fx:id="cx_dataFinal" prefHeight="24.0" prefWidth="114.0" promptText="Data final">
                <FlowPane.margin>
-                  <Insets right="7.0" />
+                  <Insets />
                </FlowPane.margin>
             </DatePicker>
-            <TextField fx:id="cx_horaFinal" prefHeight="25.0" prefWidth="90.0" promptText="Hora final">
+            <TextField fx:id="cx_horaFinal" prefHeight="24.0" prefWidth="90.0" promptText="Hora final">
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <FlowPane.margin>
-                  <Insets right="7.0" />
+                  <Insets />
                </FlowPane.margin>
             </TextField>
-            <TextField fx:id="cx_cliente" prefHeight="25.0" prefWidth="124.0" promptText="Cliente">
+            <TextField fx:id="cx_cliente" prefHeight="24.0" prefWidth="124.0" promptText="Cliente">
                <FlowPane.margin>
-                  <Insets right="7.0" />
+                  <Insets />
                </FlowPane.margin>
             </TextField>
-            <TextField fx:id="cx_projeto" prefHeight="25.0" prefWidth="124.0" promptText="Projeto" />
-            <TextField fx:id="cx_justificativa" prefHeight="25.0" prefWidth="544.0" promptText="Justificativa">
+            <TextField fx:id="cx_projeto" prefHeight="24.0" prefWidth="124.0" promptText="Projeto" />
+            <TextField fx:id="cx_justificativa" maxWidth="1.7976931348623157E308" prefHeight="24.0" prefWidth="542.0" promptText="Justificativa">
                <FlowPane.margin>
-                  <Insets right="7.0" top="7.0" />
+                  <Insets />
                </FlowPane.margin>
             </TextField>
-            <Button fx:id="bt_horaExtra" mnemonicParsing="false" onAction="#inputHoraExtra" style="-fx-background-color: B9D1FF;" text="Lançar Hora-Extra">
+            <Button fx:id="bt_horaExtra" mnemonicParsing="false" onAction="#inputHoraExtra" prefHeight="24.0" prefWidth="124.0" style="-fx-background-color: B9D1FF;" text="Lançar Hora-Extra">
                <FlowPane.margin>
-                  <Insets right="7.0" top="7.0" />
+                  <Insets />
                </FlowPane.margin>
             </Button>
-            <Button fx:id="bt_sobreaviso" mnemonicParsing="false" onAction="#inputSobreaviso" prefHeight="25.0" prefWidth="123.0" style="-fx-background-color: B9D1FF;" text="Lançar Sobreaviso">
+            <Button fx:id="bt_sobreaviso" mnemonicParsing="false" onAction="#inputSobreaviso" prefHeight="24.0" prefWidth="124.0" style="-fx-background-color: B9D1FF;" text="Lançar Sobreaviso">
                <FlowPane.margin>
-                  <Insets top="7.0" />
+                  <Insets />
                </FlowPane.margin>
             </Button>
          </children>
       </FlowPane>
-      <TableView fx:id="tabela" editable="true" fixedCellSize="0.0" prefHeight="200.0" prefWidth="791.0" VBox.vgrow="ALWAYS">
+      <TableView fx:id="tabela" cacheShape="false" editable="true" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <columns>
             <!-- <TableColumn fx:id="col_selecionar" editable="true" prefWidth="24.0" text="☐" /> -->
-            <TableColumn fx:id="col_status" editable="false" minWidth="24.0" prefWidth="96.0" sortable="false" text="Status" />
-            <TableColumn fx:id="col_squad" editable="false" prefWidth="128" sortable="false" text="Squad" />
-            <TableColumn fx:id="col_tipo" editable="false" prefWidth="128" sortable="false" text="Tipo" />
-            <TableColumn fx:id="col_inicio" editable="false" prefWidth="128.0" sortable="false" text="Inicio" />
-            <TableColumn fx:id="col_fim" editable="false" prefWidth="128.0" sortable="false" text="Fim" />
-            <TableColumn fx:id="col_cliente" editable="false" prefWidth="128.0" sortable="false" text="Cliente" />
-            <TableColumn fx:id="col_projeto" editable="false" prefWidth="128.0" sortable="false" text="Projeto" />
-            <TableColumn fx:id="col_total" editable="false" prefWidth="64.0" sortable="false" text="total" />
+            <TableColumn fx:id="col_status" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" sortable="false" text="Status" />
+            <TableColumn fx:id="col_squad" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Squad" />
+            <TableColumn fx:id="col_tipo" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Tipo" />
+            <TableColumn fx:id="col_inicio" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Inicio" />
+            <TableColumn fx:id="col_fim" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Fim" />
+            <TableColumn fx:id="col_cliente" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Cliente" />
+            <TableColumn fx:id="col_projeto" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Projeto" />
+            <TableColumn fx:id="col_total" editable="false" maxWidth="128.0" prefWidth="64.0" sortable="false" text="total" />
             <!-- <TableColumn fx:id="col_feedback" editable="false" prefWidth="112" text="Feedback" /> -->
          </columns>
          <columnResizePolicy>

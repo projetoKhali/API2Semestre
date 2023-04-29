@@ -26,4 +26,8 @@ public class ViewButtonController {
         App.changeView(viewFxmlFile);
     }
 
+    public void setDisable (boolean disable) {
+        button.setDisable(disable);
+    }
+
 }
