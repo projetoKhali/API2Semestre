@@ -17,8 +17,10 @@ import org.openjfx.api2semestre.view_controllers.popups.PopupCallbackHandler;
 import org.openjfx.api2semestre.view_controllers.popups.PopupController;
 import org.openjfx.api2semestre.view_controllers.templates.ApprovePopupListItem;
 import org.openjfx.api2semestre.view_controllers.templates.RejectPopupListItem;
+import org.openjfx.api2semestre.view_macros.ColumnConfig;
+import org.openjfx.api2semestre.view_macros.ColumnConfigString;
 import org.openjfx.api2semestre.view_macros.TableCheckBoxMacros;
-import org.openjfx.api2semestre.view_macros.TableColumnFilterMacros;
+import org.openjfx.api2semestre.view_macros.TableMacros;
 import org.openjfx.api2semestre.view_utils.AppointmentFilter;
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
 
@@ -102,10 +104,8 @@ public class ApprovalsController implements Initializable {
 
     }
 
+    @SuppressWarnings("unchecked")
     private void buildTable () {
-
-        col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
-        TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
 
         ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
             @Override
@@ -114,35 +114,23 @@ public class ApprovalsController implements Initializable {
             }
         };
 
-        col_requester.setCellValueFactory( new PropertyValueFactory<>( "requester" ));
-        TableColumnFilterMacros.setTextFieldHeader(col_requester, "Solicitante", col_requester_enableFilter);
-        col_requester_enableFilter.addListener(applyFilterCallback);
+        col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
+        TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
 
-        col_squad.setCellValueFactory( new PropertyValueFactory<>( "squad" ));
-        TableColumnFilterMacros.setTextFieldHeader(col_squad, "CR", col_squad_enableFilter);
-        col_squad_enableFilter.addListener(applyFilterCallback);
-
-        col_tipo.setCellValueFactory( new PropertyValueFactory<>( "type" ));
-        // TableColumnFilterMacros.setTextFieldHeader(col_tipo, "Tipo", col_tipo_enableFilter);
-        // col_tipo_enableFilter.addListener(applyFilterCallback);
-
-        col_inicio.setCellValueFactory( new PropertyValueFactory<>( "startDate" ));
-        // TableColumnFilterMacros.setTextFieldHeader(col_inicio, "Início", col_inicio_enableFilter);
-        // col_inicio_enableFilter.addListener(applyFilterCallback);
-
-        col_fim.setCellValueFactory( new PropertyValueFactory<>( "endDate" ));
-        // TableColumnFilterMacros.setTextFieldHeader(col_fim, "Fim", col_fim_enableFilter);
-        // col_fim_enableFilter.addListener(applyFilterCallback);
-
-        col_cliente.setCellValueFactory( new PropertyValueFactory<>( "client" ));
-        TableColumnFilterMacros.setTextFieldHeader(col_cliente, "Cliente", col_cliente_enableFilter);
-        col_cliente_enableFilter.addListener(applyFilterCallback);
-
-        col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
-        TableColumnFilterMacros.setTextFieldHeader(col_projeto, "Projeto", col_projeto_enableFilter);
-        col_projeto_enableFilter.addListener(applyFilterCallback);
-
-        col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
+        TableMacros.buildTable(
+            tabela,
+            new ColumnConfig[] {
+                new ColumnConfigString<>(col_requester, "requester", "Solicitante", Optional.of(col_requester_enableFilter)),
+                new ColumnConfigString<>(col_squad, "squad", "CR", Optional.of(col_squad_enableFilter)),
+                new ColumnConfigString<>(col_tipo, "type", "Tipo", Optional.empty()),
+                new ColumnConfigString<>(col_inicio, "startDate", "Data Início", Optional.empty()),
+                new ColumnConfigString<>(col_fim, "endDate", "Data Fim", Optional.empty()),
+                new ColumnConfigString<>(col_cliente, "client", "Cliente", Optional.of(col_cliente_enableFilter)),
+                new ColumnConfigString<>(col_projeto, "project", "Projeto", Optional.of(col_projeto_enableFilter)),
+                new ColumnConfigString<>(col_total, "total", "Total", Optional.empty())
+            },
+            Optional.of(applyFilterCallback)
+        );
     }
 
     private void updateTable () {
@@ -161,7 +149,7 @@ public class ApprovalsController implements Initializable {
 
     private void applyFilter () {
 
-        System.out.println("applyFilter");
+        // System.out.println("applyFilter");
 
         List<Appointment> appointmentsToDisplay = AppointmentFilter.filterFromView(
             loadedAppointments,
@@ -202,7 +190,7 @@ public class ApprovalsController implements Initializable {
                     Appointment appointment = controller.getSelected().getAppointment();
                     appointment.setStatus(1);
                     QueryLibs.updateTable(appointment);
-                    System.out.println("Apontamento atualizado");
+                    // System.out.println("Apontamento atualizado");
                 }
                 updateTable();
             }
@@ -216,7 +204,7 @@ public class ApprovalsController implements Initializable {
             "popups/rejectPopupListItem.fxml",
             "Rejeitar",
             (List<RejectPopupListItem> controllers) -> {
-                System.out.println("showRejectPopup callback");
+                // System.out.println("showRejectPopup callback");
                 List<Appointment> appointments = new ArrayList<>();
                 for (RejectPopupListItem controller : controllers) {
                     String feedback = controller.getFeedback();
@@ -231,7 +219,7 @@ public class ApprovalsController implements Initializable {
                 }
                 for (Appointment appointment : appointments) {
                     QueryLibs.updateTable(appointment);
-                    System.out.println("Apontamento atualizado");
+                    // System.out.println("Apontamento atualizado");
                 }
                 updateTable();
             }

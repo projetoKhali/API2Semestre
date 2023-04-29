@@ -2,6 +2,7 @@ package org.openjfx.api2semestre.view_controllers;
 
 import java.net.URL;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
@@ -14,10 +15,17 @@ import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.data_utils.DateConverter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.popups.PopUpFeedbackController;
+import org.openjfx.api2semestre.view_macros.ColumnConfig;
+import org.openjfx.api2semestre.view_macros.ColumnConfigStatus;
+import org.openjfx.api2semestre.view_macros.ColumnConfigString;
+import org.openjfx.api2semestre.view_macros.TableMacros;
+import org.openjfx.api2semestre.view_utils.AppointmentFilter;
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
-import org.openjfx.api2semestre.view_utils.PrettyTableCell;
-import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -32,9 +40,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -75,31 +81,39 @@ public class AppointmentsController implements Initializable {
 
     @FXML
     private TableColumn<AppointmentWrapper, String> col_status;
+    // private BooleanProperty col_status_enableFilter = new SimpleBooleanProperty();
 
     @FXML
     private TableColumn<AppointmentWrapper, String> col_squad;
+    private BooleanProperty col_squad_enableFilter = new SimpleBooleanProperty();
 
     @FXML
     private TableColumn<AppointmentWrapper, String> col_tipo;
+    private BooleanProperty col_tipo_enableFilter = new SimpleBooleanProperty();
 
     @FXML
     private TableColumn<AppointmentWrapper, String> col_inicio;
+    private BooleanProperty col_inicio_enableFilter = new SimpleBooleanProperty();
 
     @FXML
     private TableColumn<AppointmentWrapper, String> col_fim;
+    private BooleanProperty col_fim_enableFilter = new SimpleBooleanProperty();
 
     @FXML
     private TableColumn<AppointmentWrapper, String> col_cliente;
+    private BooleanProperty col_cliente_enableFilter = new SimpleBooleanProperty();
 
     @FXML
     private TableColumn<AppointmentWrapper, String> col_projeto;
+    private BooleanProperty col_projeto_enableFilter = new SimpleBooleanProperty();
 
     @FXML
     private TableColumn<AppointmentWrapper, String> col_total;
 
     @FXML 
     private TableView<AppointmentWrapper> tabela;
-    private ObservableList<AppointmentWrapper> loadedAppointments;
+    private ObservableList<AppointmentWrapper> displayedAppointments;
+    private List<Appointment> loadedAppointments;
     
 
     @Override
@@ -111,22 +125,29 @@ public class AppointmentsController implements Initializable {
 
     @SuppressWarnings("unchecked")
     private void buildTable () {
-        col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
-        col_status.setCellFactory(column -> {
-            return new PrettyTableCell<AppointmentWrapper, String>(new PrettyTableCellInstruction[] {
-                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Pendente"), new Color(0.97, 1, 0.6, 1)),
-                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Aprovado"), new Color(0.43, 0.84, 0.47, 1)),
-                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Rejeitado"), new Color(0.87, 0.43, 0.43, 1))
-            });
-        });
-        col_squad.setCellValueFactory( new PropertyValueFactory<>( "squad" ));
-        col_tipo.setCellValueFactory( new PropertyValueFactory<>( "type" ));
-        col_inicio.setCellValueFactory( new PropertyValueFactory<>( "startDate" ));
-        col_fim.setCellValueFactory( new PropertyValueFactory<>( "endDate" ));
-        col_cliente.setCellValueFactory( new PropertyValueFactory<>( "client" ));
-        col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
-        col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
-        
+
+        ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                applyFilter();
+            }
+        };
+
+        TableMacros.buildTable(
+            tabela,
+            new ColumnConfig[] {
+                new ColumnConfigStatus(col_status, "status", "Status"),
+                new ColumnConfigString<>(col_squad, "squad", "CR", Optional.of(col_squad_enableFilter)),
+                new ColumnConfigString<>(col_tipo, "type", "Tipo", Optional.of(col_tipo_enableFilter)),
+                new ColumnConfigString<>(col_inicio, "startDate", "Data Início", Optional.of(col_inicio_enableFilter)),
+                new ColumnConfigString<>(col_fim, "endDate", "Data Fim", Optional.of(col_fim_enableFilter)),
+                new ColumnConfigString<>(col_cliente, "client", "Cliente", Optional.of(col_cliente_enableFilter)),
+                new ColumnConfigString<>(col_projeto, "project", "Projeto", Optional.of(col_projeto_enableFilter)),
+                new ColumnConfigString<>(col_total, "total", "Total", Optional.empty())
+            },
+            Optional.of(applyFilterCallback)
+        );
+
         tabela.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -145,14 +166,36 @@ public class AppointmentsController implements Initializable {
     }
 
     private void updateTable () {
-        Appointment[] items = QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getNome());
-        System.out.println(items.length + " appointments returned from select ");
     
-        loadedAppointments = FXCollections.observableArrayList(
-            Arrays.asList(items).stream().map((Appointment apt) -> new AppointmentWrapper(apt)).collect(Collectors.toList())
+        loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getNome()));
+        System.out.println(loadedAppointments.size() + " appointments returned from select ");
+
+        applyFilter();
+    }
+
+    private void applyFilter () {
+
+        // System.out.println("applyFilter");
+
+        List<Appointment> appointmentsToDisplay = AppointmentFilter.filterFromView(
+            loadedAppointments,
+            Optional.empty(),
+            col_tipo_enableFilter.get() ? Optional.of(col_tipo) : Optional.empty(),
+            col_inicio_enableFilter.get() ? Optional.of(col_inicio) : Optional.empty(),
+            col_fim_enableFilter.get() ? Optional.of(col_fim) : Optional.empty(),
+            col_squad_enableFilter.get() ? Optional.of(col_squad) : Optional.empty(),
+            col_cliente_enableFilter.get() ? Optional.of(col_cliente) : Optional.empty(),
+            col_projeto_enableFilter.get() ? Optional.of(col_projeto) : Optional.empty(),
+            Optional.of(Status.Pending)
         );
 
-        tabela.setItems(loadedAppointments);
+        displayedAppointments = FXCollections.observableArrayList(
+            appointmentsToDisplay.stream().map((Appointment apt) -> new AppointmentWrapper(apt)).collect(Collectors.toList())
+        );
+
+        tabela.setItems(displayedAppointments);
+        tabela.refresh();
+
     }
 
     @FXML
@@ -179,7 +222,7 @@ public class AppointmentsController implements Initializable {
         System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
         QueryLibs.insertTable(appointment);
 
-        loadedAppointments.add(new AppointmentWrapper(appointment));
+        displayedAppointments.add(new AppointmentWrapper(appointment));
 
 
         // // Testes de Permissions na tag ViewConfig:
