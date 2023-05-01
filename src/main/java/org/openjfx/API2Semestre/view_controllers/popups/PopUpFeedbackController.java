@@ -1,6 +1,5 @@
-package org.openjfx.api2semestre.view_controllers;
+package org.openjfx.api2semestre.view_controllers.popups;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javafx.collections.FXCollections;
@@ -57,18 +56,15 @@ public class PopUpFeedbackController {
         buildTable();
     }
     
-    
+    @SuppressWarnings("unchecked")
     private void buildTable () {
-        // col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
-        // TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
         col_status.setCellFactory(column -> {
-            List<PrettyTableCellInstruction<AppointmentWrapper, String>> instructions = new ArrayList<>();
-            instructions.add(new PrettyTableCellInstruction<>(Optional.of("Pendente"), new Color(0.97, 1, 0.6, 1)));
-            instructions.add(new PrettyTableCellInstruction<>(Optional.of("Aprovado"), new Color(0.43, 0.84, 0.47, 1)));
-            instructions.add(new PrettyTableCellInstruction<>(Optional.of("Rejeitado"), new Color(0.87, 0.43, 0.43, 1)));
-            
-            return new PrettyTableCell<>(instructions.toArray(new PrettyTableCellInstruction[0]));
+            return new PrettyTableCell<AppointmentWrapper, String>(new PrettyTableCellInstruction[] {
+                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Pendente"), new Color(0.97, 1, 0.6, 1)),
+                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Aprovado"), new Color(0.43, 0.84, 0.47, 1)),
+                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Rejeitado"), new Color(0.87, 0.43, 0.43, 1))
+            });
         });
         col_squad.setCellValueFactory( new PropertyValueFactory<>( "squad" ));
         col_tipo.setCellValueFactory( new PropertyValueFactory<>( "type" ));
