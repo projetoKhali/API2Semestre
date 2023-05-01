@@ -34,8 +34,8 @@ public class LoginAdm {
             ))) {
                 App.changeView(ProvisoryLogin.handleViews());
             }
-        } catch (Exception e) {
-
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 

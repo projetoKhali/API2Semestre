@@ -21,7 +21,8 @@ public final class TableCheckBoxMacros {
         TableColumn<T, Boolean> column
     ) {
         CheckBox selectAllCheckbox = new CheckBox();
-        selectAllCheckbox.setAlignment(Pos.TOP_RIGHT);
+        selectAllCheckbox.setAlignment(Pos.CENTER);
+        selectAllCheckbox.setFocusTraversable(false);
         selectAllCheckbox.setOnAction(event -> {
             boolean newValue = selectAllCheckbox.isSelected();
             for (T item : table.getItems()) {
