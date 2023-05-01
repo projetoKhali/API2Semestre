@@ -34,8 +34,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        QueryLibs.executeSqlFile("./SQL/views.sql");
+        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        // QueryLibs.executeSqlFile("./SQL/views.sql");
 
         setStage(stage);
 
