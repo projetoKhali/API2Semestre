@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.appointments;
+package org.openjfx.api2semestre.report;
 
 import java.sql.Timestamp;
 

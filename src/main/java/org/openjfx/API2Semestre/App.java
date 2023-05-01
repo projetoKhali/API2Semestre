@@ -10,6 +10,8 @@ import java.io.IOException;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.report.IntervalFeeCondition;
+import org.openjfx.api2semestre.report.Week;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
@@ -104,8 +106,14 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-        System.setProperty("javafx.fxml.debug", "true");
-        launch();
+
+
+        IntervalFeeCondition[] cons = new IntervalFeeCondition[] {
+            new IntervalFeeCondition(Week.ALL.get(), 0, 0, 0)
+        };
+
+        // System.setProperty("javafx.fxml.debug", "true");
+        // launch();
     }
 
 }
