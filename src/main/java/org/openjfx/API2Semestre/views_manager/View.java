@@ -4,13 +4,13 @@ import org.openjfx.api2semestre.authentication.Permission;
 
 public enum View {
 
-    AppointmentsADM(0, "Apontamentos", "listagemAdm", new Permission[] {
+    AppointmentsADM(0, "Apontamentos", "views/listagemAdm", new Permission[] {
         Permission.FullAccess
     }),
-    Appointments(0, "Apontamentos", "appointments", new Permission[] {
+    Appointments(0, "Apontamentos", "views/appointments", new Permission[] {
         Permission.Appoint
     }),
-    Approvals(1, "Aprovação", "approvals", new Permission[] {
+    Approvals(1, "Aprovação", "views/approvals", new Permission[] {
         Permission.Validate
     });
 

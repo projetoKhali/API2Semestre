@@ -35,8 +35,8 @@ public class LoginCol {
             ))) {
                 App.changeView(ProvisoryLogin.handleViews());
             }
-        } catch (Exception e) {
-
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
     }
 
