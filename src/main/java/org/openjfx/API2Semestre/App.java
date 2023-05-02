@@ -10,6 +10,7 @@ import java.io.IOException;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
@@ -30,6 +31,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
+        QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        QueryLibs.executeSqlFile("./SQL/views.sql");
+
         setStage(stage);
 
         loginView();
