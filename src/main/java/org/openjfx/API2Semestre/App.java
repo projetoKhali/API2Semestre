@@ -4,14 +4,13 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.SplitPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
@@ -30,6 +29,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
+
+        QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        QueryLibs.executeSqlFile("./SQL/views.sql");
+
         setStage(stage);
 
         loginView();

@@ -143,10 +143,16 @@ public class ApprovalsController implements Initializable {
     }
 
     private void updateTable () {
-        List<Appointment> items = List.of();
+        List<Appointment> items = new ArrayList<>();
         for (String centroResultado : Authentication.getCurrentUser().getManagesCRs()) {
+            // System.out.println("centroResultado: " + centroResultado);
             for(Appointment apt : QueryLibs.squadSelect(centroResultado)) {
-                items.add(apt);
+                // System.out.println("apt: " + apt);
+                // try {
+                    items.add(apt);
+                // } catch (Exception e) {
+                //     e.printStackTrace();
+                // }
             }
         }
         System.out.println(items.size() + " appointments returned from select ");
