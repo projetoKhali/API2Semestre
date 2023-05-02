@@ -23,5 +23,4 @@ public class QueryParam <T> {
             throw new Exception("Unimplemented QueryParam.apply for T of type '" + this.value.getClass() + "'");
         }
     }
-    
 }
