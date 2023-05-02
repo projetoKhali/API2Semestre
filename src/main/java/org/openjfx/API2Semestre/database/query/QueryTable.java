@@ -1,8 +1,8 @@
 package org.openjfx.api2semestre.database.query;
 
 public enum QueryTable {
-    Appointment("apontamento (hora_inicio, hora_fim, requester, projeto, cliente, tipo, justificativa, cr_id, aprovacao) values (?, ?, ?, ?, ?, ?, ?, ?, ?)"),
-    ViewAppointment("vw_apontamento WHERE requester = ?");
+    Appointment("public.apontamento"),
+    ViewAppointment("vw_apontamento");
     // User,
     // Client,
     // Squad,

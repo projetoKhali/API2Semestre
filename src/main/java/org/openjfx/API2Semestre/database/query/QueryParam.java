@@ -4,11 +4,23 @@ import java.sql.PreparedStatement;
 import java.sql.Timestamp;
 
 public class QueryParam <T> {
+    protected TableProperty property;
     protected T value;
 
-    public QueryParam(T value) { this.value = value; }
+    public QueryParam(TableProperty property, T value) {
+        this.property = property;
+        this.value = value;
+    }
 
+    public TableProperty getProperty() { return property; }
     public T getValue() { return value; }
+
+    protected String build (QueryType type) {
+        switch (type) {
+            case INSERT: return property.getStringValue();
+            default: return property.getStringValueWhere();
+        }
+    }
 
     protected void apply (PreparedStatement statement, int index) throws Exception {
         if (value instanceof Integer) {
