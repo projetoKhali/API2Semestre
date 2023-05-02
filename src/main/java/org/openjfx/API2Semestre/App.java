@@ -8,6 +8,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Arrays;
+import java.util.Collections;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
@@ -161,6 +165,38 @@ public class App extends Application {
 
         // System.setProperty("javafx.fxml.debug", "true");
         // launch();
+
+        System.out.print("oi");
+        String str_t1 = "2023-04-27 12:00";
+        String str_t1_final = "2023-04-28 12:00";
+        Timestamp timestamp_t1 = Timestamp.valueOf(str_t1);
+        Timestamp timestamp_t1_final = Timestamp.valueOf(str_t1_final);
+
+        String str_t2 = "2023-04-28 08:00";
+        String str_t2_final = "2023-04-28 13:00";
+        Timestamp timestamp_t2 = Timestamp.valueOf(str_t2);
+        Timestamp timestamp_t2_final = Timestamp.valueOf(str_t2_final);
+
+        LocalDateTime t1 = timestamp_t1.toLocalDateTime();
+        LocalDateTime t1_final = timestamp_t1_final.toLocalDateTime();
+        LocalDateTime t2 = timestamp_t2.toLocalDateTime();
+        LocalDateTime t2_final = timestamp_t2_final.toLocalDateTime();
+
+        if (t1_final.isBefore(t1) || t2_final.isBefore(t2)) {
+            System.out.println("Not proper intervals");
+        } else {
+            long numberOfOverlappingDates;
+            if (t1_final.isBefore(t2) || t2_final.isBefore(t1)) {
+                // no overlap
+                numberOfOverlappingDates = 0;
+            } else {
+                LocalDateTime laterStart = Collections.max(Arrays.asList(t1, t2));
+                LocalDateTime earlierEnd = Collections.min(Arrays.asList(t1_final, t2_final));
+                numberOfOverlappingDates = ChronoUnit.DAYS.between(laterStart, earlierEnd);
+            }
+            System.out.println("" + numberOfOverlappingDates + " days of overlap");
+        }
+
     }
 
 }
