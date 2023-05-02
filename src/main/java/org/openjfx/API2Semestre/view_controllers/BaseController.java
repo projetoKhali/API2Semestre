@@ -6,13 +6,12 @@ import org.openjfx.api2semestre.authentication.Authentication;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 
 public class BaseController {
 
     @FXML
-    private AnchorPane ap_content;
+    private VBox ap_content;
 
     @FXML
     private Label lb_currentUser;
@@ -26,7 +25,7 @@ public class BaseController {
         App.loginView();
     }
 
-    public AnchorPane getAp_content() {
+    public VBox getAp_content() {
         return ap_content;
     }
 

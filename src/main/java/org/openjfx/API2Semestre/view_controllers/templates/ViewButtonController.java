@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.view_controllers;
+package org.openjfx.api2semestre.view_controllers.templates;
 
 import org.openjfx.api2semestre.App;
 
@@ -24,6 +24,10 @@ public class ViewButtonController {
     @FXML
     void enterView(ActionEvent event) {
         App.changeView(viewFxmlFile);
+    }
+
+    public void setDisable (boolean disable) {
+        button.setDisable(disable);
     }
 
 }
