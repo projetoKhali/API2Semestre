@@ -13,6 +13,8 @@ import java.util.List;
 
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
+import org.openjfx.api2semestre.database.query.Query;
+import org.openjfx.api2semestre.database.query.QueryParam;
 
 public class QueryLibs {
 
@@ -34,41 +36,37 @@ public class QueryLibs {
 
     }
 
-    /// Método que executa um select simples dos apontametos de um usuário.
-    /// Pode lançar uma exceção SQLException.
-    public static void simpleSelect (String requester) {
-        Connection conexao = getConnection();
-
-        // string que carrega o comando em sql
-        String sql = "SELECT * FROM apontamento WHERE requester = ?";
-
-        // execução da query
-        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-            statement.setString(1, requester);
-            // prepara a declaração SQL para ser executada usando a conexão fornecida
-            // e executa a consulta
-            ResultSet result = statement.executeQuery();
-
-            // processa o resultado aqui...
-            while (result.next()) {
-                // itera sobre cada linha retornada pela consulta
-                // e extrai os valores das colunas necessárias
-                String coluna1 = result.getString("nome_da_coluna_1");
-                int coluna2 = result.getInt("nome_da_coluna_2");
-                double coluna3 = result.getDouble("nome_da_coluna_3");
-
-                // imprime os valores das colunas no terminal
-                System.out.println(coluna1 + " | " + coluna2 + " | " + coluna3);
-            }
-            conexao.close();
+    private static void executeQuery (Query q) {
+        Connection connection = getConnection();
+        q.execute(connection);
+        try {
+            connection.commit();
+            connection.close();
         } catch (Exception ex) {
-            System.out.println("QueryLibs.simpleSelect() -- Erro ao executar query");
+            System.out.println("QueryLibs.insertTable() -- Erro: Falha na execução da Query!");
             ex.printStackTrace();
         }
     }
 
+    public static void insertTable2 (Appointment apt) {
+        executeQuery(new Query(
+            "INSERT INTO apontamento (hora_inicio, hora_fim, requester, projeto, cliente, tipo, justificativa, cr_id, aprovacao) values (?, ?, ?, ?, ?, ?, ?, ?, ?)",
+            new QueryParam<?>[] {
+                new QueryParam<Timestamp>(apt.getStartDate()),
+                new QueryParam<Timestamp>(apt.getEndDate()),
+                new QueryParam<String>(apt.getRequester()),
+                new QueryParam<String>(apt.getProject()),
+                new QueryParam<String>(apt.getClient()),
+                new QueryParam<Boolean>(apt.getType().getBooleanValue()),
+                new QueryParam<String>(apt.getJustification()),
+                new QueryParam<String>(apt.getSquad()),
+                new QueryParam<Integer>(apt.getStatus().getIntValue())
+            }
+        ));
+    }
+
     /// Insere um apontamento no banco de dados.
-    public static void insertTable (Appointment Apt) {
+    public static void insertTable (Appointment apt) {
 
         Connection conexao = getConnection();
 
@@ -76,17 +74,17 @@ public class QueryLibs {
         String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, requester, projeto, cliente, tipo, justificativa, cr_id, aprovacao) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
-            // statement.setInt(1, Apt.getId());
-            // System.out.println(Apt.getStartDate());
-            statement.setTimestamp(1, Apt.getStartDate());
-            statement.setTimestamp(2, Apt.getEndDate());
-            statement.setString(3, Apt.getRequester());
-            statement.setString(4, Apt.getProject());
-            statement.setString(5, Apt.getClient());
-            statement.setBoolean(6, Apt.getType().getBooleanValue());
-            statement.setString(7, Apt.getJustification());
-            statement.setString(8, Apt.getSquad());
-            statement.setInt(9, Apt.getStatus().getIntValue());
+            // statement.setInt(1, apt.getId());
+            // System.out.println(apt.getStartDate());
+            statement.setTimestamp(1, apt.getStartDate());
+            statement.setTimestamp(2, apt.getEndDate());
+            statement.setString(3, apt.getRequester());
+            statement.setString(4, apt.getProject());
+            statement.setString(5, apt.getClient());
+            statement.setBoolean(6, apt.getType().getBooleanValue());
+            statement.setString(7, apt.getJustification());
+            statement.setString(8, apt.getSquad());
+            statement.setInt(9, apt.getStatus().getIntValue());
 
             // executa o update
             statement.executeUpdate();
@@ -354,7 +352,7 @@ public class QueryLibs {
     }
 
     /// Atualiza um apontamento no banco de dados.
-    public static void updateTable (Appointment Apt) {
+    public static void updateTable (Appointment apt) {
 
         Connection conexao = getConnection();
 
@@ -366,17 +364,17 @@ public class QueryLibs {
         String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, requester = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ?, aprovacao = ?, justificativa = ?, feedback = ? WHERE apt_id = ?";
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
             // substituindo os parâmetros "?" para valores desejados
-            statement.setObject(1, Apt.getStartDate());
-            statement.setObject(2, Apt.getEndDate());
-            statement.setString(3, Apt.getRequester());
-            statement.setString(4, Apt.getProject());
-            statement.setString(5, Apt.getClient());
-            statement.setBoolean(6, Apt.getType().getBooleanValue());
-            statement.setString(7, Apt.getSquad());
-            statement.setInt(8, Apt.getStatus().getIntValue());
-            statement.setString(9, Apt.getJustification());
-            statement.setString(10, Apt.getFeedback());
-            statement.setInt(11, Apt.getId());
+            statement.setObject(1, apt.getStartDate());
+            statement.setObject(2, apt.getEndDate());
+            statement.setString(3, apt.getRequester());
+            statement.setString(4, apt.getProject());
+            statement.setString(5, apt.getClient());
+            statement.setBoolean(6, apt.getType().getBooleanValue());
+            statement.setString(7, apt.getSquad());
+            statement.setInt(8, apt.getStatus().getIntValue());
+            statement.setString(9, apt.getJustification());
+            statement.setString(10, apt.getFeedback());
+            statement.setInt(11, apt.getId());
 
             // executa o update
             statement.executeUpdate();
@@ -392,7 +390,7 @@ public class QueryLibs {
     }
 
     /// Remove um apontamento do banco de dados.
-    public static void deleteIdAppointment(Appointment Apt) {
+    public static void deleteIdAppointment(Appointment apt) {
 
         Connection conexao = getConnection();
 
@@ -403,7 +401,7 @@ public class QueryLibs {
         try (PreparedStatement statement = conexao.prepareStatement(sql)) {
 
             // substituindo os parâmetros "?" para valores desejados
-            statement.setInt(1, Apt.getId());
+            statement.setInt(1, apt.getId());
 
             // executa o update
             statement.executeUpdate();
