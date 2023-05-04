@@ -135,6 +135,7 @@ public class ApprovalsController implements Initializable {
 
     private void updateTable () {
         List<Appointment> items = new ArrayList<>();
+        System.out.println("ApprovalsController.updateTable() -- Atualizar implementação para usar usuário cadastrado :)");
         for (String centroResultado : Authentication.getCurrentUser().getManagesCRs()) {
             // System.out.println("centroResultado: " + centroResultado);
             for(Appointment apt : QueryLibs.squadSelect(centroResultado)) {

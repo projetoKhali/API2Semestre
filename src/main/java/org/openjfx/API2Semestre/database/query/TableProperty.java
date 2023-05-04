@@ -22,6 +22,11 @@ public enum TableProperty {
     // TODO: IntervalFees table
 
 
+    public static final TableProperty[] APPOINTMENT_PROPERTIES = new TableProperty[] {
+        Id, Requester, Type, StartDate, EndDate, Squad, Client, Project, Justification, Status, Feedback
+    };
+
+
     // TableProperty variable and constructor
     private String stringValue;
     private TableProperty (String stringValue) { this.stringValue = stringValue; }
