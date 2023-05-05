@@ -12,6 +12,7 @@ import java.io.IOException;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
@@ -97,6 +98,12 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+
+        QueryLibs.executeSqlFile("SQL/tabelas.sql");
+        QueryLibs.executeSqlFile("SQL/views.sql");
+
+        System.exit(1);
+
         System.setProperty("javafx.fxml.debug", "true");
         launch();
     }
