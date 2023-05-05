@@ -15,10 +15,19 @@ public enum TableProperty {
     Project("projeto"),
     Justification("justificativa"),
     Status("aprovacao"),
-    Feedback("feedback");
+    Feedback("feedback"),
 
-    // TODO: Users table
+
+    // Users table
+    Nome("nome"),
+    Email("email"),
+    Senha("senha"),
+    Matricula("matricula"),
+
     // TODO: Clients table
+    Sigla("sigla"),
+    Codigo("codigo");
+
     // TODO: IntervalFees table
 
 

@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS public.usuario(
     nome VARCHAR NULL,
     email VARCHAR NULL,
     senha VARCHAR NULL,
-    tipo VARCHAR NULL,
+    tipo INT NOT NULL,
     matricula VARCHAR NULL,
     
     CONSTRAINT usuario_pkey PRIMARY KEY (requester)
@@ -37,6 +37,7 @@ CREATE TABLE IF NOT EXISTS public.usuario(
 CREATE TABLE IF NOT EXISTS public.centro_resultado(
     cr_id serial NOT NULL,
     nome VARCHAR NULL,
-
+    sigla VARCHAR NULL,
+    codigo VARCHAR NULL,
     CONSTRAINT centro_resultado_pkey PRIMARY KEY (cr_id)
 );
