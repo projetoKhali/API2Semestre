@@ -12,7 +12,7 @@
 
 <HBox minHeight="-Infinity" minWidth="-Infinity" prefHeight="576.0" prefWidth="1024.0" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.BaseController">
    <children>
-      <VBox alignment="CENTER" maxWidth="-Infinity" prefWidth="224.0" spacing="24.0">
+      <VBox alignment="CENTER" maxWidth="-Infinity" prefWidth="160.0" spacing="24.0">
          <children>
             <ImageView fitHeight="61.0" fitWidth="181.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="NEVER">
                <image>

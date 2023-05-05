@@ -70,7 +70,7 @@
             </Button>
          </children>
       </FlowPane>
-      <TableView fx:id="tabela" cacheShape="false" editable="true" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+      <TableView fx:id="tabela" cacheShape="false" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <columns>
             <!-- <TableColumn fx:id="col_selecionar" editable="true" prefWidth="24.0" text="☐" /> -->
             <TableColumn fx:id="col_status" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" sortable="false" text="Status" />
