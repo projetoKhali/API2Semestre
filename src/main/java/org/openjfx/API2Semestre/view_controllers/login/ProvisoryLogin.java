@@ -3,7 +3,6 @@ package org.openjfx.api2semestre.view_controllers.login;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.authentication.Authentication;

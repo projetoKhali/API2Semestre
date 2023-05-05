@@ -4,8 +4,6 @@ import javafx.scene.control.TextField;
 
 import java.util.function.Supplier;
 
-import org.openjfx.api2semestre.view_controllers.ApprovalsController;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -47,6 +45,7 @@ public final class TableColumnFilterMacros {
                 // When text inside TextField changes
                 textField.onKeyTypedProperty().set(
                     editEvent -> {
+                        System.out.println(editEvent.getCharacter());
                         enableFilter.set(enableFilterCallback.get());
                         // System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
                     }

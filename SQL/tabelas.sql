@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS public.usuario(
     nome VARCHAR NULL,
     email VARCHAR NULL,
     senha VARCHAR NULL,
-    tipo VARCHAR NULL,
+    tipo INT NOT NULL,
     matricula VARCHAR NULL,
     
     CONSTRAINT usuario_pkey PRIMARY KEY (id)

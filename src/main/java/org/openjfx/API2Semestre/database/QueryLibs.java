@@ -10,96 +10,62 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
+import org.openjfx.api2semestre.data.ResultsCenter;
+import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
+import org.openjfx.api2semestre.database.query.Query;
+import org.openjfx.api2semestre.database.query.QueryParam;
+import org.openjfx.api2semestre.database.query.QueryTable;
+import org.openjfx.api2semestre.database.query.QueryType;
+import org.openjfx.api2semestre.database.query.TableProperty;
 
 public class QueryLibs {
 
     /// Retorna a conexão com o banco de dados atualmente ativa.
     /// Caso não exista conexão, uma nova conexão é criada.
     private static Connection getConnection() {
-
         try {
             return new SQLConnection().connect();
-
-            // Em caso de erro ao estabelecer uma nova conexão
         } catch (Exception ex) {
-            // throw(e);
-
             System.out.println("QueryLibs.getConnection() -- Erro: Falha ao iniciar conexão!");
             ex.printStackTrace();
-            return null;
         }
-
+        return null;
     }
 
-    /// Método que executa um select simples dos apontametos de um usuário.
-    /// Pode lançar uma exceção SQLException.
-    public static void simpleSelect (String requester) {
-        Connection conexao = getConnection();
-
-        // string que carrega o comando em sql
-        String sql = "SELECT * FROM apontamento WHERE requester = ?";
-
-        // execução da query
-        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-            statement.setString(1, requester);
-            // prepara a declaração SQL para ser executada usando a conexão fornecida
-            // e executa a consulta
-            ResultSet result = statement.executeQuery();
-
-            // processa o resultado aqui...
-            while (result.next()) {
-                // itera sobre cada linha retornada pela consulta
-                // e extrai os valores das colunas necessárias
-                String coluna1 = result.getString("nome_da_coluna_1");
-                int coluna2 = result.getInt("nome_da_coluna_2");
-                double coluna3 = result.getDouble("nome_da_coluna_3");
-
-                // imprime os valores das colunas no terminal
-                System.out.println(coluna1 + " | " + coluna2 + " | " + coluna3);
-            }
-            conexao.close();
-        } catch (Exception ex) {
-            System.out.println("QueryLibs.simpleSelect() -- Erro ao executar query");
-            ex.printStackTrace();
-        }
-    }
-
-    /// Insere um apontamento no banco de dados.
-    public static void insertTable (Appointment Apt) {
-
-        Connection conexao = getConnection();
-
-        // código sql a ser executado, passando "?" como parâmetro de valors
-        String sql = "INSERT INTO apontamento (hora_inicio, hora_fim, requester, projeto, cliente, tipo, justificativa, cr_id, aprovacao) values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-            // substituindo os parâmetros "?" para valores desejados
-            // statement.setInt(1, Apt.getId());
-            // System.out.println(Apt.getStartDate());
-            statement.setTimestamp(1, Apt.getStartDate());
-            statement.setTimestamp(2, Apt.getEndDate());
-            statement.setString(3, Apt.getRequester());
-            statement.setString(4, Apt.getProject());
-            statement.setString(5, Apt.getClient());
-            statement.setBoolean(6, Apt.getType().getBooleanValue());
-            statement.setString(7, Apt.getJustification());
-            statement.setString(8, Apt.getSquad());
-            statement.setInt(9, Apt.getStatus().getIntValue());
-
-            // executa o update
-            statement.executeUpdate();
-
-            // envia mudanças para conexão remota
-            conexao.commit();
-            conexao.close();
-
-            // exibe erros ao executar a query
+    private static Optional<ResultSet> executeQuery (Query q) {
+        Connection connection = getConnection();
+        Optional<ResultSet> result = q.execute(connection);
+        try {
+            connection.commit();
+            connection.close();
         } catch (Exception ex) {
             System.out.println("QueryLibs.insertTable() -- Erro: Falha na execução da Query!");
             ex.printStackTrace();
         }
+        return result;
+    }
+
+    public static void insertTable (Appointment apt) {
+        executeQuery(new Query(
+            QueryType.INSERT,
+            QueryTable.Appointment,
+            new QueryParam<?>[] {
+                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
+                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEndDate()),
+                new QueryParam<String>(TableProperty.Requester, apt.getRequester()),
+                new QueryParam<String>(TableProperty.Project, apt.getProject()),
+                new QueryParam<String>(TableProperty.Client, apt.getClient()),
+                new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
+                new QueryParam<String>(TableProperty.Justification, apt.getJustification()),
+                new QueryParam<String>(TableProperty.Squad, apt.getSquad()),
+                new QueryParam<Integer>(TableProperty.Status, apt.getStatus().getIntValue())
+            }
+        ));
     }
 
     /// Executa um arquivo SQL no caminho especificado.
@@ -142,280 +108,107 @@ public class QueryLibs {
         
     }
 
-    public static Appointment[] collaboratorSelect (String requester) {
-
-        Connection conexao = getConnection();
-
-        // string que carrega o comando em sql
-        String sql = "SELECT * FROM vw_apontamento WHERE requester = ?";
-        
-        List<Appointment> appointments = new ArrayList<Appointment>();
-        
-        // execução da query
+    private static Appointment[] executeAppointmentSelect(Query query) {
+        ResultSet result = null;
         try {
-
-            PreparedStatement statement = conexao.prepareStatement(sql);
-
-            // substitui "?" pelo id passado no parâmetro
-            statement.setString(1, requester);
-            // executa a query e salva o resultado na variável "result"
-            ResultSet result = statement.executeQuery();
-            
-            // cabeçalho
-            // System.out.println("Usuário | id | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
-            
-            while (result.next()) {
-                // System.out.println("oi result.next()");
-                // itera sobre cada linha retornada pela consulta
-                // e extrai os valores das colunas necessárias
-                int id = result.getInt("apt_id");
-                Timestamp hora_inicio = new Timestamp(((Date) result.getObject("hora_inicio")).getTime());
-                Timestamp hora_fim = new Timestamp(((Date) result.getObject("hora_fim")).getTime());
-                // String requester = result.getString("usuario_nome");
-                String projeto = result.getString("projeto");
-                String cliente = result.getString("cliente");
-                boolean tipo = result.getBoolean("tipo");
-                String justif = result.getString("justificativa");
-                String centroR = result.getString("cr_id");
-                int aprovacao = result.getInt("aprovacao");
-                String feedback = result.getString("feedback");
-
-                appointments.add(new Appointment(
-                    id,
-                    requester,
-                    AppointmentType.of(tipo),
-                    hora_inicio,
-                    hora_fim,
-                    centroR,
-                    cliente,
-                    projeto,
-                    justif,
-                    aprovacao,
-                    feedback
-                ));
-
-                // // imprime os valores das colunas no terminal
-                // System.out.println(requester
-                //         + " | " + id
-                //         + " | " + hora_inicio
-                //         + " | " + hora_fim
-                //         + " | " + projeto
-                //         + " | " + cliente
-                //         + " | " + tipo
-                //         + " | " + justif
-                //         + " | " + centroR
-                //         + " | " + aprovacao);
-            }
-            // fecha a conexão
-            conexao.close();
-    
+            result = executeQuery(query).get();
         } catch (Exception ex) {
-            System.out.println("QueryLibs.collaboratorSelect() -- Erro ao executar query");
+            System.out.println("QueryLibs.executeAppointmentSelect() -- Erro ao executar query");
+            ex.printStackTrace();
+        }
+        if (result == null) {
+            System.out.println("QueryLibs.executeAppointmentSelect() -- Erro: Nenhum ResultSet retornado para a query");
+            return new Appointment[0];
+        }
+        List<Appointment> appointments = new ArrayList<Appointment>();
+        // itera sobre cada linha retornada pela consulta
+        // e extrai os valores das colunas necessárias
+        try {
+            while (result.next()) {
+                appointments.add(new Appointment(
+                    result.getInt("apt_id"),
+                    result.getString("requester"),
+                    AppointmentType.of(result.getBoolean("tipo")),
+                    new Timestamp(((Date) result.getObject("hora_inicio")).getTime()),
+                    new Timestamp(((Date) result.getObject("hora_fim")).getTime()),
+                    result.getString("cr_id"),
+                    result.getString("cliente"),
+                    result.getString("projeto"),
+                    result.getString("justificativa"),
+                    result.getInt("aprovacao"),
+                    result.getString("feedback")
+                ));
+            }
+        } catch (Exception ex) {
+            System.out.println("QueryLibs.executeAppointmentSelect() -- Erro ao ler resultado da query");
             ex.printStackTrace();
         }
         return appointments.toArray(new Appointment[0]);
+
     }
 
-    public static Appointment[] squadSelect (String squadName) {
-
-        Connection conexao = getConnection();
-
-        // string que carrega o comando em sql
-        String sql = "SELECT * FROM vw_apontamento WHERE cr_id = ?";
-        
-        List<Appointment> appointments = new ArrayList<Appointment>();
-        
-        // execução da query
-        try {
-
-            PreparedStatement statement = conexao.prepareStatement(sql);
-
-            // substitui "?" pelo id passado no parâmetro
-            statement.setString(1, squadName);
-            // executa a query e salva o resultado na variável "result"
-            ResultSet result = statement.executeQuery();
-            
-            // cabeçalho
-            // System.out.println("Usuário | id | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
-            
-            while (result.next()) {
-                // System.out.println("oi result.next()");
-                // itera sobre cada linha retornada pela consulta
-                // e extrai os valores das colunas necessárias
-                int id = result.getInt("apt_id");
-                Timestamp hora_inicio = new Timestamp(((Date) result.getObject("hora_inicio")).getTime());
-                Timestamp hora_fim = new Timestamp(((Date) result.getObject("hora_fim")).getTime());
-                String requester = result.getString("requester");
-                String projeto = result.getString("projeto");
-                String cliente = result.getString("cliente");
-                boolean tipo = result.getBoolean("tipo");
-                String justif = result.getString("justificativa");
-                String centroR = result.getString("cr_id");
-                int aprovacao = result.getInt("aprovacao");
-                String feedback = result.getString("feedback");
-
-                appointments.add(new Appointment(
-                    id,
-                    requester,
-                    AppointmentType.of(tipo),
-                    hora_inicio,
-                    hora_fim,
-                    centroR,
-                    cliente,
-                    projeto,
-                    justif,
-                    aprovacao,
-                    feedback
-                ));
-
+    public static Appointment[] collaboratorSelect (String requester) {
+        return executeAppointmentSelect(new Query(
+            QueryType.SELECT,
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Requester, requester),
             }
-            // fecha a conexão
-            conexao.close();
-    
-        } catch (Exception ex) {
-            System.out.println("QueryLibs.collaboratorSelect() -- Erro ao executar query");
-            ex.printStackTrace();
-        }
-        return appointments.toArray(new Appointment[0]);
+        ));
+    }
+
+
+    public static Appointment[] squadSelect (String squadName) {
+        return executeAppointmentSelect(new Query(
+            QueryType.SELECT,
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Squad, squadName),
+            }
+        ));
     }
 
     public static Appointment[] selectAllAppointments () {
-
-        Connection conexao = getConnection();
-
-        // string que carrega o comando em sql
-        String sql = "SELECT * FROM public.apontamento";
-        
-        List<Appointment> appointments = new ArrayList<Appointment>();
-        
-        // execução da query
-        try {
-
-            PreparedStatement statement = conexao.prepareStatement(sql);
-
-            // substitui "?" pelo id passado no parâmetro
-            // statement.setString(1, requester);
-            // executa a query e salva o resultado na variável "result"
-            ResultSet result = statement.executeQuery();
-            
-            // cabeçalho
-            System.out.println("Usuário | id | hora início | hora fim | projeto | cliente | atividade | justificativa | centro resultado");
-            
-            while (result.next()) {
-                // System.out.println("oi result.next()");
-                // itera sobre cada linha retornada pela consulta
-                // e extrai os valores das colunas necessárias
-                int id = result.getInt("apt_id");
-                String requester = result.getString("requester");
-                Timestamp hora_inicio = new Timestamp(((Date) result.getObject("hora_inicio")).getTime());
-                Timestamp hora_fim = new Timestamp(((Date) result.getObject("hora_fim")).getTime());
-                String projeto = result.getString("projeto");
-                String cliente = result.getString("cliente");
-                boolean tipo = result.getBoolean("tipo");
-                String justif = result.getString("justificativa");
-                String centroR = result.getString("cr_id");
-                int aprovacao = result.getInt("aprovacao");
-                String feedback = result.getString("feedback");
-
-                appointments.add(new Appointment(
-                    id,
-                    requester,
-                    AppointmentType.of(tipo),
-                    hora_inicio,
-                    hora_fim,
-                    centroR,
-                    cliente,
-                    projeto,
-                    justif,
-                    aprovacao,
-                    feedback
-                ));
-
-                // // imprime os valores das colunas no terminal
-                // System.out.println(requester
-                //         + " | " + id
-                //         + " | " + hora_inicio
-                //         + " | " + hora_fim
-                //         + " | " + projeto
-                //         + " | " + cliente
-                //         + " | " + tipo
-                //         + " | " + justif
-                //         + " | " + centroR
-                //         + " | " + aprovacao);
-            }
-            // fecha a conexão
-            conexao.close();
-    
-        } catch (Exception ex) {
-            System.out.println("QueryLibs.collaboratorSelect() -- Erro ao executar query");
-            ex.printStackTrace();
-        }
-        return appointments.toArray(new Appointment[0]);
+        return executeAppointmentSelect(new Query(
+            QueryType.SELECT,
+            QueryTable.Appointment,
+            new QueryParam<?>[0]
+        ));
     }
 
-    /// Atualiza um apontamento no banco de dados.
-    public static void updateTable (Appointment Apt) {
+    public static void updateTable (Appointment apt) {
+        executeQuery(new Query(
+            QueryType.UPDATE,
+            QueryTable.Appointment,
+            new QueryParam<?>[] {
 
-        Connection conexao = getConnection();
+                // SET
+                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
+                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEndDate()),
+                new QueryParam<String>(TableProperty.Requester, apt.getRequester()),
+                new QueryParam<String>(TableProperty.Project, apt.getProject()),
+                new QueryParam<String>(TableProperty.Client, apt.getClient()),
+                new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
+                new QueryParam<String>(TableProperty.Justification, apt.getJustification()),
+                new QueryParam<String>(TableProperty.Squad, apt.getSquad()),
+                new QueryParam<Integer>(TableProperty.Status, apt.getStatus().getIntValue()),
+                new QueryParam<String>(TableProperty.Feedback, apt.getJustification()),
 
-        // código sql a ser executado, passando "?" como parâmetro de valors
-        // No SQL abaixo, o ID do apontamento é o parâmentro para a atualização. O
-        // ultimo stratement é o getId, então será necessario coletar o ID do
-        // apantamento
-        // para reconhecer qual apontamento será atualizado.
-        String sql = "UPDATE apontamento SET hora_inicio = ?, hora_fim = ?, requester = ?, projeto = ?, cliente = ?, tipo = ?, cr_id = ?, aprovacao = ?, justificativa = ?, feedback = ? WHERE apt_id = ?";
-        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-            // substituindo os parâmetros "?" para valores desejados
-            statement.setObject(1, Apt.getStartDate());
-            statement.setObject(2, Apt.getEndDate());
-            statement.setString(3, Apt.getRequester());
-            statement.setString(4, Apt.getProject());
-            statement.setString(5, Apt.getClient());
-            statement.setBoolean(6, Apt.getType().getBooleanValue());
-            statement.setString(7, Apt.getSquad());
-            statement.setInt(8, Apt.getStatus().getIntValue());
-            statement.setString(9, Apt.getJustification());
-            statement.setString(10, Apt.getFeedback());
-            statement.setInt(11, Apt.getId());
-
-            // executa o update
-            statement.executeUpdate();
-
-            conexao.commit();
-            conexao.close();
-
-            // exibe erros ao executar a query
-        } catch (Exception ex) {
-            System.out.println("QueryLibs.updateTable() -- Erro: Falha na execução da Query!");
-            ex.printStackTrace();
-        }
+                // WHERE
+                new QueryParam<Integer>(TableProperty.Id, apt.getId())
+            }
+        ));
     }
 
     /// Remove um apontamento do banco de dados.
-    public static void deleteIdAppointment(Appointment Apt) {
-
-        Connection conexao = getConnection();
-
-        // código sql a ser executado, passando "?" como parâmetro de valors
-        // Como base no ID do apontamento ele exclui todas regristro dentro da condição
-        // "Coluna apt_id = ID do apontamento"
-        String sql = "DELETE FROM apontamento WHERE apt_id = ?";
-        try (PreparedStatement statement = conexao.prepareStatement(sql)) {
-
-            // substituindo os parâmetros "?" para valores desejados
-            statement.setInt(1, Apt.getId());
-
-            // executa o update
-            statement.executeUpdate();
-
-            conexao.commit();
-            conexao.close();
-
-            // exibe erros ao executar a query
-        } catch (Exception ex) {
-            System.out.println("QueryLibs.deleteIdAppointment() -- Erro: Falha na execução da Query!");
-            ex.printStackTrace();
-        }
+    public static void deleteIdAppointment (Appointment apt) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.Appointment,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, apt.getId())
+            }
+        ));
     }
 
     public static void testConnection(Connection conexao) {
@@ -475,5 +268,29 @@ public class QueryLibs {
         }
         // fecha conexão
         // conexao.close();
+    }
+    public static void insertUser (User users) {
+        executeQuery(new Query(
+            QueryType.INSERT,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Nome, users.getNome()),
+                new QueryParam<Profile>(TableProperty.Type, users.getPerfil()),
+                new QueryParam<String>(TableProperty.Email, users.getEmail()),
+                new QueryParam<String>(TableProperty.Senha, users.getSenha()),
+                new QueryParam<String>(TableProperty.Matricula, users.getMatricula())
+            }
+        ));
+    }
+    public static void insertRC (ResultsCenter rc) {
+        executeQuery(new Query(
+            QueryType.INSERT,
+            QueryTable.ResultsCenter,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Nome, rc.getNome()),
+                new QueryParam<String>(TableProperty.Sigla, rc.getSigla()),
+                new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
+            }
+        ));
     }
 }
