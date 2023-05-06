@@ -1,6 +1,7 @@
 module org.openjfx.api2semestre {
     requires transitive javafx.controls;
     requires transitive javafx.fxml;
+    requires transitive org.controlsfx.controls;
     requires transitive java.sql;
 
     opens org.openjfx.api2semestre.view_controllers.templates to javafx.fxml;

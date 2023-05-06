@@ -32,12 +32,20 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        QueryLibs.executeSqlFile("./SQL/views.sql");
+        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        // QueryLibs.executeSqlFile("./SQL/views.sql");
 
         setStage(stage);
+ 
+        try {
+            stage.setScene(new Scene(loadFXML("views/resultCenterRegister")));
+            stage.show();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
-        loginView();
+        // loginView();
     }
 
     public static void loginView () {
@@ -112,16 +120,6 @@ public class App extends Application {
 
         // QueryLibs.executeSqlFile("SQL/tabelas.sql");
         // QueryLibs.executeSqlFile("SQL/views.sql");
-
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("resultCenterRegister.fxml"));
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
-        System.exit(1);
 
         System.setProperty("javafx.fxml.debug", "true");
         launch();

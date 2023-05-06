@@ -45,6 +45,11 @@ public class User extends Data {
     public List<String> getIsMemberOfCRs() { return cr_isMemberOf; }
     public List<String> getManagesCRs() { return cr_manaegdBy; }
 
+    @Override
+    public String toString() {
+        return nome;
+    }
+
     // public void setNome(String nome) { this.nome = nome; }
     // public void setPerfil(Profile perfil) { this.perfil = perfil; }
     // public void setEmail(String email) { this.email = email; }

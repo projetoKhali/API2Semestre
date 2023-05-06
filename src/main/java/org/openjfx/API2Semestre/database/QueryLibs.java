@@ -107,7 +107,7 @@ public class QueryLibs {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends Data> T[] executeSelect (Class<T> type, QueryParam<?>[] params) {
+    public static <T extends Data> T[] executeSelect (Class<T> type, QueryParam<?>[] params) {
         ResultSet result = null;
         try {
             result = executeQuery(new Query(
