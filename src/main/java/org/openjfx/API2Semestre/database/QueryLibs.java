@@ -8,7 +8,6 @@ import java.io.FileReader;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,7 +15,6 @@ import org.openjfx.api2semestre.data.ResultsCenter;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.appointments.Appointment;
-import org.openjfx.api2semestre.appointments.AppointmentType;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
 import org.openjfx.api2semestre.database.query.QueryTable;
@@ -108,72 +106,59 @@ public class QueryLibs {
         
     }
 
-    private static Appointment[] executeAppointmentSelect(Query query) {
+    @SuppressWarnings("unchecked")
+    private static <T extends Data> T[] executeSelect (Class<T> type, QueryParam<?>[] params) {
         ResultSet result = null;
         try {
-            result = executeQuery(query).get();
+            result = executeQuery(new Query(
+                QueryType.SELECT,
+                QueryTable.ViewAppointment,
+                params
+            )).get();
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeAppointmentSelect() -- Erro ao executar query");
+            System.out.println("QueryLibs.executeSelect() -- Erro ao executar query");
             ex.printStackTrace();
         }
         if (result == null) {
-            System.out.println("QueryLibs.executeAppointmentSelect() -- Erro: Nenhum ResultSet retornado para a query");
-            return new Appointment[0];
+            System.out.println("QueryLibs.executeSelect() -- Erro: Nenhum ResultSet retornado para a query");
+            return (T[])new Data[0];
         }
-        List<Appointment> appointments = new ArrayList<Appointment>();
+        List<Data> resultList = new ArrayList<>();
         // itera sobre cada linha retornada pela consulta
         // e extrai os valores das colunas necessárias
         try {
             while (result.next()) {
-                appointments.add(new Appointment(
-                    result.getInt("apt_id"),
-                    result.getString("requester"),
-                    AppointmentType.of(result.getBoolean("tipo")),
-                    new Timestamp(((Date) result.getObject("hora_inicio")).getTime()),
-                    new Timestamp(((Date) result.getObject("hora_fim")).getTime()),
-                    result.getString("cr_id"),
-                    result.getString("cliente"),
-                    result.getString("projeto"),
-                    result.getString("justificativa"),
-                    result.getInt("aprovacao"),
-                    result.getString("feedback")
-                ));
+                resultList.add(Data.create(type, result));
             }
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeAppointmentSelect() -- Erro ao ler resultado da query");
+            System.out.println("QueryLibs.executeSelect() -- Erro ao ler resultado da query");
             ex.printStackTrace();
         }
-        return appointments.toArray(new Appointment[0]);
+        return (T[])resultList.toArray(new Data[0]);
 
     }
 
     public static Appointment[] collaboratorSelect (String requester) {
-        return executeAppointmentSelect(new Query(
-            QueryType.SELECT,
-            QueryTable.ViewAppointment,
+        return executeSelect(Appointment.class,
             new QueryParam<?>[] {
                 new QueryParam<String>(TableProperty.Requester, requester),
             }
-        ));
+        );
     }
 
 
     public static Appointment[] squadSelect (String squadName) {
-        return executeAppointmentSelect(new Query(
-            QueryType.SELECT,
-            QueryTable.ViewAppointment,
+        return executeSelect(Appointment.class,
             new QueryParam<?>[] {
                 new QueryParam<String>(TableProperty.Squad, squadName),
             }
-        ));
+        );
     }
 
     public static Appointment[] selectAllAppointments () {
-        return executeAppointmentSelect(new Query(
-            QueryType.SELECT,
-            QueryTable.Appointment,
+        return executeSelect(Appointment.class,
             new QueryParam<?>[0]
-        ));
+        );
     }
 
     public static void updateTable (Appointment apt) {
