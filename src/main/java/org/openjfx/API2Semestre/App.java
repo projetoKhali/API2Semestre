@@ -110,8 +110,16 @@ public class App extends Application {
 
     public static void main(String[] args) {
 
-        QueryLibs.executeSqlFile("SQL/tabelas.sql");
-        QueryLibs.executeSqlFile("SQL/views.sql");
+        // QueryLibs.executeSqlFile("SQL/tabelas.sql");
+        // QueryLibs.executeSqlFile("SQL/views.sql");
+
+        FXMLLoader loader = new FXMLLoader(App.class.getResource("resultCenterRegister.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
         System.exit(1);
 

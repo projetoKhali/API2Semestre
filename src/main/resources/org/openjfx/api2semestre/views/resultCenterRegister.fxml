@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.ApprovalsController">
+   <padding>
+      <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+   </padding>
+   <children>
+      <HBox prefWidth="800.0">
+         <children>
+            <Label prefHeight="25.0" text="Nome: ">
+               <HBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="tf_name">
+               <HBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </HBox.margin>
+            </TextField>
+            <Label prefHeight="25.0" text="Sigla: ">
+               <HBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="tf_sigla">
+               <HBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </HBox.margin>
+            </TextField>
+            <Label prefHeight="25.0" text="Codigo: ">
+               <HBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </HBox.margin>
+            </Label>
+            <TextField fx:id="tf_codigo">
+               <HBox.margin>
+                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+               </HBox.margin>
+            </TextField>
+         </children>
+         <VBox.margin>
+            <Insets bottom="4.0" left="16.0" right="16.0" top="16.0" />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="30.0" prefWidth="800.0">
+         <children>
+            <HBox>
+               <children>
+                  <Label prefHeight="25.0" text="Adicionar Colaborador: " />
+                  <TextField fx:id="tf_name1" />
+                  <Button mnemonicParsing="false" text="+" />
+               </children>
+               <HBox.margin>
+                  <Insets left="8.0" right="8.0" />
+               </HBox.margin>
+            </HBox>
+            <HBox>
+               <children>
+                  <Label prefHeight="25.0" text="Gestor: " />
+                  <TextField fx:id="tf_sigla1" />
+               </children>
+               <HBox.margin>
+                  <Insets left="8.0" right="8.0" />
+               </HBox.margin>
+            </HBox>
+         </children>
+         <VBox.margin>
+            <Insets bottom="16.0" left="16.0" right="16.0" />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="4.0" />
+         </padding>
+      </HBox>
+   </children>
+</VBox>
