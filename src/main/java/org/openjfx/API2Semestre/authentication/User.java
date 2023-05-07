@@ -6,11 +6,11 @@ import org.openjfx.api2semestre.database.Data;
 
 public class User extends Data {
 
+    private String matricula;
     private String nome;   // change to id
     private Profile perfil;
     private String email;
     private String senha;
-    private String matricula;
 
     private List<String> cr_isMemberOf;
     private List<String> cr_manaegdBy;
@@ -36,11 +36,11 @@ public class User extends Data {
         this.cr_manaegdBy = cr_manaegdBy;
     }
 
+    public String getMatricula() { return matricula; }
     public String getNome() { return nome; }
     public Profile getPerfil() { return perfil; }
     public String getEmail() { return email; }
     public String getSenha() { return senha; }
-    public String getMatricula() { return matricula; }
 
     public List<String> getIsMemberOfCRs() { return cr_isMemberOf; }
     public List<String> getManagesCRs() { return cr_manaegdBy; }

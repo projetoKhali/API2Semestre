@@ -3,17 +3,14 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox 
-   maxHeight="1.7976931348623157E308" 
-   maxWidth="1.7976931348623157E308" 
-   spacing="4.0" 
-   xmlns="http://javafx.com/javafx/19" 
-   xmlns:fx="http://javafx.com/fxml/1" 
-   fx:controller="org.openjfx.api2semestre.view_controllers.ResultCenterController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.ResultCenterController">
    <padding>
       <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
    </padding>
@@ -52,7 +49,7 @@
             </TextField>
          </children>
          <VBox.margin>
-            <Insets bottom="4.0" left="16.0" right="16.0" top="16.0" />
+            <Insets bottom="4.0" left="16.0" right="16.0" top="4.0" />
          </VBox.margin>
       </HBox>
       <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="30.0" prefWidth="800.0">
@@ -61,7 +58,7 @@
                <children>
                   <Label prefHeight="25.0" text="Adicionar Colaborador: " />
                   <TextField fx:id="tf_colaborador" />
-                  <Button mnemonicParsing="false" text="+" />
+                  <Button mnemonicParsing="false" onAction="#adicionarColaborador" text="+" />
                </children>
                <HBox.margin>
                   <Insets left="8.0" right="8.0" />
@@ -78,11 +75,33 @@
             </HBox>
          </children>
          <VBox.margin>
-            <Insets bottom="16.0" left="16.0" right="16.0" />
+            <Insets bottom="4.0" left="16.0" right="16.0" top="4.0" />
          </VBox.margin>
          <padding>
             <Insets bottom="4.0" />
          </padding>
       </HBox>
+      <ListView fx:id="lv_colaboradores" fixedCellSize="0.0" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="832.0" VBox.vgrow="ALWAYS">
+         <padding>
+            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+         </padding>
+      </ListView>
+      <TableView fx:id="tabela" cacheShape="false" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+         <columns>
+            <TableColumn fx:id="col_id" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" sortable="false" text="Id" />
+            <TableColumn fx:id="col_nome" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Nome" />
+            <TableColumn fx:id="col_sigla" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Sigla" />
+            <TableColumn fx:id="col_codigo" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Código" />
+            <TableColumn fx:id="col_gestor" editable="false" maxWidth="128.0" prefWidth="-1.0" sortable="false" text="Gestor" />
+            <TableColumn fx:id="col_membros" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Membros" />
+         </columns>
+         <padding>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+         </padding>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+
    </children>
 </VBox>
