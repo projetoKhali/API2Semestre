@@ -1,12 +1,8 @@
 package org.openjfx.api2semestre.view_controllers;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
-import org.openjfx.api2semestre.custom_tags.LookupTextField;
 import org.openjfx.api2semestre.view_macros.AutocompleteTextField;
 
 import javafx.collections.FXCollections;
@@ -14,7 +10,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 
 public class ResultCenterController {
     

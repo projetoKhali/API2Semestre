@@ -50,6 +50,8 @@ public class AutocompleteTextField {
                     suggestionsList.setMaxHeight(popupHeight);
                     suggestionsList.setMinHeight(popupHeight);
                     suggestionsList.setPrefHeight(popupHeight);
+                    popup.setHeight(popupHeight);
+
                     popup.show(textField, bounds.getMinX(), popupY);
                 } else {
                     popup.hide();
