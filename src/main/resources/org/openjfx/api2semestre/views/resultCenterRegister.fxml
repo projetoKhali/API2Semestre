@@ -3,89 +3,76 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.ResultCenterController">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="800.0" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.ResultCenterController">
    <padding>
       <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
    </padding>
    <children>
-      <HBox prefWidth="800.0">
+      <HBox>
          <children>
-            <Label prefHeight="25.0" text="Nome: ">
+            <FlowPane hgap="4.0" vgap="4.0" HBox.hgrow="ALWAYS">
+               <children>
+                  <HBox>
+                     <children>
+                        <Label prefHeight="25.0" text="Nome: " />
+                        <TextField fx:id="tf_name" />
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label prefHeight="25.0" text="Sigla: " />
+                        <TextField fx:id="tf_sigla" prefWidth="80.0" />
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label prefHeight="25.0" text="Codigo: " />
+                        <TextField fx:id="tf_codigo" prefWidth="128.0" />
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label prefHeight="25.0" text="Gestor: " />
+                        <TextField fx:id="tf_gestor" />
+                     </children>
+                  </HBox>
+                  <HBox>
+                     <children>
+                        <Label prefHeight="25.0" text="Adicionar Colaborador: " />
+                        <TextField fx:id="tf_colaborador" />
+                        <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#adicionarColaborador" prefHeight="25.0" prefWidth="25.0" text="+" />
+                     </children>
+                  </HBox>
+               </children>
+               <padding>
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
+               </padding>
+            </FlowPane>
+            <Button mnemonicParsing="false" onAction="#cadastrarCentro" text="Cadastrar">
                <HBox.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                  <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
                </HBox.margin>
-            </Label>
-            <TextField fx:id="tf_name">
-               <HBox.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </HBox.margin>
-            </TextField>
-            <Label prefHeight="25.0" text="Sigla: ">
-               <HBox.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </HBox.margin>
-            </Label>
-            <TextField fx:id="tf_sigla">
-               <HBox.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </HBox.margin>
-            </TextField>
-            <Label prefHeight="25.0" text="Codigo: ">
-               <HBox.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </HBox.margin>
-            </Label>
-            <TextField fx:id="tf_codigo">
-               <HBox.margin>
-                  <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
-               </HBox.margin>
-            </TextField>
+               <padding>
+                  <Insets bottom="4.0" left="16.0" right="16.0" top="4.0" />
+               </padding>
+            </Button>
          </children>
-         <VBox.margin>
-            <Insets bottom="4.0" left="16.0" right="16.0" top="4.0" />
-         </VBox.margin>
       </HBox>
-      <HBox alignment="CENTER_LEFT" layoutX="30.0" layoutY="30.0" prefWidth="800.0">
-         <children>
-            <HBox>
-               <children>
-                  <Label prefHeight="25.0" text="Adicionar Colaborador: " />
-                  <TextField fx:id="tf_colaborador" />
-                  <Button mnemonicParsing="false" onAction="#adicionarColaborador" text="+" />
-               </children>
-               <HBox.margin>
-                  <Insets left="8.0" right="8.0" />
-               </HBox.margin>
-            </HBox>
-            <HBox>
-               <children>
-                  <Label prefHeight="25.0" text="Gestor: " />
-                  <TextField fx:id="tf_gestor" />
-               </children>
-               <HBox.margin>
-                  <Insets left="8.0" right="8.0" />
-               </HBox.margin>
-            </HBox>
-         </children>
+      <FlowPane fx:id="fp_colaboradores" hgap="24.0" vgap="2.0">
          <VBox.margin>
-            <Insets bottom="4.0" left="16.0" right="16.0" top="4.0" />
+            <Insets bottom="4.0" left="4.0" right="4.0" />
          </VBox.margin>
          <padding>
-            <Insets bottom="4.0" />
+            <Insets left="4.0" right="4.0" />
          </padding>
-      </HBox>
-      <ListView fx:id="lv_colaboradores" fixedCellSize="0.0" maxWidth="1.7976931348623157E308" prefHeight="0.0" prefWidth="832.0" VBox.vgrow="ALWAYS">
-         <padding>
-            <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
-         </padding>
-      </ListView>
+      </FlowPane>
       <TableView fx:id="tabela" cacheShape="false" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <columns>
             <TableColumn fx:id="col_id" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" sortable="false" text="Id" />
