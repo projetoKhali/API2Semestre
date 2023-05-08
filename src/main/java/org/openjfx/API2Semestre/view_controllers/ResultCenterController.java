@@ -5,7 +5,6 @@ import org.openjfx.api2semestre.data.ResultsCenter;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;

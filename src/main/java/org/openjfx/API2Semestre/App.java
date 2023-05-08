@@ -10,7 +10,7 @@ import java.io.IOException;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
-import org.openjfx.api2semestre.database.QueryLibs;
+// import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
