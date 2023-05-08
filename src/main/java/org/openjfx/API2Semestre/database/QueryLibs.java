@@ -13,6 +13,7 @@ import java.util.Optional;
 
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.VwAppointment;
+import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
 import org.openjfx.api2semestre.database.query.QueryTable;
@@ -231,6 +232,20 @@ public class QueryLibs {
                 new QueryParam<Integer>(TableProperty.Id, apt.getId())
             }
         ));
+    }
+
+    // Insere uma senha criptografada no banco
+    public static void insertUser(User user) {
+        // String passwordHash = user.getSenha();
+        executeQuery(new Query(QueryType.INSERT,
+        QueryTable.User,
+        new QueryParam<?> [] {
+            new QueryParam<>(TableProperty.Name, user.getNome()),
+            new QueryParam<>(TableProperty.Email, user.getEmail()),
+            new QueryParam<>(TableProperty.Password, user.getSenha()),
+            new QueryParam<>(TableProperty.Profile, user.getPerfil()),
+            new QueryParam<>(TableProperty.Registration, user.getMatricula())
+        }));
     }
 
     public static void testConnection(Connection conexao) {

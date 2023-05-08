@@ -15,7 +15,14 @@ public enum TableProperty {
     Project("projeto"),
     Justification("justificativa"),
     Status("aprovacao"),
-    Feedback("feedback");
+    Feedback("feedback"),
+    
+    // User table
+    Name("nome"),
+    Email("email"),
+    Password("senha"),
+    Profile("perfil"),
+    Registration("matricula");
 
     // TODO: Users table
     // TODO: Clients table

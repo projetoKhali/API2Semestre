@@ -27,13 +27,15 @@ public class User extends Data {
     public User(
         String nome,
         Profile perfil,
-        List<String> cr_isMemberOf,
-        List<String> cr_manaegdBy
+        String email,
+        String senha,
+        String matricula
     ) {
         this.nome = nome;
         this.perfil = perfil;
-        this.cr_isMemberOf = cr_isMemberOf;
-        this.cr_manaegdBy = cr_manaegdBy;
+        this.email = email;
+        this.senha = senha;
+        this.matricula = matricula;
     }
 
     public String getNome() { return nome; }

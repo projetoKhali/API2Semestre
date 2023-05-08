@@ -3,7 +3,8 @@
 -- Código para criação de tabelas do Diagrama ERD
 -- O código pode ser executado em qualqer ordem
 
--- apontamento
+-- instalando extensão de criptação
+
 -- apontamento
 CREATE TABLE IF NOT EXISTS public.apontamento(
     apt_id serial NOT NULL,
@@ -23,14 +24,14 @@ CREATE TABLE IF NOT EXISTS public.apontamento(
 
 -- usuário
 CREATE TABLE IF NOT EXISTS public.usuario(
-    requester serial NOT NULL,
+    id serial NOT NULL,
     nome VARCHAR NULL,
-    email VARCHAR NULL,
-    senha VARCHAR NULL,
-    tipo VARCHAR NULL,
+    email VARCHAR NOT NULL UNIQUE,
+    senha TEXT NULL,
+    perfil VARCHAR NULL,
     matricula VARCHAR NULL,
     
-    CONSTRAINT usuario_pkey PRIMARY KEY (requester)
+    CONSTRAINT usuario_pkey PRIMARY KEY (id)
 );
 
 -- centro de resultado
