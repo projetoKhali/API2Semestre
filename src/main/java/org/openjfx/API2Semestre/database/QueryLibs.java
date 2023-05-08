@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.appointments.Appointment;
+import org.openjfx.api2semestre.appointments.VwAppointment;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
 import org.openjfx.api2semestre.database.query.QueryTable;
@@ -104,7 +105,7 @@ public class QueryLibs {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends Data> T[] executeSelect (Class<T> type, QueryParam<?>[] params) {
+    private static <T extends Data> T[] executeSelectArray (Class<T> type, QueryParam<?>[] params) {
         ResultSet result = null;
         try {
             result = executeQuery(new Query(
@@ -113,11 +114,11 @@ public class QueryLibs {
                 params
             )).get();
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSelect() -- Erro ao executar query");
+            System.out.println("QueryLibs.executeSelectArray() -- Erro ao executar query");
             ex.printStackTrace();
         }
         if (result == null) {
-            System.out.println("QueryLibs.executeSelect() -- Erro: Nenhum ResultSet retornado para a query");
+            System.out.println("QueryLibs.executeSelectArray() -- Erro: Nenhum ResultSet retornado para a query");
             return (T[])new Data[0];
         }
         List<Data> resultList = new ArrayList<>();
@@ -128,15 +129,46 @@ public class QueryLibs {
                 resultList.add(Data.create(type, result));
             }
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSelect() -- Erro ao ler resultado da query");
+            System.out.println("QueryLibs.executeSelectArray() -- Erro ao ler resultado da query");
             ex.printStackTrace();
         }
         return (T[])resultList.toArray(new Data[0]);
 
     }
 
+    @SuppressWarnings("unchecked")
+    private static <T extends Data> Optional<T> executeSelect (Class<T> type, QueryParam<?>[] params) {
+        ResultSet result = null;
+        try {
+            result = executeQuery(new Query(
+                QueryType.SELECT,
+                QueryTable.ViewAppointment,
+                params
+            )).get();
+        } catch (Exception ex) {
+            System.out.println("QueryLibs.executeSelectArray() -- Erro ao executar query");
+            ex.printStackTrace();
+        }
+        if (result == null) {
+            System.out.println("QueryLibs.executeSelectArray() -- Erro: Nenhum ResultSet retornado para a query");
+            return Optional.empty();
+        }
+        // itera sobre cada linha retornada pela consulta
+        // e extrai os valores das colunas necessárias
+        try {
+            result.next();
+            System.out.println(Optional.of((T)Data.create(type, result)));
+            return Optional.of((T)Data.create(type, result));
+        } catch (Exception ex) {
+            System.out.println("QueryLibs.executeSelectArray() -- Erro ao ler resultado da query");
+            ex.printStackTrace();
+        }
+        return Optional.empty();
+
+    }
+
     public static Appointment[] collaboratorSelect (String requester) {
-        return executeSelect(Appointment.class,
+        return executeSelectArray(Appointment.class,
             new QueryParam<?>[] {
                 new QueryParam<String>(TableProperty.Requester, requester),
             }
@@ -145,7 +177,7 @@ public class QueryLibs {
 
 
     public static Appointment[] squadSelect (String squadName) {
-        return executeSelect(Appointment.class,
+        return executeSelectArray(Appointment.class,
             new QueryParam<?>[] {
                 new QueryParam<String>(TableProperty.Squad, squadName),
             }
@@ -153,8 +185,16 @@ public class QueryLibs {
     }
 
     public static Appointment[] selectAllAppointments () {
-        return executeSelect(Appointment.class,
+        return executeSelectArray(Appointment.class,
             new QueryParam<?>[0]
+        );
+    }
+
+    public static Optional<VwAppointment> selectAppointmentById(int id) {
+        return executeSelect(VwAppointment.class,
+        new QueryParam<?>[] {
+            new QueryParam<Integer>(TableProperty.Id, id),
+            }
         );
     }
 

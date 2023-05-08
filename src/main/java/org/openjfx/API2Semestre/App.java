@@ -8,10 +8,15 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.List;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.data_utils.DateConverter;
 import org.openjfx.api2semestre.report.IntervalFee;
+import org.openjfx.api2semestre.report.ReportExporter;
+import org.openjfx.api2semestre.report.ReportInterval;
 import org.openjfx.api2semestre.report.Week;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
@@ -36,10 +41,20 @@ public class App extends Application {
 
         // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
         // QueryLibs.executeSqlFile("./SQL/views.sql");
+        
+        String local = ReportExporter.showSaveDialog(stage);
+        List<ReportInterval> teste = List.of(
+            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"10:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345)
+        );
 
-        setStage(stage);
+        ReportExporter.exporterCSV(teste,local);
+        // setStage(stage);
 
-        loginView();
+        // loginView();
     }
 
     public static void loginView () {
@@ -144,23 +159,23 @@ public class App extends Application {
         };
 
         // exemplo
-        double sum = 0;
-        for (int i = 0; i < testTimestamps.length; i++) {
-            Timestamp[] start_end = testTimestamps[i];
-            for (IntervalFee verba : verbas) {
-                System.out.println("["+i+"] verba " + verba.getCode() + " | verificando :)");
+        // double sum = 0;
+        // for (int i = 0; i < testTimestamps.length; i++) {
+        //     Timestamp[] start_end = testTimestamps[i];
+        //     for (IntervalFee verba : verbas) {
+        //         System.out.println("["+i+"] verba " + verba.getCode() + " | verificando :)");
 
-                if (verba.check(start_end[0], start_end[1], sum) ) {
-                    System.out.println("["+i+"] verba " + verba.getCode() + " aplica-se a " + start_end[0].toString() + " e " + start_end[1].toString());
-                }
-                else System.out.println("["+i+"] verba " + verba.getCode() + " NÃO se aplica a " + start_end[0].toString() + " e " + start_end[1].toString());
-                // sum += total;
-            }
-        }
-        System.exit(1);
+        //         if (verba.check(start_end[0], start_end[1], sum) ) {
+        //             System.out.println("["+i+"] verba " + verba.getCode() + " aplica-se a " + start_end[0].toString() + " e " + start_end[1].toString());
+        //         }
+        //         else System.out.println("["+i+"] verba " + verba.getCode() + " NÃO se aplica a " + start_end[0].toString() + " e " + start_end[1].toString());
+        //         // sum += total;
+        //     }
+        // }
+        // System.exit(1);
 
         // System.setProperty("javafx.fxml.debug", "true");
-        // launch();
+        launch();
     }
 
 }
