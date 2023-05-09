@@ -11,6 +11,7 @@ module org.openjfx.api2semestre {
 
     opens org.openjfx.api2semestre.custom_tags to javafx.fxml;
     opens org.openjfx.api2semestre.view_utils to javafx.base;
+    opens org.openjfx.api2semestre.data to javafx.base;
     
     exports org.openjfx.api2semestre;
 }

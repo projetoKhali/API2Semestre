@@ -41,24 +41,23 @@ public class Data {
             );
         }
         if (type == ResultCenter.class) {
-            int id = resultSet.getInt("id");
-            System.out.println(id);
-            new ResultCenter(
-                id, 
+            return new ResultCenter(
+                resultSet.getInt("id"), 
                 resultSet.getString("nome"), 
                 resultSet.getString("sigla"), 
                 resultSet.getString("codigo"),
-                resultSet.getInt("usr_id")
+                resultSet.getInt("usr_id"),
+                resultSet.getString("gestor_nome")
             );
         }
         if (type == MemberRelation.class) {
-            new MemberRelation(
+            return new MemberRelation(
                 resultSet.getInt("id"), 
                 resultSet.getInt("usr_id"), 
                 resultSet.getInt("cr_id")
             );
         }
         System.out.println("database.Data.create() -- Tipo de Dado não implementado ou inválido: \"" + type + "\"");
-        throw new Exception("Khali | database.Data.create() -- Erro: Subclasse inválida de \"Data\": \"" + type + "\"" );
+        throw new Exception("| Khali | database.Data.create() -- Erro: Subclasse inválida de \"Data\": \"" + type + "\". Você se certificou de adicionar \"extends Data\" à definição da classe \"" + type + "\" e adicionar um \"if type = ...\" contendo um \"return new ...\" para a classe \"" + type + "\" dentro de \"Data.create()\"?" );
     }
 }

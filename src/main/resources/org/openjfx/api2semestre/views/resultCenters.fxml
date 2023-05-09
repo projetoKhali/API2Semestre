@@ -75,7 +75,6 @@
       </FlowPane>
       <TableView fx:id="tabela" cacheShape="false" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <columns>
-            <TableColumn fx:id="col_id" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" sortable="false" text="Id" />
             <TableColumn fx:id="col_nome" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Nome" />
             <TableColumn fx:id="col_sigla" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Sigla" />
             <TableColumn fx:id="col_codigo" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Código" />

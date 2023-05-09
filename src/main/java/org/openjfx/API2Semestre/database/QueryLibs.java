@@ -52,6 +52,7 @@ public class QueryLibs {
         return result;
     }
 
+    /// Executa um INSERT na tabela especificada
     private static int executeInsert (QueryTable table, QueryParam<?>[] params) {
         try {
             ResultSet resultSet = executeQuery(new Query(
@@ -69,7 +70,7 @@ public class QueryLibs {
         return -1;
     }
 
-    public static int insertTable (Appointment apt) {
+    public static int insertAppointment (Appointment apt) {
         return executeInsert(
             QueryTable.Appointment,
             new QueryParam<?>[] {
@@ -82,6 +83,41 @@ public class QueryLibs {
                 new QueryParam<String>(TableProperty.Justification, apt.getJustification()),
                 new QueryParam<String>(TableProperty.ResultCenter, apt.getSquad()),
                 new QueryParam<Integer>(TableProperty.Status, apt.getStatus().getIntValue())
+            }
+        );
+    }
+
+    public static int insertUser (User users) {
+        return executeInsert(
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Nome, users.getNome()),
+                new QueryParam<Integer>(TableProperty.Type, users.getPerfil().getProfileLevel()),
+                new QueryParam<String>(TableProperty.Email, users.getEmail()),
+                new QueryParam<String>(TableProperty.Senha, users.getSenha()),
+                new QueryParam<String>(TableProperty.Matricula, users.getMatricula())
+            }
+        );
+    }
+
+    public static int insertResultCenter (ResultCenter rc) {
+        return executeInsert(
+            QueryTable.ResultCenter,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Nome, rc.getNome()),
+                new QueryParam<String>(TableProperty.Sigla, rc.getSigla()),
+                new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
+                new QueryParam<Integer>(TableProperty.User, rc.getGestorId())
+            }
+        );
+    }
+
+    public static int addUserToResultCenter (int usr_id, int cr_id) {
+        return executeInsert(
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.User, usr_id),
+                new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
             }
         );
     }
@@ -126,6 +162,8 @@ public class QueryLibs {
         
     }
 
+    /// Executa um SELECT especificando tipo de dado esperado, tabela e parametros da query
+    /// Pode ser usada uma lista de parametros, o ultimo parametro apresentado representa o WHERE dá query.
     @SuppressWarnings("unchecked")
     public static <T extends Data> T[] executeSelect (Class<T> type, QueryTable table, QueryParam<?>[] params) {
         ResultSet result = null;
@@ -160,25 +198,17 @@ public class QueryLibs {
     public static Appointment[] collaboratorSelect (String requester) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
-            QueryTable.Appointment,
+            QueryTable.ViewAppointment,
             new QueryParam<?>[] {
                 new QueryParam<String>(TableProperty.Requester, requester),
             }
         );
     }
 
-    public static User[] selectAllUsers() {
-        return QueryLibs.<User>executeSelect(
-            User.class,
-            QueryTable.User,
-            new QueryParam<?>[0]
-        );
-    }
-
     public static ResultCenter selectResultCenter (int id) {
         ResultCenter[] result = QueryLibs.<ResultCenter>executeSelect(
             ResultCenter.class,
-            QueryTable.ResultsCenter,
+            QueryTable.ResultCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.Id, id)
             }
@@ -189,7 +219,7 @@ public class QueryLibs {
     public static ResultCenter[] selectResultCentersManagedBy (int usr_id) {
         return QueryLibs.<ResultCenter>executeSelect(
             ResultCenter.class,
-            QueryTable.ResultsCenter,
+            QueryTable.ResultCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.User,  usr_id)
             }
@@ -211,21 +241,44 @@ public class QueryLibs {
     public static Appointment[] selectAppointmentsOfResultCenter (int cr_id) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
-            QueryTable.Appointment,
+            QueryTable.ViewAppointment,
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
             }
         );
     }
 
-    public static Appointment[] selectAllAppointments () {
-        return QueryLibs.<Appointment>executeSelect(
-            Appointment.class,
-            QueryTable.Appointment,
+    /// Executa um SELECT sem WHERE especificando o tipo de dado esperado e tabela.
+    private static <T extends Data> T[] executeSelectAll (Class<T> type, QueryTable table) {
+        return QueryLibs.<T>executeSelect(
+            type,
+            table,
             new QueryParam<?>[0]
         );
     }
 
+    public static Appointment[] selectAllAppointments () {
+        return QueryLibs.<Appointment>executeSelectAll(
+            Appointment.class,
+            QueryTable.ViewAppointment
+        );
+    }
+
+    public static User[] selectAllUsers() {
+        return QueryLibs.<User>executeSelectAll(
+            User.class,
+            QueryTable.User
+        );
+    }
+
+    public static ResultCenter[] selectAllResultCenters() {
+        return QueryLibs.<ResultCenter>executeSelectAll(
+            ResultCenter.class,
+            QueryTable.ViewResultCenter
+        );
+    }
+
+    // Atualiza um apontammento na tabela. TODO: generic
     public static void updateTable (Appointment apt) {
         executeQuery(new Query(
             QueryType.UPDATE,
@@ -250,7 +303,7 @@ public class QueryLibs {
         ));
     }
 
-    /// Remove um apontamento do banco de dados.
+    /// Remove um apontamento do banco de dados. TODO: generic
     public static void deleteIdAppointment (Appointment apt) {
         executeQuery(new Query(
             QueryType.DELETE,
@@ -319,38 +372,5 @@ public class QueryLibs {
         // fecha conexão
         // conexao.close();
     }
-    public static int insertUser (User users) {
-        return executeInsert(
-            QueryTable.User,
-            new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Nome, users.getNome()),
-                new QueryParam<Integer>(TableProperty.Type, users.getPerfil().getProfileLevel()),
-                new QueryParam<String>(TableProperty.Email, users.getEmail()),
-                new QueryParam<String>(TableProperty.Senha, users.getSenha()),
-                new QueryParam<String>(TableProperty.Matricula, users.getMatricula())
-            }
-        );
-    }
 
-    public static int insertResultCenter (ResultCenter rc) {
-        return executeInsert(
-            QueryTable.ResultsCenter,
-            new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Nome, rc.getNome()),
-                new QueryParam<String>(TableProperty.Sigla, rc.getSigla()),
-                new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
-                new QueryParam<Integer>(TableProperty.User, rc.getGestorId())
-            }
-        );
-    }
-
-    public static int addUserToResultCenter (int usr_id, int cr_id) {
-        return executeInsert(
-            QueryTable.Member,
-            new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.User, usr_id),
-                new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
-            }
-        );
-    }
 }

@@ -8,19 +8,22 @@ public class ResultCenter extends Data {
     private String sigla;
     private String codigo;
     private int gestorId;
+    private String gestorNome;
 
     private ResultCenter(
         Integer id,
         String nome,
         String sigla,
         String codigo,
-        int gestorId
+        int gestorId,
+        String gestorNome
     ) {
         this.id = id;
         this.nome = nome;
         this.sigla = sigla;
         this.codigo = codigo;
         this.gestorId = gestorId;
+        this.gestorNome = gestorNome;
     }
 
     public ResultCenter(
@@ -34,7 +37,8 @@ public class ResultCenter extends Data {
             nome,
             sigla,
             codigo,
-            gestorId
+            gestorId,
+            null
         );
     }
 
@@ -43,14 +47,16 @@ public class ResultCenter extends Data {
         String nome,
         String sigla,
         String codigo,
-        int gestorId
+        int gestorId,
+        String gestorNome
     ) {
         this(
             Integer.valueOf(id),
             nome,
             sigla,
             codigo,
-            gestorId
+            gestorId,
+            gestorNome
         );
     }
 
@@ -59,6 +65,8 @@ public class ResultCenter extends Data {
     public String getSigla () { return sigla; }
     public String getCodigo () { return codigo; }
     public Integer getGestorId() { return gestorId; }
+    
+    public String getGestorNome () { return gestorNome; }
     
     public void setId(Integer id) { this.id = id; }
     public void setNome(String nome) { this.nome = nome; }

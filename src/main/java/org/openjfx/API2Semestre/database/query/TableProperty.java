@@ -17,24 +17,25 @@ public enum TableProperty {
     Status("aprovacao"),
     Feedback("feedback"),
 
-
     // Users table
     Nome("nome"),
     Email("email"),
     Senha("senha"),
     Matricula("matricula"),
 
-    // TODO: Clients table
+    // ResultCenter table
     Sigla("sigla"),
     Codigo("codigo"),
-    User("usr_id");
+    User("usr_id"),
+    NomeGestor("gestor_nome");
+
+    // TODO: Clients table
+
+
 
     // TODO: IntervalFees table
 
 
-    public static final TableProperty[] APPOINTMENT_PROPERTIES = new TableProperty[] {
-        Id, Requester, Type, StartDate, EndDate, ResultCenter, Client, Project, Justification, Status, Feedback
-    };
 
 
     // TableProperty variable and constructor

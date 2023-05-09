@@ -22,8 +22,8 @@ import org.openjfx.api2semestre.view_macros.ColumnConfig;
 import org.openjfx.api2semestre.view_macros.ColumnConfigString;
 import org.openjfx.api2semestre.view_macros.TableCheckBoxMacros;
 import org.openjfx.api2semestre.view_macros.TableMacros;
-import org.openjfx.api2semestre.view_utils.AppointmentFilter;
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
+import org.openjfx.api2semestre.view_utils.filters.AppointmentFilter;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;

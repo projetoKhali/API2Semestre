@@ -10,13 +10,13 @@ import java.io.IOException;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
-import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 
-// import org.openjfx.api2semestre.database.QueryLibs;
+// import org.openjfx.api2semestre.authentication.User;
+import org.openjfx.api2semestre.database.QueryLibs;
 
 public class App extends Application {
     
@@ -45,15 +45,15 @@ public class App extends Application {
 
         setStage(stage);
  
-        try {
-            stage.setScene(new Scene(loadFXML("views/resultCenterRegister")));
-            stage.show();
-        } catch (IOException e) {
-            // Auto-generated catch block
-            e.printStackTrace();
-        }
+        // try {
+        //     stage.setScene(new Scene(loadFXML("views/resultCenterRegister")));
+        //     stage.show();
+        // } catch (IOException e) {
+        //     // Auto-generated catch block
+        //     e.printStackTrace();
+        // }
 
-        // loginView();
+        loginView();
     }
 
     public static void loginView () {
@@ -125,10 +125,6 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-
-        // QueryLibs.executeSqlFile("SQL/tabelas.sql");
-        // QueryLibs.executeSqlFile("SQL/views.sql");
-
         System.setProperty("javafx.fxml.debug", "true");
         launch();
     }
