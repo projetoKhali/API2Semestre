@@ -5,8 +5,9 @@ public enum QueryTable {
     ViewAppointment("vw_apontamento"),
     User("public.usuario"),
     // ViewUser(""),
-    ResultsCenter("public.centro_resultado");
+    ResultsCenter("public.centro_resultado"),
     // ViewResultsCenter("");
+    Member("public.membro_cr");
 
     // TODO: User,
     // TODO: Client,

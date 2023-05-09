@@ -8,9 +8,12 @@ import java.io.FileReader;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultsCenter;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
@@ -60,7 +63,7 @@ public class QueryLibs {
                 new QueryParam<String>(TableProperty.Client, apt.getClient()),
                 new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
                 new QueryParam<String>(TableProperty.Justification, apt.getJustification()),
-                new QueryParam<String>(TableProperty.Squad, apt.getSquad()),
+                new QueryParam<String>(TableProperty.ResultCenter, apt.getSquad()),
                 new QueryParam<Integer>(TableProperty.Status, apt.getStatus().getIntValue())
             }
         ));
@@ -107,12 +110,12 @@ public class QueryLibs {
     }
 
     @SuppressWarnings("unchecked")
-    public static <T extends Data> T[] executeSelect (Class<T> type, QueryParam<?>[] params) {
+    public static <T extends Data> T[] executeSelect (Class<T> type, QueryTable table, QueryParam<?>[] params) {
         ResultSet result = null;
         try {
             result = executeQuery(new Query(
                 QueryType.SELECT,
-                QueryTable.ViewAppointment,
+                table,
                 params
             )).get();
         } catch (Exception ex) {
@@ -139,24 +142,69 @@ public class QueryLibs {
     }
 
     public static Appointment[] collaboratorSelect (String requester) {
-        return executeSelect(Appointment.class,
+        return executeSelect(
+            Appointment.class,
+            QueryTable.Appointment,
             new QueryParam<?>[] {
                 new QueryParam<String>(TableProperty.Requester, requester),
             }
         );
     }
 
+    public static User[] selectAllUsers() {
+        return executeSelect(
+            User.class,
+            QueryTable.User,
+            new QueryParam<?>[0]
+        );
+    }
 
-    public static Appointment[] squadSelect (String squadName) {
-        return executeSelect(Appointment.class,
+    public static ResultsCenter selectResultCenter (int id) {
+        return executeSelect(
+            ResultsCenter.class,
+            QueryTable.ResultsCenter,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Squad, squadName),
+                new QueryParam<>(TableProperty.Id, id)
+            }
+        )[0];
+    }
+
+    public static ResultsCenter[] selectResultCentersManagedBy (int usr_id) {
+        return executeSelect(
+            ResultsCenter.class,
+            QueryTable.ResultsCenter,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.User,  usr_id)
+            }
+        );
+    }
+
+    public static ResultsCenter[] selectResultCentersOfMember (int usr_id) {
+        return Arrays.asList((MemberRelation[])executeSelect(
+            MemberRelation.class,
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.User,  usr_id)
+            }
+        )).stream()
+        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()))
+        .collect(Collectors.toList()).toArray(ResultsCenter[]::new);
+    }
+
+    public static Appointment[] selectAppointmentsOfResultCenter (int cr_id) {
+        return executeSelect(
+            Appointment.class,
+            QueryTable.Appointment,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
             }
         );
     }
 
     public static Appointment[] selectAllAppointments () {
-        return executeSelect(Appointment.class,
+        return executeSelect(
+            Appointment.class,
+            QueryTable.Appointment,
             new QueryParam<?>[0]
         );
     }
@@ -175,7 +223,7 @@ public class QueryLibs {
                 new QueryParam<String>(TableProperty.Client, apt.getClient()),
                 new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
                 new QueryParam<String>(TableProperty.Justification, apt.getJustification()),
-                new QueryParam<String>(TableProperty.Squad, apt.getSquad()),
+                new QueryParam<String>(TableProperty.ResultCenter, apt.getSquad()),
                 new QueryParam<Integer>(TableProperty.Status, apt.getStatus().getIntValue()),
                 new QueryParam<String>(TableProperty.Feedback, apt.getJustification()),
 
@@ -267,6 +315,7 @@ public class QueryLibs {
             }
         ));
     }
+
     public static void insertRC (ResultsCenter rc) {
         executeQuery(new Query(
             QueryType.INSERT,
@@ -275,6 +324,18 @@ public class QueryLibs {
                 new QueryParam<String>(TableProperty.Nome, rc.getNome()),
                 new QueryParam<String>(TableProperty.Sigla, rc.getSigla()),
                 new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
+                new QueryParam<Integer>(TableProperty.User, rc.getGestorId())
+            }
+        ));
+    }
+
+    public static void addUserToCR (User user, ResultsCenter resultsCenter) {
+        executeQuery(new Query(
+            QueryType.INSERT,
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.User, user.getId()),
+                new QueryParam<Integer>(TableProperty.ResultCenter, resultsCenter.getId()),
             }
         ));
     }

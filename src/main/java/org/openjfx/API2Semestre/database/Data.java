@@ -1,5 +1,6 @@
 package org.openjfx.api2semestre.database;
 
+import java.lang.reflect.Member;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -9,6 +10,8 @@ import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
 // import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
+import org.openjfx.api2semestre.data.MemberRelation;
+import org.openjfx.api2semestre.data.ResultsCenter;
 
 public class Data {
 
@@ -34,6 +37,22 @@ public class Data {
             //     resultSet.getString("nome"),
             //     Profile.of(resultSet.getInt("tipo"))
             // );
+        }
+        if (type == ResultsCenter.class) {
+            new ResultsCenter(
+                resultSet.getInt("id"), 
+                resultSet.getString("nome"), 
+                resultSet.getString("sigla"), 
+                resultSet.getString("codigo"),
+                resultSet.getInt("usr_id")
+            );
+        }
+        if (type == MemberRelation.class) {
+            new MemberRelation(
+                resultSet.getInt("id"), 
+                resultSet.getInt("usr_id"), 
+                resultSet.getInt("cr_id")
+            );
         }
         System.out.println("database.Data.create() -- Tipo de Dado não implementado ou inválido: \"" + type + "\"");
         throw new Exception("Khali | database.Data.create() -- Erro: Subclasse inválida de \"Data\": \"" + type + "\"" );
