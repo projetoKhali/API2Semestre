@@ -5,27 +5,25 @@
 
 CREATE OR REPLACE VIEW public.vw_apontamento 
 AS SELECT
-    apontamento.apt_id,
+    apontamento.id,
     apontamento.hora_inicio,
     apontamento.hora_fim,
-    apontamento.requester,
-    -- usuario.nome as usuario_nome,
+    apontamento.usr_id,
+    usuario.nome as usuario_nome,
     apontamento.projeto,
     apontamento.cliente,
     apontamento.tipo,
     apontamento.justificativa,
     apontamento.cr_id,
+    centro_resultado.nome as centro_nome,
     apontamento.aprovacao,
     apontamento.feedback
-    -- CASE 
-    --     WHEN apontamento.aprovacao = 0 THEN 'Pendente'
-    --     WHEN apontamento.aprovacao = 1 THEN 'Aprovado'
-    --     ELSE 'Reproved' END 
-    -- AS aprovacao
+
+    -- fazendo join com as tabelas usuário, projeto e cliente.
+    JOIN usuario ON apontamento.usr_id = usuario.id;
+    JOIN usuario ON apontamento.cr = centro_resultado.id;
 
     FROM apontamento;
-    -- fazendo join com as tabelas usuário, projeto e cliente.
-    -- JOIN usuario ON apontamento.requester = usuario.nome;
 
 -- usuário
 CREATE OR REPLACE VIEW public.vw_usuario 
