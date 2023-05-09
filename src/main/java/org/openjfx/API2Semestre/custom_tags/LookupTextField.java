@@ -64,7 +64,7 @@ public class LookupTextField extends TextField {
 
         textProperty().addListener((observable, oldValue, newValue) -> {
             User selUser = selectedUser.get();
-            if (selUser != null && newValue.equals(selUser.getNome())) {
+            if (newValue.isBlank() || (selUser != null && newValue.equals(selUser.getNome()))) {
                 setStyle("-fx-text-fill: black;");
             } else {
                 selectedUser.set(null);
@@ -95,6 +95,7 @@ public class LookupTextField extends TextField {
             if (selectedUser != null) {
                 setText(selectedUser.getNome());
                 this.selectedUser.set(selectedUser);
+                setStyle("-fx-text-fill: black;");
             }
             popup.hide();
         });

@@ -156,7 +156,7 @@ public class ResultCenterController {
         User gestor = lookupTfgestor.getSelectedUser();
 
         if (gestor == null) {
-            System.out.println("Khali | ResultCenterController.cadastrarCentro() -- Erro: Gestor não informado!");
+            System.out.println("ResultCenterController.cadastrarCentro() -- Erro: Gestor não informado!");
             return;
         }
 
@@ -169,6 +169,8 @@ public class ResultCenterController {
         
         for (User selectedUser : selectedUsers) {
             QueryLibs.addUserToResultCenter(selectedUser.getId(), cr_id);
+            lookupTfcolaborador.addSuggestion(selectedUser);
+            lookupTfgestor.addSuggestion(selectedUser);
         }
 
         tf_name.clear();
