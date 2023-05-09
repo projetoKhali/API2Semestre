@@ -11,24 +11,13 @@ public class User extends Data {
     private String email;
     private String senha;
 
-    public User(
+    private User (
+        Integer id,
         String nome, 
         Profile perfil, 
         String email, 
-        String senha, String matricula
-    ) {
-        this.perfil = perfil;
-        this.email = email;
-        this.senha = senha;
-        this.matricula = matricula;
-    }
-
-    public User(
-        int id,
-        String nome, 
-        Profile perfil, 
-        String email, 
-        String senha, String matricula
+        String senha,
+        String matricula
     ) {
         this.id = id;
         this.nome = nome;
@@ -36,6 +25,41 @@ public class User extends Data {
         this.email = email;
         this.senha = senha;
         this.matricula = matricula;
+    }
+
+    public User(
+        String nome, 
+        Profile perfil, 
+        String email, 
+        String senha,
+        String matricula
+    ) {
+        this(
+            null,
+            nome,
+            perfil,
+            email,
+            senha,
+            matricula
+        );
+    }
+
+    public User(
+        int id,
+        String nome, 
+        Profile perfil, 
+        String email, 
+        String senha,
+        String matricula
+    ) {
+        this(
+            Integer.valueOf(id),
+            nome,
+            perfil,
+            email,
+            senha,
+            matricula
+        );
     }
 
     public Integer getId() { return id; }

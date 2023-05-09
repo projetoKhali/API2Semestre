@@ -10,30 +10,38 @@ import java.io.IOException;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
-// import org.openjfx.api2semestre.database.QueryLibs;
+import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 
-public class App extends Application {
+// import org.openjfx.api2semestre.database.QueryLibs;
 
+public class App extends Application {
+    
     // mude o perfil de acesso para logar com diferentes permissões
     private static final Profile access = Profile.Colaborador;
-
+    
     private static Scene scene;
     private static Stage stage;
     private static void setStage (Stage newStage) { stage = newStage; }
-
+    
     private static String currentViewFxmlFile;
-
+    
     private static BaseController baseController;
-
+    
     @Override
     public void start(Stage stage) throws IOException {
 
         // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
         // QueryLibs.executeSqlFile("./SQL/views.sql");
+
+        // QueryLibs.insertUser(new User("Fulano colaborador 0", Profile.Colaborador, "e@xem.plo", "0", "0"));
+        // QueryLibs.insertUser(new User("Fulano gestor 0", Profile.Gestor, "e@xem.plo", "0", "0"));
+        // QueryLibs.insertUser(new User("Cicrano col 0", Profile.Colaborador, "e@xem.plo", "0", "0"));
+        // QueryLibs.insertUser(new User("Cicrano ges 0", Profile.Gestor, "e@xem.plo", "0", "0"));
+
 
         setStage(stage);
  
@@ -41,7 +49,7 @@ public class App extends Application {
             stage.setScene(new Scene(loadFXML("views/resultCenterRegister")));
             stage.show();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
+            // Auto-generated catch block
             e.printStackTrace();
         }
 

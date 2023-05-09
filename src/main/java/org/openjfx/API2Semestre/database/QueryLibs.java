@@ -3,8 +3,10 @@ package org.openjfx.api2semestre.database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.lang.reflect.Array;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -14,8 +16,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.data.MemberRelation;
-import org.openjfx.api2semestre.data.ResultsCenter;
-import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.database.query.Query;
@@ -45,15 +46,31 @@ public class QueryLibs {
             connection.commit();
             connection.close();
         } catch (Exception ex) {
-            System.out.println("QueryLibs.insertTable() -- Erro: Falha na execução da Query!");
+            System.out.println("QueryLibs.executeQuery() -- Erro: Falha na execução da Query!");
             ex.printStackTrace();
         }
         return result;
     }
 
-    public static void insertTable (Appointment apt) {
-        executeQuery(new Query(
-            QueryType.INSERT,
+    private static int executeInsert (QueryTable table, QueryParam<?>[] params) {
+        try {
+            ResultSet resultSet = executeQuery(new Query(
+                QueryType.INSERT,
+                table,
+                params
+            )).get();
+            resultSet.next();
+            return resultSet.getInt("id");
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        System.out.println("QueryLibs.executeInsert() -- Erro: nenhum id retornado");
+        return -1;
+    }
+
+    public static int insertTable (Appointment apt) {
+        return executeInsert(
             QueryTable.Appointment,
             new QueryParam<?>[] {
                 new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
@@ -66,7 +83,7 @@ public class QueryLibs {
                 new QueryParam<String>(TableProperty.ResultCenter, apt.getSquad()),
                 new QueryParam<Integer>(TableProperty.Status, apt.getStatus().getIntValue())
             }
-        ));
+        );
     }
 
     /// Executa um arquivo SQL no caminho especificado.
@@ -126,23 +143,22 @@ public class QueryLibs {
             System.out.println("QueryLibs.executeSelect() -- Erro: Nenhum ResultSet retornado para a query");
             return (T[])new Data[0];
         }
-        List<Data> resultList = new ArrayList<>();
+        List<T> resultList = new ArrayList<>();
         // itera sobre cada linha retornada pela consulta
         // e extrai os valores das colunas necessárias
         try {
             while (result.next()) {
-                resultList.add(Data.create(type, result));
+                resultList.add((T)Data.<T>create(type, result));
             }
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelect() -- Erro ao ler resultado da query");
             ex.printStackTrace();
         }
-        return (T[])resultList.toArray(new Data[0]);
-
+        return resultList.toArray((T[])Array.newInstance(type, resultList.size()));
     }
 
     public static Appointment[] collaboratorSelect (String requester) {
-        return executeSelect(
+        return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
             QueryTable.Appointment,
             new QueryParam<?>[] {
@@ -152,26 +168,27 @@ public class QueryLibs {
     }
 
     public static User[] selectAllUsers() {
-        return executeSelect(
+        return QueryLibs.<User>executeSelect(
             User.class,
             QueryTable.User,
             new QueryParam<?>[0]
         );
     }
 
-    public static ResultsCenter selectResultCenter (int id) {
-        return executeSelect(
-            ResultsCenter.class,
+    public static ResultCenter selectResultCenter (int id) {
+        ResultCenter[] result = QueryLibs.<ResultCenter>executeSelect(
+            ResultCenter.class,
             QueryTable.ResultsCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.Id, id)
             }
-        )[0];
+        );
+        return result.length == 0 ? null : result[0];
     }
 
-    public static ResultsCenter[] selectResultCentersManagedBy (int usr_id) {
-        return executeSelect(
-            ResultsCenter.class,
+    public static ResultCenter[] selectResultCentersManagedBy (int usr_id) {
+        return QueryLibs.<ResultCenter>executeSelect(
+            ResultCenter.class,
             QueryTable.ResultsCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.User,  usr_id)
@@ -179,7 +196,7 @@ public class QueryLibs {
         );
     }
 
-    public static ResultsCenter[] selectResultCentersOfMember (int usr_id) {
+    public static ResultCenter[] selectResultCentersOfMember (int usr_id) {
         return Arrays.asList((MemberRelation[])executeSelect(
             MemberRelation.class,
             QueryTable.Member,
@@ -188,11 +205,11 @@ public class QueryLibs {
             }
         )).stream()
         .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()))
-        .collect(Collectors.toList()).toArray(ResultsCenter[]::new);
+        .collect(Collectors.toList()).toArray(ResultCenter[]::new);
     }
 
     public static Appointment[] selectAppointmentsOfResultCenter (int cr_id) {
-        return executeSelect(
+        return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
             QueryTable.Appointment,
             new QueryParam<?>[] {
@@ -202,7 +219,7 @@ public class QueryLibs {
     }
 
     public static Appointment[] selectAllAppointments () {
-        return executeSelect(
+        return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
             QueryTable.Appointment,
             new QueryParam<?>[0]
@@ -302,23 +319,21 @@ public class QueryLibs {
         // fecha conexão
         // conexao.close();
     }
-    public static void insertUser (User users) {
-        executeQuery(new Query(
-            QueryType.INSERT,
+    public static int insertUser (User users) {
+        return executeInsert(
             QueryTable.User,
             new QueryParam<?>[] {
                 new QueryParam<String>(TableProperty.Nome, users.getNome()),
-                new QueryParam<Profile>(TableProperty.Type, users.getPerfil()),
+                new QueryParam<Integer>(TableProperty.Type, users.getPerfil().getProfileLevel()),
                 new QueryParam<String>(TableProperty.Email, users.getEmail()),
                 new QueryParam<String>(TableProperty.Senha, users.getSenha()),
                 new QueryParam<String>(TableProperty.Matricula, users.getMatricula())
             }
-        ));
+        );
     }
 
-    public static void insertRC (ResultsCenter rc) {
-        executeQuery(new Query(
-            QueryType.INSERT,
+    public static int insertResultCenter (ResultCenter rc) {
+        return executeInsert(
             QueryTable.ResultsCenter,
             new QueryParam<?>[] {
                 new QueryParam<String>(TableProperty.Nome, rc.getNome()),
@@ -326,17 +341,16 @@ public class QueryLibs {
                 new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
                 new QueryParam<Integer>(TableProperty.User, rc.getGestorId())
             }
-        ));
+        );
     }
 
-    public static void addUserToCR (User user, ResultsCenter resultsCenter) {
-        executeQuery(new Query(
-            QueryType.INSERT,
+    public static int addUserToResultCenter (int usr_id, int cr_id) {
+        return executeInsert(
             QueryTable.Member,
             new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.User, user.getId()),
-                new QueryParam<Integer>(TableProperty.ResultCenter, resultsCenter.getId()),
+                new QueryParam<Integer>(TableProperty.User, usr_id),
+                new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
             }
-        ));
+        );
     }
 }

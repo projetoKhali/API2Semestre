@@ -1,7 +1,7 @@
 package org.openjfx.api2semestre.view_controllers;
 
 import org.openjfx.api2semestre.custom_tags.LookupTextField;
-import org.openjfx.api2semestre.data.ResultsCenter;
+import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
 
 import java.util.Arrays;
@@ -9,6 +9,8 @@ import java.util.LinkedList;
 
 import org.openjfx.api2semestre.authentication.User;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -33,13 +35,13 @@ public class ResultCenterController {
     @FXML private FlowPane fp_colaboradores;
     private LinkedList<User> selectedUsers = new LinkedList<User>();
     
-    @FXML private TableView<ResultsCenter> tabela;
-    @FXML private TableColumn<ResultsCenter, Integer> col_id;
-    @FXML private TableColumn<ResultsCenter, String> col_nome;
-    @FXML private TableColumn<ResultsCenter, String> col_sigla;
-    @FXML private TableColumn<ResultsCenter, String> col_codigo;
-    @FXML private TableColumn<ResultsCenter, User> col_gestor;
-    @FXML private TableColumn<ResultsCenter, Integer> col_membros;
+    @FXML private TableView<ResultCenter> tabela;
+    @FXML private TableColumn<ResultCenter, Integer> col_id;
+    @FXML private TableColumn<ResultCenter, String> col_nome;
+    @FXML private TableColumn<ResultCenter, String> col_sigla;
+    @FXML private TableColumn<ResultCenter, String> col_codigo;
+    @FXML private TableColumn<ResultCenter, User> col_gestor;
+    @FXML private TableColumn<ResultCenter, Integer> col_membros;
 
     public void initialize(){
         System.out.println("ResultCenterController initialize");
@@ -88,16 +90,30 @@ public class ResultCenterController {
             ((HBox)tf_gestor.getParent()).getChildren().indexOf(tf_gestor),
             lookupTextFieldGestor
         );
+        lookupTextFieldGestor.selectedUserProperty().addListener(new ChangeListener<User>() {
+            @Override
+            public void changed(ObservableValue<? extends User> arg0, User oldPropertyValue, User newPropertyValue) {
+                if (oldPropertyValue != null) lookupTextFieldColaborador.addSuggestion(oldPropertyValue);
+                if (newPropertyValue != null) lookupTextFieldColaborador.removeSuggestion(newPropertyValue);
+            }
+        });
         tf_gestor = lookupTextFieldGestor;
     }
 
 
     @FXML
     void adicionarColaborador(ActionEvent event) {
+
         LookupTextField lookupTfColaborador = ((LookupTextField)tf_colaborador);
-        User selectedUser = lookupTfColaborador.getSelectedItem();
+        LookupTextField lookupTfGestor = ((LookupTextField)tf_gestor);
+
+        User selectedUser = lookupTfColaborador.getSelectedUser();
+
+        if (selectedUser == null) return;
+
         System.out.println(selectedUser.getNome());
         
+        lookupTfGestor.removeSuggestion(selectedUser);
         lookupTfColaborador.removeSuggestion(selectedUser);
         lookupTfColaborador.clear();
 
@@ -125,17 +141,45 @@ public class ResultCenterController {
         userRemoveButton.setOnAction(e -> {
             fp_colaboradores.getChildren().remove(userContainer);
             lookupTfColaborador.addSuggestion(selectedUser);
+            lookupTfGestor.addSuggestion(selectedUser);
             selectedUsers.remove(selectedUser);
         });
         
     }
 
     @FXML void cadastrarCentro (ActionEvent event) {
-        System.out.println("todo!()");
+        // System.out.println("todo!()");
 
-        for (User selectedUser : selectedUsers) {
-            
+        LookupTextField lookupTfcolaborador = ((LookupTextField)tf_colaborador);
+        LookupTextField lookupTfgestor = ((LookupTextField)tf_gestor);
+
+        User gestor = lookupTfgestor.getSelectedUser();
+
+        if (gestor == null) {
+            System.out.println("Khali | ResultCenterController.cadastrarCentro() -- Erro: Gestor não informado!");
+            return;
         }
+
+        int cr_id = QueryLibs.insertResultCenter(new ResultCenter(
+            tf_name.getText(),
+            tf_sigla.getText(),
+            tf_codigo.getText(),
+            gestor.getId()
+        ));
+        
+        for (User selectedUser : selectedUsers) {
+            QueryLibs.addUserToResultCenter(selectedUser.getId(), cr_id);
+        }
+
+        tf_name.clear();
+        tf_sigla.clear();
+        tf_codigo.clear();
+
+        lookupTfcolaborador.clear();
+        lookupTfgestor.clear();
+
+        fp_colaboradores.getChildren().clear();
+        
     } 
 
 }

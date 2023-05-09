@@ -20,7 +20,7 @@ import javafx.stage.Popup;
 public class LookupTextField extends TextField {
 
     private final ObservableList<User> suggestions = FXCollections.observableList(new LinkedList<User>());
-    private final ObjectProperty<User> selectedItem;
+    private final ObjectProperty<User> selectedUser;
     private final ObservableList<User> listViewSuggestions;
     private ListView<User> suggestionsListView;
 
@@ -28,7 +28,7 @@ public class LookupTextField extends TextField {
     public LookupTextField (LinkedList<User> suggestions) {
         this.suggestions.setAll(suggestions);
         this.listViewSuggestions = FXCollections.observableArrayList();
-        this.selectedItem = new SimpleObjectProperty<>();
+        this.selectedUser = new SimpleObjectProperty<>();
 
         suggestionsListView = new ListView<>(this.listViewSuggestions);
         suggestionsListView.setCellFactory(param -> new ListCell<>() {
@@ -63,6 +63,13 @@ public class LookupTextField extends TextField {
         });
 
         textProperty().addListener((observable, oldValue, newValue) -> {
+            User selUser = selectedUser.get();
+            if (selUser != null && newValue.equals(selUser.getNome())) {
+                setStyle("-fx-text-fill: black;");
+            } else {
+                selectedUser.set(null);
+                setStyle("-fx-text-fill: red;");
+            }
             if (focusedProperty().get()) {
                 // System.out.println("newvalue NOT empty");
                 suggestionsListView.getItems().clear();
@@ -87,7 +94,7 @@ public class LookupTextField extends TextField {
             User selectedUser = suggestionsListView.getSelectionModel().getSelectedItem();
             if (selectedUser != null) {
                 setText(selectedUser.getNome());
-                this.selectedItem.set(selectedUser);
+                this.selectedUser.set(selectedUser);
             }
             popup.hide();
         });
@@ -117,17 +124,17 @@ public class LookupTextField extends TextField {
         }
     }
 
-    public User getSelectedItem() {
-        return selectedItem.get();
+    public User getSelectedUser() {
+        return selectedUser.get();
     }
 
     public void clear() {
-        selectedItem.set(null);
+        selectedUser.set(null);
         setText("");
     }
 
-    public ObjectProperty<User> selectedItemProperty() {
-        return selectedItem;
+    public ObjectProperty<User> selectedUserProperty() {
+        return selectedUser;
     }
 
     public void addSuggestion (User suggestion) {

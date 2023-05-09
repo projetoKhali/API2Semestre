@@ -2,14 +2,14 @@ package org.openjfx.api2semestre.data;
 
 import org.openjfx.api2semestre.database.Data;
 
-public class ResultsCenter extends Data {
-    private int id;
+public class ResultCenter extends Data {
+    private Integer id;
     private String nome;
     private String sigla;
     private String codigo;
     private int gestorId;
 
-    private ResultsCenter(
+    private ResultCenter(
         Integer id,
         String nome,
         String sigla,
@@ -23,7 +23,7 @@ public class ResultsCenter extends Data {
         this.gestorId = gestorId;
     }
 
-    public ResultsCenter(
+    public ResultCenter(
         String nome,
         String sigla,
         String codigo,
@@ -38,7 +38,7 @@ public class ResultsCenter extends Data {
         );
     }
 
-    public ResultsCenter(
+    public ResultCenter(
         int id,
         String nome,
         String sigla,
@@ -58,7 +58,7 @@ public class ResultsCenter extends Data {
     public String getNome () { return nome; }
     public String getSigla () { return sigla; }
     public String getCodigo () { return codigo; }
-    public int getGestorId() { return gestorId; }
+    public Integer getGestorId() { return gestorId; }
     
     public void setId(Integer id) { this.id = id; }
     public void setNome(String nome) { this.nome = nome; }
