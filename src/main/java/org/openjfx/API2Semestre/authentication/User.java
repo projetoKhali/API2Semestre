@@ -2,7 +2,9 @@ package org.openjfx.api2semestre.authentication;
 
 import java.util.List;
 
-public class User {
+import org.openjfx.api2semestre.database.Data;
+
+public class User extends Data {
 
     private String nome;   // change to id
     private Profile perfil;

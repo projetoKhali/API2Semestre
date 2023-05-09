@@ -15,12 +15,15 @@ public enum Profile {
         this.displayName = displayName;
     }
 
-    public int getProfileLevel() {
-        return profileLevel;
+    public static Profile of (int level) {
+        for (Profile profile : PROFILES) {
+            if (profile.getProfileLevel() == level) {
+                return profile;
+            }
+        }
+        throw new IllegalArgumentException("Invalid profile level: " + level);
     }
 
-    public String getDisplayName() {
-        return displayName;
-    }
-
+    public int getProfileLevel() { return profileLevel; }
+    public String getDisplayName() { return displayName; }
 }

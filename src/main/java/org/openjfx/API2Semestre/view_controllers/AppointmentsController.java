@@ -209,8 +209,19 @@ public class AppointmentsController implements Initializable {
     }
 
     void inputAppointment (AppointmentType type) {
-        Appointment appointment = new Appointment(
-            "Fulano",
+        // Appointment appointment = new Appointment(
+        //     Authentication.getCurrentUser().getNome(),
+        //     type,
+        //     DateConverter.inputToTimestamp(cx_dataInicio.getValue(),cx_horaInicio.getText()),
+        //     DateConverter.inputToTimestamp(cx_dataFinal.getValue(),cx_horaFinal.getText()),
+        //     cx_squad.getText(),
+        //     cx_cliente.getText(),
+        //     cx_projeto.getText(),
+        //     cx_justificativa.getText()
+        // );
+        // System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
+        QueryLibs.insertTable(new Appointment(
+            Authentication.getCurrentUser().getNome(),
             type,
             DateConverter.inputToTimestamp(cx_dataInicio.getValue(),cx_horaInicio.getText()),
             DateConverter.inputToTimestamp(cx_dataFinal.getValue(),cx_horaFinal.getText()),
@@ -218,11 +229,10 @@ public class AppointmentsController implements Initializable {
             cx_cliente.getText(),
             cx_projeto.getText(),
             cx_justificativa.getText()
-        );
-        System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
-        QueryLibs.insertTable(appointment);
+        ));
 
-        displayedAppointments.add(new AppointmentWrapper(appointment));
+        // displayedAppointments.add(new AppointmentWrapper(appointment));
+        updateTable();
 
 
         // // Testes de Permissions na tag ViewConfig:

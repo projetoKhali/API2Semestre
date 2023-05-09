@@ -19,7 +19,7 @@ import org.openjfx.api2semestre.views_manager.ViewsManager;
 public class App extends Application {
 
     // mude o perfil de acesso para logar com diferentes permissões
-    private static final Profile access = Profile.Administrator;
+    private static final Profile access = Profile.Colaborador;
 
     private static Scene scene;
     private static Stage stage;
