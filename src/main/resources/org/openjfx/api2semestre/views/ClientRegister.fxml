@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="TOP_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.ClientRegisterControllerController">
+   <children>
+      <FlowPane alignment="TOP_RIGHT" columnHalignment="RIGHT" prefHeight="57.0" prefWidth="576.0">
+         <children>
+            <TextField fx:id="cx_Razao" maxWidth="1.7976931348623157E308" mouseTransparent="true" prefHeight="25.0" prefWidth="573.0" promptText="TextFNome" text="Razão Social">
+               <FlowPane.margin>
+                  <Insets left="2.0" right="2.0" top="8.0" />
+               </FlowPane.margin>
+            </TextField>
+            <TextField fx:id="Cx_CNPJ" prefHeight="25.0" prefWidth="451.0" promptText="TextFEmail" text="CNPJ">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <FlowPane.margin>
+                  <Insets top="2.0" />
+               </FlowPane.margin>
+            </TextField>
+            <Button fx:id="bt_Comfirmar" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#acaoConfirmar" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: B9D1FF;" text="Confirmar">
+               <FlowPane.margin>
+                  <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+               </FlowPane.margin>
+            </Button>
+         </children>
+      </FlowPane>
+      <TableView fx:id="tb_Usuario" editable="true" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="316.0" prefWidth="576.0">
+        <columns>
+          <TableColumn fx:id="coluna_Razao" editable="false" prefWidth="288.0" sortable="false" text="Razão Social" />
+          <TableColumn fx:id="coluna_CNPJ" editable="false" prefWidth="287.0" sortable="false" text="CNPJ" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+   </children>
+   <padding>
+      <Insets bottom="12.0" left="12.0" right="12.0" top="12.0" />
+   </padding>
+</VBox>
