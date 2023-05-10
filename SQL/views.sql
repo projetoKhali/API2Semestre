@@ -29,10 +29,10 @@ AS SELECT
 -- usuário
 CREATE OR REPLACE VIEW public.vw_usuario 
 AS SELECT
-    usuario.requester,
+    usuario.id,
     usuario.nome,
     usuario.email,
     usuario.senha,
-    usuario.tipo,
+    usuario.perfil,
     usuario.matricula
     FROM usuario;

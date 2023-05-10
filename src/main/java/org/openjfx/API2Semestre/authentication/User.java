@@ -38,6 +38,9 @@ public class User extends Data {
         this.matricula = matricula;
     }
 
+    public User(String text, Profile administrator, List<String> parseSquads, List<String> parseSquads2) {
+    }
+
     public String getNome() { return nome; }
     public Profile getPerfil() { return perfil; }
     public String getEmail() { return email; }
