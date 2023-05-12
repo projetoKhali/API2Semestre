@@ -1,11 +1,9 @@
 package org.openjfx.api2semestre.view_controllers;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.appointments.Appointment;
@@ -33,7 +31,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -45,7 +42,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ApprovalsController implements Initializable {
+public class ApprovalsController {
 
     @FXML
     private ViewConfig view;
@@ -95,8 +92,8 @@ public class ApprovalsController implements Initializable {
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
     
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+
+    public void initialize() {
     
         buildTable();
 
