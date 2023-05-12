@@ -23,7 +23,9 @@ public class ReportExporter {
     // seleciona local de salvamento
     public static String showSaveDialog(Stage stage) {
         FileChooser fileChooser = new FileChooser();
+        // titulo da janela
         fileChooser.setTitle("Salvar relatório");
+        // nome padrão do arquivo
         fileChooser.setInitialFileName("relatorio.csv");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
         fileChooser.getExtensionFilters().add(extFilter);
@@ -67,6 +69,7 @@ public class ReportExporter {
                         appointment.getJustification()
                 });
             }
+            System.out.println("Successful Extraction! - ReportExporter.java");
             writer.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
