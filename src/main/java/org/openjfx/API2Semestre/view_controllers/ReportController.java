@@ -163,6 +163,6 @@ public class ReportController {
 
     @FXML public void export (ActionEvent e) {
         String local = ReportExporter.showSaveDialog(App.getStage());
-        ReportExporter.exporterCSV(loadedIntervals, local);
+        ReportExporter.exporterCSV(loadedIntervals, local); // TODO: Use filtered Intervals
     }
 }

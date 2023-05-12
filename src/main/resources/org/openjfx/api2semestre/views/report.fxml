@@ -17,15 +17,15 @@
          <content>
             <HBox spacing="8.0">
                <children>
-                  <CheckBox layoutX="0" layoutY="0" mnemonicParsing="false" text="Matricula" fx:id="cb_matricula" />
-                  <CheckBox layoutX="0" layoutY="0" mnemonicParsing="false" text="Colaborador" fx:id="cb_colaborador" />
-                  <CheckBox layoutX="0" layoutY="0" mnemonicParsing="false" text="Verba" fx:id="cb_verba" />
-                  <CheckBox layoutX="0" layoutY="0" mnemonicParsing="false" text="Início" fx:id="cb_inicio" />
-                  <CheckBox layoutX="0" layoutY="0" mnemonicParsing="false" text="Fim" fx:id="cb_fim" />
-                  <CheckBox layoutX="0" layoutY="0" mnemonicParsing="false" text="CR" fx:id="cb_cr" />
-                  <CheckBox layoutX="0" layoutY="0" mnemonicParsing="false" text="Cliente" fx:id="cb_cliente" />
-                  <CheckBox layoutX="0" layoutY="0" mnemonicParsing="false" text="Projeto" fx:id="cb_projeto" />
-                  <CheckBox layoutX="0" layoutY="0" mnemonicParsing="false" text="Justificativa" fx:id="cb_justificativa" />
+                  <CheckBox fx:id="cb_matricula" layoutX="0" layoutY="0" mnemonicParsing="false" text="Matricula" />
+                  <CheckBox fx:id="cb_colaborador" layoutX="0" layoutY="0" mnemonicParsing="false" text="Colaborador" />
+                  <CheckBox fx:id="cb_verba" layoutX="0" layoutY="0" mnemonicParsing="false" text="Verba" />
+                  <CheckBox fx:id="cb_inicio" layoutX="0" layoutY="0" mnemonicParsing="false" text="Início" />
+                  <CheckBox fx:id="cb_fim" layoutX="0" layoutY="0" mnemonicParsing="false" text="Fim" />
+                  <CheckBox fx:id="cb_cr" layoutX="0" layoutY="0" mnemonicParsing="false" text="CR" />
+                  <CheckBox fx:id="cb_cliente" layoutX="0" layoutY="0" mnemonicParsing="false" text="Cliente" />
+                  <CheckBox fx:id="cb_projeto" layoutX="0" layoutY="0" mnemonicParsing="false" text="Projeto" />
+                  <CheckBox fx:id="cb_justificativa" layoutX="0" layoutY="0" mnemonicParsing="false" text="Justificativa" />
                </children>
                <padding>
                   <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
@@ -36,7 +36,7 @@
             <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="25.0" prefWidth="800.0">
                <children>
                   <Label layoutY="4.0" text="Incluir Campos" AnchorPane.leftAnchor="0.0" />
-                  <Button mnemonicParsing="false" prefWidth="128.0" style="-fx-background-radius: 4;" text="Exportar" AnchorPane.rightAnchor="0.0" />
+                  <Button mnemonicParsing="false" onAction="#export" prefWidth="128.0" style="-fx-background-radius: 4;" text="Exportar" AnchorPane.rightAnchor="0.0" />
                </children>
             </AnchorPane>
          </graphic>
