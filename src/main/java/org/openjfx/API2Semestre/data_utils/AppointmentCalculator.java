@@ -32,6 +32,8 @@ public class AppointmentCalculator {
     public static void calculateReports(){
     // public static List<ReportInAppointment> calculateReports(){
         appointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getNome()));
+        List<ReportInterval> reportsTemporary = new ArrayList<ReportInterval>();
+        List<ReportInterval> reportsFinal = new ArrayList<ReportInterval>();
         for(Appointment apt: appointments){
             aptStartDateTime = apt.getStartDate().toLocalDateTime();
             aptEndDateTime = apt.getEndDate().toLocalDateTime();
@@ -44,18 +46,33 @@ public class AppointmentCalculator {
             
             // retorno de lista com reportIntervals
             if(apt.getType() == AppointmentType.OnNotice){
-                calculateOnNotice(apt);
+                reportsTemporary = calculateOnNotice(apt);
+                for(ReportInterval repInt: reportsTemporary){
+                    reportsFinal.add(repInt);
+                }
             }
             else{
                 for(IntervalFee verba: IntervalFee.VERBAS){
                     if(aptPeriod <= 2){
                         if(verba.getMinHourCount() != 0){continue;}
-                        else{calculateIntervals(apt, verba);}
+                        else{reportsTemporary = calculateIntervals(apt, verba);
+                            for(ReportInterval repInt: reportsTemporary){
+                                reportsFinal.add(repInt);
+                            }
+                        }
 
                     }
                     else{
-                        if(verba.getMinHourCount() != 0){calculateIntervals(apt2, verba);}
-                        else{calculateIntervals(apt1, verba);}
+                        if(verba.getMinHourCount() != 0){reportsTemporary = calculateIntervals(apt2, verba);
+                            for(ReportInterval repInt: reportsTemporary){
+                                reportsFinal.add(repInt);
+                            }
+                        }
+                        else{reportsTemporary = calculateIntervals(apt1, verba);
+                            for(ReportInterval repInt: reportsTemporary){
+                                reportsFinal.add(repInt);
+                            }
+                        }
                         
                     }
                 }
