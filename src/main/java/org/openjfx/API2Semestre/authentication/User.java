@@ -2,7 +2,9 @@ package org.openjfx.api2semestre.authentication;
 
 import java.util.List;
 
-public class User {
+import org.openjfx.api2semestre.database.Data;
+
+public class User extends Data {
 
     private String nome;   // change to id
     private Profile perfil;
@@ -25,13 +27,18 @@ public class User {
     public User(
         String nome,
         Profile perfil,
-        List<String> cr_isMemberOf,
-        List<String> cr_manaegdBy
+        String email,
+        String senha,
+        String matricula
     ) {
         this.nome = nome;
         this.perfil = perfil;
-        this.cr_isMemberOf = cr_isMemberOf;
-        this.cr_manaegdBy = cr_manaegdBy;
+        this.email = email;
+        this.senha = senha;
+        this.matricula = matricula;
+    }
+
+    public User(String text, Profile administrator, List<String> parseSquads, List<String> parseSquads2) {
     }
 
     public String getNome() { return nome; }

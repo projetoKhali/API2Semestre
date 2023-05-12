@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<VBox spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.RejectPopupListItem">
+   <children>
+      <TableView fx:id="tabela" prefHeight="54.0" prefWidth="754.0">
+        <columns>
+            <TableColumn fx:id="col_status" editable="false" prefWidth="98.0" resizable="false" sortable="false" text="Solicitante" />
+            <TableColumn fx:id="col_squad" editable="false" prefWidth="100.0" resizable="false" sortable="false" text="Squad" />
+            <TableColumn fx:id="col_tipo" editable="false" prefWidth="72.0" resizable="false" sortable="false" text="Tipo" />
+            <TableColumn fx:id="col_inicio" editable="false" prefWidth="116.0" resizable="false" sortable="false" text="Início" />
+            <TableColumn fx:id="col_fim" editable="false" prefWidth="110.0" resizable="false" sortable="false" text="Fim" />
+            <TableColumn fx:id="col_cliente" editable="false" prefWidth="78.0" resizable="false" sortable="false" text="Cliente" />
+            <TableColumn fx:id="col_projeto" editable="false" prefWidth="82.0" resizable="false" sortable="false" text="Projeto" />
+            <TableColumn fx:id="col_total" editable="false" prefWidth="97.0" resizable="false" sortable="false" text="Total" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+      </TableView>
+      <Label text="Justificativa para a rejeição:">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+       <TextField fx:id="textField" alignment="TOP_LEFT" prefHeight="122.0" prefWidth="754.0" promptText="Insira um feedback para o colaborador">
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+      </TextField>
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+   <padding>
+      <Insets bottom="8.0" left="8.0" right="8.0" top="8.0" />
+   </padding>
+</VBox>
