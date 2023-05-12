@@ -15,9 +15,6 @@ import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 
-// import org.openjfx.api2semestre.authentication.User;
-import org.openjfx.api2semestre.database.QueryLibs;
-
 public class App extends Application {
     
     // mude o perfil de acesso para logar com diferentes permissões
@@ -34,13 +31,29 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        // QueryLibs.executeSqlFile("./SQL/views.sql");
+        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/views.sql");
 
-        // QueryLibs.insertUser(new User("Fulano colaborador 0", Profile.Colaborador, "e@xem.plo", "0", "0"));
-        // QueryLibs.insertUser(new User("Fulano gestor 0", Profile.Gestor, "e@xem.plo", "0", "0"));
-        // QueryLibs.insertUser(new User("Cicrano col 0", Profile.Colaborador, "e@xem.plo", "0", "0"));
-        // QueryLibs.insertUser(new User("Cicrano ges 0", Profile.Gestor, "e@xem.plo", "0", "0"));
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Fulano colaborador 0", Profile.Colaborador, "e@xem.plo", "0", "0"
+        //     )
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Fulano gestor 0", Profile.Gestor, "e@xem.plo", "0", "0"
+        //     )
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Cicrano col 0", Profile.Colaborador, "e@xem.plo", "0", "0"
+        //     )
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Cicrano ges 0", Profile.Gestor, "e@xem.plo", "0", "0"
+        //     )
+        // );
 
 
         setStage(stage);
