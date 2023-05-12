@@ -39,8 +39,22 @@ public class IntervalFee {
         this.minHourCount = minHourCount;
         this.cumulative = cumulative;
     }
+    // cadastro de vergas de hora-extra
+
+    // new IntervalFee(1001, 1.25f, Week.FDS.get(), 0, 0, 0, false),
+    public static final IntervalFee[] VERBAS = new IntervalFee[] {
+        new IntervalFee(1602, 1.00, Week.FDS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 0, false),
+        new IntervalFee(1602, 1.00, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 2, false),
+        new IntervalFee(1601, 0.75, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 0, false),
+        new IntervalFee(3001, 1.00, Week.FDS.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0), 0, false),
+        new IntervalFee(3001, 1.00, Week.UTEIS.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0), 2, false),
+        new IntervalFee(3000, 0.75, Week.UTEIS.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0),  0, false),
+        new IntervalFee(1809, 0.3, Week.ALL.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0),  0, true),
+    };
+
     
-    public boolean check (Timestamp appointmentStart, Timestamp appointmentEndTime, int dayHourCount) {
+    
+    public Double check (Timestamp appointmentStart, Timestamp appointmentEndTime, long dayHourCount) {
         
         // conversão de Timestamp para LocalTime
         
@@ -53,6 +67,7 @@ public class IntervalFee {
         LocalDate aptEndLocalDate = aptEndDateTime.toLocalDate();
         
         long numberOfOverlappingMinutes = 0;
+                             
         
         // Check if the day of the week falls within the configured range
         LocalDate actualDay = aptStartLocalDate;
@@ -66,12 +81,12 @@ public class IntervalFee {
                 actualDay = actualDay.plusDays(1);
                 actualDayOfWeek = actualDay.getDayOfWeek().getValue();
             }
-        if(auxiliar == false){return false;}
+        if(auxiliar == false){return 0.0;}
 
         // casos em que a verba apenas começa a valer após as 2 horas            
         if (dayHourCount < minHourCount) { 
             System.out.println("\tfails at: dayHourCount(" + dayHourCount + ") < minHourCount(" + minHourCount + ")");
-            return false;
+            return 0.0;
         }
             
         // checar se há intersecção com período noturno  
@@ -84,34 +99,42 @@ public class IntervalFee {
         if((startHour != null) && (endHour != null)){
             actualDay = aptStartLocalDate;
             while(!actualDay.isAfter(aptEndLocalDate)){
-                verbastart = actualDay.atTime(startHour);
-                if(endHour.isBefore(startHour) & endHour != meiaNoite){
-                    verbaEnd = (actualDay.plusDays(1)).atTime(endHour);
-                }
-                else{
-                    verbaEnd = actualDay.atTime(endHour);
-                }
-                if(verbastart.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd)){
-                    numberOfOverlappingMinutes = 0;
-                }
-                else{
-                    laterStart = Collections.max(Arrays.asList(verbastart, aptStartDateTime));
-                    earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
-                    numberOfOverlappingMinutes += ChronoUnit.MINUTES.between(laterStart, earlierEnd);
-                    if(numberOfOverlappingMinutes != 0){auxiliar = true;};
+                actualDayOfWeek = actualDay.getDayOfWeek().getValue();
+                if(daysOfWeek[(actualDayOfWeek % 7)]){
+                    verbastart = actualDay.atTime(startHour);
+                    if(endHour.isBefore(startHour) & endHour != meiaNoite){
+                        if(daysOfWeek[((actualDayOfWeek+1) % 7)]){
+                            verbaEnd = (actualDay.plusDays(1)).atTime(endHour);
+                        }
+                        else{
+                            verbaEnd = meiaNoite.atDate(actualDay);
+                        }
+                    }
+                    else{
+                        verbaEnd = actualDay.atTime(endHour);
+                    }
+                    if(verbastart.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd)){
+                        numberOfOverlappingMinutes = 0;
+                    }
+                    else{
+                        laterStart = Collections.max(Arrays.asList(verbastart, aptStartDateTime));
+                        earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
+                        numberOfOverlappingMinutes += ChronoUnit.MINUTES.between(laterStart, earlierEnd);
+                        if(numberOfOverlappingMinutes != 0){auxiliar = true;};
+                    }
                 }
                 actualDay = actualDay.plusDays(1);
             }
         }
-        if(auxiliar == false){return false;}
+        if(auxiliar == false){return 0.0;}
         
         if(minHourCount != 0 && numberOfOverlappingMinutes != 0){
             numberOfOverlappingMinutes = numberOfOverlappingMinutes - minHourCount;
-            return true;
         }
-
-        // The period is within the configured range
-        return true;
+        
+        Double overlappingMinutes = (double)numberOfOverlappingMinutes;
+        return overlappingMinutes/60;
+        // return true;
     }
 
     // Getters

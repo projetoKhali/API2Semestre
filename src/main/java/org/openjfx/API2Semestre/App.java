@@ -119,17 +119,24 @@ public class App extends Application {
         // verbas teste
         IntervalFee[] verbas = new IntervalFee[] {
 
-            // sem restrição de período / verba base
-            new IntervalFee(1000, 1.00f, Week.ALL.get(), 0, 0, 0, false),
+            // // sem restrição de período / verba base
+            // new IntervalFee(1000, 1.00f, Week.ALL.get(), 0, 0, 0, false),
 
-            // final de semana (sabado e domingo)
-            new IntervalFee(1001, 1.25f, Week.FDS.get(), 0, 0, 0, false),
+            // // final de semana (sabado e domingo)
+            // new IntervalFee(1001, 1.25f, Week.FDS.get(), 0, 0, 0, false),
 
-            // qualquer dia, noturno | cumulativo
-            new IntervalFee(1002, 1.47f, Week.ALL.get(), 22, 6, 0, true),
+            // // qualquer dia, noturno | cumulativo
+            // new IntervalFee(1002, 1.47f, Week.ALL.get(), 22, 6, 0, true),
 
-            // qualquer dia, após 2 horas de hora-extra | cumulativo
-            new IntervalFee(1002, 2.00f, Week.ALL.get(), 0, 0, 2, true)
+            // // qualquer dia, após 2 horas de hora-extra | cumulativo
+            // new IntervalFee(1002, 2.00f, Week.ALL.get(), 0, 0, 2, true)
+            new IntervalFee(1602, 1.00, Week.FDS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 0, false),
+            new IntervalFee(1602, 1.00, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 2, false),
+            new IntervalFee(1601, 0.75, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 0, false),
+            new IntervalFee(3001, 1.00, Week.FDS.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0), 0, false),
+            new IntervalFee(3001, 1.00, Week.UTEIS.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0), 2, false),
+            new IntervalFee(3000, 0.75, Week.UTEIS.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0),  0, false),
+            new IntervalFee(1809, 0.3, Week.ALL.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0),  0, true),
         };
 
         Timestamp[][] testTimestamps = new Timestamp[][] {

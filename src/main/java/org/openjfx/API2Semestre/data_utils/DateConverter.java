@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -15,6 +16,8 @@ import java.time.LocalDate;
  */
 // método que converte data em LocalDate e tempo em string para Timestamp
 public class DateConverter {
+    
+    // LocalDate + String para TimeStamp
     public static Timestamp inputToTimestamp (LocalDate dateInput, String timeInput) {
         Date date = Date.valueOf(dateInput);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -22,5 +25,11 @@ public class DateConverter {
         String str_date_time = str_date + " " + (timeInput.length() <3 ? timeInput + ":00" : timeInput) + ":00";
         Timestamp timestamp = Timestamp.valueOf(str_date_time);
         return timestamp;
+    }
+    // LocalDateTime para TimeStamp
+    public static Timestamp toTimestamp(LocalDateTime localDateTime){
+        Timestamp timeStamp = Timestamp.valueOf(localDateTime);
+        return timeStamp;
+        
     }
 }
