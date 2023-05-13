@@ -1,11 +1,13 @@
 package org.openjfx.api2semestre.view_controllers;
 
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.report.IntervalFee;
+import org.openjfx.api2semestre.view_macros.TextFieldTimeFormat;
 import org.openjfx.api2semestre.view_utils.Expedient;
 import org.openjfx.api2semestre.view_utils.IntervalFeeWrapper;
 
@@ -44,15 +46,28 @@ public class Parametrization {
 
         updateTable();
     }
-    
+
     private void buildTable () {
 
         Expedient.loadData();
 
         tf_closingDay.setText(Expedient.getClosingDay().toString());
         tf_inicio.setText(Expedient.getNightShiftStart().format(DateTimeFormatter.ofPattern("HH:mm")));
+        TextFieldTimeFormat.addTimeVerifier(tf_inicio);
         tf_fim.setText(Expedient.getNightShiftEnd().format(DateTimeFormatter.ofPattern("HH:mm")));
+        TextFieldTimeFormat.addTimeVerifier(tf_fim);
         
+        tf_closingDay.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) tf_closingDay.setText(newValue.replaceAll("[^\\d]", ""));
+            try {
+                tf_closingDay.setText(Integer.toString(
+                    Integer.max(Integer.min(Integer.valueOf(Integer.parseInt(tf_closingDay.getText())), 28), 1)
+                ));
+            } catch (NumberFormatException e) {
+                tf_closingDay.setText("");
+            }
+        });
+
         col_codigo.setCellValueFactory( new PropertyValueFactory<>( "codigo" ));
         col_codigo.setCellFactory(col -> new TableCell<IntervalFeeWrapper, Integer>() {
             private TextField textField;
@@ -125,6 +140,11 @@ public class Parametrization {
     }
 
     @FXML public void salvar (ActionEvent e) {
-
-    } 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        Expedient.saveData(
+            LocalTime.parse(tf_inicio.getText(), formatter),
+            LocalTime.parse(tf_fim.getText(), formatter),
+            Integer.parseInt(tf_closingDay.getText())
+        );
+    }
 }
