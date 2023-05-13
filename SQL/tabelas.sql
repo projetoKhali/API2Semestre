@@ -43,3 +43,12 @@ CREATE TABLE IF NOT EXISTS public.centro_resultado(
 
     CONSTRAINT centro_resultado_pkey PRIMARY KEY (cr_id)
 );
+
+CREATE TABLE IF NOT EXISTS public.parametrization(
+    id serial NOT NULL,
+    night_shift_start TIME NULL,
+    night_shift_end TIME NULL,
+    closing_day INT NULL,
+    
+    CONSTRAINT parametrization_pkey PRIMARY KEY (id)
+);

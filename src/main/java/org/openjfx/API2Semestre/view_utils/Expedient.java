@@ -9,38 +9,59 @@ import java.time.LocalTime;
 import org.openjfx.api2semestre.database.SQLConnection;
 
 public class Expedient {
-    static LocalTime nightShiftStart = null;
-    static LocalTime nightShiftEnd = null;
+    private static LocalTime nightShiftStart = null;
+    private static LocalTime nightShiftEnd = null;
+    private static Integer closingDay = null;
 
-    public static String get (LocalTime intervalFeeStart, LocalTime intervalFeeEnd) {
+    public static Integer getClosingDay() { return closingDay; }
+    public static LocalTime getNightShiftStart() { return nightShiftStart; }
+    public static LocalTime getNightShiftEnd() { return nightShiftEnd; }
+
+    private static final LocalTime defaultNightShiftStart = LocalTime.of(22, 0, 0);
+    private static final LocalTime defaultNightShiftEnd = LocalTime.of(6, 0, 0);
+    private static final Integer defaultClosingDay = 25;
+
+    public static String getExpedient (LocalTime intervalFeeStart, LocalTime intervalFeeEnd) {
         if (nightShiftStart == null || nightShiftEnd == null) loadData();
         if (nightShiftStart.equals(intervalFeeStart) && nightShiftEnd.equals(intervalFeeEnd)) return "Noturno";
         if (nightShiftStart.equals(intervalFeeEnd) && nightShiftEnd.equals(intervalFeeStart)) return "Diurno";
         return "N/A";
     }
 
-    private static void loadData () {
+    public static void loadData () {
         try {
             Connection connection = SQLConnection.connect();
-            ResultSet result = connection.prepareStatement("SELECT * FROM expedient WHERE id = 1").executeQuery();
+            ResultSet result = connection.prepareStatement("SELECT * FROM parametrization WHERE id = 1").executeQuery();
             result.next();
-            nightShiftStart = result.getTime("start").toLocalTime();
-            nightShiftEnd = result.getTime("end").toLocalTime();
+            nightShiftStart = result.getTime("night_shift_start").toLocalTime();
+            nightShiftEnd = result.getTime("night_shift_end").toLocalTime();
+            closingDay = result.getInt("closing_day");
             connection.commit();
             connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
+        if (nightShiftStart == null || nightShiftEnd == null || closingDay == null) saveData(
+            nightShiftStart == null ? defaultNightShiftStart : nightShiftStart,
+            nightShiftEnd == null ? defaultNightShiftEnd : nightShiftEnd,
+            closingDay == null ? defaultClosingDay : closingDay
+        );
     }
     
-    public static void saveData (LocalTime newStart, LocalTime newEnd) {
+    public static void saveData (LocalTime newStart, LocalTime newEnd, Integer newClosingDay) {
+        if (nightShiftStart == newStart && nightShiftEnd == newEnd && closingDay == newClosingDay) return;
         try {
             Connection connection = SQLConnection.connect();
-            PreparedStatement statement = connection.prepareStatement("INSERT INTO expedient (id, start, end) VALUES (1, ?, ?) ON CONFLICT (id) DO UPDATE SET start = ?, end = ?;");
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO parametrization (id, night_shift_start, night_shift_end, closing_day) VALUES (1, ?, ?, ?) ON CONFLICT (id) DO UPDATE SET night_shift_start = ?, night_shift_end = ?, closing_day = ?;");
             statement.setTime(1, Time.valueOf(newStart));
             statement.setTime(2, Time.valueOf(newEnd));
-            statement.setTime(3, Time.valueOf(newStart));
-            statement.setTime(4, Time.valueOf(newEnd));
+            statement.setInt(3, newClosingDay);
+            statement.setTime(4, Time.valueOf(newStart));
+            statement.setTime(5, Time.valueOf(newEnd));
+            statement.setInt(6, newClosingDay);
+            nightShiftStart = newStart;
+            nightShiftEnd = newEnd;
+            closingDay = newClosingDay;
             statement.execute();
             connection.commit();
             connection.close();

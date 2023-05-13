@@ -21,7 +21,7 @@
                         <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="8.0">
                            <children>
                               <Label text="Dia:" />
-                              <TextField maxHeight="24.0" maxWidth="32.0" />
+                              <TextField maxHeight="24.0" maxWidth="32.0" fx:id="tf_closingDay" />
                            </children>
                            <padding>
                               <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
@@ -36,7 +36,7 @@
                               <HBox alignment="CENTER_LEFT" spacing="8.0">
                                  <children>
                                     <Label text="Início" />
-                                    <TextField maxWidth="76.0" />
+                                    <TextField maxWidth="76.0" fx:id="tf_inicio" />
                                  </children>
                                  <padding>
                                     <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
@@ -45,7 +45,7 @@
                               <HBox alignment="CENTER_LEFT" spacing="8.0">
                                  <children>
                                     <Label text="Fim" />
-                                    <TextField maxWidth="76.0" />
+                                    <TextField maxWidth="76.0" fx:id="tf_fim" />
                                  </children>
                                  <padding>
                                     <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
@@ -63,7 +63,7 @@
          <content>
             <TableView fx:id="tabela" editable="true" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
               <columns>
-                <TableColumn fx:id="col_verba" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="64.0" sortable="false" text="Código" />
+                <TableColumn fx:id="col_codigo" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="64.0" sortable="false" text="Código" />
                 <TableColumn fx:id="col_tipo" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" sortable="false" text="Tipo" />
                 <TableColumn fx:id="col_expediente" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" sortable="false" text="Expediente" />
                 <TableColumn fx:id="col_fimDeSemana" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="128.0" sortable="false" text="Fim de Semana" />

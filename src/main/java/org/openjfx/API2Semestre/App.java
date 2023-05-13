@@ -7,17 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.util.List;
-
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
-import org.openjfx.api2semestre.data_utils.DateConverter;
-import org.openjfx.api2semestre.report.IntervalFee;
-import org.openjfx.api2semestre.report.ReportExporter;
-import org.openjfx.api2semestre.report.ReportInterval;
-import org.openjfx.api2semestre.report.Week;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
@@ -39,20 +30,23 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        // QueryLibs.executeSqlFile("./SQL/views.sql");
+        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/views.sql");
         
-        String local = ReportExporter.showSaveDialog(stage);
-        List<ReportInterval> teste = List.of(
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"10:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345)
-        );
+        // String local = ReportExporter.showSaveDialog(stage);
+        // List<ReportInterval> teste = List.of(
+        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"10:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345)
+        // );
 
-        ReportExporter.exporterCSV(teste,local);
-        // setStage(stage);
+        // ReportExporter.exporterCSV(teste,local);
+        setStage(stage);
+
+        stage.setScene(new Scene(loadFXML("views/parametrization")));
+        stage.show();
 
         // loginView();
     }
@@ -67,7 +61,6 @@ public class App extends Application {
         
         try {
             scene = new Scene(loadFXML(currentViewFxmlFile));
-
             stage.setScene(scene);
             stage.show();
 
@@ -132,23 +125,22 @@ public class App extends Application {
 
         // System.exit(1);
 
-        System.setProperty("javafx.fxml.debug", "true");
         // verbas teste
 
-        Timestamp[][] testTimestamps = new Timestamp[][] {
-            new Timestamp[] {
-                new Timestamp(2023, 4, 30, 11, 0, 0, 0),
-                new Timestamp(2023, 4, 30, 12, 0, 0, 0)
-            },
-            new Timestamp[] {
-                new Timestamp(2023, 5, 1, 11, 0, 0, 0),
-                new Timestamp(2023, 5, 1, 12, 0, 0, 0)
-            },
-            new Timestamp[] {
-                new Timestamp(2023, 5, 1, 23, 30, 0, 0),
-                new Timestamp(2023, 5, 2, 0, 30, 0, 0)
-            }
-        };
+        // Timestamp[][] testTimestamps = new Timestamp[][] {
+        //     new Timestamp[] {
+        //         new Timestamp(2023, 4, 30, 11, 0, 0, 0),
+        //         new Timestamp(2023, 4, 30, 12, 0, 0, 0)
+        //     },
+        //     new Timestamp[] {
+        //         new Timestamp(2023, 5, 1, 11, 0, 0, 0),
+        //         new Timestamp(2023, 5, 1, 12, 0, 0, 0)
+        //     },
+        //     new Timestamp[] {
+        //         new Timestamp(2023, 5, 1, 23, 30, 0, 0),
+        //         new Timestamp(2023, 5, 2, 0, 30, 0, 0)
+        //     }
+        // };
 
         // exemplo
         // double sum = 0;
@@ -166,7 +158,7 @@ public class App extends Application {
         // }
         // System.exit(1);
 
-        // System.setProperty("javafx.fxml.debug", "true");
+        System.setProperty("javafx.fxml.debug", "true");
         launch();
     }
 

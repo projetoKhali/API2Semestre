@@ -13,10 +13,10 @@ public class IntervalFeeWrapper {
     
     public IntervalFee getIntervalFee() { return intervalFee; }
 
-    public int getVerba() { return intervalFee.getCode(); }
+    public int getCodigo() { return intervalFee.getCode(); }
     public String getTipo() { return intervalFee.getType().getStringValue(); }
     public String getExpediente() {
-        return Expedient.get(intervalFee.getStartHour(), intervalFee.getEndHour());
+        return Expedient.getExpedient(intervalFee.getStartHour(), intervalFee.getEndHour());
     }
     public String getFimDeSemana() {
         boolean[] days = intervalFee.getDaysOfWeek();
@@ -24,8 +24,8 @@ public class IntervalFeeWrapper {
         if (!Week.FDS.compare(days)) return "Não";
         return "N/A";
     } 
-    public int getHoraMinimo() { return intervalFee.getMinHourCount(); }
+    public long getHoraMinimo() { return intervalFee.getMinHourCount(); }
     public double getHoraDuracao() { return intervalFee.getHourDuration(); }
-    public double getPorcentagem() { return intervalFee.getPercent(); }
+    public String getPorcentagem() { return Integer.valueOf((int)(intervalFee.getPercent() * 100)).toString() + "%"; }
 
 }

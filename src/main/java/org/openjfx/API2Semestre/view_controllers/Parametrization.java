@@ -1,23 +1,33 @@
 package org.openjfx.api2semestre.view_controllers;
 
-import java.util.ArrayList;
+import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.report.IntervalFee;
-import org.openjfx.api2semestre.report.Week;
+import org.openjfx.api2semestre.view_utils.Expedient;
 import org.openjfx.api2semestre.view_utils.IntervalFeeWrapper;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ContentDisplay;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class Parametrization {
+
+    @FXML private TextField tf_closingDay;
+    @FXML private TextField tf_inicio;
+    @FXML private TextField tf_fim;
  
     @FXML private TableView<IntervalFeeWrapper> tabela;
-    @FXML private TableColumn<IntervalFeeWrapper, Integer> col_verba;
+    @FXML private TableColumn<IntervalFeeWrapper, Integer> col_codigo;
     @FXML private TableColumn<IntervalFeeWrapper, String> col_tipo;
     @FXML private TableColumn<IntervalFeeWrapper, String> col_expediente;
     @FXML private TableColumn<IntervalFeeWrapper, String> col_fimDeSemana;
@@ -34,21 +44,87 @@ public class Parametrization {
 
         updateTable();
     }
-
+    
     private void buildTable () {
-        loadedIntervalFees = List.of(
-            new IntervalFee(1000, 1.00f, Week.ALL.get(), 0, 0, 0, false),
-            new IntervalFee(1001, 1.25f, Week.FDS.get(), 0, 0, 0, false),
-            new IntervalFee(1002, 1.47f, Week.ALL.get(), 22, 6, 0, true),
-            new IntervalFee(1002, 2.00f, Week.ALL.get(), 0, 0, 2, true)
-        );
+
+        Expedient.loadData();
+
+        tf_closingDay.setText(Expedient.getClosingDay().toString());
+        tf_inicio.setText(Expedient.getNightShiftStart().format(DateTimeFormatter.ofPattern("HH:mm")));
+        tf_fim.setText(Expedient.getNightShiftEnd().format(DateTimeFormatter.ofPattern("HH:mm")));
+        
+        col_codigo.setCellValueFactory( new PropertyValueFactory<>( "codigo" ));
+        col_codigo.setCellFactory(col -> new TableCell<IntervalFeeWrapper, Integer>() {
+            private TextField textField;
+        
+            @Override
+            public void startEdit() {
+                super.startEdit();
+        
+                if (textField == null) {
+                    textField = new TextField(getItem().toString());
+                    textField.setOnAction(event -> commitEdit(Integer.parseInt(textField.getText())));
+                }
+        
+                setGraphic(textField);
+                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+                textField.requestFocus();
+                textField.selectAll();
+            }
+        
+            @Override
+            public void cancelEdit() {
+                super.cancelEdit();
+                setText(getItem().toString());
+                setContentDisplay(ContentDisplay.TEXT_ONLY);
+            }
+        
+            @Override
+            protected void updateItem(Integer item, boolean empty) {
+                super.updateItem(item, empty);
+        
+                if (empty || item == null) {
+                    setText(null);
+                    setGraphic(null);
+                } else {
+                    setText(item.toString());
+                }
+            }
+        
+            @Override
+            public void commitEdit(Integer newValue) {
+                if (!newValue.equals(getItem())) {
+                    getTableRow().getItem().getIntervalFee().setCode(newValue);
+                }
+        
+                super.commitEdit(newValue);
+                setContentDisplay(ContentDisplay.TEXT_ONLY);
+            }
+        });
+        
+        col_tipo.setCellValueFactory( new PropertyValueFactory<>( "tipo" ));
+        col_expediente.setCellValueFactory( new PropertyValueFactory<>( "expediente" ));
+        col_fimDeSemana.setCellValueFactory( new PropertyValueFactory<>( "fimDeSemana" ));
+        col_horaMinimo.setCellValueFactory( new PropertyValueFactory<>( "horaMinimo" ));
+        col_horaDuracao.setCellValueFactory( new PropertyValueFactory<>( "horaDuracao" ));
+        col_porcentagem.setCellValueFactory( new PropertyValueFactory<>( "porcentagem" ));
+
+        updateTable();
+    }
+        
+    
+    private void updateTable() {
+        loadedIntervalFees = Arrays.asList(IntervalFee.VERBAS);
 
         displayedIntervalFees = FXCollections.observableArrayList(
             loadedIntervalFees.stream().map((intervalFee) -> new IntervalFeeWrapper(intervalFee)).collect(Collectors.toList())
         );
 
         tabela.setItems(displayedIntervalFees);
-        tabela.refresh();
-
+        tabela.refresh();    
     }
+
+    @FXML public void salvar (ActionEvent e) {
+
+    } 
 }
