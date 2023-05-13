@@ -16,35 +16,18 @@ import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
 
 public class PopUpFeedbackController {
 
-    @FXML
-    private TableView<AppointmentWrapper> tabela;
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_status;
+    @FXML private TableView<AppointmentWrapper> tabela;
     
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_squad;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_tipo;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_inicio;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_fim;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_cliente;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_projeto;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_total;
+    @FXML private TableColumn<AppointmentWrapper, String> col_status;
+    @FXML private TableColumn<AppointmentWrapper, String> col_squad;
+    @FXML private TableColumn<AppointmentWrapper, String> col_tipo;
+    @FXML private TableColumn<AppointmentWrapper, String> col_inicio;
+    @FXML private TableColumn<AppointmentWrapper, String> col_fim;
+    @FXML private TableColumn<AppointmentWrapper, String> col_cliente;
+    @FXML private TableColumn<AppointmentWrapper, String> col_projeto;
+    @FXML private TableColumn<AppointmentWrapper, String> col_total;
    
-    @FXML
-    private Label lb_feedback;
+    @FXML private Label lb_feedback;
 
     
     public static AppointmentWrapper apt_selected;

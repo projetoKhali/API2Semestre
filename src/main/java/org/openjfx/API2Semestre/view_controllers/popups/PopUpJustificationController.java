@@ -16,47 +16,26 @@ import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
 
 public class PopUpJustificationController {
 
-    @FXML
-    private TableView<AppointmentWrapper> tabela;
+    @FXML private TableView<AppointmentWrapper> tabela;
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_status;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_squad;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_tipo;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_inicio;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_fim;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_cliente;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_projeto;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_total;
-   
-    @FXML
-    private Label lb_justification;
+    @FXML private TableColumn<AppointmentWrapper, String> col_status;
+    @FXML private TableColumn<AppointmentWrapper, String> col_squad;
+    @FXML private TableColumn<AppointmentWrapper, String> col_tipo;
+    @FXML private TableColumn<AppointmentWrapper, String> col_inicio;
+    @FXML private TableColumn<AppointmentWrapper, String> col_fim;
+    @FXML private TableColumn<AppointmentWrapper, String> col_cliente;
+    @FXML private TableColumn<AppointmentWrapper, String> col_projeto;
+    @FXML private TableColumn<AppointmentWrapper, String> col_total;
 
+    @FXML private Label lb_justification;
     
-    public static AppointmentWrapper apt_selected;
-    
-    
-    public void initialize(){
-        lb_justification.setText(apt_selected.getJustification());
-        buildTable();
+    public void setAppointment(AppointmentWrapper apt) {
+        lb_justification.setText(apt.getJustification());
+        buildTable(apt);
     }
     
     @SuppressWarnings("unchecked")
-    private void buildTable () {
+    private void buildTable (AppointmentWrapper apt) {
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
         col_status.setCellFactory(column -> {
             return new PrettyTableCell<AppointmentWrapper, String>(new PrettyTableCellInstruction[] {
@@ -73,6 +52,6 @@ public class PopUpJustificationController {
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
     
-        tabela.setItems(FXCollections.observableArrayList(List.of(apt_selected)));
+        tabela.setItems(FXCollections.observableArrayList(List.of(apt)));
     }
 }
