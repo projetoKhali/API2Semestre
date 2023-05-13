@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.openjfx.api2semestre.data.ResultsCenter;
+import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.VwAppointment;
 import org.openjfx.api2semestre.authentication.User;
@@ -305,5 +308,29 @@ public class QueryLibs {
         }
         // fecha conexão
         // conexao.close();
+    }
+    public static void insertUser (User users) {
+        executeQuery(new Query(
+            QueryType.INSERT,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Nome, users.getNome()),
+                new QueryParam<Profile>(TableProperty.Type, users.getPerfil()),
+                new QueryParam<String>(TableProperty.Email, users.getEmail()),
+                new QueryParam<String>(TableProperty.Senha, users.getSenha()),
+                new QueryParam<String>(TableProperty.Matricula, users.getMatricula())
+            }
+        ));
+    }
+    public static void insertRC (ResultsCenter rc) {
+        executeQuery(new Query(
+            QueryType.INSERT,
+            QueryTable.ResultsCenter,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Nome, rc.getNome()),
+                new QueryParam<String>(TableProperty.Sigla, rc.getSigla()),
+                new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
+            }
+        ));
     }
 }

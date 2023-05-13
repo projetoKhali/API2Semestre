@@ -22,12 +22,15 @@ public enum TableProperty {
     Email("email"),
     Password("senha"),
     Profile("perfil"),
-    Registration("matricula");
+    Registration("matricula"),
 
-    // TODO: Users table
     // TODO: Clients table
+    Sigla("sigla"),
+    Codigo("codigo"),
+    
     // TODO: IntervalFees table
-
+    
+    ;
 
     public static final TableProperty[] APPOINTMENT_PROPERTIES = new TableProperty[] {
         Id, Requester, Type, StartDate, EndDate, Squad, Client, Project, Justification, Status, Feedback

@@ -7,15 +7,15 @@
 
 -- apontamento
 CREATE TABLE IF NOT EXISTS public.apontamento(
-    apt_id serial NOT NULL,
+    id serial NOT NULL,
     hora_inicio TIMESTAMP null,
     hora_fim TIMESTAMP null,
-    requester VARCHAR NULL,
+    usr_id INT NULL,
     projeto VARCHAR NULL,
     cliente VARCHAR NULL,
     tipo BOOLEAN NULL,
     justificativa VARCHAR NULL,
-    cr_id VARCHAR NULL,
+    cr_id int NULL,
     aprovacao INT DEFAULT 0,
     feedback VARCHAR NULL,
     
@@ -36,8 +36,11 @@ CREATE TABLE IF NOT EXISTS public.usuario(
 
 -- centro de resultado
 CREATE TABLE IF NOT EXISTS public.centro_resultado(
-    cr_id serial NOT NULL,
+    id serial NOT NULL,
     nome VARCHAR NULL,
+    sigla VARCHAR NULL,
+    codigo VARCHAR NULL,
+
 
     CONSTRAINT centro_resultado_pkey PRIMARY KEY (cr_id)
 );
