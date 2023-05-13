@@ -37,9 +37,9 @@ public class AppointmentCalculator {
         Appointment app1 = new Appointment(
             1, 
             "Julio", 
-            AppointmentType.OnNotice, 
-            DateConverter.stringToTimestamp("2023-05-02 06:05:00"), 
-            DateConverter.stringToTimestamp("2023-05-02 14:10:00"), 
+            AppointmentType.Overtime, 
+            DateConverter.stringToTimestamp("2023-05-02 06:00:00"), 
+            DateConverter.stringToTimestamp("2023-05-02 18:00:00"), 
             "Squad Foda", 
             "Cleitin", 
             "ProjetoA", 
@@ -47,6 +47,8 @@ public class AppointmentCalculator {
             0, 
             "sample"
             );
+
+        
         
         // lista paa teste
         appointments.add(app1);
@@ -54,18 +56,23 @@ public class AppointmentCalculator {
         List<ReportInterval> reportsFinal = new ArrayList<ReportInterval>();
         for(Appointment apt: appointments){
             aptStartDateTime = apt.getStartDate().toLocalDateTime();
-            // System.out.println("apt start: " + apt.getStartDate() + " | localdatetime start: " + aptStartDateTime);
             aptEndDateTime = apt.getEndDate().toLocalDateTime();
+            // System.out.println("apt end: " + apt.getEndDate() + " | localdatetime start: " + aptEndDateTime);
             aptPeriod = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime))/60;
             // apt1 são as primeiras duas horas do apontamento e apt2 o restante            
-            Appointment apt1 = apt;
+            System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
+            Appointment apt1 = apt.copy();
+            System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
             apt1.setEndDate(DateConverter.toTimestamp((apt.getStartDate().toLocalDateTime()).plusHours(2)));
-            Appointment apt2 = apt;
+            Appointment apt2 = apt.copy();
+            System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
             apt2.setStartDate(DateConverter.toTimestamp((apt.getStartDate().toLocalDateTime()).plusHours(2)));
+            apt2.setStartDate(DateConverter.toTimestamp((apt2.getStartDate().toLocalDateTime()).plusMinutes(1)));
             
             // retorno de lista com reportIntervals
             if(apt.getType() == AppointmentType.OnNotice){
                 System.out.println("é sobreaviso");
+                System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
                 reportsTemporary = calculateOnNotice(apt);
                 if(reportsTemporary != null){
                     for(ReportInterval repInt: reportsTemporary){

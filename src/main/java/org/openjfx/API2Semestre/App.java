@@ -126,6 +126,10 @@ public class App extends Application {
             System.out.println(rpi.getStart());
             System.out.println(rpi.getEnd());
             
+            System.out.println(((rpi.getEnd()).getTime()-(rpi.getStart()).getTime())/60000);
+           
+            
+            
 
         }
         
