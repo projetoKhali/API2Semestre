@@ -24,5 +24,14 @@ public enum Week {
         return result;
     }
 
+    public boolean compare (boolean[] other) {
+        boolean[] days = get();
+        if (days.length != other.length) return false;
+        for (int i = 0; i < days.length; i++) {
+            if (days[i] != other[i]) return false;
+        }
+        return true;
+    }
+
 
 }

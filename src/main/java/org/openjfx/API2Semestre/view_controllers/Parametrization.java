@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.openjfx.api2semestre.report.IntervalFee;
 import org.openjfx.api2semestre.report.Week;
+import org.openjfx.api2semestre.view_utils.IntervalFeeWrapper;
 
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

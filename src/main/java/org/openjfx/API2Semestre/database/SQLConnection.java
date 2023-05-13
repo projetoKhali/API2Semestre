@@ -12,10 +12,8 @@ import java.sql.SQLException;
 
 public class SQLConnection {
 
-    private Connection conexao;
-
     // método de conexão com banco
-    public Connection connect() throws IOException {
+    public static Connection connect() throws IOException {
 
         String[] env = new String[] {
             "host",
@@ -51,6 +49,7 @@ public class SQLConnection {
 
         // driver de conexão
         String driver = "jdbc:postgresql://" + host + ":" + port + "/" + database;
+        Connection conexao = null;
         
         // tenta abrir conexão
         try {
