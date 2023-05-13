@@ -9,7 +9,8 @@ AS SELECT
     apontamento.hora_inicio,
     apontamento.hora_fim,
     apontamento.usr_id,
-    usuario.nome as usuario_nome,
+    usuario.matricula as matricula,
+    usuario.nome as requester,
     apontamento.projeto,
     apontamento.cliente,
     apontamento.tipo,
@@ -19,11 +20,11 @@ AS SELECT
     apontamento.aprovacao,
     apontamento.feedback
 
+    FROM apontamento
+    
     -- fazendo join com as tabelas usuário, projeto e cliente.
-    JOIN usuario ON apontamento.usr_id = usuario.id;
-    JOIN usuario ON apontamento.cr = centro_resultado.id;
-
-    FROM apontamento;
+    JOIN usuario ON apontamento.usr_id = usuario.id
+    JOIN centro_resultado ON apontamento.cr_id = centro_resultado.id;
 
 -- usuário
 CREATE OR REPLACE VIEW public.vw_usuario 
