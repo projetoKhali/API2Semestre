@@ -36,6 +36,7 @@ public class ReportController {
     @FXML private TableColumn<ReportIntervalWrapper, String> col_verba;
     @FXML private TableColumn<ReportIntervalWrapper, String> col_inicio;
     @FXML private TableColumn<ReportIntervalWrapper, String> col_fim;
+    @FXML private TableColumn<ReportIntervalWrapper, String> col_total;
     @FXML private TableColumn<ReportIntervalWrapper, String> col_cr;
     @FXML private TableColumn<ReportIntervalWrapper, String> col_cliente;
     @FXML private TableColumn<ReportIntervalWrapper, String> col_projeto;
@@ -46,6 +47,7 @@ public class ReportController {
     @FXML private CheckBox cb_verba;
     @FXML private CheckBox cb_inicio;
     @FXML private CheckBox cb_fim;
+    @FXML private CheckBox cb_total;
     @FXML private CheckBox cb_cr;
     @FXML private CheckBox cb_cliente;
     @FXML private CheckBox cb_projeto;
@@ -82,6 +84,7 @@ public class ReportController {
         cb_verba.setSelected(true);
         cb_inicio.setSelected(true);
         cb_fim.setSelected(true);
+        cb_total.setSelected(true);
         cb_cr.setSelected(true);
         cb_cliente.setSelected(true);
         cb_projeto.setSelected(true);
@@ -91,6 +94,7 @@ public class ReportController {
         cb_verba.setOnAction(event -> handleCheckBoxAction(cb_verba, col_verba));
         cb_inicio.setOnAction(event -> handleCheckBoxAction(cb_inicio, col_inicio));
         cb_fim.setOnAction(event -> handleCheckBoxAction(cb_fim, col_fim));
+        cb_total.setOnAction(event -> handleCheckBoxAction(cb_total, col_total));
         cb_cr.setOnAction(event -> handleCheckBoxAction(cb_cr, col_cr));
         cb_cliente.setOnAction(event -> handleCheckBoxAction(cb_cliente, col_cliente));
         cb_projeto.setOnAction(event -> handleCheckBoxAction(cb_projeto, col_projeto));
@@ -125,15 +129,20 @@ public class ReportController {
             },
             Optional.of(applyFilterCallback)
         );
+
+        col_inicio.setCellValueFactory(new PropertyValueFactory<>("horaInício"));
+        col_fim.setCellValueFactory(new PropertyValueFactory<>("horaFim"));
+        col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
+        col_justificativa.setCellValueFactory(new PropertyValueFactory<>("justificativa"));
     }
 
     private void updateTable () {
         loadedIntervals = List.of(
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"10:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345)
+            new ReportInterval(1, 12345, DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12), "12:12"), DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11), "11:11")),
+            new ReportInterval(1, 12345, DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12), "10:12"), DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11), "11:11")),
+            new ReportInterval(1, 12345, DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12), "12:12"), DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11), "11:11")),
+            new ReportInterval(1, 12345, DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12), "12:12"), DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11), "11:11")),
+            new ReportInterval(1, 12345, DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12), "12:12"), DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11), "11:11"))
         );
         applyFilter();
     }
