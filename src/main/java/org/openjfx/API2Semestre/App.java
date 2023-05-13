@@ -7,12 +7,9 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
-import org.openjfx.api2semestre.report.IntervalFee;
-import org.openjfx.api2semestre.report.Week;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
@@ -149,36 +146,36 @@ public class App extends Application {
 
     public static void main(String[] args) {
 
-        // verbas teste
-        IntervalFee[] verbas = new IntervalFee[] {
+        // // verbas teste
+        // IntervalFee[] verbas = new IntervalFee[] {
 
-            // sem restrição de período / verba base
-            new IntervalFee(1000, 1.00f, Week.ALL.get(), 0, 0, 0, false),
+        //     // sem restrição de período / verba base
+        //     new IntervalFee(1000, 1.00f, Week.ALL.get(), 0, 0, 0, false),
 
-            // final de semana (sabado e domingo)
-            new IntervalFee(1001, 1.25f, Week.FDS.get(), 0, 0, 0, false),
+        //     // final de semana (sabado e domingo)
+        //     new IntervalFee(1001, 1.25f, Week.FDS.get(), 0, 0, 0, false),
 
-            // qualquer dia, noturno | cumulativo
-            new IntervalFee(1002, 1.47f, Week.ALL.get(), 22, 6, 0, true),
+        //     // qualquer dia, noturno | cumulativo
+        //     new IntervalFee(1002, 1.47f, Week.ALL.get(), 22, 6, 0, true),
 
-            // qualquer dia, após 2 horas de hora-extra | cumulativo
-            new IntervalFee(1002, 2.00f, Week.ALL.get(), 0, 0, 2, true)
-        };
+        //     // qualquer dia, após 2 horas de hora-extra | cumulativo
+        //     new IntervalFee(1002, 2.00f, Week.ALL.get(), 0, 0, 2, true)
+        // };
 
-        Timestamp[][] testTimestamps = new Timestamp[][] {
-            new Timestamp[] {
-                new Timestamp(2023, 4, 30, 11, 0, 0, 0),
-                new Timestamp(2023, 4, 30, 12, 0, 0, 0)
-            },
-            new Timestamp[] {
-                new Timestamp(2023, 5, 1, 11, 0, 0, 0),
-                new Timestamp(2023, 5, 1, 12, 0, 0, 0)
-            },
-            new Timestamp[] {
-                new Timestamp(2023, 5, 1, 23, 30, 0, 0),
-                new Timestamp(2023, 5, 2, 0, 30, 0, 0)
-            }
-        };
+        // Timestamp[][] testTimestamps = new Timestamp[][] {
+        //     new Timestamp[] {
+        //         new Timestamp(2023, 4, 30, 11, 0, 0, 0),
+        //         new Timestamp(2023, 4, 30, 12, 0, 0, 0)
+        //     },
+        //     new Timestamp[] {
+        //         new Timestamp(2023, 5, 1, 11, 0, 0, 0),
+        //         new Timestamp(2023, 5, 1, 12, 0, 0, 0)
+        //     },
+        //     new Timestamp[] {
+        //         new Timestamp(2023, 5, 1, 23, 30, 0, 0),
+        //         new Timestamp(2023, 5, 2, 0, 30, 0, 0)
+        //     }
+        // };
 
         // exemplo
         // double sum = 0;

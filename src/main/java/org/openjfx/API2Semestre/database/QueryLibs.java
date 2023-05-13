@@ -20,7 +20,6 @@ import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.VwAppointment;
-import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.authentication.VwUser;
 import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.query.Query;
