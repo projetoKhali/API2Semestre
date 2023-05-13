@@ -1,7 +1,5 @@
 package org.openjfx.api2semestre.database.query;
 
-import org.openjfx.api2semestre.authentication.User;
-
 public enum QueryTable {
     Appointment("public.apontamento"),
     ViewAppointment("vw_apontamento"),
