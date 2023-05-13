@@ -282,7 +282,7 @@ public class QueryLibs {
             }
         ));
     }
-    public static void insertRC (ResultsCenter rc) {
+    public static void insertRC(ResultsCenter rc) {
         executeQuery(new Query(
             QueryType.INSERT,
             QueryTable.ResultsCenter,
@@ -290,6 +290,16 @@ public class QueryLibs {
                 new QueryParam<String>(TableProperty.Nome, rc.getNome()),
                 new QueryParam<String>(TableProperty.Sigla, rc.getSigla()),
                 new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
+            }
+        ));
+    }
+    public static void insertClient(Client cliente) {
+        executeQuery(new Query(
+            QueryType.INSERT,
+            QueryTable.Client,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.RazaoSocial, cliente.getRazaoSocial()),
+                new QueryParam<String>(TableProperty.CNPJ, cliente.getCNPJ()),
             }
         ));
     }
