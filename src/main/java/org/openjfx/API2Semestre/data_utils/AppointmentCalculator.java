@@ -38,8 +38,8 @@ public class AppointmentCalculator {
             1, 
             "Julio", 
             AppointmentType.Overtime, 
-            DateConverter.stringToTimestamp("2023-05-02 06:00:00"), 
-            DateConverter.stringToTimestamp("2023-05-02 18:00:00"), 
+            DateConverter.stringToTimestamp("2023-05-05 22:00:00"), 
+            DateConverter.stringToTimestamp("2023-05-06 15:00:00"), 
             "Squad Foda", 
             "Cleitin", 
             "ProjetoA", 
@@ -67,7 +67,7 @@ public class AppointmentCalculator {
             Appointment apt2 = apt.copy();
             System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
             apt2.setStartDate(DateConverter.toTimestamp((apt.getStartDate().toLocalDateTime()).plusHours(2)));
-            apt2.setStartDate(DateConverter.toTimestamp((apt2.getStartDate().toLocalDateTime()).plusMinutes(1)));
+            // apt2.setStartDate(DateConverter.toTimestamp((apt2.getStartDate().toLocalDateTime()).plusMinutes(1)));
             
             // retorno de lista com reportIntervals
             if(apt.getType() == AppointmentType.OnNotice){
@@ -75,10 +75,7 @@ public class AppointmentCalculator {
                 System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
                 reportsTemporary = calculateOnNotice(apt);
                 if(reportsTemporary != null){
-                    for(ReportInterval repInt: reportsTemporary){
-                    reportsFinal.add(repInt);
-                    }
-                
+                    for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
                 }
             }
             else{
@@ -254,7 +251,7 @@ public class AppointmentCalculator {
             
         // checar se há intersecção com período noturno  
         LocalTime meiaNoite = LocalTime.of(0, 0, 0);
-        LocalTime onzeE59 = LocalTime.of(23, 59, 59);
+        // LocalTime onzeE59 = LocalTime.of(23, 59, 59);
         LocalDateTime verbastart = null;
         LocalDateTime verbaEnd = null;
         LocalDateTime laterStart = null;
@@ -277,7 +274,7 @@ public class AppointmentCalculator {
                         }
                         // se no dia seguinte a verba não está ativa
                         else{
-                            verbaEnd = actualDay.atTime(onzeE59);
+                            verbaEnd = actualDay.plusDays(1).atTime(0, 0);
                         }
                     }
                     // situação em que a hora começa e termina no mesmo dia
