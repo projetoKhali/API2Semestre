@@ -13,7 +13,9 @@ import java.util.List;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.data_utils.DateConverter;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.IntervalFee;
 import org.openjfx.api2semestre.report.ReportExporter;
 import org.openjfx.api2semestre.report.ReportInterval;
@@ -42,18 +44,30 @@ public class App extends Application {
         // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
         // QueryLibs.executeSqlFile("./SQL/views.sql");
         
-        String local = ReportExporter.showSaveDialog(stage);
-        List<ReportInterval> teste = List.of(
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"10:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-            new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345)
-        );
+        // String local = ReportExporter.showSaveDialog(stage);
+        // List<ReportInterval> teste = List.of(
+        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"10:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
+        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345)
+        // );
 
-        ReportExporter.exporterCSV(teste,local);
+        // ReportExporter.exporterCSV(teste,local);
         // setStage(stage);
+        Profile colaborador = Profile.Colaborador;
+        
+        User jhow = new User(
+            "jhow",
+            colaborador,
+            "jhooliveira.lopes1@gmail.com",
+            "teste123",
+            "123456");
+        
+        // QueryLibs.insertUser(jhow);
 
+        Authentication.verifyPassword("teste123", jhow);
+        
         // loginView();
     }
 

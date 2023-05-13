@@ -3,7 +3,8 @@ package org.openjfx.api2semestre.database.query;
 public enum QueryTable {
     Appointment("public.apontamento"),
     User("public.usuario"),
-    ViewAppointment("vw_apontamento");
+    ViewAppointment("vw_apontamento"),
+    ViewUser("public.vw_usuario");
     // TODO: User,
     // TODO: Client,
     // TODO: Squad,

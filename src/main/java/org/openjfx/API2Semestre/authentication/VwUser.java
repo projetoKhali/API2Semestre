@@ -44,7 +44,7 @@ public class VwUser extends Data {
     public String getNome() { return nome; }
     public Profile getPerfil() { return perfil; }
     public String getEmail() { return email; }
-    public String getVwSenha() { return senha; }
+    public String getSenha() { return senha; }
     public String getMatricula() { return matricula; }
 
     public List<String> getIsMemberOfCRs() { return cr_isMemberOf; }

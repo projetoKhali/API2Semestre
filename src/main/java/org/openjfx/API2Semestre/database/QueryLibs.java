@@ -14,6 +14,8 @@ import java.util.Optional;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.VwAppointment;
 import org.openjfx.api2semestre.authentication.User;
+import org.openjfx.api2semestre.authentication.VwUser;
+import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
 import org.openjfx.api2semestre.database.query.QueryTable;
@@ -199,6 +201,35 @@ public class QueryLibs {
         );
     }
 
+    public static Optional<VwUser> selectUserByEmail(String email) {
+        return executeSelect(VwUser.class,
+        new QueryParam<?>[] {
+            new QueryParam<String>(TableProperty.Email, email),
+            }
+        );
+    }
+
+    // Insere uma senha criptografada no banco
+    public static void insertUser(User user) {
+        // incripta senha
+        String passwordHash = PasswordIncription.encryptPassword(user.getSenha());
+        try {
+            executeQuery(new Query(
+            QueryType.INSERT,
+            QueryTable.User,
+        new QueryParam<?> [] {
+            new QueryParam<>(TableProperty.Name, user.getNome()),
+            new QueryParam<>(TableProperty.Email, user.getEmail()),
+            new QueryParam<>(TableProperty.Password, passwordHash),
+            new QueryParam<Integer>(TableProperty.Profile, user.getPerfil().getProfileLevel()),
+            new QueryParam<>(TableProperty.Registration, user.getMatricula())
+        }));
+        } catch (Exception e) {
+            System.out.println("ERROR: duplicate key value violates unique constraint\nEmail já existente!");
+        }
+        
+    }
+
     public static void updateTable (Appointment apt) {
         executeQuery(new Query(
             QueryType.UPDATE,
@@ -234,19 +265,6 @@ public class QueryLibs {
         ));
     }
 
-    // Insere uma senha criptografada no banco
-    public static void insertUser(User user) {
-        // String passwordHash = user.getSenha();
-        executeQuery(new Query(QueryType.INSERT,
-        QueryTable.User,
-        new QueryParam<?> [] {
-            new QueryParam<>(TableProperty.Name, user.getNome()),
-            new QueryParam<>(TableProperty.Email, user.getEmail()),
-            new QueryParam<>(TableProperty.Password, user.getSenha()),
-            new QueryParam<>(TableProperty.Profile, user.getPerfil()),
-            new QueryParam<>(TableProperty.Registration, user.getMatricula())
-        }));
-    }
 
     public static void testConnection(Connection conexao) {
         // Connection conexao = getConnection(); // Add param to testConnection so that it doesn't call getConnection() creating infinite loop
