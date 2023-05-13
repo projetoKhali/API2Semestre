@@ -28,7 +28,7 @@ public class QueryLibs {
     /// Caso não exista conexão, uma nova conexão é criada.
     private static Connection getConnection() {
         try {
-            return new SQLConnection().connect();
+            return SQLConnection.connect();
         } catch (Exception ex) {
             System.out.println("QueryLibs.getConnection() -- Erro: Falha ao iniciar conexão!");
             ex.printStackTrace();
