@@ -109,6 +109,12 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
+
+        QueryLibs.executeSqlFile("SQL/tabelas.sql");
+        QueryLibs.executeSqlFile("SQL/views.sql");
+
+        System.exit(1);
+
         System.setProperty("javafx.fxml.debug", "true");
         launch();
     }
