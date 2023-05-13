@@ -12,10 +12,13 @@ import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.data_utils.AppointmentCalculator;
 import org.openjfx.api2semestre.report.IntervalFee;
+import org.openjfx.api2semestre.report.ReportInterval;
 import org.openjfx.api2semestre.report.Week;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
@@ -116,6 +119,19 @@ public class App extends Application {
 
     public static void main(String[] args) {
 
+        List<ReportInterval> teste = AppointmentCalculator.calculateReports();
+        for(ReportInterval rpi : teste){
+            System.out.println(rpi.getAppointmmentId());
+            System.out.println(rpi.getVerba());
+            System.out.println(rpi.getStart());
+            System.out.println(rpi.getEnd());
+            
+
+        }
+        
+
+        System.exit(1);
+
         // verbas teste
         IntervalFee[] verbas = new IntervalFee[] {
 
@@ -130,13 +146,6 @@ public class App extends Application {
 
             // // qualquer dia, após 2 horas de hora-extra | cumulativo
             // new IntervalFee(1002, 2.00f, Week.ALL.get(), 0, 0, 2, true)
-            new IntervalFee(1602, 1.00, Week.FDS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 0, false),
-            new IntervalFee(1602, 1.00, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 2, false),
-            new IntervalFee(1601, 0.75, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 0, false),
-            new IntervalFee(3001, 1.00, Week.FDS.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0), 0, false),
-            new IntervalFee(3001, 1.00, Week.UTEIS.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0), 2, false),
-            new IntervalFee(3000, 0.75, Week.UTEIS.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0),  0, false),
-            new IntervalFee(1809, 0.3, Week.ALL.get(), LocalTime.of(18, 1, 0), LocalTime.of(05, 59, 0),  0, true),
         };
 
         Timestamp[][] testTimestamps = new Timestamp[][] {
@@ -155,20 +164,20 @@ public class App extends Application {
         };
 
         // exemplo
-        double sum = 0;
-        for (int i = 0; i < testTimestamps.length; i++) {
-            Timestamp[] start_end = testTimestamps[i];
-            for (IntervalFee verba : verbas) {
-                System.out.println("["+i+"] verba " + verba.getCode() + " | verificando :)");
+        // double sum = 0;
+        // for (int i = 0; i < testTimestamps.length; i++) {
+        //     Timestamp[] start_end = testTimestamps[i];
+        //     for (IntervalFee verba : verbas) {
+        //         System.out.println("["+i+"] verba " + verba.getCode() + " | verificando :)");
 
-                if (verba.check(start_end[0], start_end[1], sum) ) {
-                    System.out.println("["+i+"] verba " + verba.getCode() + " aplica-se a " + start_end[0].toString() + " e " + start_end[1].toString());
-                }
-                else System.out.println("["+i+"] verba " + verba.getCode() + " NÃO se aplica a " + start_end[0].toString() + " e " + start_end[1].toString());
-                // sum += total;
-            }
-        }
-        System.exit(1);
+        //         if (verba.check(start_end[0], start_end[1], sum) ) {
+        //             System.out.println("["+i+"] verba " + verba.getCode() + " aplica-se a " + start_end[0].toString() + " e " + start_end[1].toString());
+        //         }
+        //         else System.out.println("["+i+"] verba " + verba.getCode() + " NÃO se aplica a " + start_end[0].toString() + " e " + start_end[1].toString());
+        //         // sum += total;
+        //     }
+        // }
+        // System.exit(1);
 
         // System.setProperty("javafx.fxml.debug", "true");
         // launch();

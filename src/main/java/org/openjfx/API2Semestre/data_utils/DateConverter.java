@@ -6,6 +6,7 @@ package org.openjfx.api2semestre.data_utils;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -31,5 +32,17 @@ public class DateConverter {
         Timestamp timeStamp = Timestamp.valueOf(localDateTime);
         return timeStamp;
         
+    }
+
+    public static Timestamp stringToTimestamp(String dataEhora) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Timestamp timestamp = null;
+        try {
+            timestamp = new Timestamp(dateFormat.parse(dataEhora).getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return timestamp;
+
     }
 }
