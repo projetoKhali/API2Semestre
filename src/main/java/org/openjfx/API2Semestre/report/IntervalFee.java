@@ -2,13 +2,17 @@ package org.openjfx.api2semestre.report;
 
 import java.sql.Timestamp;
 
+import org.openjfx.api2semestre.appointments.AppointmentType;
+
 public class IntervalFee {
 
     // Values
     private int code;
+    private double hourDuration;
     private double percent;
 
     // Condition
+    private AppointmentType type;
     private boolean[] daysOfWeek;
     private int startHour;
     private int endHour;
@@ -17,7 +21,9 @@ public class IntervalFee {
 
     public IntervalFee(
         int code,
-        float percent,
+        double hourDuration,
+        double percent,
+        AppointmentType type,
         boolean[] daysOfWeek,
         int startHour,
         int endHour,
@@ -25,7 +31,9 @@ public class IntervalFee {
         boolean cumulative
     ) {
         this.code = code;
+        this.hourDuration = hourDuration;
         this.percent = percent;
+        this.type = type;
         this.daysOfWeek = daysOfWeek;
         this.startHour = ((startHour % 24) + 24) % 24;
         this.endHour = ((endHour % 24) + 24) % 24;
@@ -71,7 +79,9 @@ public class IntervalFee {
     // Getters
     public int getCode() { return code; }
     public double getPercent() { return percent; }
+    public double getHourDuration() { return hourDuration; }
 
+    public AppointmentType getType() { return type; }
     public boolean[] getDaysOfWeek() { return daysOfWeek; }
     public int getStartHour() { return startHour; }
     public int getEndHour() { return endHour; }
@@ -81,7 +91,9 @@ public class IntervalFee {
     // Setters
     public void setCode(int code) { this.code = code; }
     public void setPercent(double percent) { this.percent = percent; }    
-    
+    public void setHourDuration(double hourDuration) { this.hourDuration = hourDuration; }
+
+    public void setType(AppointmentType type) { this.type = type; }
     public void setDaysOfWeek(boolean[] daysOfWeek) { this.daysOfWeek = daysOfWeek; }
     public void setStartHour(int startHour) { this.startHour = startHour; }
     public void setEndHour(int endHour) { this.endHour = endHour; }

@@ -14,7 +14,7 @@ public class IntervalFeeWrapper {
     public IntervalFee getIntervalFee() { return intervalFee; }
 
     public int getVerba() { return intervalFee.getCode(); }
-    public String getTipo() { return intervalFee.getType(); }
+    public String getTipo() { return intervalFee.getType().getStringValue(); }
     public String getExpediente() {
         return Expedient.get(intervalFee.getStartHour(), intervalFee.getEndHour());
     }
@@ -25,7 +25,7 @@ public class IntervalFeeWrapper {
         return "N/A";
     } 
     public int getHoraMinimo() { return intervalFee.getMinHourCount(); }
-    public double getHoraDuracao() { return intervalFee.get; }
+    public double getHoraDuracao() { return intervalFee.getHourDuration(); }
     public double getPorcentagem() { return intervalFee.getPercent(); }
 
 }
