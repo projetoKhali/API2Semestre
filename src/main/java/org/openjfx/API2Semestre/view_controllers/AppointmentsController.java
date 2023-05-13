@@ -19,8 +19,8 @@ import org.openjfx.api2semestre.view_macros.ColumnConfig;
 import org.openjfx.api2semestre.view_macros.ColumnConfigStatus;
 import org.openjfx.api2semestre.view_macros.ColumnConfigString;
 import org.openjfx.api2semestre.view_macros.TableMacros;
-import org.openjfx.api2semestre.view_utils.AppointmentFilter;
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
+import org.openjfx.api2semestre.view_utils.filters.AppointmentFilter;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -220,7 +220,7 @@ public class AppointmentsController implements Initializable {
         //     cx_justificativa.getText()
         // );
         // System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
-        QueryLibs.insertTable(new Appointment(
+        QueryLibs.insertAppointment(new Appointment(
             Authentication.getCurrentUser().getNome(),
             type,
             DateConverter.inputToTimestamp(cx_dataInicio.getValue(),cx_horaInicio.getText()),

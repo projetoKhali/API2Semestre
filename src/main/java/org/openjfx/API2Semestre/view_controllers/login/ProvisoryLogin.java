@@ -9,6 +9,7 @@ import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Permission;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 
@@ -46,8 +47,8 @@ public class ProvisoryLogin {
     private static Permission[] getPermissions (User u) {
         List<Permission> permissions = new ArrayList<>();
         if (u.getPerfil() == Profile.Administrator) permissions.add(Permission.FullAccess);
-        if (u.getManagesCRs().size() > 0) permissions.add(Permission.Validate);
-        if (u.getIsMemberOfCRs().size() > 0) permissions.add(Permission.Appoint);
+        if (QueryLibs.selectResultCentersManagedBy(u.getId()).length > 0) permissions.add(Permission.Validate);
+        if (QueryLibs.selectResultCentersOfMember(u.getId()).length > 0) permissions.add(Permission.Appoint);
         return permissions.toArray(new Permission[0]);
     }
 }

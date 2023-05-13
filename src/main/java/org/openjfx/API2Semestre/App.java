@@ -8,17 +8,10 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.util.List;
-
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
-import org.openjfx.api2semestre.data_utils.DateConverter;
-import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.IntervalFee;
-import org.openjfx.api2semestre.report.ReportExporter;
-import org.openjfx.api2semestre.report.ReportInterval;
 import org.openjfx.api2semestre.report.Week;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
@@ -26,47 +19,62 @@ import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 
 public class App extends Application {
-
+    
     // mude o perfil de acesso para logar com diferentes permissões
     private static final Profile access = Profile.Colaborador;
-
+    
     private static Scene scene;
     private static Stage stage;
     private static void setStage (Stage newStage) { stage = newStage; }
-
+    
     private static String currentViewFxmlFile;
-
+    
     private static BaseController baseController;
-
+    
     @Override
     public void start(Stage stage) throws IOException {
 
-        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        // QueryLibs.executeSqlFile("./SQL/views.sql");
-        
-        // String local = ReportExporter.showSaveDialog(stage);
-        // List<ReportInterval> teste = List.of(
-        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"10:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345)
+        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/views.sql");
+
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Fulano colaborador 0", Profile.Colaborador, "e@xem.plo", "0", "0"
+        //     )
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Fulano gestor 0", Profile.Gestor, "e@xem.plo", "0", "0"
+        //     )
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Cicrano col 0", Profile.Colaborador, "e@xem.plo", "0", "0"
+        //     )
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Cicrano ges 0", Profile.Gestor, "e@xem.plo", "0", "0"
+        //     )
         // );
 
-        // ReportExporter.exporterCSV(teste,local);
-        // setStage(stage);
-        Profile colaborador = Profile.Colaborador;
-        
-        User jhow = new User(
+        setStage(stage);
+ 
+        // try {
+        //     stage.setScene(new Scene(loadFXML("views/resultCenterRegister")));
+        //     stage.show();
+        // } catch (IOException e) {
+        //     // Auto-generated catch block
+        //     e.printStackTrace();
+        // }
+
+        Authentication.verifyPassword("teste123", new User(
             "jhow",
-            colaborador,
+            Profile.Colaborador,
             "jhooliveira.lopes1@gmail.com",
             "teste123",
-            "123456");
-        
-        // QueryLibs.insertUser(jhow);
-
-        Authentication.verifyPassword("teste123", jhow);
+            "123456"
+        ));
         
         // loginView();
     }

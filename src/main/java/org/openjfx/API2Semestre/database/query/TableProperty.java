@@ -6,32 +6,37 @@ public enum TableProperty {
     Id("id"),
 
     // Appointments table
-    Requester("requester"),
+    Requester("usr_id"),
     Type("tipo"),
     StartDate("hora_inicio"),
     EndDate("hora_fim"),
-    Squad("cr_id"),
+    ResultCenter("cr_id"),
     Client("cliente"),
     Project("projeto"),
     Justification("justificativa"),
     Status("aprovacao"),
     Feedback("feedback"),
-    
-    // User table
+
+    // Users table
     Name("nome"),
     Email("email"),
     Password("senha"),
     Profile("perfil"),
-    Registration("matricula");
+    Registration("matricula"),
 
-    // TODO: Users table
+    // ResultCenter table
+    Sigla("sigla"),
+    Codigo("codigo"),
+    User("usr_id"),
+    NomeGestor("gestor_nome");
+
     // TODO: Clients table
+
+
+
     // TODO: IntervalFees table
 
 
-    public static final TableProperty[] APPOINTMENT_PROPERTIES = new TableProperty[] {
-        Id, Requester, Type, StartDate, EndDate, Squad, Client, Project, Justification, Status, Feedback
-    };
 
 
     // TableProperty variable and constructor
