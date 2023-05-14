@@ -10,6 +10,7 @@ import org.openjfx.api2semestre.appointments.AppointmentType;
 import org.openjfx.api2semestre.appointments.VwAppointment;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
+import org.openjfx.api2semestre.authentication.VwUser;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
 
@@ -52,7 +53,17 @@ public class Data {
             return new User(
                 resultSet.getInt("id"),
                 resultSet.getString("nome"),
-                Profile.of(resultSet.getInt("tipo")),
+                Profile.of(resultSet.getInt("Perfil")),
+                resultSet.getString("email"),
+                resultSet.getString("senha"),
+                resultSet.getString("matricula")
+            );
+        }
+        if (type == VwUser.class) {
+            return new VwUser(
+                resultSet.getInt("id"),
+                resultSet.getString("nome"),
+                Profile.of(resultSet.getInt("Perfil")),
                 resultSet.getString("email"),
                 resultSet.getString("senha"),
                 resultSet.getString("matricula")
