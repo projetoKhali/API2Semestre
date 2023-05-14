@@ -1,5 +1,9 @@
 package org.openjfx.api2semestre.authentication;
 
+import java.util.Optional;
+import org.openjfx.api2semestre.data_utils.PasswordIncription;
+import org.openjfx.api2semestre.database.QueryLibs;
+
 public class Authentication {
     private static User currentUser;
 
@@ -14,6 +18,22 @@ public class Authentication {
         }
         currentUser = user;
         return true;
+    }
+
+    public static boolean verifyPassword(String password, User user) {
+        // encontra o usuário pelo email
+        Optional<VwUser> loginUser = QueryLibs.selectUserByEmail(user.getEmail());
+        VwUser dataBaseUser = loginUser.get();
+        // incripita a senha
+        String insertPassword = PasswordIncription.encryptPassword(password);
+
+        // verifica se a senha incriptada é a mesma da do banco
+        if (dataBaseUser.getSenha() == insertPassword) {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public static void logout () {

@@ -9,7 +9,8 @@ AS SELECT
     apontamento.hora_inicio,
     apontamento.hora_fim,
     apontamento.usr_id,
-    usuario.nome as usuario_nome,
+    usuario.matricula as matricula,
+    usuario.nome as requester,
     apontamento.projeto,
     apontamento.cliente,
     apontamento.tipo,
@@ -33,7 +34,7 @@ AS SELECT
     usuario.nome,
     usuario.email,
     usuario.senha,
-    usuario.tipo,
+    usuario.perfil,
     usuario.matricula
     FROM usuario;
 

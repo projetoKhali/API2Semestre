@@ -18,10 +18,11 @@ public enum TableProperty {
     Feedback("feedback"),
 
     // Users table
-    Nome("nome"),
+    Name("nome"),
     Email("email"),
-    Senha("senha"),
-    Matricula("matricula"),
+    Password("senha"),
+    Profile("perfil"),
+    Registration("matricula"),
 
     // ResultCenter table
     Sigla("sigla"),

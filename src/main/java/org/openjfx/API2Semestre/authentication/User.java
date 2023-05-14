@@ -79,5 +79,4 @@ public class User extends Data {
     // public void setEmail(String email) { this.email = email; }
     // public void setSenha(String senha) { this.senha = senha; }
     // public void setMatricula(String matricula) { this.matricula = matricula; }
-
 }

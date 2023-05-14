@@ -6,7 +6,7 @@ public enum QueryTable {
     ViewAppointment("vw_apontamento"),
 
     User("public.usuario"),
-    // ViewUser(""),
+    ViewUser("public.vw_usuario"),
 
     ResultCenter("public.centro_resultado"),
     ViewResultCenter("vw_centro_resultado"),
@@ -15,7 +15,8 @@ public enum QueryTable {
 
     // TODO: IntervalFee,
 
-    Member("public.membro_cr");
+    Member("public.membro_cr"),
+    ;
 
     private String stringValue;
     private QueryTable (String stringValue) { this.stringValue = stringValue; }

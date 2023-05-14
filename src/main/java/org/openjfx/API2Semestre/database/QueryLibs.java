@@ -20,6 +20,9 @@ import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.appointments.Appointment;
+import org.openjfx.api2semestre.appointments.VwAppointment;
+import org.openjfx.api2semestre.authentication.VwUser;
+import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
 import org.openjfx.api2semestre.database.query.QueryTable;
@@ -87,24 +90,25 @@ public class QueryLibs {
         );
     }
 
-    public static int insertUser (User users) {
-        return executeInsert(
-            QueryTable.User,
-            new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Name, users.getNome()),
-                new QueryParam<Integer>(TableProperty.Type, users.getPerfil().getProfileLevel()),
-                new QueryParam<String>(TableProperty.Email, users.getEmail()),
-                new QueryParam<String>(TableProperty.Senha, users.getSenha()),
-                new QueryParam<String>(TableProperty.Matricula, users.getMatricula())
-            }
-        );
-    }
+    // // Deprecated
+    // public static int insertUser (User users) {
+    //     return executeInsert(
+    //         QueryTable.User,
+    //         new QueryParam<?>[] {
+    //             new QueryParam<String>(TableProperty.Name, users.getNome()),
+    //             new QueryParam<Integer>(TableProperty.Profile, users.getPerfil().getProfileLevel()),
+    //             new QueryParam<String>(TableProperty.Email, users.getEmail()),
+    //             new QueryParam<String>(TableProperty.Password, users.getSenha()),
+    //             new QueryParam<String>(TableProperty.Registration, users.getMatricula())
+    //         }
+    //     );
+    // }
 
     public static int insertResultCenter (ResultCenter rc) {
         return executeInsert(
             QueryTable.ResultCenter,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Nome, rc.getNome()),
+                new QueryParam<String>(TableProperty.Name, rc.getNome()),
                 new QueryParam<String>(TableProperty.Sigla, rc.getSigla()),
                 new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
                 new QueryParam<Integer>(TableProperty.User, rc.getGestorId())
@@ -174,11 +178,11 @@ public class QueryLibs {
                 params
             )).get();
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSelect() -- Erro ao executar query");
+            System.out.println("QueryLibs.executeSelectArray() -- Erro ao executar query");
             ex.printStackTrace();
         }
         if (result == null) {
-            System.out.println("QueryLibs.executeSelect() -- Erro: Nenhum ResultSet retornado para a query");
+            System.out.println("QueryLibs.executeSelectArray() -- Erro: Nenhum ResultSet retornado para a query");
             return (T[])new Data[0];
         }
         List<T> resultList = new ArrayList<>();
@@ -189,10 +193,41 @@ public class QueryLibs {
                 resultList.add((T)Data.<T>create(type, result));
             }
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSelect() -- Erro ao ler resultado da query");
+            System.out.println("QueryLibs.executeSelectArray() -- Erro ao ler resultado da query");
             ex.printStackTrace();
         }
         return resultList.toArray((T[])Array.newInstance(type, resultList.size()));
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <T extends Data> Optional<T> executeSelect (Class<T> type, QueryParam<?>[] params) {
+        ResultSet result = null;
+        try {
+            result = executeQuery(new Query(
+                QueryType.SELECT,
+                QueryTable.ViewAppointment,
+                params
+            )).get();
+        } catch (Exception ex) {
+            System.out.println("QueryLibs.executeSelectArray() -- Erro ao executar query");
+            ex.printStackTrace();
+        }
+        if (result == null) {
+            System.out.println("QueryLibs.executeSelectArray() -- Erro: Nenhum ResultSet retornado para a query");
+            return Optional.empty();
+        }
+        // itera sobre cada linha retornada pela consulta
+        // e extrai os valores das colunas necessárias
+        try {
+            result.next();
+            System.out.println(Optional.of((T)Data.create(type, result)));
+            return Optional.of((T)Data.create(type, result));
+        } catch (Exception ex) {
+            System.out.println("QueryLibs.executeSelectArray() -- Erro ao ler resultado da query");
+            ex.printStackTrace();
+        }
+        return Optional.empty();
+
     }
 
     public static Appointment[] collaboratorSelect (String requester) {
@@ -278,6 +313,46 @@ public class QueryLibs {
         );
     }
 
+// <-- botei suas funções aqui Jhonatan
+
+    public static Optional<VwAppointment> selectAppointmentById(int id) {
+        return executeSelect(VwAppointment.class,
+        new QueryParam<?>[] {
+            new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+
+    public static Optional<VwUser> selectUserByEmail(String email) {
+        return executeSelect(VwUser.class,
+        new QueryParam<?>[] {
+            new QueryParam<String>(TableProperty.Email, email),
+            }
+        );
+    }
+
+    // Insere uma senha criptografada no banco
+    public static void insertUser(User user) {
+        // incripta senha
+        String passwordHash = PasswordIncription.encryptPassword(user.getSenha());
+        try {
+            executeInsert(
+                QueryTable.User,
+                new QueryParam<?> [] {
+                new QueryParam<>(TableProperty.Name, user.getNome()),
+                new QueryParam<>(TableProperty.Email, user.getEmail()),
+                new QueryParam<>(TableProperty.Password, passwordHash),
+                new QueryParam<Integer>(TableProperty.Profile, user.getPerfil().getProfileLevel()),
+                new QueryParam<>(TableProperty.Registration, user.getMatricula())
+            });
+        } catch (Exception e) {
+            System.out.println("ERROR: duplicate key value violates unique constraint\nEmail já existente!");
+        }
+        
+    }
+
+// <-- até aqui Jhonatan
+
     // Atualiza um apontammento na tabela. TODO: generic
     public static void updateTable (Appointment apt) {
         executeQuery(new Query(
@@ -313,6 +388,7 @@ public class QueryLibs {
             }
         ));
     }
+
 
     public static void testConnection(Connection conexao) {
         // Connection conexao = getConnection(); // Add param to testConnection so that it doesn't call getConnection() creating infinite loop
@@ -376,7 +452,7 @@ public class QueryLibs {
         executeInsert(
             QueryTable.ResultCenter,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Nome, rc.getNome()),
+                new QueryParam<String>(TableProperty.Name, rc.getNome()),
                 new QueryParam<String>(TableProperty.Sigla, rc.getSigla()),
                 new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
             }
