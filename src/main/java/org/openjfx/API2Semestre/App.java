@@ -124,18 +124,13 @@ public class App extends Application {
         for(ReportInterval rpi : teste){
             System.out.println(
                 "apt id: " + rpi.getAppointmmentId()
-                + " | tipo: " + QueryLibs.selectAppointmentById(rpi.getAppointmmentId()).getType()
                 + " | verba: " + rpi.getVerba()
                 + " | start: " + rpi.getStart()
                 + " | end: " + rpi.getEnd()
                 + " | total: "+ ((rpi.getEnd()).getTime()-(rpi.getStart()).getTime())/60000
             );
-           
-            
-            
-
         }
-        
+
 
         System.exit(1);
 

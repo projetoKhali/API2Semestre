@@ -7,7 +7,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.openjfx.api2semestre.appointments.Appointment;
@@ -69,7 +68,7 @@ public class AppointmentCalculator {
             )
         );
 
-        LinkedList<ReportInterval> intervalsOnNotice = new LinkedList<>();
+        ArrayList<ReportInterval> intervalsOnNotice = new ArrayList<>();
 
         for(Appointment apt: appointments){
             System.out.println("start time do apontamento: " + apt.getStartDate() + " | end time do apontamento: " + apt.getEndDate());
@@ -120,7 +119,7 @@ public class AppointmentCalculator {
         return reportsFinal;
     }    
     
-    public static List<ReportInterval> calculateOnNotice (LinkedList<ReportInterval> intervalsFinal) {
+    public static List<ReportInterval> calculateOnNotice (ArrayList<ReportInterval> intervalsFinal) {
 
         for (int i = 0; i < intervalsFinal.size(); i++) {
 
@@ -136,7 +135,7 @@ public class AppointmentCalculator {
             LocalDateTime onNoticeEndDateTime = onNoticeEnd.toLocalDateTime();
 
             for(Appointment apt : appointments) {
-                if (apt.getType() != AppointmentType.OnNotice) continue;
+                if (apt.getType() != AppointmentType.Overtime) continue;
 
                 java.sql.Timestamp aptStart = apt.getStartDate();
                 java.sql.Timestamp aptEnd = apt.getEndDate();
@@ -158,7 +157,7 @@ public class AppointmentCalculator {
 
                 // Situação C: apt faz instersecção com o meio do sobreaviso
                 // apt.start > sobreaviso.start && apt.end < sobreaviso.end 
-                else if (aptStartDateTime.isAfter(onNoticeStartDateTime) && aptStartDateTime.isBefore(onNoticeEndDateTime)) {
+                else if (aptStartDateTime.isAfter(onNoticeStartDateTime) && aptEndDateTime.isBefore(onNoticeEndDateTime)) {
 
                     // Nesse caso, separamos currentInterval em dois. 
                     // Tratamos a primeira metade de acordo com a situação A
@@ -166,7 +165,7 @@ public class AppointmentCalculator {
 
                     // Cria uma nova lista de sub intervals para calcular as possíveis situações B ou C
                     // da segunda metade de currentInterval. 
-                    LinkedList<ReportInterval> subIntervals = new LinkedList<>();
+                    ArrayList<ReportInterval> subIntervals = new ArrayList<>();
                     subIntervals.add(new ReportInterval(
                         apt.getId(),
                         aptEnd,

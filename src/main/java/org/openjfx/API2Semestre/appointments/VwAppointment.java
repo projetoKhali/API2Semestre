@@ -1,12 +1,12 @@
 package org.openjfx.api2semestre.appointments;
 import java.sql.Timestamp;
 
-import org.openjfx.api2semestre.database.Data;
+// import org.openjfx.api2semestre.database.Data;
 
 /// Representação de um apontamento de Hora-Extra ou Sobreaviso dentro do sistema java.
 /// Instanciado utilizando os dados de um apontamento na tabela .sql como atributos.
 /// Utilizado para facilitar a conversação entre os sistemas dentro do código. 
-public class VwAppointment extends Data {
+public class VwAppointment {
     private Integer id;             // Identificação unica do apontamento.
     // private int requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
     private String matricula;
