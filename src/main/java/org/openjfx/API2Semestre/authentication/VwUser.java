@@ -41,9 +41,6 @@ public class VwUser extends Data {
         this.matricula = matricula;
     }
 
-    public VwUser(String text, Profile administrator, List<String> parseSquads, List<String> parseSquads2) {
-    }
-
     public int getId() { return id; }
     public String getNome() { return nome; }
     public Profile getPerfil() { return perfil; }
