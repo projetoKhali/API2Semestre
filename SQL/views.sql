@@ -19,19 +19,35 @@ AS SELECT
     apontamento.aprovacao,
     apontamento.feedback
 
-    -- fazendo join com as tabelas usuário, projeto e cliente.
-    JOIN usuario ON apontamento.usr_id = usuario.id;
-    JOIN usuario ON apontamento.cr = centro_resultado.id;
+    FROM apontamento
 
-    FROM apontamento;
+    -- fazendo join com as tabelas usuário, projeto e cliente.
+    JOIN usuario ON apontamento.usr_id = usuario.id 
+    JOIN centro_resultado ON apontamento.cr_id = centro_resultado.id;
+
 
 -- usuário
 CREATE OR REPLACE VIEW public.vw_usuario 
 AS SELECT
-    usuario.requester,
+    usuario.id,
     usuario.nome,
     usuario.email,
     usuario.senha,
     usuario.tipo,
     usuario.matricula
     FROM usuario;
+
+
+CREATE OR REPLACE VIEW public.vw_centro_resultado 
+AS SELECT
+    centro_resultado.id,
+    centro_resultado.usr_id,
+    centro_resultado.nome,
+    centro_resultado.sigla,
+    centro_resultado.codigo,
+    usuario.nome as gestor_nome
+
+    FROM centro_resultado
+
+    -- fazendo join com a tabela usuário.
+    JOIN usuario ON centro_resultado.usr_id = usuario.id;
