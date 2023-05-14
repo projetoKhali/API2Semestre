@@ -7,6 +7,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.openjfx.api2semestre.appointments.Appointment;
@@ -18,9 +19,6 @@ import org.openjfx.api2semestre.report.Week;
 // os cálculos serão feitos em minutos, e depois divididos por 60 para se chegar a quantidade de horas (em decimal).
 
 public class AppointmentCalculator {
-
-    static List<ReportInAppointment> reports = new ArrayList<ReportInAppointment>();
-    static Double aptTotalTime;
 
     public static List<ReportInterval> calculateReports () {
         List<ReportInterval> reportsFinal = new ArrayList<ReportInterval>();
@@ -67,7 +65,7 @@ public class AppointmentCalculator {
             )
         );
 
-        ArrayList<ReportInterval> intervalsOnNotice = new ArrayList<>();
+        LinkedList<ReportInterval> intervalsOnNotice = new LinkedList<>();
 
         for(Appointment apt: appointments){
             System.out.println("start time do apontamento: " + apt.getStartDate() + " | end time do apontamento: " + apt.getEndDate());
@@ -75,7 +73,7 @@ public class AppointmentCalculator {
             LocalDateTime aptStartDateTime = apt.getStartDate().toLocalDateTime();
             LocalDateTime aptEndDateTime = apt.getEndDate().toLocalDateTime();
 
-            aptTotalTime = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime)) / 60;
+            double aptTotalTime = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime)) / 60;
 
             if(apt.getType() == AppointmentType.OnNotice){
                 System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
@@ -118,22 +116,20 @@ public class AppointmentCalculator {
         return reportsFinal;
     }
     
-    public static List<ReportInterval> calculateOnNotice (ArrayList<ReportInterval> intervals, List<Appointment> appointments) {
+    public static List<ReportInterval> calculateOnNotice (LinkedList<ReportInterval> intervals, List<Appointment> appointments) {
 
-        System.out.println("calculateOnNotice");
-        for (ReportInterval i : intervals) {
-            System.out.println("interval | start: " + i.getStart() + " | end: " + i.getEnd());
-        }
-        for (Appointment a : appointments) {
-            System.out.println("apt | start: " + a.getStartDate() + " | end: " + a.getEndDate());
+        // System.out.println("\ncalculateOnNotice");
+        // for (ReportInterval i : intervals) {
+        //     System.out.println("interval | start: " + i.getStart() + " | end: " + i.getEnd());
+        // }
+        // for (Appointment a : appointments) {
+        //     System.out.println("apt | start: " + a.getStartDate() + " | end: " + a.getEndDate());
 
-        }
-        System.out.println();
+        // }
 
-        List<ReportInterval> intervalsFinal = new ArrayList<>();
+        List<ReportInterval> subIntervals = new ArrayList<>();
 
         for (int i = 0; i < intervals.size(); i++) {
-
             ReportInterval currentInterval = intervals.get(i);
 
             Timestamp onNoticeStart = currentInterval.getStart();
@@ -144,8 +140,6 @@ public class AppointmentCalculator {
             
             LocalDateTime onNoticeStartDateTime = onNoticeStart.toLocalDateTime();
             LocalDateTime onNoticeEndDateTime = onNoticeEnd.toLocalDateTime();
-
-            boolean shouldAdd = true;
 
             for(Appointment apt : appointments) {
                 if (apt.getType() != AppointmentType.Overtime) continue;
@@ -158,60 +152,75 @@ public class AppointmentCalculator {
 
                 // Situação A: apt faz instersecção com o fim do sobreaviso
                 // apt.start > sobreaviso.end && apt.end <= sobreaviso.end 
-                if (aptStartDateTime.isBefore(onNoticeEndDateTime) && !aptEndDateTime.isBefore(onNoticeEndDateTime)) {
+                if (
+                    aptStartDateTime.isBefore(onNoticeEndDateTime) && 
+                    !aptEndDateTime.isBefore(onNoticeEndDateTime) &&
+                    aptStartDateTime.isAfter(onNoticeStartDateTime)
+                ) {
                     currentInterval.setEnd(aptStart);
-                    if (shouldAdd) {
-                        intervalsFinal.add(currentInterval);
-                        shouldAdd = false;
-                    }
                 }
 
-                // Situação A: apt faz instersecção com o começo do sobreaviso
+                // Situação B: apt faz instersecção com o começo do sobreaviso
                 // apt.end > sobreaviso.start && apt.start <= sobreaviso.start 
-                else if (aptEndDateTime.isAfter(onNoticeStartDateTime) && !aptStartDateTime.isAfter(onNoticeStartDateTime)) {
+                else if (
+                    aptEndDateTime.isAfter(onNoticeStartDateTime) && 
+                    !aptStartDateTime.isAfter(onNoticeStartDateTime) &&
+                    aptEndDateTime.isBefore(onNoticeEndDateTime)
+                ) {
                     currentInterval.setStart(aptEnd);
-                    if (shouldAdd) {
-                        intervalsFinal.add(currentInterval);
-                        shouldAdd = false;
-                    }
                 }
-
+                
                 // Situação C: apt faz instersecção com o meio do sobreaviso
                 // apt.start > sobreaviso.start && apt.end < sobreaviso.end 
                 else if (aptStartDateTime.isAfter(onNoticeStartDateTime) && aptEndDateTime.isBefore(onNoticeEndDateTime)) {
 
                     // Nesse caso, separamos currentInterval em dois. 
                     // Tratamos a primeira metade de acordo com a situação A
-                    currentInterval.setEnd(aptStart);
+                    // currentInterval.setEnd(aptStart);
 
                     // Cria uma nova lista de sub intervals para calcular as possíveis situações B ou C
                     // da segunda metade de currentInterval. 
-                    ArrayList<ReportInterval> subIntervals = new ArrayList<>();
-                    // subIntervals.add(new ReportInterval(
-                    //     apt.getId(),
-                    //     onNoticeStart,
-                    //     aptStart,
-                    //     3016
-                    // ));
-                    subIntervals.add(new ReportInterval(
+                    LinkedList<ReportInterval> temp = new LinkedList<>();
+                    temp.add(new ReportInterval(
+                        apt.getId(),
+                        onNoticeStart,
+                        aptStart,
+                        3016
+                    ));
+                    temp.add(new ReportInterval(
                         apt.getId(),
                         aptEnd,
                         onNoticeEnd,
                         3016
                     ));
-                    for (ReportInterval subInterval : calculateOnNotice(subIntervals, appointments)) intervalsFinal.add(subInterval);
-                    // shouldAdd = false;
-                }
 
-                if (shouldAdd) intervalsFinal.add(currentInterval);
+                    for (ReportInterval subInt : calculateOnNotice(temp, appointments)) subIntervals.add(subInt);
+
+                    intervals.remove(currentInterval);
+                    i--;
+
+                    break;
+                    
+                } 
             }
         }
 
-        System.out.println("RETORNO:\n");
+        List<ReportInterval> intervalsFinal = new ArrayList<>();
 
-        for (ReportInterval i : intervalsFinal) {
-            System.out.println("interval | start: " + i.getStart() + " | end: " + i.getEnd());
+        for (int i = subIntervals.size() -1; i >= 0; i--) {
+            ReportInterval repInt = subIntervals.get(i);
+            if (!intervalsFinal.contains(repInt)) intervalsFinal.add(repInt);
         }
+        for (int i = intervals.size() -1; i >= 0; i--) {
+            ReportInterval repInt = intervals.get(i);
+            if (!intervalsFinal.contains(repInt)) intervalsFinal.add(repInt);
+        }
+
+        // System.out.println("\nRETORNO:");
+        // for (ReportInterval i : intervals) {
+        //     System.out.println("interval | start: " + i.getStart() + " | end: " + i.getEnd());
+        // }
+        // System.out.println();
 
         return intervalsFinal;
     }
