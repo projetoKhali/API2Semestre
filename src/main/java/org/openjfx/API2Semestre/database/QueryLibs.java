@@ -20,7 +20,6 @@ import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.VwAppointment;
-import org.openjfx.api2semestre.authentication.VwUser;
 import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
@@ -66,7 +65,6 @@ public class QueryLibs {
             resultSet.next();
             return resultSet.getInt("id");
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         System.out.println("QueryLibs.executeInsert() -- Erro: nenhum id retornado");
@@ -269,9 +267,11 @@ public class QueryLibs {
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.User,  usr_id)
             }
-        )).stream()
+        ))
+        .stream()
         .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()))
-        .collect(Collectors.toList()).toArray(ResultCenter[]::new);
+        .collect(Collectors.toList())
+        .toArray(ResultCenter[]::new);
     }
 
     public static Appointment[] selectAppointmentsOfResultCenter (int cr_id) {
@@ -320,8 +320,8 @@ public class QueryLibs {
         return executeSelectOne(
             VwAppointment.class,
             QueryTable.ViewAppointment,
-        new QueryParam<?>[] {
-            new QueryParam<Integer>(TableProperty.Id, id),
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
             }
         );
     }
@@ -330,8 +330,8 @@ public class QueryLibs {
         return executeSelectOne(
             User.class,
             QueryTable.User,
-        new QueryParam<?>[] {
-            new QueryParam<String>(TableProperty.Email, email),
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Email, email),
             }
         );
     }

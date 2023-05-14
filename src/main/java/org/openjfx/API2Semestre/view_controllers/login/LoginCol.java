@@ -5,8 +5,6 @@ import java.io.IOException;
 
 import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.authentication.Profile;
-import org.openjfx.api2semestre.authentication.User;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,16 +24,7 @@ public class LoginCol {
     @FXML
     private void login (ActionEvent event) throws IOException {
         try {
-            if (Authentication.login(new User(
-                tf_name.getText(),
-                Profile.Colaborador,
-                "exemplo@email.com",
-                "0",
-                "0"
-                // ProvisoryLogin.parseSquads(tf_member.getText()),
-                // List.of()
-
-            ))) {
+            if (Authentication.login("exemplo@email.com","0")) {
                 App.changeView(ProvisoryLogin.handleViews());
             }
         } catch (Exception ex) {

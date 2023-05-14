@@ -4,8 +4,6 @@ import java.io.IOException;
 
 import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.authentication.Profile;
-import org.openjfx.api2semestre.authentication.User;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,16 +23,7 @@ public class LoginAdm {
     @FXML
     private void login (ActionEvent event) throws IOException {
         try {
-            if (Authentication.login(new User(
-                tf_name.getText(),
-                Profile.Administrator,
-                "exemplo@email.com",
-                "0",
-                "0"
-                // ProvisoryLogin.parseSquads(tf_member.getText()),
-                // ProvisoryLogin.parseSquads(tf_manages.getText())
-
-            ))) {
+            if (Authentication.login("exemplo@email.com","0")) {
                 App.changeView(ProvisoryLogin.handleViews());
             }
         } catch (Exception ex) {

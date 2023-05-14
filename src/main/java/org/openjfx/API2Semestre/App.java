@@ -9,7 +9,6 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
-import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
@@ -64,14 +63,6 @@ public class App extends Application {
         //     // Auto-generated catch block
         //     e.printStackTrace();
         // }
-
-        Authentication.verifyPassword("teste123", new User(
-            "jhow",
-            Profile.Colaborador,
-            "jhooliveira.lopes1@gmail.com",
-            "teste123",
-            "123456"
-        ));
         
         // loginView();
     }
