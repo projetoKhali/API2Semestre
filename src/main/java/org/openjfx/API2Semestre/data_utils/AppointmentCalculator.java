@@ -24,68 +24,67 @@ public class AppointmentCalculator {
     
     static List<ReportInAppointment> reports = new ArrayList<ReportInAppointment>();
     static List<Appointment> appointments = new ArrayList<Appointment>();
-    static Double aptPeriod;
-    static LocalDateTime aptStartDateTime; 
-    static LocalDateTime aptEndDateTime; 
+    static Double aptTotalTime;
   
     
-    public static List<ReportInterval> calculateReports(){
-    // "yyyy-MM-dd HH:mm:ss"
-    // public static List<ReportInAppointment> calculateReports(){
-        // appointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getNome()));
-        List<Appointment> appointments = new ArrayList<Appointment>();
-        Appointment app1 = new Appointment(
-            1, 
-            "Julio", 
-            AppointmentType.Overtime, 
-            DateConverter.stringToTimestamp("2023-05-02 22:00:00"), 
-            DateConverter.stringToTimestamp("2023-05-04 15:00:00"), 
-            "Squad Foda", 
-            "Cleitin", 
-            "ProjetoA", 
-            "pq sim", 
-            0, 
-            "sample"
+    public static List<ReportInterval> calculateReports () {
+        List<ReportInterval> reportsFinal = new ArrayList<ReportInterval>();
+
+        List<Appointment> appointments = List.of(
+            new Appointment(
+                1, 
+                "Julio", 
+                AppointmentType.Overtime, 
+                DateConverter.stringToTimestamp("2023-05-02 22:00:00"), 
+                DateConverter.stringToTimestamp("2023-05-04 15:00:00"), 
+                "Squad Foda", 
+                "Cleitin", 
+                "ProjetoA", 
+                "pq sim", 
+                0, 
+                "sample"
+            )
         );
 
-        
-        
-        // lista paa teste
-        appointments.add(app1);
-        // List<ReportInterval> reportsTemporary = new ArrayList<ReportInterval>();
-        List<ReportInterval> reportsFinal = new ArrayList<ReportInterval>();
         for(Appointment apt: appointments){
-            aptStartDateTime = apt.getStartDate().toLocalDateTime();
-            aptEndDateTime = apt.getEndDate().toLocalDateTime();
-            // System.out.println("apt end: " + apt.getEndDate() + " | localdatetime start: " + aptEndDateTime);
-            aptPeriod = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime))/60;
-            // apt1 são as primeiras duas horas do apontamento e apt2 o restante            
-            Appointment apt1 = apt.copy();
-            apt1.setEndDate(DateConverter.toTimestamp((apt.getStartDate().toLocalDateTime()).plusHours(2)));
-            Appointment apt2 = apt.copy();
-            System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
-            apt2.setStartDate(DateConverter.toTimestamp((apt.getStartDate().toLocalDateTime()).plusHours(2)));
-            // apt2.setStartDate(DateConverter.toTimestamp((apt2.getStartDate().toLocalDateTime()).plusMinutes(1)));
-            
-            // retorno de lista com reportIntervals
+            System.out.println("start time do apontamento: " + apt.getStartDate() + " | end time do apontamento: " + apt.getEndDate());
+
+            LocalDateTime aptStartDateTime = apt.getStartDate().toLocalDateTime();
+            LocalDateTime aptEndDateTime = apt.getEndDate().toLocalDateTime();
+
+            aptTotalTime = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime)) / 60;
+        
             if(apt.getType() == AppointmentType.OnNotice){
-                System.out.println("é sobreaviso");
                 System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
                 for(ReportInterval repInt: calculateOnNotice(apt)) reportsFinal.add(repInt);
             }
-            else{
+            else {
+
                 System.out.println("é hora extra");
+
                 for(IntervalFee verba: IntervalFee.VERBAS){
 
-                    if(verba.getCode() == 1809 || (aptPeriod <= verba.getMinHourCount())){
-                        for(ReportInterval repInt : calculateIntervals(apt, verba)) {
-                            reportsFinal.add(repInt);
-                        }
+                    if(verba.getCode() == 1809) {
+                        for(ReportInterval repInt : calculateIntervals(apt, verba)) reportsFinal.add(repInt);
+                    }
+                    
+                    else if (verba.getMinHourCount() != 0){
+                        if (aptTotalTime <= 2) continue;
+                        Appointment aptLastHours = apt.copy();
+                        aptLastHours.setStartDate(DateConverter.toTimestamp((apt.getStartDate().toLocalDateTime()).plusHours(2)));
+                        for(ReportInterval repInt : calculateIntervals(aptLastHours, verba)) reportsFinal.add(repInt);
                     }
 
                     else{
-                        List<ReportInterval> reportsTemporary = verba.getMinHourCount() != 0 ? calculateIntervals(apt2, verba) : calculateIntervals(apt1, verba);
-                        for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
+                        if (aptTotalTime > 2) {
+                            Appointment aptFirstHours = apt.copy();
+                            aptFirstHours.setEndDate(DateConverter.toTimestamp((apt.getStartDate().toLocalDateTime()).plusHours(2)));
+                            List<ReportInterval> reportsTemporary = calculateIntervals(aptFirstHours, verba);
+                            for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
+                        } else {
+                            List<ReportInterval> reportsTemporary = calculateIntervals(apt, verba);
+                            for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
+                        }
                     }
                         
                 }
@@ -175,9 +174,9 @@ public class AppointmentCalculator {
                 onNotice_init, 
                 onNotice_end,
                 3016
-                );
+            );
             reportsOnNotice.add(reportIntervalNoIntersection);
-            System.out.println("onNotice_init " + onNotice_init );
+            System.out.println("onNotice_init " + onNotice_init);
             System.out.println("onNotice_end " + onNotice_end);
         }
         Double onNoticeIntervalMinutes_Double = (double)onNoticeIntervalMinutes;
@@ -199,7 +198,6 @@ public class AppointmentCalculator {
     }
 
     public static List<ReportInterval> calculateIntervals(Appointment aptOverTime, IntervalFee intervalFee){
-            // conversão de Timestamp para LocalTime
 
         List<ReportInterval> reportsOvertime = new ArrayList<ReportInterval>();
             
@@ -208,10 +206,6 @@ public class AppointmentCalculator {
         
         LocalDateTime aptEndDateTime = aptOverTime.getEndDate().toLocalDateTime();
         LocalDate aptEndLocalDate = aptEndDateTime.toLocalDate();
-        
-        long numberOfOverlappingMinutes = 0;
-        long numberOfOverlappingMinutes_ = 0;
-        long dayHourCount = ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime);
 
         // Check if the day of the week falls within the configured range
         LocalDate actualDay = aptStartLocalDate;
@@ -226,8 +220,6 @@ public class AppointmentCalculator {
         LocalDateTime verbaEnd_ = null;
         LocalDateTime laterStart = null;
         LocalDateTime earlierEnd = null;
-        LocalDateTime laterStart_ = null;
-        LocalDateTime earlierEnd_ = null;
         if((intervalFee.getStartHour() != null) && (intervalFee.getEndHour() != null)){
             actualDay = aptStartLocalDate;
             while(!actualDay.isAfter(aptEndLocalDate)){
@@ -237,7 +229,6 @@ public class AppointmentCalculator {
                 if(intervalFee.getDaysOfWeek()[(actualDayOfWeek % 7)]){
                     verbastart = actualDay.atTime(intervalFee.getStartHour());
                     // situação em a hora termina no dia seguinte
-                    // if(intervalFee.getEndHour().isBefore(intervalFee.getStartHour()) & intervalFee.getEndHour() != meiaNoite){
                     if(intervalFee.getEndHour().isBefore(intervalFee.getStartHour())){
                         if(actualDay == aptStartLocalDate){
                             System.out.println("verba: "+intervalFee.getCode()+" | actualDay: "+actualDay+" == aptStartLocalDate: "+aptStartLocalDate+" |");
@@ -258,21 +249,15 @@ public class AppointmentCalculator {
                         verbaEnd = actualDay.atTime(intervalFee.getEndHour());
                     }
                 }
-                // else if(intervalFee.getDaysOfWeek()[((actualDayOfWeek+1) % 7)]){
-                //     verbastart = (actualDay.plusDays(1)).atTime(meiaNoite);
-                //     verbaEnd = (actualDay.plusDays(1)).atTime(intervalFee.getEndHour());
-                // }
 
                 // cálculo da intersecção
                 if(verbastart != null & verbaEnd != null){
                     if(verbastart.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd)){
-                        numberOfOverlappingMinutes = 0;
                         
                     }
                     else{
                         laterStart = Collections.max(Arrays.asList(verbastart, aptStartDateTime));
                         earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
-                        numberOfOverlappingMinutes += ChronoUnit.MINUTES.between(laterStart, earlierEnd);
                         ReportInterval reportInterval = new ReportInterval(
                             aptOverTime.getId(), 
                             DateConverter.toTimestamp(laterStart), 
@@ -283,16 +268,12 @@ public class AppointmentCalculator {
                 }
                 if(verbaStart_ != null & verbaEnd_ != null){
 
-                    boolean auxiliar_= false;
                     if(verbaStart_.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd_)){
-                        numberOfOverlappingMinutes_ = 0;
                         
                     }
                     else{
-                        laterStart_ = Collections.max(Arrays.asList(verbaStart_, aptStartDateTime));
-                        earlierEnd_ = Collections.min(Arrays.asList(verbaEnd_, aptEndDateTime));
-                        numberOfOverlappingMinutes_ += ChronoUnit.MINUTES.between(laterStart_, earlierEnd_);
-                        if(numberOfOverlappingMinutes_ != 0){auxiliar_ = true;};
+                        LocalDateTime laterStart_ = Collections.max(Arrays.asList(verbaStart_, aptStartDateTime));
+                        LocalDateTime earlierEnd_ = Collections.min(Arrays.asList(verbaEnd_, aptEndDateTime));
                         ReportInterval reportInterval_ = new ReportInterval(
                             aptOverTime.getId(), 
                             DateConverter.toTimestamp(laterStart_), 
@@ -305,13 +286,6 @@ public class AppointmentCalculator {
                 actualDay = actualDay.plusDays(1);
             }
         }
-        // if(auxiliar == false){return 0.0;}
-        
-        if(intervalFee.getMinHourCount() != 0 && numberOfOverlappingMinutes != 0){
-            numberOfOverlappingMinutes = numberOfOverlappingMinutes - intervalFee.getMinHourCount();
-        }
-        
-        Double overlappingMinutes = (double)numberOfOverlappingMinutes;
                 
         return reportsOvertime;
     }
