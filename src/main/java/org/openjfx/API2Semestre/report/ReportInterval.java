@@ -20,8 +20,8 @@ public class ReportInterval {
     public Timestamp getEnd() { return end; }
     public int getVerba() { return verba; }
     
-    // public void setAppointmmentId (int appointmmentId) { this.appointmmentId = appointmmentId; }
-    // public void setStart (Timestamp start) { this.start = start; }
-    // public void setEnd (Timestamp end) { this.end = end; }
-    // public void setVerba (int verba) { this.verba = verba; }
+    public void setAppointmmentId (int appointmmentId) { this.appointmmentId = appointmmentId; }
+    public void setStart (Timestamp start) { this.start = start; }
+    public void setEnd (Timestamp end) { this.end = end; }
+    public void setVerba (int verba) { this.verba = verba; }
 }

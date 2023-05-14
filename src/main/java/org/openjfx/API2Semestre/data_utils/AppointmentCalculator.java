@@ -1,11 +1,13 @@
 package org.openjfx.api2semestre.data_utils;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.openjfx.api2semestre.appointments.Appointment;
@@ -17,20 +19,19 @@ import org.openjfx.api2semestre.report.Week;
 // os cálculos serão feitos em minutos, e depois divididos por 60 para se chegar a quantidade de horas (em decimal).
 
 public class AppointmentCalculator {
-    
+
     static List<ReportInAppointment> reports = new ArrayList<ReportInAppointment>();
     static List<Appointment> appointments = new ArrayList<Appointment>();
     static Double aptTotalTime;
-  
-    
+
     public static List<ReportInterval> calculateReports () {
         List<ReportInterval> reportsFinal = new ArrayList<ReportInterval>();
 
         List<Appointment> appointments = List.of(
             new Appointment(
-                1, 
+                0,
                 "Julio", 
-                AppointmentType.Overtime, 
+                AppointmentType.OnNotice, 
                 DateConverter.stringToTimestamp("2023-05-05 22:00:00"), 
                 DateConverter.stringToTimestamp("2023-05-07 19:00:00"), 
                 "Squad Foda", 
@@ -39,8 +40,36 @@ public class AppointmentCalculator {
                 "pq sim", 
                 0, 
                 "sample"
+            ),
+            new Appointment(
+                1,
+                "Julio", 
+                AppointmentType.Overtime, 
+                DateConverter.stringToTimestamp("2023-05-05 22:30:00"), 
+                DateConverter.stringToTimestamp("2023-05-06 00:30:00"), 
+                "Squad Foda", 
+                "Cleitin", 
+                "ProjetoA", 
+                "pq sim", 
+                0, 
+                "sample"
+            ),
+            new Appointment(
+                2,
+                "Julio", 
+                AppointmentType.Overtime, 
+                DateConverter.stringToTimestamp("2023-05-06 16:30:00"), 
+                DateConverter.stringToTimestamp("2023-05-06 18:30:00"), 
+                "Squad Foda", 
+                "Cleitin", 
+                "ProjetoA", 
+                "pq sim", 
+                0, 
+                "sample"
             )
         );
+
+        LinkedList<ReportInterval> intervalsOnNotice = new LinkedList<>();
 
         for(Appointment apt: appointments){
             System.out.println("start time do apontamento: " + apt.getStartDate() + " | end time do apontamento: " + apt.getEndDate());
@@ -52,7 +81,7 @@ public class AppointmentCalculator {
 
             if(apt.getType() == AppointmentType.OnNotice){
                 System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
-                for(ReportInterval repInt: calculateOnNotice(apt)) reportsFinal.add(repInt);
+                intervalsOnNotice.add(new ReportInterval(apt.getId(), apt.getStartDate(), apt.getEndDate(), 3016));
             }
             else {
 
@@ -85,96 +114,72 @@ public class AppointmentCalculator {
                 }
             }
         }
+
+        for (ReportInterval repInt : calculateOnNotice(intervalsOnNotice)) reportsFinal.add(repInt);
+
         return reportsFinal;
     }    
     
-    public static List<ReportInterval> calculateOnNotice(Appointment aptOnNotice){
-    // List<ReportInAppointment> calculateOnNotice(Appointment aptOnNotice){
-        java.sql.Timestamp onNotice_init = aptOnNotice.getStartDate();
-        System.out.println("onNotice_init " + onNotice_init);
-        java.sql.Timestamp onNotice_end = aptOnNotice.getEndDate();
-        System.out.println("onNotice_end  " + onNotice_end);
-        LocalDateTime onotice_init = onNotice_init.toLocalDateTime();
-        LocalDateTime onotice_end = onNotice_end.toLocalDateTime();
-        java.sql.Timestamp overTime_init = null;
-        java.sql.Timestamp overTime_end = null;
-        List<ReportInterval> reportsOnNotice = new ArrayList<ReportInterval>();
-    
-        // calcular a quantidade total de tempo do sobreaviso. Obs: essa função calcula dias, horas e minutos INTEIROS.
-        long onNoticeIntervalMinutes = ChronoUnit.MINUTES.between(onotice_init, onotice_end);
-        // long onNoticeIntervalSeconds = ChronoUnit.SECONDS.between(onotice_init, onotice_end);
+    public static List<ReportInterval> calculateOnNotice (LinkedList<ReportInterval> intervalsFinal) {
 
-        // achar intersecção entre sobreaviso e hora extra(acionamento)
-        int aux = 0;
-        for(Appointment aptOvertime: appointments){
-            if (aptOvertime.getType() == AppointmentType.Overtime){
-                aux = 1;
-                overTime_init = aptOvertime.getStartDate();
-                overTime_end = aptOvertime.getEndDate();
-                LocalDateTime overtime_init = overTime_init.toLocalDateTime();
-                LocalDateTime overtime_end = overTime_end.toLocalDateTime();
-    
-                if (onotice_end.isBefore(onotice_init) || overtime_end.isBefore(overtime_init)) {
-                    System.out.println("Not proper intervals");
-                } else {
-                    long numberOfOverlappingMinutes;
+        for (int i = 0; i < intervalsFinal.size(); i++) {
 
-                    if (onotice_end.isBefore(overtime_init) || overtime_end.isBefore(onotice_init)) {
-                        // no overlap
-                        numberOfOverlappingMinutes = 0;
+            ReportInterval currentInterval = intervalsFinal.get(i);
 
-                    } else {
-                        LocalDateTime earlierStart = Collections.min(Arrays.asList(onotice_init, overtime_init));
-                        LocalDateTime laterStart = Collections.max(Arrays.asList(onotice_init, overtime_init));
-                        LocalDateTime earlierEnd = Collections.min(Arrays.asList(onotice_end, overtime_end));
-                        LocalDateTime laterEnd = Collections.max(Arrays.asList(onotice_end, overtime_end));
-                        numberOfOverlappingMinutes = ChronoUnit.MINUTES.between(laterStart, earlierEnd);
-                        if(onotice_init != overtime_init){
-                            ReportInterval reportIntervalOnNot = new ReportInterval(
-                                aptOvertime.getId(), 
-                                DateConverter.toTimestamp(earlierStart), 
-                                DateConverter.toTimestamp(laterStart), 
-                                3016
-                            );
-                            reportsOnNotice.add(reportIntervalOnNot);
+            Timestamp onNoticeStart = currentInterval.getStart();
+            Timestamp onNoticeEnd = currentInterval.getEnd();
 
-                        }
-                        if(onotice_end != overtime_end){
-                            ReportInterval reportIntervalOnNot2 = new ReportInterval(
-                                aptOvertime.getId(), 
-                                DateConverter.toTimestamp(earlierEnd), 
-                                DateConverter.toTimestamp(laterEnd), 
-                                3016
-                            );
-                            reportsOnNotice.add(reportIntervalOnNot2);
-                        }
+            System.out.println("onNoticeStart " + onNoticeStart);
+            System.out.println("onNoticeEnd  " + onNoticeEnd);
+            
+            LocalDateTime onNoticeStartDateTime = onNoticeStart.toLocalDateTime();
+            LocalDateTime onNoticeEndDateTime = onNoticeEnd.toLocalDateTime();
 
-                    }
+            for(Appointment apt : appointments) {
+                if (apt.getType() != AppointmentType.OnNotice) continue;
 
-                    System.out.println("" + numberOfOverlappingMinutes + " minutes of overlap");
+                java.sql.Timestamp aptStart = apt.getStartDate();
+                java.sql.Timestamp aptEnd = apt.getEndDate();
 
-                    // do total de tempo de sobreaviso, subtraio a intersecção com hora-extra
-                    onNoticeIntervalMinutes = onNoticeIntervalMinutes - numberOfOverlappingMinutes;
+                LocalDateTime aptStartDateTime = aptStart.toLocalDateTime();
+                LocalDateTime aptEndDateTime = aptEnd.toLocalDateTime();
+
+                // Situação A: apt faz instersecção com o fim do sobreaviso
+                // apt.start > sobreaviso.end && apt.end <= sobreaviso.end 
+                if (aptStartDateTime.isBefore(onNoticeEndDateTime) && !aptEndDateTime.isBefore(onNoticeEndDateTime)) {
+                    currentInterval.setEnd(aptStart);
+                }
+
+                // Situação A: apt faz instersecção com o começo do sobreaviso
+                // apt.end > sobreaviso.start && apt.start <= sobreaviso.start 
+                else if (aptEndDateTime.isAfter(onNoticeStartDateTime) && !aptStartDateTime.isAfter(onNoticeStartDateTime)) {
+                    currentInterval.setStart(aptEnd);
+                }
+
+                // Situação C: apt faz instersecção com o meio do sobreaviso
+                // apt.start > sobreaviso.start && apt.end < sobreaviso.end 
+                else if (aptStartDateTime.isAfter(onNoticeStartDateTime) && aptStartDateTime.isBefore(onNoticeEndDateTime)) {
+
+                    // Nesse caso, separamos currentInterval em dois. 
+                    // Tratamos a primeira metade de acordo com a situação A
+                    currentInterval.setEnd(aptStart);
+
+                    // Cria uma nova lista de sub intervals para calcular as possíveis situações B ou C
+                    // da segunda metade de currentInterval. 
+                    LinkedList<ReportInterval> subIntervals = new LinkedList<>();
+                    subIntervals.add(new ReportInterval(
+                        apt.getId(),
+                        aptEnd,
+                        onNoticeEnd,
+                        3016
+                    ));
+                    for (ReportInterval subInterval : calculateOnNotice(subIntervals)) intervalsFinal.add(subInterval);
+
                 }
             }
         }
-        // quando não tem intersecção
-        if(aux == 0){ 
-            ReportInterval reportIntervalNoIntersection = new ReportInterval(
-                aptOnNotice.getId(), 
-                onNotice_init, 
-                onNotice_end,
-                3016
-            );
-            reportsOnNotice.add(reportIntervalNoIntersection);
-            System.out.println("onNotice_init " + onNotice_init);
-            System.out.println("onNotice_end " + onNotice_end);
-        }
-        // Double onNoticeIntervalMinutes_Double = (double)onNoticeIntervalMinutes;
-        // Double onNoticeIntervalHoursDecimal = onNoticeIntervalMinutes_Double/60;
-        // return onNoticeIntervalHoursDecimal;
-        return reportsOnNotice;
 
+        return intervalsFinal;
     }
 
 

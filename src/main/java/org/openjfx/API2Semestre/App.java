@@ -17,6 +17,7 @@ import java.util.List;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.data_utils.AppointmentCalculator;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.IntervalFee;
 import org.openjfx.api2semestre.report.ReportInterval;
 import org.openjfx.api2semestre.report.Week;
@@ -121,10 +122,12 @@ public class App extends Application {
 
         List<ReportInterval> teste = AppointmentCalculator.calculateReports();
         for(ReportInterval rpi : teste){
-            System.out.println("getAppointmmentId: " + rpi.getAppointmmentId()
-                + " | getVerba: " + rpi.getVerba()
-                + " | getStart: " + rpi.getStart()
-                + " | getEnd: " + rpi.getEnd()
+            System.out.println(
+                "apt id: " + rpi.getAppointmmentId()
+                + " | tipo: " + QueryLibs.selectAppointmentById(rpi.getAppointmmentId()).getType()
+                + " | verba: " + rpi.getVerba()
+                + " | start: " + rpi.getStart()
+                + " | end: " + rpi.getEnd()
                 + " | total: "+ ((rpi.getEnd()).getTime()-(rpi.getStart()).getTime())/60000
             );
            
