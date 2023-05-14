@@ -15,24 +15,32 @@ import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 
 public class App extends Application {
-
+    
     // mude o perfil de acesso para logar com diferentes permissões
     private static final Profile access = Profile.Colaborador;
-
+    
     private static Scene scene;
     private static Stage stage;
     private static void setStage (Stage newStage) { stage = newStage; }
-
+    
     private static String currentViewFxmlFile;
-
+    
     private static BaseController baseController;
-
+    
     @Override
     public void start(Stage stage) throws IOException {
         // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
         // QueryLibs.executeSqlFile("./SQL/views.sql");
         
         setStage(stage);
+ 
+        // try {
+        //     stage.setScene(new Scene(loadFXML("views/resultCenterRegister")));
+        //     stage.show();
+        // } catch (IOException e) {
+        //     // Auto-generated catch block
+        //     e.printStackTrace();
+        // }
 
         // loginView();
     }

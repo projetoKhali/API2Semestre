@@ -29,7 +29,7 @@ public class Query {
                     sb.append("?");
                     if (i < params.length - 1) sb.append(", ");
                 }
-                sb.append(")");
+                sb.append(") RETURNING id");
             break;
 
             // SELECT
@@ -88,7 +88,7 @@ public class Query {
             PreparedStatement statement = build(c);
             System.out.println(statement.toString());
             switch (type) {
-                case SELECT:
+                case SELECT: case INSERT:
                     result = Optional.of(statement.executeQuery());
                 break;
                 default:
@@ -96,7 +96,7 @@ public class Query {
                 break;
             }
         } catch (Exception ex) {
-            System.out.println("database.query.Query -- Erro ao aplicar executar Query!");
+            System.out.println("database.query.Query -- Erro ao executar Query!");
             ex.printStackTrace();
         }
         return result;

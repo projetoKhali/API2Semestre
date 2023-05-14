@@ -1,7 +1,7 @@
 package org.openjfx.api2semestre.view_controllers.login;
 
 import java.io.IOException;
-import java.util.List;
+// import java.util.List;
 
 import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.authentication.Authentication;
@@ -29,8 +29,11 @@ public class LoginCol {
             if (Authentication.login(new User(
                 tf_name.getText(),
                 Profile.Colaborador,
-                ProvisoryLogin.parseSquads(tf_member.getText()),
-                List.of()
+                "exemplo@email.com",
+                "0",
+                "0"
+                // ProvisoryLogin.parseSquads(tf_member.getText()),
+                // List.of()
 
             ))) {
                 App.changeView(ProvisoryLogin.handleViews());
