@@ -15,18 +15,18 @@ import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 
 public class App extends Application {
-
+    
     // mude o perfil de acesso para logar com diferentes permissões
     private static final Profile access = Profile.Colaborador;
-
+    
     private static Scene scene;
     private static Stage stage;
     private static void setStage (Stage newStage) { stage = newStage; }
-
+    
     private static String currentViewFxmlFile;
-
+    
     private static BaseController baseController;
-
+    
     @Override
     public void start(Stage stage) throws IOException {
 
@@ -42,8 +42,38 @@ public class App extends Application {
         //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345)
         // );
 
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Fulano colaborador 0", Profile.Colaborador, "e@xem.plo", "0", "0"
+        //     )
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Fulano gestor 0", Profile.Gestor, "e@xem.plo", "0", "0"
+        //     )
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Cicrano col 0", Profile.Colaborador, "e@xem.plo", "0", "0"
+        //     )
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "Cicrano ges 0", Profile.Gestor, "e@xem.plo", "0", "0"
+        //     )
+        // );
+
+
         // ReportExporter.exporterCSV(teste,local);
         setStage(stage);
+ 
+        // try {
+        //     stage.setScene(new Scene(loadFXML("views/resultCenterRegister")));
+        //     stage.show();
+        // } catch (IOException e) {
+        //     // Auto-generated catch block
+        //     e.printStackTrace();
+        // }
 
         stage.setScene(new Scene(loadFXML("views/parametrization")));
         stage.show();
@@ -119,45 +149,6 @@ public class App extends Application {
     }
 
     public static void main(String[] args) {
-
-        // QueryLibs.executeSqlFile("SQL/tabelas.sql");
-        // QueryLibs.executeSqlFile("SQL/views.sql");
-
-        // System.exit(1);
-
-        // verbas teste
-
-        // Timestamp[][] testTimestamps = new Timestamp[][] {
-        //     new Timestamp[] {
-        //         new Timestamp(2023, 4, 30, 11, 0, 0, 0),
-        //         new Timestamp(2023, 4, 30, 12, 0, 0, 0)
-        //     },
-        //     new Timestamp[] {
-        //         new Timestamp(2023, 5, 1, 11, 0, 0, 0),
-        //         new Timestamp(2023, 5, 1, 12, 0, 0, 0)
-        //     },
-        //     new Timestamp[] {
-        //         new Timestamp(2023, 5, 1, 23, 30, 0, 0),
-        //         new Timestamp(2023, 5, 2, 0, 30, 0, 0)
-        //     }
-        // };
-
-        // exemplo
-        // double sum = 0;
-        // for (int i = 0; i < testTimestamps.length; i++) {
-        //     Timestamp[] start_end = testTimestamps[i];
-        //     for (IntervalFee verba : verbas) {
-        //         System.out.println("["+i+"] verba " + verba.getCode() + " | verificando :)");
-
-        //         if (verba.check(start_end[0], start_end[1], sum) ) {
-        //             System.out.println("["+i+"] verba " + verba.getCode() + " aplica-se a " + start_end[0].toString() + " e " + start_end[1].toString());
-        //         }
-        //         else System.out.println("["+i+"] verba " + verba.getCode() + " NÃO se aplica a " + start_end[0].toString() + " e " + start_end[1].toString());
-        //         // sum += total;
-        //     }
-        // }
-        // System.exit(1);
-
         System.setProperty("javafx.fxml.debug", "true");
         launch();
     }

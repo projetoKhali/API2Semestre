@@ -12,6 +12,7 @@ import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
+import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.popups.PopupCallbackHandler;
 import org.openjfx.api2semestre.view_controllers.popups.PopupController;
@@ -21,8 +22,8 @@ import org.openjfx.api2semestre.view_macros.ColumnConfig;
 import org.openjfx.api2semestre.view_macros.ColumnConfigString;
 import org.openjfx.api2semestre.view_macros.TableCheckBoxMacros;
 import org.openjfx.api2semestre.view_macros.TableMacros;
-import org.openjfx.api2semestre.view_utils.AppointmentFilter;
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
+import org.openjfx.api2semestre.view_utils.filters.AppointmentFilter;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -136,9 +137,9 @@ public class ApprovalsController implements Initializable {
     private void updateTable () {
         List<Appointment> items = new ArrayList<>();
         System.out.println("ApprovalsController.updateTable() -- Atualizar implementação para usar usuário cadastrado :)");
-        for (String centroResultado : Authentication.getCurrentUser().getManagesCRs()) {
+        for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(Authentication.getCurrentUser().getId())) {
             // System.out.println("centroResultado: " + centroResultado);
-            for(Appointment apt : QueryLibs.squadSelect(centroResultado)) {
+            for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId())) {
                 // System.out.println("apt: " + apt);
                 // try {
                     items.add(apt);
