@@ -1,22 +1,19 @@
 package org.openjfx.api2semestre.database.query;
 
-public enum QueryTable {
+import org.openjfx.api2semestre.authentication.User;
 
+public enum QueryTable {
     Appointment("public.apontamento"),
     ViewAppointment("vw_apontamento"),
-
     User("public.usuario"),
-    ViewUser("public.vw_usuario"),
-
-    ResultCenter("public.centro_resultado"),
-    ViewResultCenter("vw_centro_resultado"),
-
+    // ViewUser(""),
+    ResultsCenter("public.centro_resultado"),
+    // ViewResultsCenter("");
+    Client("public.cliente");
+    // TODO: User,
     // TODO: Client,
-
+    // TODO: Squad,
     // TODO: IntervalFee,
-
-    Member("public.membro_cr"),
-    ;
 
     private String stringValue;
     private QueryTable (String stringValue) { this.stringValue = stringValue; }
