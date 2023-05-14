@@ -200,20 +200,21 @@ public class QueryLibs {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends Data> Optional<T> executeSelect (Class<T> type, QueryParam<?>[] params) {
+    // select que trás apenas 1 item
+    private static <T extends Data> Optional<T> executeSelectOne (Class<T> type, QueryTable table, QueryParam<?>[] params) {
         ResultSet result = null;
         try {
             result = executeQuery(new Query(
                 QueryType.SELECT,
-                QueryTable.ViewAppointment,
+                table,
                 params
             )).get();
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSelectArray() -- Erro ao executar query");
+            System.out.println("QueryLibs.executeSelectOne() -- Erro ao executar query");
             ex.printStackTrace();
         }
         if (result == null) {
-            System.out.println("QueryLibs.executeSelectArray() -- Erro: Nenhum ResultSet retornado para a query");
+            System.out.println("QueryLibs.executeSelectOne() -- Erro: Nenhum ResultSet retornado para a query");
             return Optional.empty();
         }
         // itera sobre cada linha retornada pela consulta
@@ -223,7 +224,7 @@ public class QueryLibs {
             System.out.println(Optional.of((T)Data.create(type, result)));
             return Optional.of((T)Data.create(type, result));
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSelectArray() -- Erro ao ler resultado da query");
+            System.out.println("QueryLibs.executeSelectOne() -- Erro ao ler resultado da query");
             ex.printStackTrace();
         }
         return Optional.empty();
@@ -316,15 +317,19 @@ public class QueryLibs {
 // <-- botei suas funções aqui Jhonatan
 
     public static Optional<VwAppointment> selectAppointmentById(int id) {
-        return executeSelect(VwAppointment.class,
+        return executeSelectOne(
+            VwAppointment.class,
+            QueryTable.ViewAppointment,
         new QueryParam<?>[] {
             new QueryParam<Integer>(TableProperty.Id, id),
             }
         );
     }
 
-    public static Optional<VwUser> selectUserByEmail(String email) {
-        return executeSelect(VwUser.class,
+    public static Optional<User> selectUserByEmail(String email) {
+        return executeSelectOne(
+            User.class,
+            QueryTable.User,
         new QueryParam<?>[] {
             new QueryParam<String>(TableProperty.Email, email),
             }
