@@ -29,35 +29,9 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
-
         // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
         // QueryLibs.executeSqlFile("./SQL/views.sql");
         
-        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/views.sql");
-
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Fulano colaborador 0", Profile.Colaborador, "e@xem.plo", "0", "0"
-        //     )
-        // );
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Fulano gestor 0", Profile.Gestor, "e@xem.plo", "0", "0"
-        //     )
-        // );
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Cicrano col 0", Profile.Colaborador, "e@xem.plo", "0", "0"
-        //     )
-        // );
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Cicrano ges 0", Profile.Gestor, "e@xem.plo", "0", "0"
-        //     )
-        // );
-
-
         setStage(stage);
  
         // try {
@@ -72,7 +46,6 @@ public class App extends Application {
     }
 
     public static void loginView () {
-
         currentViewFxmlFile = (
             access == Profile.Administrator ? "login/provisory_adm" : 
             access == Profile.Gestor ? "login/provisory_ges" : 

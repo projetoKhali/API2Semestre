@@ -33,7 +33,7 @@ AS SELECT
     usuario.nome,
     usuario.email,
     usuario.senha,
-    usuario.tipo,
+    usuario.perfil,
     usuario.matricula
     FROM usuario;
 
