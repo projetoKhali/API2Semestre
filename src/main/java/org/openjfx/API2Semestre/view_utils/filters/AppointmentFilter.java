@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.view_utils;
+package org.openjfx.api2semestre.view_utils.filters;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
 import org.openjfx.api2semestre.appointments.Status;
+import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
 
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -61,14 +62,14 @@ public class AppointmentFilter {
         Optional<Status> status
     ) {
         return appointments.stream().filter((Appointment appointment) -> {
-            if (requester.isPresent() && !appointment.getRequester().contains(requester.get())) return false;
+            if (requester.isPresent() && !appointment.getRequester().toLowerCase().contains(requester.get().toLowerCase())) return false;
             if (type.isPresent() && !appointment.getType().equals(type.get())) return false;
             if (startDate.isPresent() && !appointment.getStartDate().equals(startDate.get())) return false;
             if (endDate.isPresent() && !appointment.getEndDate().equals(endDate.get())) return false;
-            if (squad.isPresent() && !appointment.getSquad().contains(squad.get())) return false;
-            if (client.isPresent() && !appointment.getClient().contains(client.get())) return false;
-            if (project.isPresent() && !appointment.getProject().contains(project.get())) return false;
-            if (justification.isPresent() && !appointment.getJustification().contains(justification.get())) return false;
+            if (squad.isPresent() && !appointment.getSquad().toLowerCase().contains(squad.get().toLowerCase())) return false;
+            if (client.isPresent() && !appointment.getClient().toLowerCase().contains(client.get().toLowerCase())) return false;
+            if (project.isPresent() && !appointment.getProject().toLowerCase().contains(project.get().toLowerCase())) return false;
+            if (justification.isPresent() && !appointment.getJustification().toLowerCase().contains(justification.get().toLowerCase())) return false;
             if (status.isPresent() && !appointment.getStatus().equals(status.get())) return false;
             return true;
         }).collect(Collectors.toList());
