@@ -121,12 +121,12 @@ public class App extends Application {
 
         List<ReportInterval> teste = AppointmentCalculator.calculateReports();
         for(ReportInterval rpi : teste){
-            System.out.println(rpi.getAppointmmentId());
-            System.out.println(rpi.getVerba());
-            System.out.println(rpi.getStart());
-            System.out.println(rpi.getEnd());
-            
-            System.out.println(((rpi.getEnd()).getTime()-(rpi.getStart()).getTime())/60000);
+            System.out.println("getAppointmmentId: " + rpi.getAppointmmentId()
+                + " | getVerba: " + rpi.getVerba()
+                + " | getStart: " + rpi.getStart()
+                + " | getEnd: " + rpi.getEnd()
+                + " | total: "+ ((rpi.getEnd()).getTime()-(rpi.getStart()).getTime())/60000
+            );
            
             
             

@@ -39,20 +39,20 @@ public class AppointmentCalculator {
             "Julio", 
             AppointmentType.Overtime, 
             DateConverter.stringToTimestamp("2023-05-02 22:00:00"), 
-            DateConverter.stringToTimestamp("2023-05-03 15:00:00"), 
+            DateConverter.stringToTimestamp("2023-05-04 15:00:00"), 
             "Squad Foda", 
             "Cleitin", 
             "ProjetoA", 
             "pq sim", 
             0, 
             "sample"
-            );
+        );
 
         
         
         // lista paa teste
         appointments.add(app1);
-        List<ReportInterval> reportsTemporary = new ArrayList<ReportInterval>();
+        // List<ReportInterval> reportsTemporary = new ArrayList<ReportInterval>();
         List<ReportInterval> reportsFinal = new ArrayList<ReportInterval>();
         for(Appointment apt: appointments){
             aptStartDateTime = apt.getStartDate().toLocalDateTime();
@@ -60,9 +60,7 @@ public class AppointmentCalculator {
             // System.out.println("apt end: " + apt.getEndDate() + " | localdatetime start: " + aptEndDateTime);
             aptPeriod = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime))/60;
             // apt1 são as primeiras duas horas do apontamento e apt2 o restante            
-            System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
             Appointment apt1 = apt.copy();
-            System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
             apt1.setEndDate(DateConverter.toTimestamp((apt.getStartDate().toLocalDateTime()).plusHours(2)));
             Appointment apt2 = apt.copy();
             System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
@@ -73,47 +71,23 @@ public class AppointmentCalculator {
             if(apt.getType() == AppointmentType.OnNotice){
                 System.out.println("é sobreaviso");
                 System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
-                reportsTemporary = calculateOnNotice(apt);
-                if(reportsTemporary != null){
-                    for(ReportInterval repInt: reportsTemporary){
-                    reportsFinal.add(repInt);
-                    }
-                
-                }
+                for(ReportInterval repInt: calculateOnNotice(apt)) reportsFinal.add(repInt);
             }
             else{
                 System.out.println("é hora extra");
                 for(IntervalFee verba: IntervalFee.VERBAS){
-                    if(aptPeriod <= 2){
-                        if(verba.getMinHourCount() != 0){continue;}
-                        else{
-                            reportsTemporary = calculateIntervals(apt, verba);
-                            if(reportsTemporary != null){
-                                for(ReportInterval repInt: reportsTemporary){
-                                    reportsFinal.add(repInt);
-                                }
-                            }
-                        }
 
+                    if(verba.getCode() == 1809 || (aptPeriod <= verba.getMinHourCount())){
+                        for(ReportInterval repInt : calculateIntervals(apt, verba)) {
+                            reportsFinal.add(repInt);
+                        }
                     }
+
                     else{
-                        if(verba.getMinHourCount() != 0){reportsTemporary = calculateIntervals(apt2, verba);
-                            System.out.println("verba com horário mínimo");
-                            if(reportsTemporary != null){
-                                for(ReportInterval repInt: reportsTemporary){
-                                    reportsFinal.add(repInt);
-                                }
-                            }
-                        }
-                        else{reportsTemporary = calculateIntervals(apt1, verba);
-                            if(reportsTemporary != null){
-                                for(ReportInterval repInt: reportsTemporary){
-                                    reportsFinal.add(repInt);
-                                }
-                            }
-                        }
-                        
+                        List<ReportInterval> reportsTemporary = verba.getMinHourCount() != 0 ? calculateIntervals(apt2, verba) : calculateIntervals(apt1, verba);
+                        for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
                     }
+                        
                 }
             }
         }
@@ -213,47 +187,39 @@ public class AppointmentCalculator {
 
     }
 
+
+    private static boolean detectaInterDiaSemana (IntervalFee intervalFee, LocalDate aptEndLocalDate, LocalDate actualDay, int actualDayOfWeek) {
+        while(!actualDay.isAfter(aptEndLocalDate)){
+            // uso %7 pois getDayOfWeek().getValue() considera domingo como sendo 7, e para padronizar quero que seja 0
+            if(intervalFee.getDaysOfWeek()[(actualDayOfWeek % 7)]) return true;
+            actualDay = actualDay.plusDays(1);
+            actualDayOfWeek = actualDay.getDayOfWeek().getValue();
+        }
+        return false;
+    }
+
     public static List<ReportInterval> calculateIntervals(Appointment aptOverTime, IntervalFee intervalFee){
             // conversão de Timestamp para LocalTime
 
         List<ReportInterval> reportsOvertime = new ArrayList<ReportInterval>();
             
         LocalDateTime aptStartDateTime = aptOverTime.getStartDate().toLocalDateTime();
-        LocalTime aptStartLocalTime = aptStartDateTime.toLocalTime();
         LocalDate aptStartLocalDate = aptStartDateTime.toLocalDate();
         
         LocalDateTime aptEndDateTime = aptOverTime.getEndDate().toLocalDateTime();
-        LocalTime aptEndLocalTime = aptEndDateTime.toLocalTime();
         LocalDate aptEndLocalDate = aptEndDateTime.toLocalDate();
         
         long numberOfOverlappingMinutes = 0;
         long numberOfOverlappingMinutes_ = 0;
         long dayHourCount = ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime);
 
-                                
         // Check if the day of the week falls within the configured range
         LocalDate actualDay = aptStartLocalDate;
         int actualDayOfWeek = actualDay.getDayOfWeek().getValue();
-        boolean auxiliar = false; 
-        while(!actualDay.isAfter(aptEndLocalDate)){
-            // uso %7 pois getDayOfWeek().getValue() considera domingo como sendo 7, e para padronizar quero que seja 0
-            if(intervalFee.getDaysOfWeek()[(actualDayOfWeek % 7)]){
-                auxiliar = true;
-                break;}
-                actualDay = actualDay.plusDays(1);
-                actualDayOfWeek = actualDay.getDayOfWeek().getValue();
-            }
-        if(auxiliar == false){return null;}
 
-        // casos em que a verba apenas começa a valer após as 2 horas            
-        if (dayHourCount < intervalFee.getMinHourCount()) {
-            System.out.println("\tfails at: dayHourCount(" + dayHourCount + ") < minHourCount(" + intervalFee.getMinHourCount() + ")");
-            return null;
-        }
+        if (!detectaInterDiaSemana(intervalFee, aptEndLocalDate, actualDay, actualDayOfWeek)) return List.of();
             
         // checar se há intersecção com período noturno  
-        LocalTime meiaNoite = LocalTime.of(0, 0, 0);
-        // LocalTime onzeE59 = LocalTime.of(23, 59, 59);
         LocalDateTime verbastart = null;
         LocalDateTime verbaEnd = null;
         LocalDateTime verbaStart_ = null;
@@ -262,7 +228,6 @@ public class AppointmentCalculator {
         LocalDateTime earlierEnd = null;
         LocalDateTime laterStart_ = null;
         LocalDateTime earlierEnd_ = null;
-        auxiliar = false;
         if((intervalFee.getStartHour() != null) && (intervalFee.getEndHour() != null)){
             actualDay = aptStartLocalDate;
             while(!actualDay.isAfter(aptEndLocalDate)){
@@ -275,6 +240,7 @@ public class AppointmentCalculator {
                     // if(intervalFee.getEndHour().isBefore(intervalFee.getStartHour()) & intervalFee.getEndHour() != meiaNoite){
                     if(intervalFee.getEndHour().isBefore(intervalFee.getStartHour())){
                         if(actualDay == aptStartLocalDate){
+                            System.out.println("verba: "+intervalFee.getCode()+" | actualDay: "+actualDay+" == aptStartLocalDate: "+aptStartLocalDate+" |");
                             verbaStart_ = actualDay.atTime(0, 0);
                             verbaEnd_ = actualDay.atTime(intervalFee.getEndHour());
                         }
@@ -307,7 +273,6 @@ public class AppointmentCalculator {
                         laterStart = Collections.max(Arrays.asList(verbastart, aptStartDateTime));
                         earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
                         numberOfOverlappingMinutes += ChronoUnit.MINUTES.between(laterStart, earlierEnd);
-                        if(numberOfOverlappingMinutes != 0){auxiliar = true;};
                         ReportInterval reportInterval = new ReportInterval(
                             aptOverTime.getId(), 
                             DateConverter.toTimestamp(laterStart), 
@@ -326,7 +291,7 @@ public class AppointmentCalculator {
                     else{
                         laterStart_ = Collections.max(Arrays.asList(verbaStart_, aptStartDateTime));
                         earlierEnd_ = Collections.min(Arrays.asList(verbaEnd_, aptEndDateTime));
-                        numberOfOverlappingMinutes += ChronoUnit.MINUTES.between(laterStart_, earlierEnd_);
+                        numberOfOverlappingMinutes_ += ChronoUnit.MINUTES.between(laterStart_, earlierEnd_);
                         if(numberOfOverlappingMinutes_ != 0){auxiliar_ = true;};
                         ReportInterval reportInterval_ = new ReportInterval(
                             aptOverTime.getId(), 
