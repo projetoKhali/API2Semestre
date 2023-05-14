@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.view_controllers.BaseController;
@@ -34,32 +33,9 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
-
-        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/views.sql");
-
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Fulano colaborador 0", Profile.Colaborador, "e@xem.plo", "0", "0"
-        //     )
-        // );
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Fulano gestor 0", Profile.Gestor, "e@xem.plo", "0", "0"
-        //     )
-        // );
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Cicrano col 0", Profile.Colaborador, "e@xem.plo", "0", "0"
-        //     )
-        // );
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Cicrano ges 0", Profile.Gestor, "e@xem.plo", "0", "0"
-        //     )
-        // );
-
-
+        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        // QueryLibs.executeSqlFile("./SQL/views.sql");
+        
         setStage(stage);
  
         // try {
@@ -70,18 +46,13 @@ public class App extends Application {
         //     e.printStackTrace();
         // }
 
-        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        // QueryLibs.executeSqlFile("./SQL/views.sql");
-
-
-        stage.setScene(new Scene(loadFXML("views/report")));
-        stage.show();
+        // stage.setScene(new Scene(loadFXML("views/report")));
+        // stage.show();
 
         // loginView();
     }
 
     public static void loginView () {
-
         currentViewFxmlFile = (
             access == Profile.Administrator ? "login/provisory_adm" : 
             access == Profile.Gestor ? "login/provisory_ges" : 
