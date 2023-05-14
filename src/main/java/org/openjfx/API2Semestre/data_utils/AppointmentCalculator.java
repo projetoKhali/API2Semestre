@@ -1,9 +1,7 @@
 package org.openjfx.api2semestre.data_utils;
 
-import java.security.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,11 +10,8 @@ import java.util.List;
 
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
-import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.IntervalFee;
 import org.openjfx.api2semestre.report.ReportInterval;
-import org.openjfx.api2semestre.report.Week;
 
 // os cálculos serão feitos em minutos, e depois divididos por 60 para se chegar a quantidade de horas (em decimal).
 
@@ -30,8 +25,8 @@ public class AppointmentCalculator {
   
     
     public static List<ReportInterval> calculateReports(){
-    // "yyyy-MM-dd HH:mm:ss"
-    // public static List<ReportInAppointment> calculateReports(){
+        // "yyyy-MM-dd HH:mm:ss"
+        // public static List<ReportInAppointment> calculateReports(){
         // appointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getNome()));
         List<Appointment> appointments = new ArrayList<Appointment>();
         Appointment app1 = new Appointment(
@@ -180,8 +175,8 @@ public class AppointmentCalculator {
             System.out.println("onNotice_init " + onNotice_init );
             System.out.println("onNotice_end " + onNotice_end);
         }
-        Double onNoticeIntervalMinutes_Double = (double)onNoticeIntervalMinutes;
-        Double onNoticeIntervalHoursDecimal = onNoticeIntervalMinutes_Double/60;
+        // Double onNoticeIntervalMinutes_Double = (double)onNoticeIntervalMinutes;
+        // Double onNoticeIntervalHoursDecimal = onNoticeIntervalMinutes_Double/60;
         // return onNoticeIntervalHoursDecimal;
         return reportsOnNotice;
 
@@ -199,7 +194,7 @@ public class AppointmentCalculator {
     }
 
     public static List<ReportInterval> calculateIntervals(Appointment aptOverTime, IntervalFee intervalFee){
-            // conversão de Timestamp para LocalTime
+        // conversão de Timestamp para LocalTime
 
         List<ReportInterval> reportsOvertime = new ArrayList<ReportInterval>();
             
@@ -209,11 +204,6 @@ public class AppointmentCalculator {
         LocalDateTime aptEndDateTime = aptOverTime.getEndDate().toLocalDateTime();
         LocalDate aptEndLocalDate = aptEndDateTime.toLocalDate();
         
-        long numberOfOverlappingMinutes = 0;
-        long numberOfOverlappingMinutes_ = 0;
-        long dayHourCount = ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime);
-
-        // Check if the day of the week falls within the configured range
         LocalDate actualDay = aptStartLocalDate;
         int actualDayOfWeek = actualDay.getDayOfWeek().getValue();
 
@@ -224,10 +214,6 @@ public class AppointmentCalculator {
         LocalDateTime verbaEnd = null;
         LocalDateTime verbaStart_ = null;
         LocalDateTime verbaEnd_ = null;
-        LocalDateTime laterStart = null;
-        LocalDateTime earlierEnd = null;
-        LocalDateTime laterStart_ = null;
-        LocalDateTime earlierEnd_ = null;
         if((intervalFee.getStartHour() != null) && (intervalFee.getEndHour() != null)){
             actualDay = aptStartLocalDate;
             while(!actualDay.isAfter(aptEndLocalDate)){
@@ -236,8 +222,7 @@ public class AppointmentCalculator {
                 // cálculo da LocalDateTie de início e fim da verba
                 if(intervalFee.getDaysOfWeek()[(actualDayOfWeek % 7)]){
                     verbastart = actualDay.atTime(intervalFee.getStartHour());
-                    // situação em a hora termina no dia seguinte
-                    // if(intervalFee.getEndHour().isBefore(intervalFee.getStartHour()) & intervalFee.getEndHour() != meiaNoite){
+                    // situação em que a hora termina no dia seguinte
                     if(intervalFee.getEndHour().isBefore(intervalFee.getStartHour())){
                         if(actualDay == aptStartLocalDate){
                             System.out.println("verba: "+intervalFee.getCode()+" | actualDay: "+actualDay+" == aptStartLocalDate: "+aptStartLocalDate+" |");
@@ -258,63 +243,43 @@ public class AppointmentCalculator {
                         verbaEnd = actualDay.atTime(intervalFee.getEndHour());
                     }
                 }
-                // else if(intervalFee.getDaysOfWeek()[((actualDayOfWeek+1) % 7)]){
-                //     verbastart = (actualDay.plusDays(1)).atTime(meiaNoite);
-                //     verbaEnd = (actualDay.plusDays(1)).atTime(intervalFee.getEndHour());
-                // }
-
                 // cálculo da intersecção
                 if(verbastart != null & verbaEnd != null){
-                    if(verbastart.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd)){
-                        numberOfOverlappingMinutes = 0;
-                        
-                    }
+                    if(verbastart.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd)){}
                     else{
-                        laterStart = Collections.max(Arrays.asList(verbastart, aptStartDateTime));
-                        earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
-                        numberOfOverlappingMinutes += ChronoUnit.MINUTES.between(laterStart, earlierEnd);
-                        ReportInterval reportInterval = new ReportInterval(
+                        LocalDateTime laterStart = Collections.max(Arrays.asList(verbastart, aptStartDateTime));
+                        LocalDateTime earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
+
+                        reportsOvertime.add(new ReportInterval(
                             aptOverTime.getId(), 
                             DateConverter.toTimestamp(laterStart), 
                             DateConverter.toTimestamp(earlierEnd),
-                            intervalFee.getCode());
-                            reportsOvertime.add(reportInterval);
+                            intervalFee.getCode()
+                        ));
                     }
                 }
                 if(verbaStart_ != null & verbaEnd_ != null){
 
-                    boolean auxiliar_= false;
-                    if(verbaStart_.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd_)){
-                        numberOfOverlappingMinutes_ = 0;
-                        
-                    }
+                    if(verbaStart_.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd_)){}
                     else{
-                        laterStart_ = Collections.max(Arrays.asList(verbaStart_, aptStartDateTime));
-                        earlierEnd_ = Collections.min(Arrays.asList(verbaEnd_, aptEndDateTime));
-                        numberOfOverlappingMinutes_ += ChronoUnit.MINUTES.between(laterStart_, earlierEnd_);
-                        if(numberOfOverlappingMinutes_ != 0){auxiliar_ = true;};
-                        ReportInterval reportInterval_ = new ReportInterval(
+                        LocalDateTime laterStart_ = Collections.max(Arrays.asList(verbaStart_, aptStartDateTime));
+                        LocalDateTime earlierEnd_ = Collections.min(Arrays.asList(verbaEnd_, aptEndDateTime));
+
+                        reportsOvertime.add(new ReportInterval(
                             aptOverTime.getId(), 
                             DateConverter.toTimestamp(laterStart_), 
                             DateConverter.toTimestamp(earlierEnd_),
-                            intervalFee.getCode());
-                            reportsOvertime.add(reportInterval_);
+                            intervalFee.getCode()
+                        ));
                     }
                 }
                     
                 actualDay = actualDay.plusDays(1);
             }
         }
-        // if(auxiliar == false){return 0.0;}
-        
-        if(intervalFee.getMinHourCount() != 0 && numberOfOverlappingMinutes != 0){
-            numberOfOverlappingMinutes = numberOfOverlappingMinutes - intervalFee.getMinHourCount();
-        }
-        
-        Double overlappingMinutes = (double)numberOfOverlappingMinutes;
-                
+
         return reportsOvertime;
     }
 
 }
-       
+
