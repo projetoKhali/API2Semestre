@@ -28,8 +28,11 @@ public class LoginAdm {
             if (Authentication.login(new User(
                 tf_name.getText(),
                 Profile.Administrator,
-                ProvisoryLogin.parseSquads(tf_member.getText()),
-                ProvisoryLogin.parseSquads(tf_manages.getText())
+                "exemplo@email.com",
+                "0",
+                "0"
+                // ProvisoryLogin.parseSquads(tf_member.getText()),
+                // ProvisoryLogin.parseSquads(tf_manages.getText())
 
             ))) {
                 App.changeView(ProvisoryLogin.handleViews());

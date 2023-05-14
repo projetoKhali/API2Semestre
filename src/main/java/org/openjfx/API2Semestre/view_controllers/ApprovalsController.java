@@ -8,9 +8,11 @@ import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.appointments.Appointment;
-import org.openjfx.api2semestre.appointments.AppointmentType;
 import org.openjfx.api2semestre.appointments.Status;
-import org.openjfx.api2semestre.data_utils.DateConverter;
+import org.openjfx.api2semestre.authentication.Authentication;
+import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.authentication.User;
+import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.popups.PopUpJustificationController;
 import org.openjfx.api2semestre.view_controllers.popups.PopupCallbackHandler;
@@ -21,8 +23,8 @@ import org.openjfx.api2semestre.view_macros.ColumnConfig;
 import org.openjfx.api2semestre.view_macros.ColumnConfigString;
 import org.openjfx.api2semestre.view_macros.TableCheckBoxMacros;
 import org.openjfx.api2semestre.view_macros.TableMacros;
-import org.openjfx.api2semestre.view_utils.AppointmentFilter;
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
+import org.openjfx.api2semestre.view_utils.filters.AppointmentFilter;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -122,33 +124,22 @@ public class ApprovalsController {
 
     private void updateTable () {
         List<Appointment> items = new ArrayList<>();
-        // System.out.println("ApprovalsController.updateTable() -- Atualizar implementação para usar usuário cadastrado :)");
-        // Authentication.login(new User("jhow", Profile.Gestor, List.of(), List.<String>of("TESTE")));
-        // for (String centroResultado : Authentication.getCurrentUser().getManagesCRs()) {
-        //     // System.out.println("centroResultado: " + centroResultado);
-        //     for(Appointment apt : QueryLibs.squadSelect(centroResultado)) {
-        //         // System.out.println("apt: " + apt);
-        //         // try {
-        //             items.add(apt);
-        //         // } catch (Exception e) {
-        //         //     e.printStackTrace();
-        //         // }
-        //     }
-        // }
-        // System.out.println(items.size() + " appointments returned from select ");
-        items.add(new Appointment(
-            0,
-            "fulano",
-            AppointmentType.Overtime,
-            DateConverter.stringToTimestamp("2023-05-05 22:00:00"),
-            DateConverter.stringToTimestamp("2023-05-06 15:00:00"),
-            "TESTE",
-            "CLIENTE",
-            "TESTEPROJ",
-            "VIXI MANO MT TRAMPO TA LIGADO MANO",
-            0,
-            "null"
-        ));
+
+        // TODO: Remover login teste
+        Authentication.login(new User("jhow", Profile.Gestor, "e@xem.plo", "teste", "teste"));
+
+        for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(Authentication.getCurrentUser().getId())) {
+            // System.out.println("resultCenter: " + resultCenter);
+            for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId())) {
+                // System.out.println("apt: " + apt);
+                // try {
+                    items.add(apt);
+                // } catch (Exception e) {
+                //     e.printStackTrace();
+                // }
+            }
+        }
+
         loadedAppointments = items;
 
         applyFilter();
