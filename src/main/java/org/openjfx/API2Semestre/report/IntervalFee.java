@@ -50,6 +50,7 @@ public class IntervalFee {
         new IntervalFee(3001, 1.00, Week.UTEIS.get(), LocalTime.of(18, 0, 0), LocalTime.of(06, 0, 0), 2, false),
         new IntervalFee(3000, 0.75, Week.UTEIS.get(), LocalTime.of(18, 0, 0), LocalTime.of(06, 0, 0),  0, false),
         new IntervalFee(1809, 0.3, Week.ALL.get(), LocalTime.of(18, 0, 0), LocalTime.of(06, 0, 0),  0, true),
+        new IntervalFee(3016, 0.0, Week.ALL.get(), LocalTime.of(0, 0, 0), LocalTime.of(0, 0, 0),  0, true),
     };
 
     
