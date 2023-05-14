@@ -20,19 +20,19 @@ public class Authentication {
         return true;
     }
 
-    public static boolean verifyPassword(String password, User user) {
+    public static void verifyPassword(String password, User user) {
         // encontra o usuário pelo email
-        Optional<VwUser> loginUser = QueryLibs.selectUserByEmail(user.getEmail());
-        VwUser dataBaseUser = loginUser.get();
+        Optional<User> loginUser = QueryLibs.selectUserByEmail(user.getEmail());
+        User dataBaseUser = loginUser.get();
         // incripita a senha
         String insertPassword = PasswordIncription.encryptPassword(password);
 
         // verifica se a senha incriptada é a mesma da do banco
-        if (dataBaseUser.getSenha() == insertPassword) {
-            return true;
+        if (insertPassword.equals(dataBaseUser.getSenha())) {
+            login(user);
         }
         else{
-            return false;
+            System.out.println("Erro: Senha inválida");
         }
     }
 
