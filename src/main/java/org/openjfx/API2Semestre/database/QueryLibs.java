@@ -63,7 +63,6 @@ public class QueryLibs {
             resultSet.next();
             return resultSet.getInt("id");
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         System.out.println("QueryLibs.executeInsert() -- Erro: nenhum id retornado");
@@ -91,7 +90,7 @@ public class QueryLibs {
         return executeInsert(
             QueryTable.User,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Nome, users.getNome()),
+                new QueryParam<String>(TableProperty.Name, users.getNome()),
                 new QueryParam<Integer>(TableProperty.Type, users.getPerfil().getProfileLevel()),
                 new QueryParam<String>(TableProperty.Email, users.getEmail()),
                 new QueryParam<String>(TableProperty.Senha, users.getSenha()),
@@ -372,5 +371,23 @@ public class QueryLibs {
         // fecha conexão
         // conexao.close();
     }
-
+    public static void insertRC(ResultCenter rc) {
+        executeInsert(
+            QueryTable.ResultCenter,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Nome, rc.getNome()),
+                new QueryParam<String>(TableProperty.Sigla, rc.getSigla()),
+                new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
+            }
+        );
+    }
+    public static void insertClient(Client cliente) {
+        executeInsert(
+            QueryTable.Client,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.RazaoSocial, cliente.getRazaoSocial()),
+                new QueryParam<String>(TableProperty.CNPJ, cliente.getCNPJ()),
+            }
+        );
+    }
 }
