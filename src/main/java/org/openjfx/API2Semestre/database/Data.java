@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
+import org.openjfx.api2semestre.appointments.VwAppointment;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.data.MemberRelation;
@@ -23,6 +24,23 @@ public class Data {
                 new Timestamp(((Date) resultSet.getObject("hora_inicio")).getTime()),
                 new Timestamp(((Date) resultSet.getObject("hora_fim")).getTime()),
                 resultSet.getString("cr_id"),
+                resultSet.getString("cliente"),
+                resultSet.getString("projeto"),
+                resultSet.getString("justificativa"),
+                resultSet.getInt("aprovacao"),
+                resultSet.getString("feedback")
+            );
+        }
+        if (type == VwAppointment.class) {
+            return new VwAppointment(
+                resultSet.getInt("id"),
+                resultSet.getString("matricula"),
+                resultSet.getString("requester"),
+                AppointmentType.of(resultSet.getBoolean("tipo")),
+                new Timestamp(((Date) resultSet.getObject("hora_inicio")).getTime()),
+                new Timestamp(((Date) resultSet.getObject("hora_fim")).getTime()),
+                resultSet.getInt("cr_id"),
+                resultSet.getString("centro_nome"),
                 resultSet.getString("cliente"),
                 resultSet.getString("projeto"),
                 resultSet.getString("justificativa"),
