@@ -176,11 +176,11 @@ public class QueryLibs {
                 params
             )).get();
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSelectArray() -- Erro ao executar query");
+            System.out.println("QueryLibs.executeSelect() -- Erro ao executar query");
             ex.printStackTrace();
         }
         if (result == null) {
-            System.out.println("QueryLibs.executeSelectArray() -- Erro: Nenhum ResultSet retornado para a query");
+            System.out.println("QueryLibs.executeSelect() -- Erro: Nenhum ResultSet retornado para a query");
             return (T[])new Data[0];
         }
         List<T> resultList = new ArrayList<>();
@@ -191,7 +191,7 @@ public class QueryLibs {
                 resultList.add((T)Data.<T>create(type, result));
             }
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSelectArray() -- Erro ao ler resultado da query");
+            System.out.println("QueryLibs.executeSelect() -- Erro ao ler resultado da query");
             ex.printStackTrace();
         }
         return resultList.toArray((T[])Array.newInstance(type, resultList.size()));
@@ -255,7 +255,7 @@ public class QueryLibs {
             ResultCenter.class,
             QueryTable.ResultCenter,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.User,  usr_id)
+                new QueryParam<>(TableProperty.User, usr_id)
             }
         );
     }
@@ -394,7 +394,6 @@ public class QueryLibs {
             }
         ));
     }
-
 
     public static void testConnection(Connection conexao) {
         // Connection conexao = getConnection(); // Add param to testConnection so that it doesn't call getConnection() creating infinite loop

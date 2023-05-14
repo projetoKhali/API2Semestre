@@ -26,8 +26,8 @@ CREATE TABLE IF NOT EXISTS public.apontamento(
 CREATE TABLE IF NOT EXISTS public.usuario(
     id serial NOT NULL,
     nome VARCHAR NULL,
-    email VARCHAR NULL,
-    senha VARCHAR NULL,
+    email VARCHAR NOT NULL UNIQUE,
+    senha TEXT NULL,
     perfil INT NOT NULL,
     matricula VARCHAR NULL,
     

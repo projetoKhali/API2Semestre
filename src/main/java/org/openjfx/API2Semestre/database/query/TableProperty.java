@@ -35,7 +35,8 @@ public enum TableProperty {
 
 
     // TODO: IntervalFees table
-
+    
+    ;
 
 
 
