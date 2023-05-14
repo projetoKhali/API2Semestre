@@ -1,9 +1,7 @@
 package org.openjfx.api2semestre.data_utils;
 
-import java.security.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,11 +10,8 @@ import java.util.List;
 
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
-import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.IntervalFee;
 import org.openjfx.api2semestre.report.ReportInterval;
-import org.openjfx.api2semestre.report.Week;
 
 // os cálculos serão feitos em minutos, e depois divididos por 60 para se chegar a quantidade de horas (em decimal).
 
@@ -179,8 +174,8 @@ public class AppointmentCalculator {
             System.out.println("onNotice_init " + onNotice_init);
             System.out.println("onNotice_end " + onNotice_end);
         }
-        Double onNoticeIntervalMinutes_Double = (double)onNoticeIntervalMinutes;
-        Double onNoticeIntervalHoursDecimal = onNoticeIntervalMinutes_Double/60;
+        // Double onNoticeIntervalMinutes_Double = (double)onNoticeIntervalMinutes;
+        // Double onNoticeIntervalHoursDecimal = onNoticeIntervalMinutes_Double/60;
         // return onNoticeIntervalHoursDecimal;
         return reportsOnNotice;
 
@@ -206,8 +201,7 @@ public class AppointmentCalculator {
         
         LocalDateTime aptEndDateTime = aptOverTime.getEndDate().toLocalDateTime();
         LocalDate aptEndLocalDate = aptEndDateTime.toLocalDate();
-
-        // Check if the day of the week falls within the configured range
+        
         LocalDate actualDay = aptStartLocalDate;
         int actualDayOfWeek = actualDay.getDayOfWeek().getValue();
 
@@ -218,8 +212,6 @@ public class AppointmentCalculator {
         LocalDateTime verbaEnd = null;
         LocalDateTime verbaStart_ = null;
         LocalDateTime verbaEnd_ = null;
-        LocalDateTime laterStart = null;
-        LocalDateTime earlierEnd = null;
         if((intervalFee.getStartHour() != null) && (intervalFee.getEndHour() != null)){
             actualDay = aptStartLocalDate;
             while(!actualDay.isAfter(aptEndLocalDate)){
@@ -249,46 +241,43 @@ public class AppointmentCalculator {
                         verbaEnd = actualDay.atTime(intervalFee.getEndHour());
                     }
                 }
-
                 // cálculo da intersecção
                 if(verbastart != null & verbaEnd != null){
-                    if(verbastart.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd)){
-                        
-                    }
+                    if(verbastart.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd)){}
                     else{
-                        laterStart = Collections.max(Arrays.asList(verbastart, aptStartDateTime));
-                        earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
-                        ReportInterval reportInterval = new ReportInterval(
+                        LocalDateTime laterStart = Collections.max(Arrays.asList(verbastart, aptStartDateTime));
+                        LocalDateTime earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
+
+                        reportsOvertime.add(new ReportInterval(
                             aptOverTime.getId(), 
                             DateConverter.toTimestamp(laterStart), 
                             DateConverter.toTimestamp(earlierEnd),
-                            intervalFee.getCode());
-                            reportsOvertime.add(reportInterval);
+                            intervalFee.getCode()
+                        ));
                     }
                 }
                 if(verbaStart_ != null & verbaEnd_ != null){
 
-                    if(verbaStart_.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd_)){
-                        
-                    }
+                    if(verbaStart_.isAfter(aptEndDateTime) || aptStartDateTime.isAfter(verbaEnd_)){}
                     else{
                         LocalDateTime laterStart_ = Collections.max(Arrays.asList(verbaStart_, aptStartDateTime));
                         LocalDateTime earlierEnd_ = Collections.min(Arrays.asList(verbaEnd_, aptEndDateTime));
-                        ReportInterval reportInterval_ = new ReportInterval(
+
+                        reportsOvertime.add(new ReportInterval(
                             aptOverTime.getId(), 
                             DateConverter.toTimestamp(laterStart_), 
                             DateConverter.toTimestamp(earlierEnd_),
-                            intervalFee.getCode());
-                            reportsOvertime.add(reportInterval_);
+                            intervalFee.getCode()
+                        ));
                     }
                 }
                     
                 actualDay = actualDay.plusDays(1);
             }
         }
-                
+
         return reportsOvertime;
     }
 
 }
-       
+
