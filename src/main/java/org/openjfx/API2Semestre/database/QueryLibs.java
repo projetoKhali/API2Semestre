@@ -228,9 +228,9 @@ public class QueryLibs {
 
     public static Optional<VwAppointment> selectAppointmentById(int id) {
         return executeSelectFirst(VwAppointment.class,
-        QueryTable.ViewAppointment,
-        new QueryParam<?>[] {
-            new QueryParam<Integer>(TableProperty.Id, id),
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
             }
         );
     }
@@ -245,15 +245,14 @@ public class QueryLibs {
         );
     }
 
-    public static ResultCenter selectResultCenter (int id) {
-        ResultCenter[] result = QueryLibs.<ResultCenter>executeSelect(
+    public static Optional<ResultCenter> selectResultCenter (int id) {
+        return QueryLibs.<ResultCenter>executeSelectFirst(
             ResultCenter.class,
             QueryTable.ResultCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.Id, id)
             }
         );
-        return result.length == 0 ? null : result[0];
     }
 
     public static ResultCenter[] selectResultCentersManagedBy (int usr_id) {
@@ -274,7 +273,7 @@ public class QueryLibs {
                 new QueryParam<>(TableProperty.User,  usr_id)
             }
         )).stream()
-        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()))
+        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()).get())
         .collect(Collectors.toList()).toArray(ResultCenter[]::new);
     }
 
