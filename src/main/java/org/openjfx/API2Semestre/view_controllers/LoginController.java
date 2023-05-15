@@ -2,7 +2,7 @@ package org.openjfx.api2semestre.view_controllers;
 
 import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.authentication.ProvisoryLogin;
+import org.openjfx.api2semestre.views_manager.ViewsManager;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -17,7 +17,7 @@ public class LoginController {
             String email = tf_email.getText();
             String password = tf_senha.getText();
             if (Authentication.login(email, password)) {
-                App.changeView(ProvisoryLogin.handleViews());
+                App.changeView(ViewsManager.handleViews());
             }
         } catch (Exception e) {
             System.out.println("Erro ao efetuar login");
