@@ -8,6 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.view_controllers.BaseController;
@@ -29,6 +30,26 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
+
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
+        //     "humano adm exemplo",
+        //     org.openjfx.api2semestre.authentication.Profile.Administrator,
+        //     "a@d.m",                             <---------------------------- LOGIN
+        //     "123"                                <---------------------------- SENHA
+        // ));
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
+        //     "humano ges exemplo",
+        //     org.openjfx.api2semestre.authentication.Profile.Gestor,
+        //     "g@e.s",                             <---------------------------- LOGIN
+        //     "123"                                <---------------------------- SENHA
+        // ));
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
+        //     "humano adm exemplo",
+        //     org.openjfx.api2semestre.authentication.Profile.Colaborador,
+        //     "c@o.l",                             <---------------------------- LOGIN
+        //     "123"                                <---------------------------- SENHA
+        // ));
+
         setStage(stage);
         loginView();
     }
@@ -48,43 +69,45 @@ public class App extends Application {
     }
 
     static void loadBase () throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.getFXML("base.fxml"));
+        FXMLLoader loader = new FXMLLoader(App.getFXML("base"));
         stage.setScene(new Scene(loader.load()));
         baseController = loader.getController();
 
         baseController.getLb_currentUser().setText("Logado como " + Authentication.getCurrentUser().getNome());
     }
 
-    public static void changeView (String newViewFxmlFile) {
+    public static void changeView (Optional<String> newViewFxmlOptional) {
         try {
 
             loadBase();
 
-            Parent module = loadFXML(newViewFxmlFile);
-            baseController.getAp_content().getChildren().add(module);
+            if (newViewFxmlOptional.isPresent()) {
+                String newViewFxml = newViewFxmlOptional.get();
+                Parent module = loadFXML(newViewFxml);
+                baseController.getAp_content().getChildren().add(module);
+                currentViewFxmlFile = newViewFxml;
+
+                for (View view : ViewsManager.getViews()) {
     
-            for (View view : ViewsManager.getViews()) {
-
-                FXMLLoader viewButtonLoader = new FXMLLoader(App.getFXML("templates/viewButtonTemplate.fxml"));
-
-                baseController.getVb_views().getChildren().add(viewButtonLoader.load());
-
-                ViewButtonController viewButtonTemplateController = viewButtonLoader.getController();
-
-                String buttonViewFxmlFile = view.getFxmlFileName();
-
-                viewButtonTemplateController.setView(buttonViewFxmlFile);
-                viewButtonTemplateController.setText(view.getDisplayName());
-
-                if (buttonViewFxmlFile.equals(currentViewFxmlFile)) viewButtonTemplateController.setDisable(false);
-                if (buttonViewFxmlFile.equals(newViewFxmlFile)) viewButtonTemplateController.setDisable(true);
+                    FXMLLoader viewButtonLoader = new FXMLLoader(App.getFXML("templates/viewButtonTemplate"));
+    
+                    baseController.getVb_views().getChildren().add(viewButtonLoader.load());
+    
+                    ViewButtonController viewButtonTemplateController = viewButtonLoader.getController();
+    
+                    String buttonViewFxmlFile = view.getFxmlFileName();
+    
+                    viewButtonTemplateController.setView(buttonViewFxmlFile);
+                    viewButtonTemplateController.setText(view.getDisplayName());
+    
+                    if (buttonViewFxmlFile.equals(currentViewFxmlFile)) viewButtonTemplateController.setDisable(false);
+                    if (buttonViewFxmlFile.equals(newViewFxml)) viewButtonTemplateController.setDisable(true);
+                }
 
             }
 
-            currentViewFxmlFile = newViewFxmlFile;
-
         } catch (Exception ex) {
-            System.out.println("App.changeView() -- Erro!");
+            System.out.println("App.changeView() -- Erro ao trocar para a tela '" + newViewFxmlOptional + "'");
             ex.printStackTrace();
         }
     }

@@ -1,12 +1,12 @@
 package org.openjfx.api2semestre.view_controllers;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.App;
-import org.openjfx.api2semestre.data_utils.DateConverter;
+import org.openjfx.api2semestre.data_utils.AppointmentCalculator;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.ReportExporter;
 import org.openjfx.api2semestre.report.ReportInterval;
 import org.openjfx.api2semestre.view_macros.ColumnConfig;
@@ -138,13 +138,7 @@ public class ReportController {
     }
 
     private void updateTable () {
-        loadedIntervals = List.of(
-            new ReportInterval(1, 12345, DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12), "12:12"), DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11), "11:11")),
-            new ReportInterval(1, 12345, DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12), "10:12"), DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11), "11:11")),
-            new ReportInterval(1, 12345, DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12), "12:12"), DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11), "11:11")),
-            new ReportInterval(1, 12345, DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12), "12:12"), DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11), "11:11")),
-            new ReportInterval(1, 12345, DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12), "12:12"), DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11), "11:11"))
-        );
+        loadedIntervals = AppointmentCalculator.calculateReports(QueryLibs.selectAllAppointments());
         applyFilter();
     }
 

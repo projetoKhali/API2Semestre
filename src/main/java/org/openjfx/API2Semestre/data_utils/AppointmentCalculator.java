@@ -20,50 +20,8 @@ import org.openjfx.api2semestre.report.Week;
 
 public class AppointmentCalculator {
 
-    public static List<ReportInterval> calculateReports () {
+    public static List<ReportInterval> calculateReports (Appointment[] appointments) {
         List<ReportInterval> reportsFinal = new ArrayList<ReportInterval>();
-
-        List<Appointment> appointments = List.of(
-            new Appointment(
-                0,
-                "Julio", 
-                AppointmentType.OnNotice, 
-                DateConverter.stringToTimestamp("2023-05-07 22:00:00"), 
-                DateConverter.stringToTimestamp("2023-05-08 01:00:00"), 
-                "Squad Foda", 
-                "Cleitin", 
-                "ProjetoA", 
-                "pq sim", 
-                0, 
-                "sample"
-            ),
-            new Appointment(
-                1,
-                "Julio", 
-                AppointmentType.Overtime, 
-                DateConverter.stringToTimestamp("2023-05-07 22:30:00"), 
-                DateConverter.stringToTimestamp("2023-05-07 23:30:00"), 
-                "Squad Foda", 
-                "Cleitin", 
-                "ProjetoA", 
-                "pq sim", 
-                0, 
-                "sample"
-            ),
-            new Appointment(
-                2,
-                "Julio", 
-                AppointmentType.Overtime, 
-                DateConverter.stringToTimestamp("2023-05-08 16:30:00"), 
-                DateConverter.stringToTimestamp("2023-05-08 18:35:00"), 
-                "Squad Foda", 
-                "Cleitin", 
-                "ProjetoA", 
-                "pq sim", 
-                0, 
-                "sample"
-            )
-        );
 
         LinkedList<ReportInterval> intervalsOnNotice = new LinkedList<>();
 
@@ -121,7 +79,7 @@ public class AppointmentCalculator {
         return reportsFinal;
     }
     
-    public static List<ReportInterval> calculateOnNotice (LinkedList<ReportInterval> intervals, List<Appointment> appointments) {
+    private static List<ReportInterval> calculateOnNotice (LinkedList<ReportInterval> intervals, Appointment[] appointments) {
 
         // System.out.println("\ncalculateOnNotice");
         // for (ReportInterval i : intervals) {
@@ -243,7 +201,7 @@ public class AppointmentCalculator {
         return false;
     }
 
-    public static List<ReportInterval> calculateIntervals(Appointment aptOverTime, IntervalFee intervalFee){
+    private static List<ReportInterval> calculateIntervals(Appointment aptOverTime, IntervalFee intervalFee){
 
         List<ReportInterval> reportsOvertime = new ArrayList<ReportInterval>();
             
