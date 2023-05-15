@@ -128,4 +128,8 @@ public class Appointment extends Data {
     public Appointment setStatus(int status) { this.status = Status.of(status); return this; }
     public void setFeedback (String feedback) {this.feedback = feedback; }
 
+    public Appointment copy(){
+        return new Appointment(id, requester, type, startDate, endDate, squad, client, project, justification, status, feedback);
+    }
+
 }

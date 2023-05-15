@@ -27,9 +27,9 @@ public class ReportInterval {
             Duration.between(getStart().toInstant(), getEnd().toInstant()).getSeconds()
         ).format(DateTimeFormatter.ofPattern("HH:mm"));
     }
-    
-    // public void setAppointmmentId (int appointmmentId) { this.appointmmentId = appointmmentId; }
-    // public void setStart (Timestamp start) { this.start = start; }
-    // public void setEnd (Timestamp end) { this.end = end; }
-    // public void setVerba (int verba) { this.verba = verba; }
+
+    public void setAppointmmentId (int appointmmentId) { this.appointmmentId = appointmmentId; }
+    public void setStart (Timestamp start) { this.start = start; }
+    public void setEnd (Timestamp end) { this.end = end; }
+    public void setVerba (int verba) { this.verba = verba; }
 }
