@@ -10,8 +10,6 @@ import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.authentication.Profile;
-import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.popups.PopUpJustificationController;
