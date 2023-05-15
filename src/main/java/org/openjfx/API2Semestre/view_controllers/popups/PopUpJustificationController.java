@@ -14,10 +14,10 @@ import org.openjfx.api2semestre.view_utils.PrettyTableCell;
 import org.openjfx.api2semestre.view_utils.PrettyTableCellInstruction;
 
 
-public class PopUpFeedbackController {
+public class PopUpJustificationController {
 
     @FXML private TableView<AppointmentWrapper> tabela;
-    
+
     @FXML private TableColumn<AppointmentWrapper, String> col_status;
     @FXML private TableColumn<AppointmentWrapper, String> col_squad;
     @FXML private TableColumn<AppointmentWrapper, String> col_tipo;
@@ -26,21 +26,16 @@ public class PopUpFeedbackController {
     @FXML private TableColumn<AppointmentWrapper, String> col_cliente;
     @FXML private TableColumn<AppointmentWrapper, String> col_projeto;
     @FXML private TableColumn<AppointmentWrapper, String> col_total;
-   
-    @FXML private Label lb_feedback;
 
+    @FXML private Label lb_justification;
     
-    public static AppointmentWrapper apt_selected;
-    
-    
-    public void initialize(){
-        // System.out.println("testeoi");
-        lb_feedback.setText(apt_selected.getFeedback());
-        buildTable();
+    public void setAppointment(AppointmentWrapper apt) {
+        lb_justification.setText(apt.getJustification());
+        buildTable(apt);
     }
     
     @SuppressWarnings("unchecked")
-    private void buildTable () {
+    private void buildTable (AppointmentWrapper apt) {
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
         col_status.setCellFactory(column -> {
             return new PrettyTableCell<AppointmentWrapper, String>(new PrettyTableCellInstruction[] {
@@ -56,8 +51,7 @@ public class PopUpFeedbackController {
         col_cliente.setCellValueFactory( new PropertyValueFactory<>( "client" ));
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
-        // asdasdasdasdas( new PropertyValueFactory<>( "justification" ));
     
-        tabela.setItems(FXCollections.observableArrayList(List.of(apt_selected)));
+        tabela.setItems(FXCollections.observableArrayList(List.of(apt)));
     }
 }

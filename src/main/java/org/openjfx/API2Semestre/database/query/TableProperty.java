@@ -2,7 +2,7 @@ package org.openjfx.api2semestre.database.query;
 
 public enum TableProperty {
 
-    // universal property - All tables have this!
+    // Universal property - All tables have this!
     Id("id"),
 
     // Appointments table
@@ -16,7 +16,7 @@ public enum TableProperty {
     Justification("justificativa"),
     Status("aprovacao"),
     Feedback("feedback"),
-
+    
     // Users table
     Name("nome"),
     Email("email"),
@@ -24,21 +24,19 @@ public enum TableProperty {
     Profile("perfil"),
     Registration("matricula"),
 
-    // ResultCenter table
+    // ResultCenters table
     Sigla("sigla"),
     Codigo("codigo"),
     User("usr_id"),
-    NomeGestor("gestor_nome");
+    NomeGestor("gestor_nome"),
 
-    // TODO: Clients table
-
-
+    // Clients table
+    RazaoSocial("razao_social"),
+    CNPJ("cnpj"),
 
     // TODO: IntervalFees table
     
     ;
-
-
 
     // TableProperty variable and constructor
     private String stringValue;

@@ -20,7 +20,7 @@ public class Data {
         if (type == Appointment.class) {
             return new Appointment(
                 resultSet.getInt("id"),
-                resultSet.getString("usr_id"),
+                resultSet.getString("requester"),
                 AppointmentType.of(resultSet.getBoolean("tipo")),
                 new Timestamp(((Date) resultSet.getObject("hora_inicio")).getTime()),
                 new Timestamp(((Date) resultSet.getObject("hora_fim")).getTime()),

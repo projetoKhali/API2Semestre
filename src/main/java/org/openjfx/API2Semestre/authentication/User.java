@@ -31,7 +31,6 @@ public class User extends Data {
         String nome, 
         Profile perfil, 
         String email, 
-        String senha,
         String matricula
     ) {
         this(
@@ -39,7 +38,7 @@ public class User extends Data {
             nome,
             perfil,
             email,
-            senha,
+            matricula,
             matricula
         );
     }

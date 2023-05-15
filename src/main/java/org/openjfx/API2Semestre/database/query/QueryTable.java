@@ -6,16 +6,16 @@ public enum QueryTable {
     ViewAppointment("vw_apontamento"),
 
     User("public.usuario"),
-    ViewUser("public.vw_usuario"),
+    ViewUser("vw_usuario"),
 
     ResultCenter("public.centro_resultado"),
     ViewResultCenter("vw_centro_resultado"),
 
-    // TODO: Client,
+    Member("public.membro_cr"),
+
+    Client("public.cliente"),
 
     // TODO: IntervalFee,
-
-    Member("public.membro_cr"),
     ;
 
     private String stringValue;

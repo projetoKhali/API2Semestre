@@ -119,13 +119,17 @@ public class Appointment extends Data {
     // public void setId (int id) { this.id = id; }
     // public void setType (AppointmentType type) { this.type = type; }
     // public void setRequester (String requester) { this.requester = requester; }
-    // public void setStartDate (Date startDate) { this.startDate = startDate; }
-    // public void setEndDate (Date endDate) { this.endDate = endDate; }
+    public void setStartDate (Timestamp startDate) { this.startDate = startDate; }
+    public void setEndDate (Timestamp endDate) { this.endDate = endDate; }
     // public void setSquad (String squad) { this.squad = squad; }
     // public void setClient (String client) { this.client = client; }
     // public void setProject (String project) { this.project = project; }
     // public void setJustification (String justification) { this.justification = justification; }
     public Appointment setStatus(int status) { this.status = Status.of(status); return this; }
     public void setFeedback (String feedback) {this.feedback = feedback; }
+
+    public Appointment copy(){
+        return new Appointment(id, requester, type, startDate, endDate, squad, client, project, justification, status, feedback);
+    }
 
 }

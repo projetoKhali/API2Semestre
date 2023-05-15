@@ -1,19 +1,18 @@
 package org.openjfx.api2semestre.view_controllers;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
+import org.openjfx.api2semestre.view_controllers.popups.PopUpJustificationController;
 import org.openjfx.api2semestre.view_controllers.popups.PopupCallbackHandler;
 import org.openjfx.api2semestre.view_controllers.popups.PopupController;
 import org.openjfx.api2semestre.view_controllers.templates.ApprovePopupListItem;
@@ -34,70 +33,46 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class ApprovalsController implements Initializable {
+public class ApprovalsController {
 
-    @FXML
-    private ViewConfig view;
+    @FXML private TableColumn<AppointmentWrapper, Boolean> col_selecionar;
+    @FXML private TableColumn<AppointmentWrapper, String> col_requester;
+    @FXML private TableColumn<AppointmentWrapper, String> col_squad;
+    @FXML private TableColumn<AppointmentWrapper, String> col_tipo;
+    @FXML private TableColumn<AppointmentWrapper, String> col_inicio;
+    @FXML private TableColumn<AppointmentWrapper, String> col_fim;
+    @FXML private TableColumn<AppointmentWrapper, String> col_cliente;
+    @FXML private TableColumn<AppointmentWrapper, String> col_projeto;
+    @FXML private TableColumn<AppointmentWrapper, String> col_total;
+    @FXML private TableColumn<AppointmentWrapper, Void> col_justificativa;
 
-    @FXML
-    private Button btn_approve;
-
-    @FXML
-    private Button btn_reject;
-
-    @FXML
-    private TableColumn<AppointmentWrapper, Boolean> col_selecionar;
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_requester;
     private BooleanProperty col_requester_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_squad;
     private BooleanProperty col_squad_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_tipo;
     private BooleanProperty col_tipo_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_inicio;
     private BooleanProperty col_inicio_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_fim;
     private BooleanProperty col_fim_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_cliente;
     private BooleanProperty col_cliente_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_projeto;
     private BooleanProperty col_projeto_enableFilter = new SimpleBooleanProperty();
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_total;
-
-    @FXML 
-    private TableView<AppointmentWrapper> tabela;
+    @FXML private TableView<AppointmentWrapper> tabela;
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
     
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize() {
     
         buildTable();
 
@@ -132,13 +107,26 @@ public class ApprovalsController implements Initializable {
             },
             Optional.of(applyFilterCallback)
         );
+
+        col_justificativa.setCellFactory(column -> new TableCell<AppointmentWrapper, Void>() {
+            private final Button button = new Button("Ver");
+            {button.setOnAction(event -> showJustificationPopup(getTableView().getItems().get(getIndex()))); }
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) setGraphic(null);
+                else setGraphic(button);
+            }
+        });
     }
 
     private void updateTable () {
         List<Appointment> items = new ArrayList<>();
-        System.out.println("ApprovalsController.updateTable() -- Atualizar implementação para usar usuário cadastrado :)");
+
+        // Authentication.login(new User("jhow", Profile.Gestor, "e@xem.plo", "teste", "teste"));
+
         for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(Authentication.getCurrentUser().getId())) {
-            // System.out.println("centroResultado: " + centroResultado);
+            // System.out.println("resultCenter: " + resultCenter);
             for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId())) {
                 // System.out.println("apt: " + apt);
                 // try {
@@ -148,8 +136,7 @@ public class ApprovalsController implements Initializable {
                 // }
             }
         }
-        System.out.println(items.size() + " appointments returned from select ");
-    
+
         loadedAppointments = items;
 
         applyFilter();
@@ -182,6 +169,30 @@ public class ApprovalsController implements Initializable {
         TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
     }
 
+    private void showJustificationPopup (AppointmentWrapper apt) {
+
+        try {
+            // Create a new stage for the popup
+            Stage popupStage = new Stage();
+            popupStage.initModality(Modality.APPLICATION_MODAL);
+            popupStage.setTitle("Justificativa de " + apt.getType() + " do(a) " + apt.getRequester());
+
+            // Load the FXML file for the list item
+            FXMLLoader loader = new FXMLLoader(App.getFXML("popups/popUpJustification"));
+            AnchorPane popup = loader.load();
+            ((PopUpJustificationController)loader.getController()).setAppointment(apt);
+
+            // Create a scene for the popup
+            Scene scene = new Scene(popup, 800, 400);
+            popupStage.setScene(scene);
+            popupStage.showAndWait();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
     private List<AppointmentWrapper> getSelected () {
         return displayedAppointments.stream().filter((AppointmentWrapper apt) -> apt.getSelected()).collect(Collectors.toList());
     }
@@ -190,7 +201,7 @@ public class ApprovalsController implements Initializable {
     private void showApprovePopup (ActionEvent event) throws IOException {
         System.out.println("showApprovePopup");
         createPopup(
-            "templates/approvePopupListItem.fxml",
+            "templates/approvePopupListItem",
             "Aprovar",
             (List<ApprovePopupListItem> controllers) -> {
                 System.out.println("showApprovePopup callback");
@@ -209,7 +220,7 @@ public class ApprovalsController implements Initializable {
     private void showRejectPopup (ActionEvent event) throws IOException {
         System.out.println("showRejectPopup");
         createPopup(
-            "popups/rejectPopupListItem.fxml",
+            "templates/rejectPopupListItem",
             "Rejeitar",
             (List<RejectPopupListItem> controllers) -> {
                 // System.out.println("showRejectPopup callback");
@@ -245,25 +256,25 @@ public class ApprovalsController implements Initializable {
         popupStage.setTitle(actionText + " " + selectedAppointments.size() + " apontamentos selecionados");
 
         // Create a VBox to hold the HBox controls for each item
-        VBox vbox = new VBox();
-        vbox.setSpacing(8);
-        vbox.setPadding(new Insets(16));
+        VBox itemsVBox = new VBox();
+        itemsVBox.setPrefWidth(-1);
+        itemsVBox.setPrefHeight(-1);
+        itemsVBox.setSpacing(8);
+        itemsVBox.setAlignment(Pos.TOP_RIGHT);
+        itemsVBox.setPadding(new Insets(16));
 
         List<T> controllers = selectedAppointments.stream().map((AppointmentWrapper aptWrapper) -> {
             try {
                 // Load the FXML file for the list item
-                FXMLLoader loader = new FXMLLoader(getClass().getResource(popupFxmlFile));
+                FXMLLoader loader = new FXMLLoader(App.getFXML(popupFxmlFile));
                 VBox listItem = loader.load();
                 T controller = loader.getController();
-
 
                 controller.setSelected(aptWrapper);
                 controller.buildTable();
 
-                // TextField textField = (TextField) listItem.lookup("#textField");
-
                 // Add the HBox to the VBox
-                vbox.getChildren().add(listItem);
+                itemsVBox.getChildren().add(listItem);
 
                 return controller;
 
@@ -275,18 +286,22 @@ public class ApprovalsController implements Initializable {
 
         // Create a scroll pane to hold the VBox
         ScrollPane scrollPane = new ScrollPane();
-        scrollPane.setContent(vbox);
+        scrollPane.setPrefWidth(-1);
+        scrollPane.setPrefHeight(-1);
+        scrollPane.setContent(itemsVBox);
         scrollPane.setFitToWidth(true);
 
         // Create a button to close the popup
-        Button closeButton = new Button(actionText);
-        closeButton.setOnAction(event -> {
+        Button actionButton = new Button(actionText);
+        actionButton.setOnAction(event -> {
             callback.handlePopupList(controllers);
             popupStage.close();
         });
 
         // Create a VBox to hold the scroll pane and close button
-        VBox root = new VBox(scrollPane, closeButton);
+        VBox root = new VBox(scrollPane, actionButton);
+        root.setPrefWidth(-1);
+        root.setPrefHeight(-1);
 
         // Create a scene for the popup
         Scene scene = new Scene(root, 800, 400);

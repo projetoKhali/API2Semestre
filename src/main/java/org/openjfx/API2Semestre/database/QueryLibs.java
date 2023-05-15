@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.openjfx.api2semestre.data.Client;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.authentication.User;
@@ -33,7 +34,7 @@ public class QueryLibs {
     /// Caso não exista conexão, uma nova conexão é criada.
     private static Connection getConnection() {
         try {
-            return new SQLConnection().connect();
+            return SQLConnection.connect();
         } catch (Exception ex) {
             System.out.println("QueryLibs.getConnection() -- Erro: Falha ao iniciar conexão!");
             ex.printStackTrace();
@@ -120,6 +121,16 @@ public class QueryLibs {
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.User, usr_id),
                 new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
+            }
+        );
+    }
+
+    public static void insertClient(Client cliente) {
+        executeInsert(
+            QueryTable.Client,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.RazaoSocial, cliente.getRazaoSocial()),
+                new QueryParam<String>(TableProperty.CNPJ, cliente.getCNPJ()),
             }
         );
     }
@@ -219,7 +230,7 @@ public class QueryLibs {
         // e extrai os valores das colunas necessárias
         try {
             result.next();
-            System.out.println(Optional.of((T)Data.create(type, result)));
+            System.out.println(Optional.of((T)Data.<T>create(type, result)));
             return Optional.of((T)Data.create(type, result));
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelectOne() -- Erro ao ler resultado da query");
@@ -239,15 +250,14 @@ public class QueryLibs {
         );
     }
 
-    public static ResultCenter selectResultCenter (int id) {
-        ResultCenter[] result = QueryLibs.<ResultCenter>executeSelect(
+    public static Optional<ResultCenter> selectResultCenter (int id) {
+        return QueryLibs.<ResultCenter>executeSelectOne(
             ResultCenter.class,
             QueryTable.ViewResultCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.Id, id)
             }
         );
-        return result.length == 0 ? null : result[0];
     }
 
     public static ResultCenter[] selectResultCentersManagedBy (int usr_id) {
@@ -261,7 +271,7 @@ public class QueryLibs {
     }
 
     public static ResultCenter[] selectResultCentersOfMember (int usr_id) {
-        return Arrays.asList((MemberRelation[])executeSelect(
+        return Arrays.asList(QueryLibs.<MemberRelation>executeSelect(
             MemberRelation.class,
             QueryTable.Member,
             new QueryParam<?>[] {
@@ -310,7 +320,7 @@ public class QueryLibs {
     public static ResultCenter[] selectAllResultCenters() {
         return QueryLibs.<ResultCenter>executeSelectAll(
             ResultCenter.class,
-            QueryTable.ViewResultCenter
+            QueryTable.ResultCenter
         );
     }
 
@@ -341,16 +351,15 @@ public class QueryLibs {
         // incripta senha
         String passwordHash = PasswordIncription.encryptPassword(user.getSenha());
         try {
-            executeQuery(new Query(
-            QueryType.INSERT,
-            QueryTable.User,
-        new QueryParam<?> [] {
-            new QueryParam<>(TableProperty.Name, user.getNome()),
-            new QueryParam<>(TableProperty.Email, user.getEmail()),
-            new QueryParam<>(TableProperty.Password, passwordHash),
-            new QueryParam<Integer>(TableProperty.Profile, user.getPerfil().getProfileLevel()),
-            new QueryParam<>(TableProperty.Registration, user.getMatricula())
-        }));
+            executeInsert(
+                QueryTable.User,
+                new QueryParam<?> [] {
+                new QueryParam<>(TableProperty.Name, user.getNome()),
+                new QueryParam<>(TableProperty.Email, user.getEmail()),
+                new QueryParam<>(TableProperty.Password, passwordHash),
+                new QueryParam<Integer>(TableProperty.Profile, user.getPerfil().getProfileLevel()),
+                new QueryParam<>(TableProperty.Registration, user.getMatricula())
+            });
         } catch (Exception e) {
             System.out.println("ERROR: duplicate key value violates unique constraint\nEmail já existente!");
         }
@@ -453,5 +462,4 @@ public class QueryLibs {
         // fecha conexão
         // conexao.close();
     }
-
 }

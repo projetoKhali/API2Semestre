@@ -17,13 +17,14 @@ import javafx.stage.Stage;
 public class ReportExporter {
 
     // Extração de relatório csv de todos os colaboradores com as horas trabalhadas
-    // (matrícula, nome,
-    // verba, quantidade de horas, cliente, CR, projeto, justificativa);
+    // (matrícula, nome, verba, quantidade de horas, cliente, CR, projeto, justificativa);
 
     // seleciona local de salvamento
     public static String showSaveDialog(Stage stage) {
         FileChooser fileChooser = new FileChooser();
+        // titulo da janela
         fileChooser.setTitle("Salvar relatório");
+        // nome padrão do arquivo
         fileChooser.setInitialFileName("relatorio.csv");
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("CSV files (*.csv)", "*.csv");
         fileChooser.getExtensionFilters().add(extFilter);
@@ -40,8 +41,18 @@ public class ReportExporter {
             CSVWriter writer = new CSVWriter(new FileWriter(LocalFile));
 
             // escreve o cabeçalho do arquivo csv
-            writer.writeNext(new String[] { "Matricula", "Colaborador", "Verba", "Hora Início", "Hora Fim", "Verba",
-        "Centro Resultado", "Cliente", "Projeto", "Justificativa"});
+            writer.writeNext(new String[] {
+                "Matricula",
+                "Colaborador",
+                "Verba",
+                "Hora Início",
+                "Hora Fim",
+                "Total",
+                "Centro Resultado",
+                "Cliente",
+                "Projeto",
+                "Justificativa"
+            });
 
             // escreve registros enquanto houver
             for (ReportInterval reportInterval : data) {
@@ -60,16 +71,16 @@ public class ReportExporter {
                         Integer.toString(reportInterval.getVerba()),
                         reportInterval.getStart().toString(),
                         reportInterval.getEnd().toString(),
-                        // appointment.getCrId().toString(),
+                        reportInterval.getTotal(),
                         appointment.getCrName(),
                         appointment.getClient(),
                         appointment.getProject(),
                         appointment.getJustification()
                 });
             }
+            System.out.println("Successful Extraction! - ReportExporter.java");
             writer.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

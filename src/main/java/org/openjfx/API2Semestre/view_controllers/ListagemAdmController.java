@@ -166,7 +166,7 @@ public class ListagemAdmController implements Initializable {
 //         Parent root;
 // //        if(event.getSource()==bt_testePopUp){
 //         stage = new Stage();
-//         root = FXMLLoader.load(getClass().getResource(fileName));
+//         root = FXMLLoader.load(App.getFXML(fileName));
 //         stage.setScene(new Scene(root));
 //         stage.initModality(Modality.APPLICATION_MODAL);
 //         stage.initOwner(botao.getScene().getWindow());
