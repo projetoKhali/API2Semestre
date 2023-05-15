@@ -1,16 +1,18 @@
 package org.openjfx.api2semestre.appointments;
 import java.sql.Timestamp;
 
+import org.openjfx.api2semestre.database.Data;
+
 /// Representação de um apontamento de Hora-Extra ou Sobreaviso dentro do sistema java.
 /// Instanciado utilizando os dados de um apontamento na tabela .sql como atributos.
-/// Utilizado para facilitar a conversação entre os sistemas dentro do código.
-public class Appointment {
-    private Integer id;                 // Identificação unica do apontamento.
+/// Utilizado para facilitar a conversação entre os sistemas dentro do código. 
+public class Appointment extends Data {
+    private Integer id;             // Identificação unica do apontamento.
     // private int requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
     private String requester;
     private AppointmentType type;   // Tipo de apontamento: Hora-Extra / Sobreaviso.
-    private Timestamp startDate;       // Data de início do apontamento.
-    private Timestamp endDate;           // Data de término do apontamento.
+    private Timestamp startDate;    // Data de início do apontamento.
+    private Timestamp endDate;      // Data de término do apontamento.
     private String squad;           // Nome da squad pela qual o solicitante está prestando serviço nesse apontamento. TODO: mudar para referencia do tipo 'Squad'.
     private String client;          // Nome do cliente para qual o solicitante está prestando serviço nesse apontamento. TODO: remover cliente do apontamento pois futuramente consegue ser acessado dentro de "project".
     private String project;         // Nome do projeto para qual o solicitante está prestando serviço.

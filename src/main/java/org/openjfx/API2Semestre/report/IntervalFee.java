@@ -1,6 +1,5 @@
 package org.openjfx.api2semestre.report;
 
-import java.io.Externalizable;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,13 +8,18 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.openjfx.api2semestre.appointments.AppointmentType;
+
 public class IntervalFee {
+    static final AppointmentType Overtime = AppointmentType.Overtime;
 
     // Values
     private int code;
+    private double hourDuration;
     private double percent;
 
     // Condition
+    private AppointmentType type;
     private boolean[] daysOfWeek;
     private LocalTime startHour;
     private LocalTime endHour;
@@ -24,7 +28,9 @@ public class IntervalFee {
     
     public IntervalFee(
         int code,
-        Double percent,
+        double hourDuration,
+        double percent,
+        AppointmentType type,
         boolean[] daysOfWeek,
         LocalTime startHour,
         LocalTime endHour,
@@ -32,7 +38,9 @@ public class IntervalFee {
         boolean cumulative
     ) {
         this.code = code;
+        this.hourDuration = hourDuration;
         this.percent = percent;
+        this.type = type;
         this.daysOfWeek = daysOfWeek;
         this.startHour = startHour;
         this.endHour = endHour;
@@ -43,27 +51,25 @@ public class IntervalFee {
 
     // new IntervalFee(1001, 1.25f, Week.FDS.get(), 0, 0, 0, false),
     public static final IntervalFee[] VERBAS = new IntervalFee[] {
-        new IntervalFee(1602, 1.00, Week.FDS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 0, false),
-        new IntervalFee(1602, 1.00, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 2, false),
-        new IntervalFee(1601, 0.75, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(18, 0, 0), 0, false),
-        new IntervalFee(3001, 1.00, Week.FDS.get(), LocalTime.of(18, 0, 0), LocalTime.of(06, 0, 0), 0, false),
-        new IntervalFee(3001, 1.00, Week.UTEIS.get(), LocalTime.of(18, 0, 0), LocalTime.of(06, 0, 0), 2, false),
-        new IntervalFee(3000, 0.75, Week.UTEIS.get(), LocalTime.of(18, 0, 0), LocalTime.of(06, 0, 0),  0, false),
-        new IntervalFee(1809, 0.3, Week.ALL.get(), LocalTime.of(18, 0, 0), LocalTime.of(06, 0, 0),  0, true),
+        new IntervalFee(1602, 1.0,    1.00, Overtime, Week.FDS.get(), LocalTime.of(6, 0, 0), LocalTime.of(22, 0, 0), 0, false),
+        new IntervalFee(1602, 1.0,    1.00, Overtime, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(22, 0, 0), 2, false),
+        new IntervalFee(1601, 1.0,    0.75, Overtime, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(22, 0, 0), 0, false),
+        new IntervalFee(3001, 1.1429, 1.00, Overtime, Week.FDS.get(), LocalTime.of(22, 0, 0), LocalTime.of(6, 0, 0), 0, false),
+        new IntervalFee(3001, 1.1429, 1.00, Overtime, Week.UTEIS.get(), LocalTime.of(22, 0, 0), LocalTime.of(6, 0, 0), 2, false),
+        new IntervalFee(3000, 1.1429, 0.75, Overtime, Week.UTEIS.get(), LocalTime.of(22, 0, 0), LocalTime.of(6, 0, 0),  0, false),
+        new IntervalFee(1809, 1.1429, 0.3, Overtime, Week.ALL.get(), LocalTime.of(22, 0, 0), LocalTime.of(6, 0, 0),  0, true),
     };
 
     
     
+    // conversão de Timestamp para LocalTime
     public Double check (Timestamp appointmentStart, Timestamp appointmentEndTime, long dayHourCount) {
         
-        // conversão de Timestamp para LocalTime
         
         LocalDateTime aptStartDateTime = appointmentStart.toLocalDateTime();
-        LocalTime aptStartLocalTime = aptStartDateTime.toLocalTime();
         LocalDate aptStartLocalDate = aptStartDateTime.toLocalDate();
         
         LocalDateTime aptEndDateTime = appointmentEndTime.toLocalDateTime();
-        LocalTime aptEndLocalTime = aptEndDateTime.toLocalTime();
         LocalDate aptEndLocalDate = aptEndDateTime.toLocalDate();
         
         long numberOfOverlappingMinutes = 0;
@@ -140,7 +146,9 @@ public class IntervalFee {
     // Getters
     public int getCode() { return code; }
     public double getPercent() { return percent; }
+    public double getHourDuration() { return hourDuration; }
 
+    public AppointmentType getType() { return type; }
     public boolean[] getDaysOfWeek() { return daysOfWeek; }
     public LocalTime getStartHour() { return startHour; }
     public LocalTime getEndHour() { return endHour; }
@@ -150,7 +158,9 @@ public class IntervalFee {
     // Setters
     public void setCode(int code) { this.code = code; }
     public void setPercent(double percent) { this.percent = percent; }    
-    
+    public void setHourDuration(double hourDuration) { this.hourDuration = hourDuration; }
+
+    public void setType(AppointmentType type) { this.type = type; }
     public void setDaysOfWeek(boolean[] daysOfWeek) { this.daysOfWeek = daysOfWeek; }
     public void setStartHour(LocalTime startHour) { this.startHour = startHour; }
     public void setEndHour(LocalTime endHour) { this.endHour = endHour; }

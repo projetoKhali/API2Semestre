@@ -12,7 +12,23 @@ public enum View {
     }),
     Approvals(1, "Aprovação", "views/approvals", new Permission[] {
         Permission.Validate
-    });
+    }),
+    Users(2, "Usuários", "views/users", new Permission[] {
+        Permission.Register
+    }),
+    ResultCenters(3, "Centros de Resultado", "views/resultCenters", new Permission[] {
+        Permission.Register
+    }),
+    Clients(4, "Clientes", "views/clients", new Permission[] {
+        Permission.Register
+    }),
+    Report(5, "Relatório", "views/report", new Permission[] {
+        Permission.Report
+    }),
+    Parametrization(6, "Parametrização", "views/parametrization", new Permission[] {
+        Permission.FullAccess
+    }),
+    ;
 
     public static final View[] VIEWS = values();
 

@@ -14,8 +14,8 @@ import org.openjfx.api2semestre.view_macros.ColumnConfig;
 import org.openjfx.api2semestre.view_macros.ColumnConfigString;
 import org.openjfx.api2semestre.view_macros.TableCheckBoxMacros;
 import org.openjfx.api2semestre.view_macros.TableMacros;
-import org.openjfx.api2semestre.view_utils.AppointmentFilter;
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
+import org.openjfx.api2semestre.view_utils.filters.AppointmentFilter;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -127,7 +127,7 @@ public class ListagemAdmController implements Initializable {
 
     private void applyFilter () {
 
-        System.out.println("applyFilter");
+        // System.out.println("applyFilter");
 
         List<Appointment> appointmentsToDisplay = AppointmentFilter.filterFromView(
             loadedAppointments,
@@ -166,7 +166,7 @@ public class ListagemAdmController implements Initializable {
 //         Parent root;
 // //        if(event.getSource()==bt_testePopUp){
 //         stage = new Stage();
-//         root = FXMLLoader.load(getClass().getResource(fileName));
+//         root = FXMLLoader.load(App.getFXML(fileName));
 //         stage.setScene(new Scene(root));
 //         stage.initModality(Modality.APPLICATION_MODAL);
 //         stage.initOwner(botao.getScene().getWindow());

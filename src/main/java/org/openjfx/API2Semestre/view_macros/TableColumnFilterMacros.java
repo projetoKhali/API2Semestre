@@ -1,6 +1,7 @@
 package org.openjfx.api2semestre.view_macros;
 
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
 
 import java.util.function.Supplier;
 
@@ -22,10 +23,10 @@ public final class TableColumnFilterMacros {
         // final String defaultTitle = "|" + titleb + "|";
         // Define the onClick function for the column header
         column.setText(null);
-        Label defaultColumnTitleLabel = new Label(defaultTitle);
-        column.setGraphic(defaultColumnTitleLabel);
-        defaultColumnTitleLabel.setMaxWidth(Double.MAX_VALUE);
-        defaultColumnTitleLabel.setOnMouseClicked(clickEvent -> {
+        Label label = new Label(defaultTitle);
+        column.setGraphic(label);
+        label.setMaxWidth(Double.MAX_VALUE);
+        label.setOnMouseClicked(clickEvent -> {
             if (clickEvent.getClickCount() == 1) {
 
                 // Create a TextField and set it as the header graphic
@@ -45,29 +46,58 @@ public final class TableColumnFilterMacros {
                 // When text inside TextField changes
                 textField.onKeyTypedProperty().set(
                     editEvent -> {
-                        System.out.println(editEvent.getCharacter());
-                        enableFilter.set(enableFilterCallback.get());
-                        // System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
+                        // System.out.println("KeyTyped: '" + editEvent.getCharacter() + "'");
+                        if (enableFilterCallback.get()) {
+                            enableFilter.set(false);
+                            enableFilter.set(true);
+                        } else {
+                            enableFilter.set(false);
+                        }
+                        column.getGraphic().setStyle("-fx-text-fill: black;");
                     }
                 );
 
+                // When a key is pressed 
+                textField.onKeyPressedProperty().set(
+                    pressEvent -> {
+                        KeyCode key = pressEvent.getCode();
+                        // System.out.println("KeyPressed: '" + pressEvent.getCharacter() + "' | " + key);
+                        if (key != KeyCode.ESCAPE) return;
+                        column.setGraphic(label);
+                        label.setText(defaultTitle);
+                        enableFilter.set(false);
+                    }
+                );
                 // When the user presses Enter set the Label's text to the TextField value
                 textField.setOnAction(actionEvent -> {
                     column.setText(null);
-                    column.setGraphic(defaultColumnTitleLabel);
-                    defaultColumnTitleLabel.setText(textField.getText());
-                    enableFilter.set(enableFilterCallback.get());
-                    // System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
+                    column.setGraphic(label);
+                    label.setText(textField.getText());
+                    if (!label.getText().equals(defaultTitle)) {
+                        column.getGraphic().setStyle("-fx-text-fill: blue;");
+                    } else {
+                        column.getGraphic().setStyle("-fx-text-fill: black;");
+                    }
+                    if (enableFilterCallback.get()) {
+                        enableFilter.set(false);
+                        enableFilter.set(true);
+                    } else {
+                        enableFilter.set(false);
+                    }
                 });
 
                 // When the TextField loses focus, set the column header text to its previous value
                 // but only if TextField doesn't contain text
                 textField.focusedProperty().addListener((observable, oldValue, newValue) -> {
                     if (!newValue && !enableFilterCallback.get()) {
-                        column.setGraphic(defaultColumnTitleLabel);
-                        defaultColumnTitleLabel.setText(defaultTitle);
+                        column.setGraphic(label);
+                        label.setText(defaultTitle);
                         enableFilter.set(false);
-                        // System.out.println("FilterMacros -- title: " + defaultTitle + " | filter: " + enableFilter.get());
+                    } 
+                    if (!label.getText().equals(defaultTitle)) {
+                        column.getGraphic().setStyle("-fx-text-fill: blue;");
+                    } else {
+                        column.getGraphic().setStyle("-fx-text-fill: black;");
                     }
                 });
             }

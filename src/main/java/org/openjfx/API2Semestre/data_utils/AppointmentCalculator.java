@@ -77,7 +77,12 @@ public class AppointmentCalculator {
 
             if(apt.getType() == AppointmentType.OnNotice){
                 System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
-                intervalsOnNotice.add(new ReportInterval(apt.getId(), apt.getStartDate(), apt.getEndDate(), 3016));
+                intervalsOnNotice.add(new ReportInterval(
+                    apt.getId(),
+                    3016,
+                    apt.getStartDate(),
+                    apt.getEndDate())
+                );
             }
             else {
 
@@ -183,15 +188,15 @@ public class AppointmentCalculator {
                     LinkedList<ReportInterval> temp = new LinkedList<>();
                     temp.add(new ReportInterval(
                         currentInterval.getAppointmmentId(),
+                        3016,
                         onNoticeStart,
-                        aptStart,
-                        3016
+                        aptStart
                     ));
                     temp.add(new ReportInterval(
                         currentInterval.getAppointmmentId(),
+                        3016,
                         aptEnd,
-                        onNoticeEnd,
-                        3016
+                        onNoticeEnd
                     ));
 
                     for (ReportInterval subInt : calculateOnNotice(temp, appointments)) subIntervals.add(subInt);
@@ -275,10 +280,10 @@ public class AppointmentCalculator {
                                 LocalDateTime earlierEnd_ = Collections.min(Arrays.asList(verbaEnd_, aptEndDateTime));
             
                                 reportsOvertime.add(new ReportInterval(
-                                    aptOverTime.getId(), 
-                                    DateConverter.toTimestamp(laterStart_), 
-                                    DateConverter.toTimestamp(earlierEnd_),
-                                    intervalFee.getCode()
+                                    aptOverTime.getId(),
+                                    intervalFee.getCode(),
+                                    DateConverter.toTimestamp(laterStart_),
+                                    DateConverter.toTimestamp(earlierEnd_)
                                 ));
                             }
                         }
@@ -302,10 +307,10 @@ public class AppointmentCalculator {
                         LocalDateTime earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
     
                         reportsOvertime.add(new ReportInterval(
-                            aptOverTime.getId(), 
-                            DateConverter.toTimestamp(laterStart), 
-                            DateConverter.toTimestamp(earlierEnd),
-                            intervalFee.getCode()
+                            aptOverTime.getId(),
+                            intervalFee.getCode(),
+                            DateConverter.toTimestamp(laterStart),
+                            DateConverter.toTimestamp(earlierEnd)
                         ));
                     }
 

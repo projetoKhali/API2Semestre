@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
 import org.openjfx.api2semestre.appointments.Status;
@@ -19,8 +20,8 @@ import org.openjfx.api2semestre.view_macros.ColumnConfig;
 import org.openjfx.api2semestre.view_macros.ColumnConfigStatus;
 import org.openjfx.api2semestre.view_macros.ColumnConfigString;
 import org.openjfx.api2semestre.view_macros.TableMacros;
-import org.openjfx.api2semestre.view_utils.AppointmentFilter;
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
+import org.openjfx.api2semestre.view_utils.filters.AppointmentFilter;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -209,8 +210,19 @@ public class AppointmentsController implements Initializable {
     }
 
     void inputAppointment (AppointmentType type) {
-        Appointment appointment = new Appointment(
-            "Fulano",
+        // Appointment appointment = new Appointment(
+        //     Authentication.getCurrentUser().getNome(),
+        //     type,
+        //     DateConverter.inputToTimestamp(cx_dataInicio.getValue(),cx_horaInicio.getText()),
+        //     DateConverter.inputToTimestamp(cx_dataFinal.getValue(),cx_horaFinal.getText()),
+        //     cx_squad.getText(),
+        //     cx_cliente.getText(),
+        //     cx_projeto.getText(),
+        //     cx_justificativa.getText()
+        // );
+        // System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
+        QueryLibs.insertAppointment(new Appointment(
+            Authentication.getCurrentUser().getNome(),
             type,
             DateConverter.inputToTimestamp(cx_dataInicio.getValue(),cx_horaInicio.getText()),
             DateConverter.inputToTimestamp(cx_dataFinal.getValue(),cx_horaFinal.getText()),
@@ -218,11 +230,10 @@ public class AppointmentsController implements Initializable {
             cx_cliente.getText(),
             cx_projeto.getText(),
             cx_justificativa.getText()
-        );
-        System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
-        QueryLibs.insertTable(appointment);
+        ));
 
-        displayedAppointments.add(new AppointmentWrapper(appointment));
+        // displayedAppointments.add(new AppointmentWrapper(appointment));
+        updateTable();
 
 
         // // Testes de Permissions na tag ViewConfig:
@@ -245,7 +256,7 @@ public class AppointmentsController implements Initializable {
            
             stage = new Stage();
     
-            root = FXMLLoader.load(PopUpFeedbackController.class.getResource(fileName));
+            root = FXMLLoader.load(App.getFXML(fileName));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(tabela.getScene().getWindow());

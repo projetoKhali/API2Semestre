@@ -26,7 +26,6 @@ public class AppointmentWrapper implements HasSelectedProperty {
         return new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(timestamp.getTime()));
     }
 
-    
     public String getType() { return appointment.getType().getStringValue(); }
     public String getRequester() { return appointment.getRequester(); }
     public String getStartDate() { return formatTime(appointment.getStartDate()); }

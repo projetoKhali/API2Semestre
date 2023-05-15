@@ -12,10 +12,8 @@ import java.sql.SQLException;
 
 public class SQLConnection {
 
-    private Connection conexao;
-
     // método de conexão com banco
-    public Connection connect() throws IOException {
+    public static Connection connect() throws IOException {
 
         String[] env = new String[] {
             "host",
@@ -51,6 +49,7 @@ public class SQLConnection {
 
         // driver de conexão
         String driver = "jdbc:postgresql://" + host + ":" + port + "/" + database;
+        Connection conexao = null;
         
         // tenta abrir conexão
         try {
@@ -60,12 +59,6 @@ public class SQLConnection {
             // objeto "conexao" para execução de comandos SQL
             conexao = DriverManager.getConnection(driver, userName, password);
             conexao.setAutoCommit(false);
-            
-            // try {
-            //     QueryLibs.testConnection();
-            // } catch (Exception e) {
-            //     System.out.println("erro: " + e);
-            // }
 
         // tratamento de erros
         } catch (ClassNotFoundException ex) {
@@ -79,46 +72,4 @@ public class SQLConnection {
 
     }
 
-    // public static void main(String[] args) throws SQLException, IOException {
-    //     // SQLConnection sqlConnection = new SQLConnection();
-    //     // Connection conexao = sqlConnection.connect();
-
-//        if (conexao != null) {
-//            System.out.println("Conexão feita com sucesso!");
-//        } else {
-//            System.out.println("Falha ao se conectar ao Banco de dados");
-//        }
-        
-        
-    //     // executa arquivos sql passando o endereço do arquivo como parâmetro
-        // QueryLibs.executeSqlFile("./SQL/Tabelas.sql");
-
-    //     // teste
-    //     Appointment apt = new Appointment(
-    //         "testemtloko",
-    //         AppointmentType.Overtime,
-    //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "11:00"),
-    //         DateConverter.inputToTimestamp(LocalDate.of(2013, 12, 1), "12:00"),
-    //         "khali",
-    //         "2rp",
-    //         "api2sem",
-    //         "paulo chamou"
-    //     );
-
-    //     // Erro ao executar a query: ERROR: column "requester" of relation "apontamento" does not exist
-    //     //      Posição: 49
-    //     // Erro ao executar a query: ERROR: column "requester" is of type integer but expression is of type character varying
-    //     //      Dica: You will need to rewrite or cast the expression.
-    //     //      Posição: 119
-    //     QueryLibs.insertTable(apt);
-    //     QueryLibs.simpleSelect("testemtloko");
-
-    //     System.out.println("oi");
-
-    //     // tras os apontamentos referentes ao id do usuário passado como parâmetro
-    //     // QueryLibs.collaboratorSelect(1);
-    //     // if (conexao != null) {
-    //     //     conexao.close();
-    //     // }
-    // }
 }

@@ -7,51 +7,69 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.time.temporal.ChronoUnit;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.net.URL;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
-import org.openjfx.api2semestre.data_utils.AppointmentCalculator;
-import org.openjfx.api2semestre.database.QueryLibs;
-import org.openjfx.api2semestre.report.IntervalFee;
-import org.openjfx.api2semestre.report.ReportInterval;
-import org.openjfx.api2semestre.report.Week;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 
 public class App extends Application {
-
+    
     // mude o perfil de acesso para logar com diferentes permissões
+    // private static final Profile access = Profile.Colaborador;
+    // private static final Profile access = Profile.Gestor;
     private static final Profile access = Profile.Administrator;
 
     private static Scene scene;
     private static Stage stage;
+
+    public static Stage getStage () { return stage; }
     private static void setStage (Stage newStage) { stage = newStage; }
-
+    
     private static String currentViewFxmlFile;
-
+    
     private static BaseController baseController;
-
+    
     @Override
     public void start(Stage stage) throws IOException {
-
-        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        // QueryLibs.executeSqlFile("./SQL/views.sql");
-
         setStage(stage);
 
-        loginView();
+        // // PARA RECRIAR TABELAS E VIEWS
+        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        // QueryLibs.executeSqlFile("./SQL/views.sql");
+        
+        // TESTE APROVAÇÃO
+        // stage.setScene(new Scene(loadFXML("views/approvals")));
+        // stage.show();
+
+        // TESTE RELATÓRIO
+        stage.setScene(new Scene(loadFXML("views/report")));
+        stage.show();
+
+        // // TESTE PARAMETRIZAÇÃO
+        // stage.setScene(new Scene(loadFXML("views/parametrization")));
+        // stage.show();
+
+        // TESTE RELATÓRIO
+        stage.setScene(new Scene(loadFXML("views/users")));
+        stage.show();
+
+        // // TESTE LOGIN
+        // Authentication.verifyPassword("teste123", new User(
+        //     "jhow",
+        //     Profile.Colaborador,
+        //     "jhooliveira.lopes1@gmail.com",
+        //     "teste123",
+        //     "123456"
+        // ));
+        
+        // loginView();
     }
 
     public static void loginView () {
-
         currentViewFxmlFile = (
             access == Profile.Administrator ? "login/provisory_adm" : 
             access == Profile.Gestor ? "login/provisory_ges" : 
@@ -60,7 +78,6 @@ public class App extends Application {
         
         try {
             scene = new Scene(loadFXML(currentViewFxmlFile));
-
             stage.setScene(scene);
             stage.show();
 
@@ -72,7 +89,7 @@ public class App extends Application {
     }
 
     static void loadBase () throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("base.fxml"));
+        FXMLLoader loader = new FXMLLoader(App.getFXML("base.fxml"));
         stage.setScene(new Scene(loader.load()));
         baseController = loader.getController();
 
@@ -89,7 +106,7 @@ public class App extends Application {
     
             for (View view : ViewsManager.getViews()) {
 
-                FXMLLoader viewButtonLoader = new FXMLLoader(App.class.getResource("templates/viewButtonTemplate.fxml"));
+                FXMLLoader viewButtonLoader = new FXMLLoader(App.getFXML("templates/viewButtonTemplate.fxml"));
 
                 baseController.getVb_views().getChildren().add(viewButtonLoader.load());
 
@@ -113,108 +130,23 @@ public class App extends Application {
         }
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+    public static URL getFXML (String fxml) {
+        return App.class.getResource(fxml + ".fxml");
+    }
+
+    private static Parent loadFXML(String fxml) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getFXML(fxml));
+            return fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void main(String[] args) {
-
-        List<ReportInterval> teste = AppointmentCalculator.calculateReports();
-        for(ReportInterval rpi : teste){
-            System.out.println(
-                "apt id: " + rpi.getAppointmmentId()
-                + " | verba: " + rpi.getVerba()
-                + " | start: " + rpi.getStart()
-                + " | end: " + rpi.getEnd()
-                + " | total: "+ ((rpi.getEnd()).getTime()-(rpi.getStart()).getTime())/60000
-            );
-        }
-
-
-        System.exit(1);
-
-        // verbas teste
-        IntervalFee[] verbas = new IntervalFee[] {
-
-            // // sem restrição de período / verba base
-            // new IntervalFee(1000, 1.00f, Week.ALL.get(), 0, 0, 0, false),
-
-            // // final de semana (sabado e domingo)
-            // new IntervalFee(1001, 1.25f, Week.FDS.get(), 0, 0, 0, false),
-
-            // // qualquer dia, noturno | cumulativo
-            // new IntervalFee(1002, 1.47f, Week.ALL.get(), 22, 6, 0, true),
-
-            // // qualquer dia, após 2 horas de hora-extra | cumulativo
-            // new IntervalFee(1002, 2.00f, Week.ALL.get(), 0, 0, 2, true)
-        };
-
-        Timestamp[][] testTimestamps = new Timestamp[][] {
-            new Timestamp[] {
-                new Timestamp(2023, 4, 30, 11, 0, 0, 0),
-                new Timestamp(2023, 4, 30, 12, 0, 0, 0)
-            },
-            new Timestamp[] {
-                new Timestamp(2023, 5, 1, 11, 0, 0, 0),
-                new Timestamp(2023, 5, 1, 12, 0, 0, 0)
-            },
-            new Timestamp[] {
-                new Timestamp(2023, 5, 1, 23, 30, 0, 0),
-                new Timestamp(2023, 5, 2, 0, 30, 0, 0)
-            }
-        };
-
-        // exemplo
-        // double sum = 0;
-        // for (int i = 0; i < testTimestamps.length; i++) {
-        //     Timestamp[] start_end = testTimestamps[i];
-        //     for (IntervalFee verba : verbas) {
-        //         System.out.println("["+i+"] verba " + verba.getCode() + " | verificando :)");
-
-        //         if (verba.check(start_end[0], start_end[1], sum) ) {
-        //             System.out.println("["+i+"] verba " + verba.getCode() + " aplica-se a " + start_end[0].toString() + " e " + start_end[1].toString());
-        //         }
-        //         else System.out.println("["+i+"] verba " + verba.getCode() + " NÃO se aplica a " + start_end[0].toString() + " e " + start_end[1].toString());
-        //         // sum += total;
-        //     }
-        // }
-        // System.exit(1);
-
-        // System.setProperty("javafx.fxml.debug", "true");
-        // launch();
-
-        System.out.print("oi");
-        String str_t1 = "2023-04-27 12:00";
-        String str_t1_final = "2023-04-28 12:00";
-        Timestamp timestamp_t1 = Timestamp.valueOf(str_t1);
-        Timestamp timestamp_t1_final = Timestamp.valueOf(str_t1_final);
-
-        String str_t2 = "2023-04-28 08:00";
-        String str_t2_final = "2023-04-28 13:00";
-        Timestamp timestamp_t2 = Timestamp.valueOf(str_t2);
-        Timestamp timestamp_t2_final = Timestamp.valueOf(str_t2_final);
-
-        LocalDateTime t1 = timestamp_t1.toLocalDateTime();
-        LocalDateTime t1_final = timestamp_t1_final.toLocalDateTime();
-        LocalDateTime t2 = timestamp_t2.toLocalDateTime();
-        LocalDateTime t2_final = timestamp_t2_final.toLocalDateTime();
-
-        if (t1_final.isBefore(t1) || t2_final.isBefore(t2)) {
-            System.out.println("Not proper intervals");
-        } else {
-            long numberOfOverlappingDates;
-            if (t1_final.isBefore(t2) || t2_final.isBefore(t1)) {
-                // no overlap
-                numberOfOverlappingDates = 0;
-            } else {
-                LocalDateTime laterStart = Collections.max(Arrays.asList(t1, t2));
-                LocalDateTime earlierEnd = Collections.min(Arrays.asList(t1_final, t2_final));
-                numberOfOverlappingDates = ChronoUnit.DAYS.between(laterStart, earlierEnd);
-            }
-            System.out.println("" + numberOfOverlappingDates + " days of overlap");
-        }
-
+        System.setProperty("javafx.fxml.debug", "true");
+        launch();
     }
 
 }
