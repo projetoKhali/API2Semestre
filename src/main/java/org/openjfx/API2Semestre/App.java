@@ -84,7 +84,7 @@ public class App extends Application {
             currentViewFxmlFile = newViewFxmlFile;
 
         } catch (Exception ex) {
-            System.out.println("App.changeView() -- Erro!");
+            System.out.println("App.changeView() -- Erro ao trocar para a tela '" + newViewFxmlFile + "'");
             ex.printStackTrace();
         }
     }

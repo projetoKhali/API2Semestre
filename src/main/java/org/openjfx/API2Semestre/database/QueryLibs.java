@@ -279,7 +279,7 @@ public class QueryLibs {
             }
         ))
         .stream()
-        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()))
+        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()).get())
         .collect(Collectors.toList())
         .toArray(ResultCenter[]::new);
     }
