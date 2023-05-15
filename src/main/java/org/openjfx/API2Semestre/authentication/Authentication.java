@@ -22,8 +22,8 @@ public class Authentication {
 
     public static boolean verifyPassword(String password, User user) {
         // encontra o usuário pelo email
-        Optional<VwUser> loginUser = QueryLibs.selectUserByEmail(user.getEmail());
-        VwUser dataBaseUser = loginUser.get();
+        Optional<User> loginUser = QueryLibs.selectUserByEmail(user.getEmail());
+        User dataBaseUser = loginUser.get();
         // incripita a senha
         String insertPassword = PasswordIncription.encryptPassword(password);
 

@@ -11,6 +11,8 @@ public enum QueryTable {
     ResultCenter("public.centro_resultado"),
     // ViewResultCenter("");
 
+    Member("public.membro_cr"),
+
     Client("public.cliente"),
 
     // TODO: IntervalFee,
