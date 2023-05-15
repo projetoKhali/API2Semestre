@@ -28,8 +28,8 @@ public class AppointmentCalculator {
                 0,
                 "Julio", 
                 AppointmentType.OnNotice, 
-                DateConverter.stringToTimestamp("2023-05-05 22:00:00"), 
-                DateConverter.stringToTimestamp("2023-05-07 19:00:00"), 
+                DateConverter.stringToTimestamp("2023-05-07 22:00:00"), 
+                DateConverter.stringToTimestamp("2023-05-08 01:00:00"), 
                 "Squad Foda", 
                 "Cleitin", 
                 "ProjetoA", 
@@ -41,8 +41,8 @@ public class AppointmentCalculator {
                 1,
                 "Julio", 
                 AppointmentType.Overtime, 
-                DateConverter.stringToTimestamp("2023-05-05 22:30:00"), 
-                DateConverter.stringToTimestamp("2023-05-06 00:30:00"), 
+                DateConverter.stringToTimestamp("2023-05-07 22:30:00"), 
+                DateConverter.stringToTimestamp("2023-05-07 23:30:00"), 
                 "Squad Foda", 
                 "Cleitin", 
                 "ProjetoA", 
@@ -54,8 +54,8 @@ public class AppointmentCalculator {
                 2,
                 "Julio", 
                 AppointmentType.Overtime, 
-                DateConverter.stringToTimestamp("2023-05-06 16:30:00"), 
-                DateConverter.stringToTimestamp("2023-05-06 18:30:00"), 
+                DateConverter.stringToTimestamp("2023-05-08 16:30:00"), 
+                DateConverter.stringToTimestamp("2023-05-08 18:35:00"), 
                 "Squad Foda", 
                 "Cleitin", 
                 "ProjetoA", 
@@ -182,13 +182,13 @@ public class AppointmentCalculator {
                     // da segunda metade de currentInterval. 
                     LinkedList<ReportInterval> temp = new LinkedList<>();
                     temp.add(new ReportInterval(
-                        apt.getId(),
+                        currentInterval.getAppointmmentId(),
                         onNoticeStart,
                         aptStart,
                         3016
                     ));
                     temp.add(new ReportInterval(
-                        apt.getId(),
+                        currentInterval.getAppointmmentId(),
                         aptEnd,
                         onNoticeEnd,
                         3016
