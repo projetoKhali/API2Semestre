@@ -242,7 +242,7 @@ public class QueryLibs {
     public static ResultCenter selectResultCenter (int id) {
         ResultCenter[] result = QueryLibs.<ResultCenter>executeSelect(
             ResultCenter.class,
-            QueryTable.ResultCenter,
+            QueryTable.ViewResultCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.Id, id)
             }
@@ -253,7 +253,7 @@ public class QueryLibs {
     public static ResultCenter[] selectResultCentersManagedBy (int usr_id) {
         return QueryLibs.<ResultCenter>executeSelect(
             ResultCenter.class,
-            QueryTable.ResultCenter,
+            QueryTable.ViewResultCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.User, usr_id)
             }
