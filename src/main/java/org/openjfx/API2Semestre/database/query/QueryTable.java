@@ -8,8 +8,8 @@ public enum QueryTable {
     User("public.usuario"),
     // ViewUser(""),
 
-    ResultsCenter("public.centro_resultado"),
-    // ViewResultsCenter("");
+    ResultCenter("public.centro_resultado"),
+    // ViewResultCenter("");
 
     Client("public.cliente"),
 
