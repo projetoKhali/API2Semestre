@@ -48,7 +48,7 @@ public class App extends Application {
     }
 
     static void loadBase () throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.getFXML("base.fxml"));
+        FXMLLoader loader = new FXMLLoader(App.getFXML("base"));
         stage.setScene(new Scene(loader.load()));
         baseController = loader.getController();
 
@@ -65,7 +65,7 @@ public class App extends Application {
     
             for (View view : ViewsManager.getViews()) {
 
-                FXMLLoader viewButtonLoader = new FXMLLoader(App.getFXML("templates/viewButtonTemplate.fxml"));
+                FXMLLoader viewButtonLoader = new FXMLLoader(App.getFXML("templates/viewButtonTemplate"));
 
                 baseController.getVb_views().getChildren().add(viewButtonLoader.load());
 
