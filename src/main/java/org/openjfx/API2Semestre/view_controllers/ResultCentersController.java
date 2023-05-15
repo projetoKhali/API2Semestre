@@ -34,7 +34,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
-public class ResultCenterController {
+public class ResultCentersController {
 
     @FXML private TextField tf_codigo;
     @FXML private TextField tf_colaborador;
@@ -231,7 +231,7 @@ public class ResultCenterController {
         String codigo = tf_codigo.getText();
 
         if (gestor == null || name.isBlank() || sigla.isBlank() || codigo.isBlank()) {
-            System.out.println("ResultCenterController.cadastrarCentro() -- Erro: Dado não informado!");
+            System.out.println("ResultCentersController.cadastrarCentro() -- Erro: Dado não informado!");
             return;
         }
 
