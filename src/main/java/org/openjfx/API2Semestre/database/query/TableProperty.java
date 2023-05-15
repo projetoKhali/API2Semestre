@@ -6,7 +6,7 @@ public enum TableProperty {
     Id("id"),
 
     // Appointments table
-    Requester("usr_id"),
+    Requester("requester"),
     Type("tipo"),
     StartDate("hora_inicio"),
     EndDate("hora_fim"),
