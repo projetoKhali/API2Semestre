@@ -9,6 +9,7 @@ public enum Week {
     Sex(new int[]{5}),
     Sab(new int[]{6}),
     ALL(new int[]{0,1,2,3,4,5,6}),
+    UTEIS(new int[]{1, 2, 3, 4, 5}),
     FDS(new int[]{0,6});
 
     private int[] indexes;
@@ -22,6 +23,15 @@ public enum Week {
             result[i] = true;
         }
         return result;
+    }
+
+    public boolean compare (boolean[] other) {
+        boolean[] days = get();
+        if (days.length != other.length) return false;
+        for (int i = 0; i < days.length; i++) {
+            if (days[i] != other[i]) return false;
+        }
+        return true;
     }
 
 

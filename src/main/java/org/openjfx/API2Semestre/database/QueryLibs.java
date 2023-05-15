@@ -21,7 +21,6 @@ import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.VwAppointment;
-import org.openjfx.api2semestre.authentication.VwUser;
 import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
@@ -35,7 +34,7 @@ public class QueryLibs {
     /// Caso não exista conexão, uma nova conexão é criada.
     private static Connection getConnection() {
         try {
-            return new SQLConnection().connect();
+            return SQLConnection.connect();
         } catch (Exception ex) {
             System.out.println("QueryLibs.getConnection() -- Erro: Falha ao iniciar conexão!");
             ex.printStackTrace();

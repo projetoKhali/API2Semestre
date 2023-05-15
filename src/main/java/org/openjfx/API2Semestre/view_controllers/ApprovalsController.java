@@ -45,51 +45,32 @@ import javafx.stage.Stage;
 
 public class ApprovalsController {
 
-    @FXML
-    private ViewConfig view;
+    @FXML private ViewConfig view;
 
-    @FXML
-    private Button btn_approve;
+    @FXML private Button btn_approve;
+    @FXML private Button btn_reject;
 
-    @FXML
-    private Button btn_reject;
+    @FXML private TableColumn<AppointmentWrapper, Boolean> col_selecionar;
+    
+    @FXML private TableView<AppointmentWrapper> tabela;
 
-    @FXML
-    private TableColumn<AppointmentWrapper, Boolean> col_selecionar;
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_requester;
+    @FXML private TableColumn<AppointmentWrapper, String> col_requester;
+    @FXML private TableColumn<AppointmentWrapper, String> col_squad;
+    @FXML private TableColumn<AppointmentWrapper, String> col_tipo;
+    @FXML private TableColumn<AppointmentWrapper, String> col_inicio;
+    @FXML private TableColumn<AppointmentWrapper, String> col_fim;
+    @FXML private TableColumn<AppointmentWrapper, String> col_cliente;
+    @FXML private TableColumn<AppointmentWrapper, String> col_projeto;
+    @FXML private TableColumn<AppointmentWrapper, String> col_total;
+    
     private BooleanProperty col_requester_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_squad;
     private BooleanProperty col_squad_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_tipo;
     private BooleanProperty col_tipo_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_inicio;
     private BooleanProperty col_inicio_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_fim;
     private BooleanProperty col_fim_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_cliente;
     private BooleanProperty col_cliente_enableFilter = new SimpleBooleanProperty();
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_projeto;
     private BooleanProperty col_projeto_enableFilter = new SimpleBooleanProperty();
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_total;
-
-    @FXML 
-    private TableView<AppointmentWrapper> tabela;
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
     
