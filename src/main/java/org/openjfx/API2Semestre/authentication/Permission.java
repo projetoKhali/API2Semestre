@@ -9,7 +9,9 @@ public enum Permission {
     Appoint("Appoint"),
     Validate("Validate"),
     Register("Register"),
-    FullAccess("FullAccess");
+    Report("Report"),
+    FullAccess("FullAccess"),
+    ;
 
     // The String value between the parentheses of each of the enum values above
     private String stringValue;

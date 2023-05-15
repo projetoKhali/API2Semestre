@@ -17,10 +17,14 @@ import org.openjfx.api2semestre.views_manager.ViewsManager;
 public class App extends Application {
     
     // mude o perfil de acesso para logar com diferentes permissões
-    private static final Profile access = Profile.Colaborador;
-    
+    // private static final Profile access = Profile.Colaborador;
+    // private static final Profile access = Profile.Gestor;
+    private static final Profile access = Profile.Administrator;
+
     private static Scene scene;
     private static Stage stage;
+
+    public static Stage getStage () { return stage; }
     private static void setStage (Stage newStage) { stage = newStage; }
     
     private static String currentViewFxmlFile;
@@ -41,6 +45,9 @@ public class App extends Application {
         //     // Auto-generated catch block
         //     e.printStackTrace();
         // }
+
+        // stage.setScene(new Scene(loadFXML("views/report")));
+        // stage.show();
 
         // loginView();
     }

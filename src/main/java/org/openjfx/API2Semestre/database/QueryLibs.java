@@ -216,7 +216,7 @@ public class QueryLibs {
         // e extrai os valores das colunas necessárias
         try {
             result.next();
-            System.out.println(Optional.of((T)Data.create(type, result)));
+            System.out.println(Optional.of((T)Data.<T>create(type, result)));
             return Optional.of((T)Data.create(type, result));
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelectArray() -- Erro ao ler resultado da query");
@@ -411,5 +411,4 @@ public class QueryLibs {
         // fecha conexão
         // conexao.close();
     }
-
 }
