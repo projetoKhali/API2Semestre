@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="280.0" prefWidth="784.0" snapToPixel="false" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.PopUpFeedbackController">
+<AnchorPane prefHeight="280.0" prefWidth="784.0" snapToPixel="false" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.popups.PopUpJustificationController">
    <children>
       <FlowPane layoutY="4.0" prefHeight="59.0" prefWidth="722.0" AnchorPane.bottomAnchor="207.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
          <children>
@@ -34,7 +34,7 @@
       </FlowPane>
       <FlowPane layoutY="105.0" prefHeight="151.0" prefWidth="606.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
          <children>
-            <Label fx:id="lb_feedback" text="Feedback:">
+            <Label fx:id="lb_justification" text="Justificativa:">
                <font>
                   <Font size="14.0" />
                </font>

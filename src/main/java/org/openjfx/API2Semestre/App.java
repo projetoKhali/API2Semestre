@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
+
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.view_controllers.BaseController;
@@ -38,13 +40,17 @@ public class App extends Application {
         // // PARA RECRIAR TABELAS E VIEWS
         // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
         // QueryLibs.executeSqlFile("./SQL/views.sql");
- 
+        
+        // TESTE APROVAÇÃO
+        // stage.setScene(new Scene(loadFXML("views/approvals")));
+        // stage.show();
+
+        // TESTE RELATÓRIO
+        stage.setScene(new Scene(loadFXML("views/report")));
+        stage.show();
+
         // // TESTE PARAMETRIZAÇÃO
         // stage.setScene(new Scene(loadFXML("views/parametrization")));
-        // stage.show();
-        
-        // // TESTE RELATÓRIO
-        // stage.setScene(new Scene(loadFXML("views/report")));
         // stage.show();
 
         // TESTE RELATÓRIO
@@ -83,7 +89,7 @@ public class App extends Application {
     }
 
     static void loadBase () throws IOException {
-        FXMLLoader loader = new FXMLLoader(App.class.getResource("base.fxml"));
+        FXMLLoader loader = new FXMLLoader(App.getFXML("base.fxml"));
         stage.setScene(new Scene(loader.load()));
         baseController = loader.getController();
 
@@ -100,7 +106,7 @@ public class App extends Application {
     
             for (View view : ViewsManager.getViews()) {
 
-                FXMLLoader viewButtonLoader = new FXMLLoader(App.class.getResource("templates/viewButtonTemplate.fxml"));
+                FXMLLoader viewButtonLoader = new FXMLLoader(App.getFXML("templates/viewButtonTemplate.fxml"));
 
                 baseController.getVb_views().getChildren().add(viewButtonLoader.load());
 
@@ -124,9 +130,18 @@ public class App extends Application {
         }
     }
 
-    private static Parent loadFXML(String fxml) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
-        return fxmlLoader.load();
+    public static URL getFXML (String fxml) {
+        return App.class.getResource(fxml + ".fxml");
+    }
+
+    private static Parent loadFXML(String fxml) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getFXML(fxml));
+            return fxmlLoader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static void main(String[] args) {

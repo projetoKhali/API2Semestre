@@ -7,6 +7,7 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
+import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
 import org.openjfx.api2semestre.appointments.Status;
@@ -255,7 +256,7 @@ public class AppointmentsController implements Initializable {
            
             stage = new Stage();
     
-            root = FXMLLoader.load(PopUpFeedbackController.class.getResource(fileName));
+            root = FXMLLoader.load(App.getFXML(fileName));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(tabela.getScene().getWindow());

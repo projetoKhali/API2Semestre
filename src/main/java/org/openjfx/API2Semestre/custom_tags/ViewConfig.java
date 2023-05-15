@@ -26,7 +26,7 @@ public class ViewConfig extends Group implements Initializable {
     }
 
     // Code to request the ViewConfig of a view.fxml
-    // FXMLLoader loader = new FXMLLoader(getClass().getResource("myView.fxml"));
+    // FXMLLoader loader = new FXMLLoader(App.getFXML("myView.fxml"));
     // Parent root = loader.load();
     // TextField myTextField = (TextField) root.lookup(".ViewConfig");
     
