@@ -17,10 +17,14 @@ import org.openjfx.api2semestre.views_manager.ViewsManager;
 public class App extends Application {
     
     // mude o perfil de acesso para logar com diferentes permissões
-    private static final Profile access = Profile.Colaborador;
-    
+    // private static final Profile access = Profile.Colaborador;
+    // private static final Profile access = Profile.Gestor;
+    private static final Profile access = Profile.Administrator;
+
     private static Scene scene;
     private static Stage stage;
+
+    public static Stage getStage () { return stage; }
     private static void setStage (Stage newStage) { stage = newStage; }
     
     private static String currentViewFxmlFile;
@@ -29,60 +33,37 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
-
-        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("./SQL/views.sql");
-        
-        // String local = ReportExporter.showSaveDialog(stage);
-        // List<ReportInterval> teste = List.of(
-        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"10:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345),
-        //     new ReportInterval(1,DateConverter.inputToTimestamp(LocalDate.of(12, 12, 12),"12:12"),DateConverter.inputToTimestamp(LocalDate.of(11, 11, 11),"11:11"), 12345)
-        // );
-
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Fulano colaborador 0", Profile.Colaborador, "e@xem.plo", "0", "0"
-        //     )
-        // );
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Fulano gestor 0", Profile.Gestor, "e@xem.plo", "0", "0"
-        //     )
-        // );
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Cicrano col 0", Profile.Colaborador, "e@xem.plo", "0", "0"
-        //     )
-        // );
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
-        //     new org.openjfx.api2semestre.authentication.User(
-        //         "Cicrano ges 0", Profile.Gestor, "e@xem.plo", "0", "0"
-        //     )
-        // );
-
-
-        // ReportExporter.exporterCSV(teste,local);
         setStage(stage);
- 
-        // try {
-        //     stage.setScene(new Scene(loadFXML("views/resultCenterRegister")));
-        //     stage.show();
-        // } catch (IOException e) {
-        //     // Auto-generated catch block
-        //     e.printStackTrace();
-        // }
 
-        stage.setScene(new Scene(loadFXML("views/parametrization")));
+        // // PARA RECRIAR TABELAS E VIEWS
+        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
+        // QueryLibs.executeSqlFile("./SQL/views.sql");
+ 
+        // // TESTE PARAMETRIZAÇÃO
+        // stage.setScene(new Scene(loadFXML("views/parametrization")));
+        // stage.show();
+        
+        // // TESTE RELATÓRIO
+        // stage.setScene(new Scene(loadFXML("views/report")));
+        // stage.show();
+
+        // TESTE RELATÓRIO
+        stage.setScene(new Scene(loadFXML("views/users")));
         stage.show();
 
+        // // TESTE LOGIN
+        // Authentication.verifyPassword("teste123", new User(
+        //     "jhow",
+        //     Profile.Colaborador,
+        //     "jhooliveira.lopes1@gmail.com",
+        //     "teste123",
+        //     "123456"
+        // ));
+        
         // loginView();
     }
 
     public static void loginView () {
-
         currentViewFxmlFile = (
             access == Profile.Administrator ? "login/provisory_adm" : 
             access == Profile.Gestor ? "login/provisory_ges" : 

@@ -162,9 +162,9 @@ public class AppointmentCalculator {
                         if(onotice_init != overtime_init){
                             ReportInterval reportIntervalOnNot = new ReportInterval(
                                 aptOvertime.getId(), 
+                                3016,
                                 DateConverter.toTimestamp(earlierStart), 
-                                DateConverter.toTimestamp(laterStart), 
-                                3016
+                                DateConverter.toTimestamp(laterStart)
                                 );
                             reportsOnNotice.add(reportIntervalOnNot);
 
@@ -172,9 +172,9 @@ public class AppointmentCalculator {
                         if(onotice_end != overtime_end){
                             ReportInterval reportIntervalOnNot2 = new ReportInterval(
                                 aptOvertime.getId(), 
+                                3016,
                                 DateConverter.toTimestamp(earlierEnd), 
-                                DateConverter.toTimestamp(laterEnd), 
-                                3016
+                                DateConverter.toTimestamp(laterEnd)
                                 );
                             reportsOnNotice.add(reportIntervalOnNot2);
                         }
@@ -193,10 +193,10 @@ public class AppointmentCalculator {
         if(aux == 0){ 
             ReportInterval reportIntervalNoIntersection = new ReportInterval(
                 aptOnNotice.getId(), 
+                3016,
                 onNotice_init, 
-                onNotice_end,
-                3016
-                );
+                onNotice_end
+            );
             reportsOnNotice.add(reportIntervalNoIntersection);
             System.out.println("onNotice_init " + onNotice_init );
             System.out.println("onNotice_end " + onNotice_end);
@@ -295,10 +295,11 @@ public class AppointmentCalculator {
                     if(numberOfOverlappingMinutes != 0){auxiliar = true;};
                     ReportInterval reportInterval = new ReportInterval(
                         aptOverTime.getId(), 
+                        intervalFee.getCode(),
                         DateConverter.toTimestamp(laterStart), 
-                        DateConverter.toTimestamp(aptEndDateTime),
-                        intervalFee.getCode());
-                        reportsOvertime.add(reportInterval);
+                        DateConverter.toTimestamp(aptEndDateTime)
+                    );
+                    reportsOvertime.add(reportInterval);
                 }
                 
                 actualDay = actualDay.plusDays(1);

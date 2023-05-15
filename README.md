@@ -22,7 +22,7 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
-![people](./Docs/Banners/NovobannerEquipe.png)
+![people](./Docs/Banners/BannerEquipeV3.png)
 
 | Integrantes | Redes Sociais |
 |-------|--------|

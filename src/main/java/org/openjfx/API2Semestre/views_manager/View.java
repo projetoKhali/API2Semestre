@@ -22,6 +22,9 @@ public enum View {
     Clients(4, "Clientes", "views/clients", new Permission[] {
         Permission.Register
     }),
+    Report(5, "Relatório", "views/report", new Permission[] {
+        Permission.Report
+    }),
     Parametrization(6, "Parametrização", "views/parametrization", new Permission[] {
         Permission.FullAccess
     }),

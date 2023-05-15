@@ -1,9 +1,3 @@
--- tabelas v3.5
-
--- Código para criação de tabelas do Diagrama ERD
--- O código pode ser executado em qualqer ordem
-
--- apontamento
 -- apontamento
 CREATE TABLE IF NOT EXISTS public.apontamento(
     id serial NOT NULL,
@@ -25,9 +19,9 @@ CREATE TABLE IF NOT EXISTS public.apontamento(
 CREATE TABLE IF NOT EXISTS public.usuario(
     id serial NOT NULL,
     nome VARCHAR NULL,
-    email VARCHAR NULL,
-    senha VARCHAR NULL,
-    tipo INT NOT NULL,
+    email VARCHAR NOT NULL UNIQUE,
+    senha TEXT NULL,
+    perfil VARCHAR NULL,
     matricula VARCHAR NULL,
     
     CONSTRAINT usuario_pkey PRIMARY KEY (id)
@@ -44,15 +38,6 @@ CREATE TABLE IF NOT EXISTS public.centro_resultado(
     CONSTRAINT centro_resultado_pkey PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS public.parametrization(
-    id serial NOT NULL,
-    night_shift_start TIME NULL,
-    night_shift_end TIME NULL,
-    closing_day INT NULL,
-    
-    CONSTRAINT parametrization_pkey PRIMARY KEY (id)
-);
-
 -- relação user <-> cr
 CREATE TABLE IF NOT EXISTS public.membro_cr (
     id serial NOT NULL,
@@ -60,4 +45,23 @@ CREATE TABLE IF NOT EXISTS public.membro_cr (
     cr_id INT NOT NULL,
 
     CONSTRAINT membro_cr_pkey PRIMARY KEY (id)
+);
+
+-- cliente
+CREATE TABLE IF NOT EXISTS public.cliente(
+    id serial NOT NULL,
+    razao_social VARCHAR NULL,
+    cnpj VARCHAR NULL,
+
+    CONSTRAINT cliente_pkey PRIMARY KEY (id)
+);
+
+-- parametrização
+CREATE TABLE IF NOT EXISTS public.parametrization(
+    id serial NOT NULL,
+    night_shift_start TIME NULL,
+    night_shift_end TIME NULL,
+    closing_day INT NULL,
+    
+    CONSTRAINT parametrization_pkey PRIMARY KEY (id)
 );
