@@ -16,12 +16,13 @@ public enum TableProperty {
     Justification("justificativa"),
     Status("aprovacao"),
     Feedback("feedback"),
-
-    // Users table
-    Nome("nome"),
+    
+    // User table
+    Name("nome"),
     Email("email"),
-    Senha("senha"),
-    Matricula("matricula"),
+    Password("senha"),
+    Profile("perfil"),
+    Registration("matricula"),
 
     // ResultCenter table
     Sigla("sigla"),
@@ -34,7 +35,8 @@ public enum TableProperty {
 
 
     // TODO: IntervalFees table
-
+    
+    ;
 
 
 

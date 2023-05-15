@@ -15,7 +15,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class UserRegisterController implements Initializable {
+public class UsersController implements Initializable {
 
     @FXML private ComboBox<Profile> cbFunction;
     @FXML private TextField tfName;

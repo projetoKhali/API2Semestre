@@ -19,10 +19,14 @@ import org.openjfx.api2semestre.views_manager.ViewsManager;
 public class App extends Application {
     
     // mude o perfil de acesso para logar com diferentes permissões
-    private static final Profile access = Profile.Colaborador;
-    
+    // private static final Profile access = Profile.Colaborador;
+    // private static final Profile access = Profile.Gestor;
+    private static final Profile access = Profile.Administrator;
+
     private static Scene scene;
     private static Stage stage;
+
+    public static Stage getStage () { return stage; }
     private static void setStage (Stage newStage) { stage = newStage; }
     
     private static String currentViewFxmlFile;
@@ -31,20 +35,21 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
-
         // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
         // QueryLibs.executeSqlFile("./SQL/views.sql");
-
+        
         setStage(stage);
         // System.setProperty("javafx.fxml.debug", "true");
         // stage.setScene(new Scene(loadFXML("views/approvals")));
         // stage.show();
 
+        stage.setScene(new Scene(loadFXML("views/report")));
+        stage.show();
+
         // loginView();
     }
 
     public static void loginView () {
-
         currentViewFxmlFile = (
             access == Profile.Administrator ? "login/provisory_adm" : 
             access == Profile.Gestor ? "login/provisory_ges" : 
