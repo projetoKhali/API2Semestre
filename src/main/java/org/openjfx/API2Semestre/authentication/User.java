@@ -31,7 +31,6 @@ public class User extends Data {
         String nome, 
         Profile perfil, 
         String email, 
-        String senha,
         String matricula
     ) {
         this(
@@ -39,7 +38,7 @@ public class User extends Data {
             nome,
             perfil,
             email,
-            senha,
+            matricula,
             matricula
         );
     }
@@ -79,5 +78,4 @@ public class User extends Data {
     // public void setEmail(String email) { this.email = email; }
     // public void setSenha(String senha) { this.senha = senha; }
     // public void setMatricula(String matricula) { this.matricula = matricula; }
-
 }

@@ -10,22 +10,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 
 public class ClientFilter {
-
-    // public static newDropdownFilter () {
-    //     Label aptTypeLabel = new Label("AppointmentType:");
-    //     ComboBox<AppointmentType> aptTypeComboBox = new ComboBox<>();
-    //     aptTypeComboBox.getItems().addAll(AppointmentType.values());
-    //     aptTypeComboBox.getItems().add(0, null); // add an "all" value
-    //     aptTypeComboBox.setOnAction(event -> {
-    //         AppointmentType selectedAppointmentType = aptTypeComboBox.getValue();
-    //         Predicate<Person> filter = (selectedAppointmentType == null) ? apt -> true : apt -> apt.getAppointmentType() == selectedAppointmentType;
-    //         tabela.getItems().setAll(aptList.filtered(filter));
-    //     });
-    //     HBox aptTypeBox = new HBox(aptTypeLabel, aptTypeComboBox);
-    //     aptTypeBox.setAlignment(Pos.CENTER_LEFT);
-    //     aptTypeBox.setSpacing(5);
-    //     aptTypeColumn.setGraphic(aptTypeBox);
-    // }
     
     public static List<Client> filterFromView (
         List<Client> cliente,

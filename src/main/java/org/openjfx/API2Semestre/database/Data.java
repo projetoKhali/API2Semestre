@@ -52,7 +52,7 @@ public class Data {
             return new User(
                 resultSet.getInt("id"),
                 resultSet.getString("nome"),
-                Profile.of(resultSet.getInt("tipo")),
+                Profile.of(resultSet.getInt("perfil")),
                 resultSet.getString("email"),
                 resultSet.getString("senha"),
                 resultSet.getString("matricula")

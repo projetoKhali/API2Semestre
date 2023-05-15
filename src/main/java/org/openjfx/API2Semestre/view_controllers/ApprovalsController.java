@@ -125,8 +125,7 @@ public class ApprovalsController {
     private void updateTable () {
         List<Appointment> items = new ArrayList<>();
 
-        // TODO: Remover login teste
-        Authentication.login(new User("jhow", Profile.Gestor, "e@xem.plo", "teste", "teste"));
+        // Authentication.login(new User("jhow", Profile.Gestor, "e@xem.plo", "teste", "teste"));
 
         for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(Authentication.getCurrentUser().getId())) {
             // System.out.println("resultCenter: " + resultCenter);

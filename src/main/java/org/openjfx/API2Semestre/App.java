@@ -35,17 +35,37 @@ public class App extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
+        setStage(stage);
+
+        // // PARA RECRIAR TABELAS E VIEWS
         // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
         // QueryLibs.executeSqlFile("./SQL/views.sql");
         
-        setStage(stage);
-        // System.setProperty("javafx.fxml.debug", "true");
+        // TESTE APROVAÇÃO
         // stage.setScene(new Scene(loadFXML("views/approvals")));
         // stage.show();
 
+        // TESTE RELATÓRIO
         stage.setScene(new Scene(loadFXML("views/report")));
         stage.show();
 
+        // // TESTE PARAMETRIZAÇÃO
+        // stage.setScene(new Scene(loadFXML("views/parametrization")));
+        // stage.show();
+
+        // TESTE RELATÓRIO
+        stage.setScene(new Scene(loadFXML("views/users")));
+        stage.show();
+
+        // // TESTE LOGIN
+        // Authentication.verifyPassword("teste123", new User(
+        //     "jhow",
+        //     Profile.Colaborador,
+        //     "jhooliveira.lopes1@gmail.com",
+        //     "teste123",
+        //     "123456"
+        // ));
+        
         // loginView();
     }
 
@@ -58,7 +78,6 @@ public class App extends Application {
         
         try {
             scene = new Scene(loadFXML(currentViewFxmlFile));
-
             stage.setScene(scene);
             stage.show();
 

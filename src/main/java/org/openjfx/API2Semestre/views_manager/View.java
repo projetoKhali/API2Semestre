@@ -25,6 +25,9 @@ public enum View {
     Report(5, "Relatório", "views/report", new Permission[] {
         Permission.Report
     }),
+    Parametrization(6, "Parametrização", "views/parametrization", new Permission[] {
+        Permission.FullAccess
+    }),
     ;
 
     public static final View[] VIEWS = values();
