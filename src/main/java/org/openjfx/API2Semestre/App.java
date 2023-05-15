@@ -49,6 +49,14 @@ public class App extends Application {
         // stage.setScene(new Scene(loadFXML("views/report")));
         // stage.show();
 
+        // Authentication.verifyPassword("teste123", new User(
+        //     "jhow",
+        //     Profile.Colaborador,
+        //     "jhooliveira.lopes1@gmail.com",
+        //     "teste123",
+        //     "123456"
+        // ));
+        
         // loginView();
     }
 

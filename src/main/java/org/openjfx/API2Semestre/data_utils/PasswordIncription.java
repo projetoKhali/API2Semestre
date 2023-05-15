@@ -5,7 +5,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class PasswordIncription {
     
-    private String encryptPassword(String password) {
+    public static String encryptPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
             byte[] encodedHash = digest.digest(password.getBytes());

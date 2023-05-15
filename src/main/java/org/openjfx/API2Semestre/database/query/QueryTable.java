@@ -9,13 +9,14 @@ public enum QueryTable {
     // ViewUser(""),
 
     ResultCenter("public.centro_resultado"),
-    ViewResultCenter("vw_centro_resultado"),
+    // ViewResultCenter("");
 
-    // TODO: Client,
+    Member("public.membro_cr"),
+
+    Client("public.cliente"),
 
     // TODO: IntervalFee,
-
-    Member("public.membro_cr");
+    ;
 
     private String stringValue;
     private QueryTable (String stringValue) { this.stringValue = stringValue; }

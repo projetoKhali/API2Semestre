@@ -15,11 +15,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.openjfx.api2semestre.data.Client;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.VwAppointment;
+import org.openjfx.api2semestre.authentication.VwUser;
+import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
 import org.openjfx.api2semestre.database.query.QueryTable;
@@ -87,18 +90,19 @@ public class QueryLibs {
         );
     }
 
-    public static void insertUser(User user) {
-        executeQuery(new Query(QueryType.INSERT,
-            QueryTable.User,
-            new QueryParam<?> [] {
-                new QueryParam<>(TableProperty.Name, user.getNome()),
-                new QueryParam<>(TableProperty.Email, user.getEmail()),
-                new QueryParam<>(TableProperty.Password, user.getSenha()),
-                new QueryParam<>(TableProperty.Profile, user.getPerfil()),
-                new QueryParam<>(TableProperty.Registration, user.getMatricula())
-            })
-        );
-    }
+    // // Deprecated
+    // public static int insertUser (User users) {
+    //     return executeInsert(
+    //         QueryTable.User,
+    //         new QueryParam<?>[] {
+    //             new QueryParam<String>(TableProperty.Name, users.getNome()),
+    //             new QueryParam<Integer>(TableProperty.Profile, users.getPerfil().getProfileLevel()),
+    //             new QueryParam<String>(TableProperty.Email, users.getEmail()),
+    //             new QueryParam<String>(TableProperty.Password, users.getSenha()),
+    //             new QueryParam<String>(TableProperty.Registration, users.getMatricula())
+    //         }
+    //     );
+    // }
 
     public static int insertResultCenter (ResultCenter rc) {
         return executeInsert(
@@ -118,6 +122,16 @@ public class QueryLibs {
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.User, usr_id),
                 new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
+            }
+        );
+    }
+
+    public static void insertClient(Client cliente) {
+        executeInsert(
+            QueryTable.Client,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.RazaoSocial, cliente.getRazaoSocial()),
+                new QueryParam<String>(TableProperty.CNPJ, cliente.getCNPJ()),
             }
         );
     }
@@ -266,13 +280,14 @@ public class QueryLibs {
     }
 
     public static ResultCenter[] selectResultCentersOfMember (int usr_id) {
-        return Arrays.asList((MemberRelation[])executeSelect(
+        return Arrays.asList(QueryLibs.<MemberRelation>executeSelect(
             MemberRelation.class,
             QueryTable.Member,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.User,  usr_id)
             }
-        )).stream()
+        ))
+        .stream()
         .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()).get())
         .collect(Collectors.toList()).toArray(ResultCenter[]::new);
     }
@@ -313,9 +328,42 @@ public class QueryLibs {
     public static ResultCenter[] selectAllResultCenters() {
         return QueryLibs.<ResultCenter>executeSelectAll(
             ResultCenter.class,
-            QueryTable.ViewResultCenter
+            QueryTable.ResultCenter
         );
     }
+
+// <-- botei suas funções aqui Jhonatan
+
+    public static Optional<User> selectUserByEmail(String email) {
+        return executeSelectFirst(User.class,
+        QueryTable.User,
+        new QueryParam<?>[] {
+            new QueryParam<String>(TableProperty.Email, email),
+            }
+        );
+    }
+
+    // Insere uma senha criptografada no banco
+    public static void insertUser(User user) {
+        // incripta senha
+        String passwordHash = PasswordIncription.encryptPassword(user.getSenha());
+        try {
+            executeInsert(
+                QueryTable.User,
+                new QueryParam<?> [] {
+                new QueryParam<>(TableProperty.Name, user.getNome()),
+                new QueryParam<>(TableProperty.Email, user.getEmail()),
+                new QueryParam<>(TableProperty.Password, passwordHash),
+                new QueryParam<Integer>(TableProperty.Profile, user.getPerfil().getProfileLevel()),
+                new QueryParam<>(TableProperty.Registration, user.getMatricula())
+            });
+        } catch (Exception e) {
+            System.out.println("ERROR: duplicate key value violates unique constraint\nEmail já existente!");
+        }
+        
+    }
+
+// <-- até aqui Jhonatan
 
     // Atualiza um apontammento na tabela. TODO: generic
     public static void updateTable (Appointment apt) {
