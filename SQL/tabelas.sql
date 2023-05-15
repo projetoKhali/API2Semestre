@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS public.usuario(
     nome VARCHAR NULL,
     email VARCHAR NOT NULL UNIQUE,
     senha TEXT NULL,
-    perfil VARCHAR NULL,
+    perfil INT NOT NULL,
     matricula VARCHAR NULL,
     
     CONSTRAINT usuario_pkey PRIMARY KEY (id)

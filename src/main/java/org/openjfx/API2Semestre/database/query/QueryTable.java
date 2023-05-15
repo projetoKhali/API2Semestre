@@ -6,10 +6,10 @@ public enum QueryTable {
     ViewAppointment("vw_apontamento"),
 
     User("public.usuario"),
-    // ViewUser(""),
+    ViewUser("vw_usuario"),
 
     ResultCenter("public.centro_resultado"),
-    // ViewResultCenter("");
+    ViewResultCenter("vw_centro_resultado"),
 
     Member("public.membro_cr"),
 

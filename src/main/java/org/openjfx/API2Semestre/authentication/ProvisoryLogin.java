@@ -1,14 +1,10 @@
-package org.openjfx.api2semestre.view_controllers.login;
+package org.openjfx.api2semestre.authentication;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.authentication.Permission;
-import org.openjfx.api2semestre.authentication.Profile;
-import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;

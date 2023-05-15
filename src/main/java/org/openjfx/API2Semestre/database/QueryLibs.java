@@ -209,7 +209,8 @@ public class QueryLibs {
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends Data> Optional<T> executeSelectFirst (Class<T> type, QueryTable table, QueryParam<?>[] params) {
+    // select que trás apenas 1 item
+    private static <T extends Data> Optional<T> executeSelectOne (Class<T> type, QueryTable table, QueryParam<?>[] params) {
         ResultSet result = null;
         try {
             result = executeQuery(new Query(
@@ -218,11 +219,11 @@ public class QueryLibs {
                 params
             )).get();
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSelectArray() -- Erro ao executar query");
+            System.out.println("QueryLibs.executeSelectOne() -- Erro ao executar query");
             ex.printStackTrace();
         }
         if (result == null) {
-            System.out.println("QueryLibs.executeSelectArray() -- Erro: Nenhum ResultSet retornado para a query");
+            System.out.println("QueryLibs.executeSelectOne() -- Erro: Nenhum ResultSet retornado para a query");
             return Optional.empty();
         }
         // itera sobre cada linha retornada pela consulta
@@ -232,20 +233,11 @@ public class QueryLibs {
             System.out.println(Optional.of((T)Data.<T>create(type, result)));
             return Optional.of((T)Data.create(type, result));
         } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSelectArray() -- Erro ao ler resultado da query");
+            System.out.println("QueryLibs.executeSelectOne() -- Erro ao ler resultado da query");
             ex.printStackTrace();
         }
         return Optional.empty();
 
-    }
-
-    public static Optional<VwAppointment> selectAppointmentById(int id) {
-        return executeSelectFirst(VwAppointment.class,
-            QueryTable.ViewAppointment,
-            new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.Id, id),
-            }
-        );
     }
 
     public static Appointment[] collaboratorSelect (String requester) {
@@ -259,9 +251,9 @@ public class QueryLibs {
     }
 
     public static Optional<ResultCenter> selectResultCenter (int id) {
-        return QueryLibs.<ResultCenter>executeSelectFirst(
+        return QueryLibs.<ResultCenter>executeSelectOne(
             ResultCenter.class,
-            QueryTable.ResultCenter,
+            QueryTable.ViewResultCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.Id, id)
             }
@@ -271,7 +263,7 @@ public class QueryLibs {
     public static ResultCenter[] selectResultCentersManagedBy (int usr_id) {
         return QueryLibs.<ResultCenter>executeSelect(
             ResultCenter.class,
-            QueryTable.ResultCenter,
+            QueryTable.ViewResultCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.User, usr_id)
             }
@@ -287,8 +279,9 @@ public class QueryLibs {
             }
         ))
         .stream()
-        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()).get())
-        .collect(Collectors.toList()).toArray(ResultCenter[]::new);
+        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()))
+        .collect(Collectors.toList())
+        .toArray(ResultCenter[]::new);
     }
 
     public static Appointment[] selectAppointmentsOfResultCenter (int cr_id) {
@@ -333,11 +326,22 @@ public class QueryLibs {
 
 // <-- botei suas funções aqui Jhonatan
 
+    public static Optional<VwAppointment> selectAppointmentById(int id) {
+        return executeSelectOne(
+            VwAppointment.class,
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+
     public static Optional<User> selectUserByEmail(String email) {
-        return executeSelectFirst(User.class,
-        QueryTable.User,
-        new QueryParam<?>[] {
-            new QueryParam<String>(TableProperty.Email, email),
+        return executeSelectOne(
+            User.class,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Email, email),
             }
         );
     }

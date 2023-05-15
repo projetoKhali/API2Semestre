@@ -10,6 +10,7 @@ import org.openjfx.api2semestre.appointments.AppointmentType;
 import org.openjfx.api2semestre.appointments.VwAppointment;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
+import org.openjfx.api2semestre.authentication.VwUser;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
 
@@ -19,7 +20,7 @@ public class Data {
         if (type == Appointment.class) {
             return new Appointment(
                 resultSet.getInt("id"),
-                resultSet.getString("usr_id"),
+                resultSet.getString("requester"),
                 AppointmentType.of(resultSet.getBoolean("tipo")),
                 new Timestamp(((Date) resultSet.getObject("hora_inicio")).getTime()),
                 new Timestamp(((Date) resultSet.getObject("hora_fim")).getTime()),
@@ -52,7 +53,17 @@ public class Data {
             return new User(
                 resultSet.getInt("id"),
                 resultSet.getString("nome"),
-                Profile.of(resultSet.getInt("perfil")),
+                Profile.of(resultSet.getInt("Perfil")),
+                resultSet.getString("email"),
+                resultSet.getString("senha"),
+                resultSet.getString("matricula")
+            );
+        }
+        if (type == VwUser.class) {
+            return new VwUser(
+                resultSet.getInt("id"),
+                resultSet.getString("nome"),
+                Profile.of(resultSet.getInt("Perfil")),
                 resultSet.getString("email"),
                 resultSet.getString("senha"),
                 resultSet.getString("matricula")

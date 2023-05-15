@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
@@ -18,11 +17,6 @@ import org.openjfx.api2semestre.views_manager.ViewsManager;
 
 public class App extends Application {
     
-    // mude o perfil de acesso para logar com diferentes permissões
-    // private static final Profile access = Profile.Colaborador;
-    // private static final Profile access = Profile.Gestor;
-    private static final Profile access = Profile.Administrator;
-
     private static Scene scene;
     private static Stage stage;
 
@@ -36,50 +30,15 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         setStage(stage);
-
-        // // PARA RECRIAR TABELAS E VIEWS
-        // QueryLibs.executeSqlFile("./SQL/tabelas.sql");
-        // QueryLibs.executeSqlFile("./SQL/views.sql");
-        
-        // TESTE APROVAÇÃO
-        // stage.setScene(new Scene(loadFXML("views/approvals")));
-        // stage.show();
-
-        // TESTE RELATÓRIO
-        stage.setScene(new Scene(loadFXML("views/report")));
-        stage.show();
-
-        // // TESTE PARAMETRIZAÇÃO
-        // stage.setScene(new Scene(loadFXML("views/parametrization")));
-        // stage.show();
-
-        // TESTE RELATÓRIO
-        stage.setScene(new Scene(loadFXML("views/users")));
-        stage.show();
-
-        // // TESTE LOGIN
-        // Authentication.verifyPassword("teste123", new User(
-        //     "jhow",
-        //     Profile.Colaborador,
-        //     "jhooliveira.lopes1@gmail.com",
-        //     "teste123",
-        //     "123456"
-        // ));
-        
-        // loginView();
+        loginView();
     }
 
     public static void loginView () {
-        currentViewFxmlFile = (
-            access == Profile.Administrator ? "login/provisory_adm" : 
-            access == Profile.Gestor ? "login/provisory_ges" : 
-            "login/provisory_col"
-        );
-        
         try {
-            scene = new Scene(loadFXML(currentViewFxmlFile));
+            scene = new Scene(loadFXML((currentViewFxmlFile = "views/login")));
             stage.setScene(scene);
             stage.show();
+            System.out.println(currentViewFxmlFile);
 
         } catch (Exception ex) {
             System.out.println("App.loginView() -- Erro!");

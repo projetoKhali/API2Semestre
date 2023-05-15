@@ -1,6 +1,5 @@
 package org.openjfx.api2semestre.authentication;
 
-import java.util.Optional;
 import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.QueryLibs;
 
@@ -11,7 +10,7 @@ public class Authentication {
         return currentUser;
     }
 
-    public static boolean login (User user) {
+    private static boolean setCurrentUser (User user) {
         if (currentUser != null) {
             System.out.println("Authentication.login() -- Error: User is already logged in");
             return false;
@@ -20,20 +19,27 @@ public class Authentication {
         return true;
     }
 
-    public static boolean verifyPassword(String password, User user) {
-        // encontra o usuário pelo email
-        Optional<User> loginUser = QueryLibs.selectUserByEmail(user.getEmail());
-        User dataBaseUser = loginUser.get();
-        // incripita a senha
-        String insertPassword = PasswordIncription.encryptPassword(password);
+    public static boolean login(String email, String password) {
+        try {
 
-        // verifica se a senha incriptada é a mesma da do banco
-        if (dataBaseUser.getSenha() == insertPassword) {
-            return true;
+            // encontra o usuário pelo email
+            User loginUser = QueryLibs.selectUserByEmail(email).get();
+
+            // incripita a senha
+            String insertPassword = PasswordIncription.encryptPassword(password);
+
+            // verifica se a senha incriptada é a mesma da do banco
+            if (insertPassword.equals(loginUser.getSenha())) {
+                return setCurrentUser(loginUser);
+            }
+
+            else System.out.println("Erro: Senha inválida");
         }
-        else{
-            return false;
-        }
+        
+        catch (Exception e) {}
+        
+        return false;
+
     }
 
     public static void logout () {

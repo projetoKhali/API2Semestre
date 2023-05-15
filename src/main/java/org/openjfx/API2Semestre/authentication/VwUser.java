@@ -6,6 +6,7 @@ import org.openjfx.api2semestre.database.Data;
 
 public class VwUser extends Data {
 
+    private int id;
     private String nome;   // change to id
     private Profile perfil;
     private String email;
@@ -25,12 +26,14 @@ public class VwUser extends Data {
 
 
     public VwUser(
+        Integer id,
         String nome,
         Profile perfil,
         String email,
         String senha,
         String matricula
     ) {
+        this.id = id;
         this.nome = nome;
         this.perfil = perfil;
         this.email = email;
@@ -38,9 +41,7 @@ public class VwUser extends Data {
         this.matricula = matricula;
     }
 
-    public VwUser(String text, Profile administrator, List<String> parseSquads, List<String> parseSquads2) {
-    }
-
+    public int getId() { return id; }
     public String getNome() { return nome; }
     public Profile getPerfil() { return perfil; }
     public String getEmail() { return email; }
