@@ -320,7 +320,7 @@ public class QueryLibs {
     public static ResultCenter[] selectAllResultCenters() {
         return QueryLibs.<ResultCenter>executeSelectAll(
             ResultCenter.class,
-            QueryTable.ResultCenter
+            QueryTable.ViewResultCenter
         );
     }
 
