@@ -52,10 +52,14 @@ public class ViewsManager {
 
     private static Permission[] getPermissions (User u) {
         List<Permission> permissions = new ArrayList<>();
-        if (u.getPerfil() == Profile.Administrator) permissions.add(Permission.FullAccess);
+        if (u.getPerfil() == Profile.Administrator) {
+            permissions.add(Permission.FullAccess);
+            permissions.add(Permission.Register);
+            permissions.add(Permission.Report);
+        }
         if (QueryLibs.selectResultCentersManagedBy(u.getId()).length > 0) permissions.add(Permission.Validate);
         if (QueryLibs.selectResultCentersOfMember(u.getId()).length > 0) permissions.add(Permission.Appoint);
-        return permissions.toArray(new Permission[0]);
+        return permissions.toArray(Permission[]::new);
     }
 
 }
