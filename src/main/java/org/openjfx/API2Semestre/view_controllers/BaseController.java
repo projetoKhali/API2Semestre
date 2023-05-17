@@ -10,17 +10,15 @@ import javafx.scene.layout.VBox;
 
 public class BaseController {
 
-    @FXML
-    private VBox ap_content;
+    @FXML private VBox ap_content;
 
-    @FXML
-    private Label lb_currentUser;
+    @FXML private Label lb_currentUser;
 
-    @FXML
-    private VBox vb_views;
+    @FXML private VBox vb_lateral;
 
-    @FXML
-    void logout(ActionEvent event) {
+    @FXML private VBox vb_views;
+
+    @FXML void logout(ActionEvent event) {
         Authentication.logout();
         App.loginView();
     }

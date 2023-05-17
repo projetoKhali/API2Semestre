@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -83,7 +84,10 @@ public class App extends Application {
 
         baseController = loader.getController();
 
-        baseController.getLb_currentUser().setText("Logado como " + Authentication.getCurrentUser().getNome());
+        Label lb_currentUser = baseController.getLb_currentUser();
+        lb_currentUser.setText("Logado como " + Authentication.getCurrentUser().getNome());
+        lb_currentUser.setWrapText(true);
+
     }
 
     public static void changeView (Optional<String> newViewFxmlOptional) {

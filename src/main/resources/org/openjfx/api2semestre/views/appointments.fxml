@@ -12,7 +12,7 @@
 <!-- <?import org.openjfx.api2semestre.custom_tags.ViewConfig?>
 <?import org.openjfx.api2semestre.custom_tags.Permission?> -->
 
-<VBox id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="400.0" prefWidth="826.0" snapToPixel="false" spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.AppointmentsController">
+<VBox id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="826.0" snapToPixel="false" spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.AppointmentsController">
    <children>
       <!-- <ViewConfig name="primary" fx:id="view">
          <permissions>
