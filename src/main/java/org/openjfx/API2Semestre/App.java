@@ -12,6 +12,7 @@ import java.net.URL;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.authentication.Authentication;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
@@ -40,20 +41,20 @@ public class App extends Application {
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
         //     "humano adm exemplo",
         //     org.openjfx.api2semestre.authentication.Profile.Administrator,
-        //     "a@d.m",                             <---------------------------- LOGIN
-        //     "123"                                <---------------------------- SENHA
+        //     "a@d.m", //                             <---------------------------- LOGIN
+        //     "123" //                                <---------------------------- SENHA
         // ));
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
         //     "humano ges exemplo",
         //     org.openjfx.api2semestre.authentication.Profile.Gestor,
-        //     "g@e.s",                             <---------------------------- LOGIN
-        //     "123"                                <---------------------------- SENHA
+        //     "g@e.s", //                             <---------------------------- LOGIN
+        //     "123" //                                <---------------------------- SENHA
         // ));
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
         //     "humano adm exemplo",
         //     org.openjfx.api2semestre.authentication.Profile.Colaborador,
-        //     "c@o.l",                             <---------------------------- LOGIN
-        //     "123"                                <---------------------------- SENHA
+        //     "c@o.l", //                             <---------------------------- LOGIN
+        //     "123" //                                <---------------------------- SENHA
         // ));
 
         setStage(stage);

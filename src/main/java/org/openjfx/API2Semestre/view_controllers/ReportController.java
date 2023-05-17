@@ -66,16 +66,16 @@ public class ReportController {
     
     public void initialize() {
 
-        System.out.println("oi");
+        // System.out.println("oi");
         
         buildCheckBoxes();
-        System.out.println("buildCheckBoxes() done!");
+        // System.out.println("buildCheckBoxes() done!");
         
         buildTable();
-        System.out.println("buildTable() done!");
+        // System.out.println("buildTable() done!");
         
         updateTable();
-        System.out.println("updateTable() done!");
+        // System.out.println("updateTable() done!");
 
     }
 
@@ -139,6 +139,7 @@ public class ReportController {
 
     private void updateTable () {
         loadedIntervals = AppointmentCalculator.calculateReports(QueryLibs.selectAllAppointments());
+        System.out.println(loadedIntervals.size() + " intervals");
         applyFilter();
     }
 

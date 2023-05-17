@@ -63,7 +63,7 @@ public class ClientsController implements Initializable {
         TableMacros.buildTable(
             tabela,
             new ColumnConfig[] {
-                new ColumnConfigString<ClientWrapper>(col_razao, "razao", "Razão Social", Optional.of(col_razao_enableFilter)),
+                new ColumnConfigString<ClientWrapper>(col_razao, "razaoSocial", "Razão Social", Optional.of(col_razao_enableFilter)),
                 new ColumnConfigString<ClientWrapper>(col_cnpj, "cnpj", "CNPJ", Optional.of(col_cnpj_enableFilter))
             },
             Optional.of(applyFilterCallback)

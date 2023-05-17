@@ -14,7 +14,7 @@ public class VwAppointment extends Data {
     private AppointmentType type;   // Tipo de apontamento: Hora-Extra / Sobreaviso.
     private Timestamp startDate;    // Data de início do apontamento.
     private Timestamp endDate;      // Data de término do apontamento.
-    private int crId;
+    private String crId;
     private String crName;           // Nome da crName pela qual o solicitante está prestando serviço nesse apontamento. TODO: mudar para referencia do tipo 'crName'.
     private String client;          // Nome do cliente para qual o solicitante está prestando serviço nesse apontamento. TODO: remover cliente do apontamento pois futuramente consegue ser acessado dentro de "project".
     private String project;         // Nome do projeto para qual o solicitante está prestando serviço.
@@ -29,7 +29,7 @@ public class VwAppointment extends Data {
         AppointmentType type,
         Timestamp startDate,
         Timestamp endDate,
-        int crId,
+        String crId,
         String crName,
         String client,
         String project,
@@ -60,7 +60,7 @@ public class VwAppointment extends Data {
         AppointmentType type,
         Timestamp startDate,
         Timestamp endDate,
-        int crId,
+        String crId,
         String crName,
         String client,
         String project,
@@ -91,7 +91,7 @@ public class VwAppointment extends Data {
         AppointmentType type,
         Timestamp startDate,
         Timestamp endDate,
-        int crId,
+        String crId,
         String crName,
         String client,
         String project,
@@ -123,7 +123,7 @@ public class VwAppointment extends Data {
     public String getRequester() { return requester; }
     public Timestamp getStartDate() { return startDate; }
     public Timestamp getEndDate() { return endDate; }
-    public Integer getCrId() { return crId; }
+    public String getCrId() { return crId; }
     public String getCrName() { return crName; }
     public String getClient() { return client; }
     public String getProject() { return project; }

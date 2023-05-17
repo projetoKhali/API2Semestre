@@ -32,12 +32,13 @@ public class Expedient {
         try {
             Connection connection = SQLConnection.connect();
             ResultSet result = connection.prepareStatement("SELECT * FROM parametrization WHERE id = 1").executeQuery();
-            result.next();
-            nightShiftStart = result.getTime("night_shift_start").toLocalTime();
-            nightShiftEnd = result.getTime("night_shift_end").toLocalTime();
-            closingDay = result.getInt("closing_day");
-            connection.commit();
-            connection.close();
+            if (result.next()) {
+                nightShiftStart = result.getTime("night_shift_start").toLocalTime();
+                nightShiftEnd = result.getTime("night_shift_end").toLocalTime();
+                closingDay = result.getInt("closing_day");
+                connection.commit();
+                connection.close();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

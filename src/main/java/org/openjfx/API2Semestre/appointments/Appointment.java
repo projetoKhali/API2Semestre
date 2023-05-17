@@ -8,7 +8,7 @@ import org.openjfx.api2semestre.database.Data;
 /// Utilizado para facilitar a conversação entre os sistemas dentro do código. 
 public class Appointment extends Data {
     private Integer id;             // Identificação unica do apontamento.
-    // private int requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
+    // private String requester;       // Nome do solicitante do apontamnto (colaborador / gestor que lançou). TODO: mudar para referencia do tipo 'User'.
     private String requester;
     private AppointmentType type;   // Tipo de apontamento: Hora-Extra / Sobreaviso.
     private Timestamp startDate;    // Data de início do apontamento.

@@ -78,7 +78,7 @@ public class QueryLibs {
             new QueryParam<?>[] {
                 new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
                 new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEndDate()),
-                new QueryParam<String>(TableProperty.Requester, apt.getRequester()),
+                new QueryParam<String>(TableProperty.User, apt.getRequester()),
                 new QueryParam<String>(TableProperty.Project, apt.getProject()),
                 new QueryParam<String>(TableProperty.Client, apt.getClient()),
                 new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
@@ -248,9 +248,9 @@ public class QueryLibs {
     public static Appointment[] collaboratorSelect (String requester) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
-            QueryTable.ViewAppointment,
+            QueryTable.Appointment,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Requester, requester),
+                new QueryParam<String>(TableProperty.User, requester),
             }
         );
     }
@@ -289,12 +289,12 @@ public class QueryLibs {
         .toArray(ResultCenter[]::new);
     }
 
-    public static Appointment[] selectAppointmentsOfResultCenter (int cr_id) {
+    public static Appointment[] selectAppointmentsOfResultCenter (String cr_id) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
+                new QueryParam<String>(TableProperty.ResultCenter, cr_id),
             }
         );
     }
@@ -336,6 +336,16 @@ public class QueryLibs {
         );
     }
 
+    public static Optional<User> selectUserById(int id) {
+        return executeSelectOne(
+            User.class,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+
 
 // <-- botei suas funções aqui Jhonatan
 
@@ -373,7 +383,7 @@ public class QueryLibs {
                 // SET
                 new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
                 new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEndDate()),
-                new QueryParam<String>(TableProperty.Requester, apt.getRequester()),
+                new QueryParam<String>(TableProperty.User, apt.getRequester()),
                 new QueryParam<String>(TableProperty.Project, apt.getProject()),
                 new QueryParam<String>(TableProperty.Client, apt.getClient()),
                 new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),

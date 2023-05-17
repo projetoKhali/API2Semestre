@@ -18,7 +18,7 @@ public class ClientWrapper implements HasSelectedProperty {
         this.cliente = cliente;
     }
     public String getRazaoSocial() { return cliente.getRazaoSocial(); }
-    public String getCNPJ() { return cliente.getCNPJ(); }
+    public String getCnpj() { return cliente.getCNPJ(); }
     
     @Override
     public BooleanProperty selectedProperty() {

@@ -11,6 +11,7 @@ import org.openjfx.api2semestre.appointments.VwAppointment;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.authentication.VwUser;
+import org.openjfx.api2semestre.data.Client;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
 
@@ -20,7 +21,7 @@ public class Data {
         if (type == Appointment.class) {
             return new Appointment(
                 resultSet.getInt("id"),
-                resultSet.getString("requester"),
+                resultSet.getString("usr_id"),
                 AppointmentType.of(resultSet.getBoolean("tipo")),
                 new Timestamp(((Date) resultSet.getObject("hora_inicio")).getTime()),
                 new Timestamp(((Date) resultSet.getObject("hora_fim")).getTime()),
@@ -36,11 +37,11 @@ public class Data {
             return new VwAppointment(
                 resultSet.getInt("id"),
                 resultSet.getString("matricula"),
-                resultSet.getString("requester"),
+                resultSet.getString("usr_id"),
                 AppointmentType.of(resultSet.getBoolean("tipo")),
                 new Timestamp(((Date) resultSet.getObject("hora_inicio")).getTime()),
                 new Timestamp(((Date) resultSet.getObject("hora_fim")).getTime()),
-                resultSet.getInt("cr_id"),
+                resultSet.getString("cr_id"),
                 resultSet.getString("centro_nome"),
                 resultSet.getString("cliente"),
                 resultSet.getString("projeto"),
@@ -84,6 +85,13 @@ public class Data {
                 resultSet.getInt("id"), 
                 resultSet.getInt("usr_id"), 
                 resultSet.getInt("cr_id")
+            );
+        }
+        if (type == Client.class) {
+            return new Client(
+                resultSet.getInt("id"), 
+                resultSet.getString("razao_social"),
+                resultSet.getString("cnpj")
             );
         }
         System.out.println("database.Data.create() -- Tipo de Dado não implementado ou inválido: \"" + type + "\"");
