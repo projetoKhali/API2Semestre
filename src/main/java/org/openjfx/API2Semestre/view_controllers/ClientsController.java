@@ -1,12 +1,14 @@
 package org.openjfx.api2semestre.view_controllers;
 
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.data.Client;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_macros.ColumnConfig;
 import org.openjfx.api2semestre.view_macros.ColumnConfigString;
 import org.openjfx.api2semestre.view_macros.TableMacros;
@@ -28,10 +30,8 @@ import javafx.scene.control.TextField;
 
 public class ClientsController implements Initializable {
     
-    @FXML private TextField cx_razao;
-    @FXML private TextField cx_cnpj;
-
-    @FXML private TableView<ClientWrapper> tb_Cliente;
+    @FXML private TextField tf_razao;
+    @FXML private TextField tf_cnpj;
 
     @FXML private TableColumn<ClientWrapper, String> col_cnpj;
     @FXML private TableColumn<ClientWrapper, String> col_razao;
@@ -72,15 +72,13 @@ public class ClientsController implements Initializable {
     }
 
     private void updateTable () {
-
-        // loadedClients = QueryLibs.selectAllClients();
+        
+        loadedClients = Arrays.asList(QueryLibs.selectAllClients());
 
         applyFilter();
     }
 
     private void applyFilter () {
-
-        // System.out.println("applyFilter");
 
         List<Client> clientToDisplay = ClientFilter.filterFromView(
             loadedClients,
@@ -97,16 +95,25 @@ public class ClientsController implements Initializable {
 
     }  
 
-    @FXML void acaoConfirmar(ActionEvent event) {
-        
+    @FXML void register (ActionEvent event) {
+
+        String razao = tf_razao.getText();
+        String cnpj = tf_cnpj.getText();
+
+        if (razao.isEmpty() || cnpj.isEmpty()) {
+            System.out.println("ClientsController.register -- Campo vazio ou inválido");
+            return;
+        }
+
+        QueryLibs.insertClient(new Client(
+            razao,
+            cnpj
+        ));
+        updateTable();
+
     }
 
     void inputClient () {
-        // QueryLibs.insertClient(new Client(
-        //     cx_razao.getText(),
-        //     cx_cnpj.getText()
-        // ));
-        // updateTable();
     }
 
 

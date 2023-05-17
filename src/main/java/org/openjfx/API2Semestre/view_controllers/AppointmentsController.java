@@ -51,28 +51,28 @@ public class AppointmentsController implements Initializable {
     private ViewConfig view;
 
     @FXML
-    private TextField cx_cliente;
+    private TextField tf_cliente;
 
     @FXML
-    private DatePicker cx_dataFinal;
+    private DatePicker tf_dataFinal;
 
     @FXML
-    private DatePicker cx_dataInicio;
+    private DatePicker tf_dataInicio;
 
     @FXML
-    private TextField cx_horaFinal;
+    private TextField tf_horaFinal;
 
     @FXML
-    private TextField cx_horaInicio;
+    private TextField tf_horaInicio;
 
     @FXML
-    private TextField cx_justificativa;
+    private TextField tf_justificativa;
 
     @FXML
-    private TextField cx_projeto;
+    private TextField tf_projeto;
 
     @FXML
-    private TextField cx_squad;
+    private TextField tf_squad;
 
     @FXML
     private Button bt_horaExtra;
@@ -158,7 +158,6 @@ public class AppointmentsController implements Initializable {
                 AppointmentWrapper selectedItem = tabela.getSelectionModel().getSelectedItem();
                 if (selectedItem == null || selectedItem.getAppointment().getStatus() != targetStatus) return;
 
-                // System.out.println(selectedItem.toString());
                 PopUpFeedbackController.apt_selected = selectedItem;
                 popUp("popups/popUpFeedback");
                                     
@@ -169,14 +168,12 @@ public class AppointmentsController implements Initializable {
     private void updateTable () {
     
         loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getNome()));
-        System.out.println(loadedAppointments.size() + " appointments returned from select ");
+        // System.out.println(loadedAppointments.size() + " appointments returned from select ");
 
         applyFilter();
     }
 
     private void applyFilter () {
-
-        // System.out.println("applyFilter");
 
         List<Appointment> appointmentsToDisplay = AppointmentFilter.filterFromView(
             loadedAppointments,
@@ -210,41 +207,18 @@ public class AppointmentsController implements Initializable {
     }
 
     void inputAppointment (AppointmentType type) {
-        // Appointment appointment = new Appointment(
-        //     Authentication.getCurrentUser().getNome(),
-        //     type,
-        //     DateConverter.inputToTimestamp(cx_dataInicio.getValue(),cx_horaInicio.getText()),
-        //     DateConverter.inputToTimestamp(cx_dataFinal.getValue(),cx_horaFinal.getText()),
-        //     cx_squad.getText(),
-        //     cx_cliente.getText(),
-        //     cx_projeto.getText(),
-        //     cx_justificativa.getText()
-        // );
-        // System.out.println("New Appointment -- startDate: " + appointment.getStartDate() + " | endDate: " + appointment.getEndDate());
         QueryLibs.insertAppointment(new Appointment(
             Authentication.getCurrentUser().getNome(),
             type,
-            DateConverter.inputToTimestamp(cx_dataInicio.getValue(),cx_horaInicio.getText()),
-            DateConverter.inputToTimestamp(cx_dataFinal.getValue(),cx_horaFinal.getText()),
-            cx_squad.getText(),
-            cx_cliente.getText(),
-            cx_projeto.getText(),
-            cx_justificativa.getText()
+            DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),
+            DateConverter.inputToTimestamp(tf_dataFinal.getValue(),tf_horaFinal.getText()),
+            tf_squad.getText(),
+            tf_cliente.getText(),
+            tf_projeto.getText(),
+            tf_justificativa.getText()
         ));
 
-        // displayedAppointments.add(new AppointmentWrapper(appointment));
         updateTable();
-
-
-        // // Testes de Permissions na tag ViewConfig:
-        // ObservableList<Permission> permissions = view.getPermissions();
-        // System.out.println(permissions.size() + " Permissions");
-        // for (Permission p: permissions) {
-        //     System.out.println("Permission: " + p.getValue());
-        // }
-
-
-
     }
         
     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName

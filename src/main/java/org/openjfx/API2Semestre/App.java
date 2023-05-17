@@ -31,6 +31,11 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
+        // Para criar as tabelas que estiverem faltando
+        org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/tabelas.sql");
+        // Para criar as views que estiverem faltando
+        org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/views.sql");
+
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
         //     "humano adm exemplo",
         //     org.openjfx.api2semestre.authentication.Profile.Administrator,
@@ -55,6 +60,7 @@ public class App extends Application {
     }
 
     public static void loginView () {
+        baseController = null;
         try {
             scene = new Scene(loadFXML((currentViewFxmlFile = "views/login")));
             stage.setScene(scene);
@@ -70,7 +76,11 @@ public class App extends Application {
 
     static void loadBase () throws IOException {
         FXMLLoader loader = new FXMLLoader(App.getFXML("base"));
-        stage.setScene(new Scene(loader.load()));
+
+        if (scene != null && baseController != null) scene = new Scene(loader.load(), scene.getWidth(), scene.getHeight());
+        else scene = new Scene(loader.load());
+        stage.setScene(scene);
+
         baseController = loader.getController();
 
         baseController.getLb_currentUser().setText("Logado como " + Authentication.getCurrentUser().getNome());
