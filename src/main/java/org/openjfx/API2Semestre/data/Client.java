@@ -2,7 +2,7 @@ package org.openjfx.api2semestre.data;
 
 import org.openjfx.api2semestre.database.Data;
 
-public class Client extends Data {
+public class Client extends Data implements HasDisplayName {
     private Integer id;
     private String razaoSocial;
     private String cnpj;
@@ -34,6 +34,9 @@ public class Client extends Data {
         this.razaoSocial = razaoSocial;
         this.cnpj = cnpj;
     }
+
+    /// Função getName para implementar a interface HasDisplayName, permitindo compatibilidade com a LookupTextField
+    public String getName() { return getRazaoSocial(); }
 
     public Integer getId() { return id; }
     public String getRazaoSocial() { return razaoSocial; }

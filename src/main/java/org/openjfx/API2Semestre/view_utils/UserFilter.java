@@ -41,8 +41,8 @@ public class UserFilter {
         Optional<String> email
     ) {
         return users.stream().filter((User cliente) -> {
-            if (matricula.isPresent() && !cliente.getMatricula().contains(matricula.get())) return false;
-            if (name.isPresent() && !cliente.getNome().equals(name.get())) return false;
+            if (matricula.isPresent() && !cliente.getRegistration().contains(matricula.get())) return false;
+            if (name.isPresent() && !cliente.getName().equals(name.get())) return false;
             if (email.isPresent() && !cliente.getEmail().equals(email.get())) return false;
             return true;
         }).collect(Collectors.toList());

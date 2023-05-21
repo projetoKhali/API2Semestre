@@ -2,75 +2,75 @@ package org.openjfx.api2semestre.data;
 
 import org.openjfx.api2semestre.database.Data;
 
-public class ResultCenter extends Data {
+public class ResultCenter extends Data implements HasDisplayName {
     private Integer id;
-    private String nome;
-    private String sigla;
-    private String codigo;
-    private int gestorId;
-    private String gestorNome;
+    private String name;        // Nome
+    private String acronym;     // Sigla
+    private String code;        // Código
+    private int managerId;      // ID Gestor
+    private String managerName; // Nome Gestor
 
     private ResultCenter(
         Integer id,
-        String nome,
-        String sigla,
-        String codigo,
-        int gestorId,
-        String gestorNome
+        String name,
+        String acronym,
+        String code,
+        int managerId,
+        String managerName
     ) {
         this.id = id;
-        this.nome = nome;
-        this.sigla = sigla;
-        this.codigo = codigo;
-        this.gestorId = gestorId;
-        this.gestorNome = gestorNome;
+        this.name = name;
+        this.acronym = acronym;
+        this.code = code;
+        this.managerId = managerId;
+        this.managerName = managerName;
     }
 
     public ResultCenter(
-        String nome,
-        String sigla,
+        String name,
+        String acronym,
         String codigo,
-        int gestorId
+        int managerId
     ) {
         this(
             null,
-            nome,
-            sigla,
+            name,
+            acronym,
             codigo,
-            gestorId,
+            managerId,
             null
         );
     }
 
     public ResultCenter(
         int id,
-        String nome,
-        String sigla,
+        String name,
+        String acronym,
         String codigo,
-        int gestorId,
-        String gestorNome
+        int managerId,
+        String managerName
     ) {
         this(
             Integer.valueOf(id),
-            nome,
-            sigla,
+            name,
+            acronym,
             codigo,
-            gestorId,
-            gestorNome
+            managerId,
+            managerName
         );
     }
 
     public Integer getId () { return id; }
-    public String getNome () { return nome; }
-    public String getSigla () { return sigla; }
-    public String getCodigo () { return codigo; }
-    public Integer getGestorId() { return gestorId; }
+    public String getName () { return name; }
+    public String getAcronym () { return acronym; }
+    public String getCode () { return code; }
+    public Integer getManagerId() { return managerId; }
     
-    public String getGestorNome () { return gestorNome; }
+    public String getManagerName () { return managerName; }
     
     public void setId(Integer id) { this.id = id; }
-    public void setNome(String nome) { this.nome = nome; }
-    public void setSigla(String sigla) { this.sigla = sigla; }
-    public void setCodigo(String codigo) { this.codigo = codigo; }   
-    public void setGestorId(int gestorId) { this.gestorId = gestorId; }
+    public void setName(String name) { this.name = name; }
+    public void setAcronym(String acronym) { this.acronym = acronym; }
+    public void setCode(String codigo) { this.code = codigo; }   
+    public void setManagerId(int managerId) { this.managerId = managerId; }
 }

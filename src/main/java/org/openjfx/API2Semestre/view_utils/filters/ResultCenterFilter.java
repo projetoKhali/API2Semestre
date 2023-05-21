@@ -44,10 +44,10 @@ public class ResultCenterFilter {
         Optional<String> gestor
     ) {
         return resultCenters.stream().filter((ResultCenter resultCenter) -> {
-            if (nome.isPresent() && !resultCenter.getNome().toLowerCase().contains(nome.get().toLowerCase())) return false;
-            if (sigla.isPresent() && !resultCenter.getSigla().toLowerCase().contains(sigla.get().toLowerCase())) return false;
-            if (codigo.isPresent() && !resultCenter.getCodigo().toLowerCase().contains(codigo.get().toLowerCase())) return false;
-            if (gestor.isPresent() && !resultCenter.getGestorNome().toLowerCase().contains(gestor.get().toLowerCase())) return false;
+            if (nome.isPresent() && !resultCenter.getName().toLowerCase().contains(nome.get().toLowerCase())) return false;
+            if (sigla.isPresent() && !resultCenter.getAcronym().toLowerCase().contains(sigla.get().toLowerCase())) return false;
+            if (codigo.isPresent() && !resultCenter.getCode().toLowerCase().contains(codigo.get().toLowerCase())) return false;
+            if (gestor.isPresent() && !resultCenter.getManagerName().toLowerCase().contains(gestor.get().toLowerCase())) return false;
             return true;
         }).collect(Collectors.toList());
 

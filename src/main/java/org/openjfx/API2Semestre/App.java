@@ -12,14 +12,17 @@ import java.net.URL;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.BaseController;
 import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 
 public class App extends Application {
-    
+
+    /// Define o caminho para o arquivo .env a ser usado para conectar com o banco de dados.
+    private static final String envLocation = "./.env";
+    public static final String getEnvLocation() { return envLocation; }
+
     private static Scene scene;
     private static Stage stage;
 
@@ -86,7 +89,7 @@ public class App extends Application {
         baseController = loader.getController();
 
         Label lb_currentUser = baseController.getLb_currentUser();
-        lb_currentUser.setText("Logado como " + Authentication.getCurrentUser().getNome());
+        lb_currentUser.setText("Logado como " + Authentication.getCurrentUser().getName());
         lb_currentUser.setWrapText(true);
 
     }

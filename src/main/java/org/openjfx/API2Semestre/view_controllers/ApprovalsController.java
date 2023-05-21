@@ -127,7 +127,7 @@ public class ApprovalsController {
 
         for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(Authentication.getCurrentUser().getId())) {
             // System.out.println("resultCenter: " + resultCenter);
-            for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getNome())) {
+            for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getName())) {
                 // System.out.println("apt: " + apt);
                 // try {
                     items.add(apt);

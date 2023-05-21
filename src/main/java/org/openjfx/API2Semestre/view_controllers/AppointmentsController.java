@@ -12,7 +12,6 @@ import org.openjfx.api2semestre.appointments.Appointment;
 import org.openjfx.api2semestre.appointments.AppointmentType;
 import org.openjfx.api2semestre.appointments.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.data_utils.DateConverter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_controllers.popups.PopUpFeedbackController;
@@ -46,9 +45,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class AppointmentsController implements Initializable {
-
-    @FXML
-    private ViewConfig view;
 
     @FXML
     private TextField tf_cliente;
@@ -167,7 +163,7 @@ public class AppointmentsController implements Initializable {
 
     private void updateTable () {
     
-        loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getNome()));
+        loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getName()));
         // System.out.println(loadedAppointments.size() + " appointments returned from select ");
 
         applyFilter();
@@ -208,7 +204,7 @@ public class AppointmentsController implements Initializable {
 
     void inputAppointment (AppointmentType type) {
         QueryLibs.insertAppointment(new Appointment(
-            Authentication.getCurrentUser().getNome(),
+            Authentication.getCurrentUser().getName(),
             type,
             DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),
             DateConverter.inputToTimestamp(tf_dataFinal.getValue(),tf_horaFinal.getText()),

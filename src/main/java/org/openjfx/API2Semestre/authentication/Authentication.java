@@ -29,7 +29,7 @@ public class Authentication {
             String insertPassword = PasswordIncription.encryptPassword(password);
 
             // verifica se a senha incriptada é a mesma da do banco
-            if (insertPassword.equals(loginUser.getSenha())) {
+            if (insertPassword.equals(loginUser.getPassword())) {
                 return setCurrentUser(loginUser);
             }
 

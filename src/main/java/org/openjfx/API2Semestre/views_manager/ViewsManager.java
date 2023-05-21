@@ -52,7 +52,7 @@ public class ViewsManager {
 
     private static Permission[] getPermissions (User u) {
         List<Permission> permissions = new ArrayList<>();
-        if (u.getPerfil() == Profile.Administrator) {
+        if (u.getProfile() == Profile.Administrator) {
             permissions.add(Permission.FullAccess);
             permissions.add(Permission.Register);
             permissions.add(Permission.Report);

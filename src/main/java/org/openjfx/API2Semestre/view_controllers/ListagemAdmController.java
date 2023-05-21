@@ -8,7 +8,6 @@ import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.appointments.Appointment;
-import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view_macros.ColumnConfig;
 import org.openjfx.api2semestre.view_macros.ColumnConfigString;
@@ -30,10 +29,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ListagemAdmController implements Initializable {
-
-    @FXML
-    private ViewConfig view;
-
 
     @FXML
     private TableColumn<AppointmentWrapper, Boolean> col_selecionar;

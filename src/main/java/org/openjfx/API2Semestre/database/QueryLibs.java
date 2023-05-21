@@ -95,11 +95,11 @@ public class QueryLibs {
             return executeInsert(
                 QueryTable.User,
                 new QueryParam<?> [] {
-                new QueryParam<>(TableProperty.Name, user.getNome()),
+                new QueryParam<>(TableProperty.Name, user.getName()),
                 new QueryParam<>(TableProperty.Email, user.getEmail()),
-                new QueryParam<>(TableProperty.Password, PasswordIncription.encryptPassword(user.getSenha())),     // incripta senha
-                new QueryParam<Integer>(TableProperty.Profile, user.getPerfil().getProfileLevel()),
-                new QueryParam<>(TableProperty.Registration, user.getMatricula())
+                new QueryParam<>(TableProperty.Password, PasswordIncription.encryptPassword(user.getPassword())),     // incripta senha
+                new QueryParam<Integer>(TableProperty.Profile, user.getProfile().getProfileLevel()),
+                new QueryParam<>(TableProperty.Registration, user.getRegistration())
             });
         } catch (Exception e) {
             System.out.println("ERROR: duplicate key value violates unique constraint\nEmail já existente!");
@@ -112,10 +112,10 @@ public class QueryLibs {
         return executeInsert(
             QueryTable.ResultCenter,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Name, rc.getNome()),
-                new QueryParam<String>(TableProperty.Sigla, rc.getSigla()),
-                new QueryParam<String>(TableProperty.Codigo, rc.getCodigo()),
-                new QueryParam<Integer>(TableProperty.User, rc.getGestorId())
+                new QueryParam<String>(TableProperty.Name, rc.getName()),
+                new QueryParam<String>(TableProperty.Sigla, rc.getAcronym()),
+                new QueryParam<String>(TableProperty.Codigo, rc.getCode()),
+                new QueryParam<Integer>(TableProperty.User, rc.getManagerId())
             }
         );
     }
