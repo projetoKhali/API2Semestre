@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
-import org.openjfx.api2semestre.appointments.VwAppointment;
+import org.openjfx.api2semestre.appointment.VwAppointment;
 import org.openjfx.api2semestre.database.QueryLibs;
 
 import com.opencsv.CSVWriter;

@@ -12,11 +12,10 @@ import java.net.URL;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.database.QueryLibs;
-import org.openjfx.api2semestre.view_controllers.BaseController;
-import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
-import org.openjfx.api2semestre.views_manager.View;
-import org.openjfx.api2semestre.views_manager.ViewsManager;
+import org.openjfx.api2semestre.view.controllers.Base;
+import org.openjfx.api2semestre.view.controllers.templates.ViewButtonController;
+import org.openjfx.api2semestre.view.manager.View;
+import org.openjfx.api2semestre.view.manager.ViewsManager;
 
 public class App extends Application {
     
@@ -28,15 +27,15 @@ public class App extends Application {
     
     private static String currentViewFxmlFile;
     
-    private static BaseController baseController;
+    private static Base baseController;
     
     @Override
     public void start(Stage stage) throws IOException {
 
         // Para criar as tabelas que estiverem faltando
-        org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/tabelas.sql");
+        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/tabelas.sql");
         // Para criar as views que estiverem faltando
-        org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/views.sql");
+        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/views.sql");
 
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
         //     "humano adm exemplo",
