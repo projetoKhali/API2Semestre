@@ -12,10 +12,10 @@ import java.net.URL;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.view.controllers.views.BaseController;
-import org.openjfx.api2semestre.view.controllers.views.templates.ViewButtonController;
-import org.openjfx.api2semestre.views_manager.View;
-import org.openjfx.api2semestre.views_manager.ViewsManager;
+import org.openjfx.api2semestre.view.controllers.Base;
+import org.openjfx.api2semestre.view.controllers.templates.ViewButtonController;
+import org.openjfx.api2semestre.view.manager.View;
+import org.openjfx.api2semestre.view.manager.ViewsManager;
 
 public class App extends Application {
     
@@ -27,7 +27,7 @@ public class App extends Application {
     
     private static String currentViewFxmlFile;
     
-    private static BaseController baseController;
+    private static Base baseController;
     
     @Override
     public void start(Stage stage) throws IOException {

@@ -18,15 +18,15 @@ import java.util.stream.Collectors;
 import org.openjfx.api2semestre.data.Client;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
+import org.openjfx.api2semestre.appointment.Appointment;
+import org.openjfx.api2semestre.appointment.VwAppointment;
 import org.openjfx.api2semestre.authentication.User;
-import org.openjfx.api2semestre.appointments.Appointment;
-import org.openjfx.api2semestre.appointments.VwAppointment;
-import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
 import org.openjfx.api2semestre.database.query.QueryTable;
 import org.openjfx.api2semestre.database.query.QueryType;
 import org.openjfx.api2semestre.database.query.TableProperty;
+import org.openjfx.api2semestre.utils.PasswordIncription;
 
 public class QueryLibs {
 
