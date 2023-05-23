@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.view.controllers.Base;
-import org.openjfx.api2semestre.view.controllers.templates.ViewButtonController;
+import org.openjfx.api2semestre.view.controllers.templates.ViewButton;
 import org.openjfx.api2semestre.view.manager.View;
 import org.openjfx.api2semestre.view.manager.ViewsManager;
 
@@ -107,7 +107,7 @@ public class App extends Application {
     
                     baseController.getVb_views().getChildren().add(viewButtonLoader.load());
     
-                    ViewButtonController viewButtonTemplateController = viewButtonLoader.getController();
+                    ViewButton viewButtonTemplateController = viewButtonLoader.getController();
     
                     String buttonViewFxmlFile = view.getFxmlFileName();
     

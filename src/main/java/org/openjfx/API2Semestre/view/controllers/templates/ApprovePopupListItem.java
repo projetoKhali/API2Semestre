@@ -3,7 +3,7 @@ package org.openjfx.api2semestre.view.controllers.templates;
 import java.util.List;
 import java.util.Optional;
 
-import org.openjfx.api2semestre.view.controllers.popups.PopupController;
+import org.openjfx.api2semestre.view.controllers.popups.Popup;
 import org.openjfx.api2semestre.view.utils.pretty_table_cell.PrettyTableCell;
 import org.openjfx.api2semestre.view.utils.pretty_table_cell.PrettyTableCellInstruction;
 import org.openjfx.api2semestre.view.utils.wrappers.AppointmentWrapper;
@@ -16,7 +16,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 
-public class ApprovePopupListItem implements PopupController {
+public class ApprovePopupListItem implements Popup {
 
     @FXML
     private TableView<AppointmentWrapper> tabela;

@@ -9,7 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
 
-public class ViewButtonController {
+public class ViewButton {
     @FXML
     private Button button;
     
