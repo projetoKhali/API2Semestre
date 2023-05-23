@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.view_controllers;
+package org.openjfx.api2semestre.view.controllers.views;
 
 import org.openjfx.api2semestre.custom_tags.LookupTextField;
 import org.openjfx.api2semestre.data.ResultCenter;

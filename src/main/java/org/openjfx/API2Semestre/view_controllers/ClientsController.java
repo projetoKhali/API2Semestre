@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.view_controllers;
+package org.openjfx.api2semestre.view.controllers.views;
 
 import java.net.URL;
 import java.util.Arrays;

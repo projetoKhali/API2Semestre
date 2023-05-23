@@ -12,8 +12,8 @@ import java.net.URL;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.authentication.Authentication;
-import org.openjfx.api2semestre.view_controllers.BaseController;
-import org.openjfx.api2semestre.view_controllers.templates.ViewButtonController;
+import org.openjfx.api2semestre.view.controllers.views.BaseController;
+import org.openjfx.api2semestre.view.controllers.views.templates.ViewButtonController;
 import org.openjfx.api2semestre.views_manager.View;
 import org.openjfx.api2semestre.views_manager.ViewsManager;
 

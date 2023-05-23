@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.view_controllers.popups;
+package org.openjfx.api2semestre.view.controllers.views.popups;
 
 import org.openjfx.api2semestre.view_utils.AppointmentWrapper;
 

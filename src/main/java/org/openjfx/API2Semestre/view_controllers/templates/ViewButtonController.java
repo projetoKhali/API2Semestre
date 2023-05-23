@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.view_controllers.templates;
+package org.openjfx.api2semestre.view.controllers.views.templates;
 
 import java.util.Optional;
 

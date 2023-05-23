@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.view_controllers;
+package org.openjfx.api2semestre.view.controllers.views;
 
 import java.net.URL;
 import java.util.Arrays;
@@ -15,7 +15,7 @@ import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.custom_tags.ViewConfig;
 import org.openjfx.api2semestre.data_utils.DateConverter;
 import org.openjfx.api2semestre.database.QueryLibs;
-import org.openjfx.api2semestre.view_controllers.popups.PopUpFeedbackController;
+import org.openjfx.api2semestre.view.controllers.views.popups.PopUpFeedbackController;
 import org.openjfx.api2semestre.view_macros.ColumnConfig;
 import org.openjfx.api2semestre.view_macros.ColumnConfigStatus;
 import org.openjfx.api2semestre.view_macros.ColumnConfigString;

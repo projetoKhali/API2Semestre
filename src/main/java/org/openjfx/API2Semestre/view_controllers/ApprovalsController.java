@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.view_controllers;
+package org.openjfx.api2semestre.view.controllers.views;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,11 +12,11 @@ import org.openjfx.api2semestre.appointments.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
-import org.openjfx.api2semestre.view_controllers.popups.PopUpJustificationController;
-import org.openjfx.api2semestre.view_controllers.popups.PopupCallbackHandler;
-import org.openjfx.api2semestre.view_controllers.popups.PopupController;
-import org.openjfx.api2semestre.view_controllers.templates.ApprovePopupListItem;
-import org.openjfx.api2semestre.view_controllers.templates.RejectPopupListItem;
+import org.openjfx.api2semestre.view.controllers.views.popups.PopUpJustificationController;
+import org.openjfx.api2semestre.view.controllers.views.popups.PopupCallbackHandler;
+import org.openjfx.api2semestre.view.controllers.views.popups.PopupController;
+import org.openjfx.api2semestre.view.controllers.views.templates.ApprovePopupListItem;
+import org.openjfx.api2semestre.view.controllers.views.templates.RejectPopupListItem;
 import org.openjfx.api2semestre.view_macros.ColumnConfig;
 import org.openjfx.api2semestre.view_macros.ColumnConfigString;
 import org.openjfx.api2semestre.view_macros.TableCheckBoxMacros;
