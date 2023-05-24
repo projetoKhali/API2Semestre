@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.authentication.User;
-
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ChangeListener;
@@ -75,7 +74,7 @@ public class ResultCenters {
         User[] users = QueryLibs.selectAllUsers();
 
         // Create a new LookupTextField to replace the default javafx TextField at tf_colaborador
-        LookupTextField lookupTextFieldColaborador = new LookupTextField(users);
+        LookupTextField<User> lookupTextFieldColaborador = new LookupTextField<User>(users);
         ((HBox)tf_colaborador.getParent()).getChildren().set(
             ((HBox)tf_colaborador.getParent()).getChildren().indexOf(tf_colaborador),
             lookupTextFieldColaborador
@@ -84,8 +83,8 @@ public class ResultCenters {
 
         // Create a new LookupTextField to replace the default javafx TextField at tf_gestor
         // In this case, filter the users array to only show level 1 (gestor) and 2 (adm) profile for the suggestions
-        LookupTextField lookupTextFieldGestor = new LookupTextField(
-            (User[])Arrays.stream(users).filter((User user) -> user.getPerfil().getProfileLevel() > 0).toArray(User[]::new)
+        LookupTextField<User> lookupTextFieldGestor = new LookupTextField<User>(
+            (User[])Arrays.stream(users).filter((User user) -> user.getProfile().getProfileLevel() > 0).toArray(User[]::new)
         );
         ((HBox)tf_gestor.getParent()).getChildren().set(
             ((HBox)tf_gestor.getParent()).getChildren().indexOf(tf_gestor),
@@ -94,9 +93,8 @@ public class ResultCenters {
 
         // Add an additional callback on the selectedUser property of tf_gestor 
         // to enable/disable the User selected at the LookupTextField on changed
-        lookupTextFieldGestor.selectedUserProperty().addListener(new ChangeListener<User>() {
-            @Override
-            public void changed(ObservableValue<? extends User> arg0, User oldPropertyValue, User newPropertyValue) {
+        lookupTextFieldGestor.selectedItemProperty().addListener(new ChangeListener<User>() {
+            @Override public void changed(ObservableValue<? extends User> arg0, User oldPropertyValue, User newPropertyValue) {
                 if (oldPropertyValue != null) lookupTextFieldColaborador.addSuggestion(oldPropertyValue);
                 if (newPropertyValue != null) lookupTextFieldColaborador.removeSuggestion(newPropertyValue);
             }
@@ -108,8 +106,7 @@ public class ResultCenters {
     private void buildTable () {
 
         ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 applyFilter();
             }
         };
@@ -161,16 +158,14 @@ public class ResultCenters {
         // TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
     }
 
-
-    @FXML
-    void adicionarColaborador(ActionEvent event) {
-
+    @FXML void adicionarColaborador(ActionEvent event) {
+        
         // get the TextFields as LookupTextField
-        LookupTextField lookupTfColaborador = ((LookupTextField)tf_colaborador);
-        LookupTextField lookupTfGestor = ((LookupTextField)tf_gestor);
+        @SuppressWarnings("unchecked") LookupTextField<User> lookupTfColaborador = ((LookupTextField<User>)tf_colaborador);
+        @SuppressWarnings("unchecked") LookupTextField<User> lookupTfGestor = ((LookupTextField<User>)tf_gestor);
 
         // get the selectedUser of the LoopkupTextField
-        User selectedUser = lookupTfColaborador.getSelectedUser();
+        User selectedUser = lookupTfColaborador.getSelectedItem();
 
         // if null, cancel
         if (selectedUser == null) return;
@@ -185,7 +180,7 @@ public class ResultCenters {
         lookupTfColaborador.clear();
 
         // Create a label with the User's name
-        Label userLabel = new Label(selectedUser.getNome());
+        Label userLabel = new Label(selectedUser.getName());
         HBox.setMargin(userLabel, new Insets(0, 0, 0, 0));
         userLabel.setPadding(new Insets(0));
         userLabel.setFont(Font.font("Arial", 12));
@@ -212,19 +207,19 @@ public class ResultCenters {
         userRemoveButton.setOnAction(e -> {
             fp_colaboradores.getChildren().remove(userContainer);
             lookupTfColaborador.addSuggestion(selectedUser);
-            if (selectedUser.getPerfil().getProfileLevel() > 0) lookupTfGestor.addSuggestion(selectedUser);
+            if (selectedUser.getProfile().getProfileLevel() > 0) lookupTfGestor.addSuggestion(selectedUser);
             selectedUsers.remove(selectedUser);
         });
         
     }
 
     @FXML void cadastrarCentro (ActionEvent event) {
-
+        
         // get the TextFields as LookupTextField
-        LookupTextField lookupTfcolaborador = ((LookupTextField)tf_colaborador);
-        LookupTextField lookupTfgestor = ((LookupTextField)tf_gestor);
+        @SuppressWarnings("unchecked") LookupTextField<User> lookupTfcolaborador = ((LookupTextField<User>)tf_colaborador);
+        @SuppressWarnings("unchecked") LookupTextField<User> lookupTfgestor = ((LookupTextField<User>)tf_gestor);
 
-        User gestor = lookupTfgestor.getSelectedUser();
+        User gestor = lookupTfgestor.getSelectedItem();
 
         String name = tf_name.getText();
         String sigla = tf_sigla.getText();
@@ -249,7 +244,7 @@ public class ResultCenters {
 
             // enable the selectedUser back to the suggestions of both LookupTextFields
             lookupTfcolaborador.addSuggestion(selectedUser);
-            if (selectedUser.getPerfil().getProfileLevel() > 0) lookupTfgestor.addSuggestion(selectedUser);
+            if (selectedUser.getProfile().getProfileLevel() > 0) lookupTfgestor.addSuggestion(selectedUser);
         }
 
         // clear the values of each TextField

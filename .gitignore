@@ -9,3 +9,4 @@ target/
 *.vscode/settings.json
 .json
 *.jar
+.jar

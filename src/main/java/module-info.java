@@ -11,6 +11,7 @@ module org.openjfx.api2semestre {
     opens org.openjfx.api2semestre.view.controllers.views to javafx.fxml;
     opens org.openjfx.api2semestre.view.controllers to javafx.fxml;
 
+    opens org.openjfx.api2semestre.custom_fxml_controls to javafx.fxml;
     opens org.openjfx.api2semestre.view.utils.pretty_table_cell to javafx.base;
     opens org.openjfx.api2semestre.view.utils.wrappers to javafx.base;
     opens org.openjfx.api2semestre.view.utils.filters to javafx.base;

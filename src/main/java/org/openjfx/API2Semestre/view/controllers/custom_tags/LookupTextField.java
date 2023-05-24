@@ -3,7 +3,7 @@ package org.openjfx.api2semestre.view.controllers.custom_tags;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import org.openjfx.api2semestre.authentication.User;
+import org.openjfx.api2semestre.data.HasDisplayName;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -17,28 +17,28 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Popup;
 
-public class LookupTextField extends TextField {
+public class LookupTextField<T extends HasDisplayName> extends TextField {
 
-    private final ObservableList<User> suggestions = FXCollections.observableList(new LinkedList<User>());
-    private final ObjectProperty<User> selectedUser;
-    private final ObservableList<User> listViewSuggestions;
-    private ListView<User> suggestionsListView;
+    private final ObservableList<T> suggestions = FXCollections.observableList(new LinkedList<T>());
+    private final ObjectProperty<T> selectedItem;
+    private final ObservableList<T> listViewSuggestions;
+    private ListView<T> suggestionsListView;
 
-    public LookupTextField (User[] suggestions) { this(new LinkedList<User>(Arrays.asList(suggestions))); }
-    public LookupTextField (LinkedList<User> suggestions) {
+    public LookupTextField (T[] suggestions) { this(new LinkedList<T>(Arrays.asList(suggestions))); }
+    public LookupTextField (LinkedList<T> suggestions) {
         this.suggestions.setAll(suggestions);
         this.listViewSuggestions = FXCollections.observableArrayList();
-        this.selectedUser = new SimpleObjectProperty<>();
+        this.selectedItem = new SimpleObjectProperty<>();
 
         suggestionsListView = new ListView<>(this.listViewSuggestions);
         suggestionsListView.setCellFactory(param -> new ListCell<>() {
             @Override
-            protected void updateItem(User item, boolean empty) {
+            protected void updateItem(T item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
                 } else {
-                    setText(item.getNome());
+                    setText(item.getName());
                 }
             }
         });
@@ -63,24 +63,24 @@ public class LookupTextField extends TextField {
         });
 
         textProperty().addListener((observable, oldValue, newValue) -> {
-            User selUser = selectedUser.get();
-            if (newValue.isBlank() || (selUser != null && newValue.equals(selUser.getNome()))) {
+            T selItem = selectedItem.get();
+            if (newValue.isBlank() || (selItem != null && newValue.equals(selItem.getName()))) {
                 setStyle("-fx-text-fill: black;");
             } else {
-                selectedUser.set(null);
+                selectedItem.set(null);
                 setStyle("-fx-text-fill: red;");
             }
             if (focusedProperty().get()) {
                 // System.out.println("newvalue NOT empty");
                 suggestionsListView.getItems().clear();
                 // System.out.println(this.suggestions.length);
-                for (User suggestion : this.suggestions) {
+                for (T suggestion : this.suggestions) {
                     // System.out.println(
-                    //     "suggestion(" + suggestion.getNome().toLowerCase() + 
+                    //     "suggestion(" + suggestion.getName().toLowerCase() + 
                     //     ") newValue(" + newValue.toLowerCase() +
-                    //     ") contains? " + suggestion.getNome().toLowerCase().contains(newValue.toLowerCase())
+                    //     ") contains? " + suggestion.getName().toLowerCase().contains(newValue.toLowerCase())
                     // );
-                    if (suggestion.getNome().toLowerCase().contains(newValue.toLowerCase())) {
+                    if (suggestion.getName().toLowerCase().contains(newValue.toLowerCase())) {
                         suggestionsListView.getItems().add(suggestion);
                     }
                 };        
@@ -91,10 +91,10 @@ public class LookupTextField extends TextField {
         });
 
         suggestionsListView.setOnMouseClicked(event -> {
-            User selectedUser = suggestionsListView.getSelectionModel().getSelectedItem();
-            if (selectedUser != null) {
-                setText(selectedUser.getNome());
-                this.selectedUser.set(selectedUser);
+            T selectedItem = suggestionsListView.getSelectionModel().getSelectedItem();
+            if (selectedItem != null) {
+                setText(selectedItem.getName());
+                this.selectedItem.set(selectedItem);
                 setStyle("-fx-text-fill: black;");
             }
             popup.hide();
@@ -120,29 +120,29 @@ public class LookupTextField extends TextField {
 
     private void updateListViewSuggestions() {
         suggestionsListView.getItems().clear();
-        for (User user : this.suggestions) {
-            suggestionsListView.getItems().add(user);
+        for (T item : this.suggestions) {
+            suggestionsListView.getItems().add(item);
         }
     }
 
-    public User getSelectedUser() {
-        return selectedUser.get();
+    public T getSelectedItem() {
+        return selectedItem.get();
     }
 
     public void clear() {
-        selectedUser.set(null);
+        selectedItem.set(null);
         setText("");
     }
 
-    public ObjectProperty<User> selectedUserProperty() {
-        return selectedUser;
+    public ObjectProperty<T> selectedItemProperty() {
+        return selectedItem;
     }
 
-    public void addSuggestion (User suggestion) {
+    public void addSuggestion (T suggestion) {
         this.suggestions.add(suggestion);
     }
 
-    public void removeSuggestion (User suggestion) {
+    public void removeSuggestion (T suggestion) {
         this.suggestions.remove(suggestion);
     }
 

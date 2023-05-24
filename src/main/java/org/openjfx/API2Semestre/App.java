@@ -125,7 +125,7 @@ public class App extends Application {
 
         // pega a label lb_currentUser através do baseController e coloca o texto de usuário logado
         Label lb_currentUser = baseController.getLb_currentUser();
-        lb_currentUser.setText("Logado como " + Authentication.getCurrentUser().getNome());
+        lb_currentUser.setText("Logado como " + Authentication.getCurrentUser().getName());
         lb_currentUser.setWrapText(true);
 
     }

@@ -1,8 +1,9 @@
 package org.openjfx.api2semestre.authentication;
 
+import org.openjfx.api2semestre.data.HasDisplayName;
 import org.openjfx.api2semestre.database.Data;
 
-public class User extends Data {
+public class User extends Data implements HasDisplayName {
 
     private Integer id;    
     private String matricula;
@@ -62,16 +63,11 @@ public class User extends Data {
     }
 
     public Integer getId() { return id; }
-    public String getMatricula() { return matricula; }
-    public String getNome() { return nome; }
-    public Profile getPerfil() { return perfil; }
+    public String getRegistration() { return matricula; }
+    public String getName() { return nome; }
+    public Profile getProfile() { return perfil; }
     public String getEmail() { return email; }
-    public String getSenha() { return senha; }
-    
-    @Override
-    public String toString() {
-        return nome;
-    }
+    public String getPassword() { return senha; }
     
     // public void setNome(String nome) { this.nome = nome; }
     // public void setPerfil(Profile perfil) { this.perfil = perfil; }
