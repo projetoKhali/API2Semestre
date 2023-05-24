@@ -106,8 +106,8 @@ public class Appointment extends Data {
     public Integer getId() { return id; }
     public AppointmentType getType() { return type; }
     public String getRequester() { return requester; }
-    public Timestamp getStartDate() { return startDate; }
-    public Timestamp getEndDate() { return endDate; }
+    public Timestamp getStart() { return startDate; }
+    public Timestamp getEnd() { return endDate; }
     public String getSquad() { return squad; }
     public String getClient() { return client; }
     public String getProject() { return project; }

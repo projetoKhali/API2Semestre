@@ -64,8 +64,8 @@ public class AppointmentFilter {
         return appointments.stream().filter((Appointment appointment) -> {
             if (requester.isPresent() && !appointment.getRequester().toLowerCase().contains(requester.get().toLowerCase())) return false;
             if (type.isPresent() && !appointment.getType().equals(type.get())) return false;
-            if (startDate.isPresent() && !appointment.getStartDate().equals(startDate.get())) return false;
-            if (endDate.isPresent() && !appointment.getEndDate().equals(endDate.get())) return false;
+            if (startDate.isPresent() && !appointment.getStart().equals(startDate.get())) return false;
+            if (endDate.isPresent() && !appointment.getEnd().equals(endDate.get())) return false;
             if (squad.isPresent() && !appointment.getSquad().toLowerCase().contains(squad.get().toLowerCase())) return false;
             if (client.isPresent() && !appointment.getClient().toLowerCase().contains(client.get().toLowerCase())) return false;
             if (project.isPresent() && !appointment.getProject().toLowerCase().contains(project.get().toLowerCase())) return false;

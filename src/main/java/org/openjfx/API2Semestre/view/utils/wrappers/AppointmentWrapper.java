@@ -28,14 +28,14 @@ public class AppointmentWrapper implements HasSelectedProperty {
 
     public String getType() { return appointment.getType().getStringValue(); }
     public String getRequester() { return appointment.getRequester(); }
-    public String getStartDate() { return formatTime(appointment.getStartDate()); }
-    public String getEndDate() { return formatTime(appointment.getEndDate()); }
+    public String getStartDate() { return formatTime(appointment.getStart()); }
+    public String getEndDate() { return formatTime(appointment.getEnd()); }
     public String getSquad() { return appointment.getSquad(); }
     public String getClient() { return appointment.getClient(); }
     public String getProject() { return appointment.getProject(); }
     public String getStatus() { return appointment.getStatus().getStringValue(); }
     public String getTotal() {
-        long milliseconds = appointment.getEndDate().getTime() - appointment.getStartDate().getTime();
+        long milliseconds = appointment.getEnd().getTime() - appointment.getStart().getTime();
         long hours = milliseconds / (60 * 60 * 1000);
         long minutes = (milliseconds / (60 * 1000)) % 60;
         if (minutes == 0) return (hours + "h");

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.view.controllers.Base;
-import org.openjfx.api2semestre.view.controllers.templates.ViewButtonController;
+import org.openjfx.api2semestre.view.controllers.templates.ViewButton;
 import org.openjfx.api2semestre.view.manager.View;
 import org.openjfx.api2semestre.view.manager.ViewsManager;
 
@@ -28,7 +28,7 @@ public class App extends Application {
     /// userName:substitua_pelo_userName_do_banco_de_dados
     /// password:substitua_pela_password_do_banco_de_dados
     /// database:substitua_pelo_database_do_banco_de_dados
-    public static final String getEnvLocation () { return "././.env"; }
+    public static final String getEnvLocation () { return "././2.env"; }
 
     /// Referencias para scene e stage, são populadas ao rodar o programa e modificadas durante execução
     private static Scene scene;
@@ -45,9 +45,9 @@ public class App extends Application {
     
     @Override public void start(Stage stage) throws IOException {
 
-        // Para criar as tabelas que estiverem faltando
+        // // Para criar as tabelas que estiverem faltando
         // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/tabelas.sql");
-        // Para criar as views que estiverem faltando
+        // // Para criar as views que estiverem faltando
         // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/views.sql");
 
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
@@ -70,7 +70,11 @@ public class App extends Application {
         // ));
 
         setStage(stage);
-        loginView();
+        // loginView();
+
+        scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
+        stage.setScene(scene);
+        stage.show();
 
     }
 
@@ -155,7 +159,7 @@ public class App extends Application {
                 baseController.getVb_views().getChildren().add(viewButtonLoader.load());
 
                 // puxa o controller do botão
-                ViewButtonController viewButtonTemplateController = viewButtonLoader.getController();
+                ViewButton viewButtonTemplateController = viewButtonLoader.getController();
 
                 // puxa o caminho de arquivo da tela que corresponde a esse botão
                 String buttonViewFxmlFile = view.getFxmlFileName();

@@ -26,20 +26,20 @@ public class AppointmentCalculator {
         LinkedList<ReportInterval> intervalsOnNotice = new LinkedList<>();
 
         for(Appointment apt: appointments){
-            System.out.println("start time do apontamento: " + apt.getStartDate() + " | end time do apontamento: " + apt.getEndDate());
+            System.out.println("start time do apontamento: " + apt.getStart() + " | end time do apontamento: " + apt.getEnd());
 
-            LocalDateTime aptStartDateTime = apt.getStartDate().toLocalDateTime();
-            LocalDateTime aptEndDateTime = apt.getEndDate().toLocalDateTime();
+            LocalDateTime aptStartDateTime = apt.getStart().toLocalDateTime();
+            LocalDateTime aptEndDateTime = apt.getEnd().toLocalDateTime();
 
             double aptTotalTime = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime)) / 60;
 
             if(apt.getType() == AppointmentType.OnNotice){
-                System.out.println("start time do sobreaviso: " + apt.getStartDate() + " | end time do sobreaviso: " + apt.getEndDate());
+                System.out.println("start time do sobreaviso: " + apt.getStart() + " | end time do sobreaviso: " + apt.getEnd());
                 intervalsOnNotice.add(new ReportInterval(
                     apt.getId(),
                     3016,
-                    apt.getStartDate(),
-                    apt.getEndDate())
+                    apt.getStart(),
+                    apt.getEnd())
                 );
             }
             else {
@@ -55,14 +55,14 @@ public class AppointmentCalculator {
                     else if (verba.getMinHourCount() != 0){
                         if (aptTotalTime <= 2) continue;
                         Appointment aptLastHours = apt.copy();
-                        aptLastHours.setStartDate(DateConverter.toTimestamp((apt.getStartDate().toLocalDateTime()).plusHours(2)));
+                        aptLastHours.setStartDate(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
                         for(ReportInterval repInt : calculateIntervals(aptLastHours, verba)) reportsFinal.add(repInt);
                     }
 
                     else{
                         if (aptTotalTime > 2) {
                             Appointment aptFirstHours = apt.copy();
-                            aptFirstHours.setEndDate(DateConverter.toTimestamp((apt.getStartDate().toLocalDateTime()).plusHours(2)));
+                            aptFirstHours.setEndDate(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
                             List<ReportInterval> reportsTemporary = calculateIntervals(aptFirstHours, verba);
                             for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
                         } else {
@@ -107,8 +107,8 @@ public class AppointmentCalculator {
             for(Appointment apt : appointments) {
                 if (apt.getType() != AppointmentType.Overtime) continue;
 
-                java.sql.Timestamp aptStart = apt.getStartDate();
-                java.sql.Timestamp aptEnd = apt.getEndDate();
+                java.sql.Timestamp aptStart = apt.getStart();
+                java.sql.Timestamp aptEnd = apt.getEnd();
 
                 LocalDateTime aptStartDateTime = aptStart.toLocalDateTime();
                 LocalDateTime aptEndDateTime = aptEnd.toLocalDateTime();
@@ -205,10 +205,10 @@ public class AppointmentCalculator {
 
         List<ReportInterval> reportsOvertime = new ArrayList<ReportInterval>();
             
-        LocalDateTime aptStartDateTime = aptOverTime.getStartDate().toLocalDateTime();
+        LocalDateTime aptStartDateTime = aptOverTime.getStart().toLocalDateTime();
         LocalDate aptStartLocalDate = aptStartDateTime.toLocalDate();
         
-        LocalDateTime aptEndDateTime = aptOverTime.getEndDate().toLocalDateTime();
+        LocalDateTime aptEndDateTime = aptOverTime.getEnd().toLocalDateTime();
         LocalDate aptEndLocalDate = aptEndDateTime.toLocalDate();
         
         if (!detectaInterDiaSemana(intervalFee, aptStartLocalDate, aptEndLocalDate)) return List.of();
