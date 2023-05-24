@@ -25,7 +25,7 @@ public class SQLConnection {
 
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("././2.env"));
+            br = new BufferedReader(new FileReader("././.env"));
             // loop through the array "env" and overwrite it's contents with the file's contents.
             // each line contains "field:value", we extract only the value by doing a split on ":" 
             // and accessing the index 1 of the result. If we reach the end of the file while trying to
