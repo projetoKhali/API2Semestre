@@ -14,24 +14,25 @@ import javafx.util.StringConverter;
 
 public class ChartGenerator {
 
-    private class ChartData {
-
+    @SuppressWarnings("unused") private static class ChartData {
+        LineChart<Number, Number> chart;
         XYChart.Series<Number, Number> series;
         NumberAxis xAxis;
         NumberAxis yAxis;
-
-        public ChartData(XYChart.Series<Number, Number> series, NumberAxis xAxis, NumberAxis yAxis) {
+        public ChartData(
+            LineChart<Number, Number> chart,
+            XYChart.Series<Number, Number> series,
+            NumberAxis xAxis,
+            NumberAxis yAxis
+        ) {
+            this.chart = chart;
             this.series = series;
             this.xAxis = xAxis;
             this.yAxis = yAxis;
         }
-
-        @SuppressWarnings("unused") public XYChart.Series<Number, Number> getSeries() { return series; }
-        @SuppressWarnings("unused") public NumberAxis getxAxis() { return xAxis; }
-        @SuppressWarnings("unused") public NumberAxis getyAxis() { return yAxis; }
     }
     
-    private ChartData emptyChart (
+    private static  ChartData emptyChart (
         String title,
         Optional<NumberAxis> xAxisOptional,
         Optional<NumberAxis> yAxisOptional
@@ -61,11 +62,11 @@ public class ChartGenerator {
         // Remove a legenda
         lineChart.setLegendVisible(false);
 
-        return new ChartData(series, xAxis, yAxis);
+        return new ChartData(lineChart, series, xAxis, yAxis);
 
     }
 
-    public void hourIntersectionCountGraph (Appointment[] appointments) {
+    public static LineChart<Number, Number> hourIntersectionCountGraph (Appointment[] appointments) {
 
         NumberAxis xAxis = new NumberAxis(0, 1440, 60);
         xAxis.setTickLabelFormatter(new StringConverter<Number>() {
@@ -76,27 +77,28 @@ public class ChartGenerator {
             }
         });
 
-        ChartData chart = emptyChart(
+        ChartData chartData = emptyChart(
             "Frequência de Apontamento por Hora do Dia",
             Optional.of(xAxis),
             Optional.empty()
         );
 
-        XYChart.Series<Number, Number> series = chart.series;
-        NumberAxis yAxis = chart.yAxis;
+        LineChart<Number, Number> lineChart = chartData.chart;
+        XYChart.Series<Number, Number> series = chartData.series;
+        NumberAxis yAxis = chartData.yAxis;
 
         // Add the data points to the series
-        long start = Timestamp.valueOf("2023-01-01 00:00:00").getTime();
-        long end = Timestamp.valueOf("2023-01-02 00:00:00").getTime();
+        long startChart = Timestamp.valueOf("2023-01-01 00:00:00").getTime();
+        long endChart = Timestamp.valueOf("2023-01-02 00:00:00").getTime();
 
         final LocalDate defaultDate = LocalDate.of(2023, 1, 1);
 
         int maxIntersectionCount = 0;
 
         // Convert the timestamps to time values in minutes
-        for (long time = start; time <= end; time += 60000) {
+        for (long timeAtPosition = startChart; timeAtPosition <= endChart; timeAtPosition += 60000) {
             
-            double position = (double) (time - start) / (end - start) * 24 * 60;
+            double position = (double) (timeAtPosition - startChart) / (endChart - startChart) * 24 * 60;
 
             // Count the number of intersections for the current time
             int intersectionCount = 0;
@@ -116,7 +118,7 @@ public class ChartGenerator {
                 )).getTime();
 
                 for (int i = 0; i < 1 + dayCount; i++) {
-                    if (time + (i * 86400000) < aptStart && time + (i * 86400000) > aptEnd) continue;
+                    if (timeAtPosition + (i * 86400000) <= aptStart || timeAtPosition + (i * 86400000) > aptEnd) continue;
                     intersectionCount++;
                 }
             }
@@ -133,5 +135,6 @@ public class ChartGenerator {
         yAxis.setTickUnit(1.0);
         yAxis.setMinorTickVisible(false);
 
+        return lineChart;
     }
 }
