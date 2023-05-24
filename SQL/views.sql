@@ -23,8 +23,8 @@ AS SELECT
     FROM apontamento
     
     -- fazendo join com as tabelas usuário, projeto e cliente.
-    JOIN usuario ON apontamento.usr_id = usuario.id
-    JOIN centro_resultado ON apontamento.cr_id = centro_resultado.id;
+    JOIN usuario ON apontamento.usr_id = usuario.nome
+    JOIN centro_resultado ON apontamento.cr_id = centro_resultado.nome;
 
 -- usuário
 CREATE OR REPLACE VIEW public.vw_usuario 

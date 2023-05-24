@@ -8,7 +8,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.Collections;
 
-import org.openjfx.api2semestre.appointments.AppointmentType;
+import org.openjfx.api2semestre.appointment.AppointmentType;
 
 public class IntervalFee {
     static final AppointmentType Overtime = AppointmentType.Overtime;

@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.Parametrization">
+<VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="826.0" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.Parametrization">
    <children>
-      <VBox>
+      <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
          <children>
             <HBox>
                <children>
@@ -21,7 +21,7 @@
                         <HBox alignment="CENTER" maxWidth="1.7976931348623157E308" spacing="8.0">
                            <children>
                               <Label text="Dia:" />
-                              <TextField maxHeight="24.0" maxWidth="32.0" fx:id="tf_closingDay" />
+                              <TextField fx:id="tf_closingDay" maxHeight="24.0" maxWidth="32.0" />
                            </children>
                            <padding>
                               <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
@@ -36,7 +36,7 @@
                               <HBox alignment="CENTER_LEFT" spacing="8.0">
                                  <children>
                                     <Label text="Início" />
-                                    <TextField maxWidth="44.0" fx:id="tf_inicio" />
+                                    <TextField fx:id="tf_inicio" maxWidth="44.0" />
                                  </children>
                                  <padding>
                                     <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
@@ -45,7 +45,7 @@
                               <HBox alignment="CENTER_LEFT" spacing="8.0">
                                  <children>
                                     <Label text="Fim" />
-                                    <TextField maxWidth="44.0" fx:id="tf_fim" />
+                                    <TextField fx:id="tf_fim" maxWidth="44.0" />
                                  </children>
                                  <padding>
                                     <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
@@ -77,7 +77,7 @@
             </TableView>
          </content>
       </TitledPane>
-      <HBox alignment="CENTER_RIGHT" fillHeight="false" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
+      <HBox alignment="CENTER_RIGHT" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="NEVER">
          <children>
             <Button maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" onAction="#salvar" prefHeight="24.0" prefWidth="256.0" text="Salvar" HBox.hgrow="NEVER" />
          </children>

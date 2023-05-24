@@ -18,15 +18,15 @@ import java.util.stream.Collectors;
 import org.openjfx.api2semestre.data.Client;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
+import org.openjfx.api2semestre.appointment.Appointment;
+import org.openjfx.api2semestre.appointment.VwAppointment;
 import org.openjfx.api2semestre.authentication.User;
-import org.openjfx.api2semestre.appointments.Appointment;
-import org.openjfx.api2semestre.appointments.VwAppointment;
-import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
 import org.openjfx.api2semestre.database.query.QueryTable;
 import org.openjfx.api2semestre.database.query.QueryType;
 import org.openjfx.api2semestre.database.query.TableProperty;
+import org.openjfx.api2semestre.utils.PasswordIncription;
 
 public class QueryLibs {
 
@@ -78,7 +78,7 @@ public class QueryLibs {
             new QueryParam<?>[] {
                 new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
                 new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEndDate()),
-                new QueryParam<String>(TableProperty.Requester, apt.getRequester()),
+                new QueryParam<String>(TableProperty.User, apt.getRequester()),
                 new QueryParam<String>(TableProperty.Project, apt.getProject()),
                 new QueryParam<String>(TableProperty.Client, apt.getClient()),
                 new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
@@ -89,19 +89,24 @@ public class QueryLibs {
         );
     }
 
-    // // Deprecated
-    // public static int insertUser (User users) {
-    //     return executeInsert(
-    //         QueryTable.User,
-    //         new QueryParam<?>[] {
-    //             new QueryParam<String>(TableProperty.Name, users.getNome()),
-    //             new QueryParam<Integer>(TableProperty.Profile, users.getPerfil().getProfileLevel()),
-    //             new QueryParam<String>(TableProperty.Email, users.getEmail()),
-    //             new QueryParam<String>(TableProperty.Password, users.getSenha()),
-    //             new QueryParam<String>(TableProperty.Registration, users.getMatricula())
-    //         }
-    //     );
-    // }
+    // Insere uma senha criptografada no banco
+    public static int insertUser(User user) {
+        try {
+            return executeInsert(
+                QueryTable.User,
+                new QueryParam<?> [] {
+                new QueryParam<>(TableProperty.Name, user.getNome()),
+                new QueryParam<>(TableProperty.Email, user.getEmail()),
+                new QueryParam<>(TableProperty.Password, PasswordIncription.encryptPassword(user.getSenha())),     // incripta senha
+                new QueryParam<Integer>(TableProperty.Profile, user.getPerfil().getProfileLevel()),
+                new QueryParam<>(TableProperty.Registration, user.getMatricula())
+            });
+        } catch (Exception e) {
+            System.out.println("ERROR: duplicate key value violates unique constraint\nEmail já existente!");
+            e.printStackTrace();
+            return -1;
+        }
+    }
 
     public static int insertResultCenter (ResultCenter rc) {
         return executeInsert(
@@ -125,8 +130,8 @@ public class QueryLibs {
         );
     }
 
-    public static void insertClient(Client cliente) {
-        executeInsert(
+    public static int insertClient(Client cliente) {
+        return executeInsert(
             QueryTable.Client,
             new QueryParam<?>[] {
                 new QueryParam<String>(TableProperty.RazaoSocial, cliente.getRazaoSocial()),
@@ -243,9 +248,9 @@ public class QueryLibs {
     public static Appointment[] collaboratorSelect (String requester) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
-            QueryTable.ViewAppointment,
+            QueryTable.Appointment,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Requester, requester),
+                new QueryParam<String>(TableProperty.User, requester),
             }
         );
     }
@@ -284,12 +289,12 @@ public class QueryLibs {
         .toArray(ResultCenter[]::new);
     }
 
-    public static Appointment[] selectAppointmentsOfResultCenter (int cr_id) {
+    public static Appointment[] selectAppointmentsOfResultCenter (String cr_id) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
+                new QueryParam<String>(TableProperty.ResultCenter, cr_id),
             }
         );
     }
@@ -324,6 +329,24 @@ public class QueryLibs {
         );
     }
 
+    public static Client[] selectAllClients() {
+        return QueryLibs.<Client>executeSelectAll(
+            Client.class,
+            QueryTable.Client
+        );
+    }
+
+    public static Optional<User> selectUserById(int id) {
+        return executeSelectOne(
+            User.class,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+
+
 // <-- botei suas funções aqui Jhonatan
 
     public static Optional<VwAppointment> selectAppointmentById(int id) {
@@ -346,25 +369,7 @@ public class QueryLibs {
         );
     }
 
-    // Insere uma senha criptografada no banco
-    public static void insertUser(User user) {
-        // incripta senha
-        String passwordHash = PasswordIncription.encryptPassword(user.getSenha());
-        try {
-            executeInsert(
-                QueryTable.User,
-                new QueryParam<?> [] {
-                new QueryParam<>(TableProperty.Name, user.getNome()),
-                new QueryParam<>(TableProperty.Email, user.getEmail()),
-                new QueryParam<>(TableProperty.Password, passwordHash),
-                new QueryParam<Integer>(TableProperty.Profile, user.getPerfil().getProfileLevel()),
-                new QueryParam<>(TableProperty.Registration, user.getMatricula())
-            });
-        } catch (Exception e) {
-            System.out.println("ERROR: duplicate key value violates unique constraint\nEmail já existente!");
-        }
-        
-    }
+    // movi sua função "insertUser(User user)" lá pra cima junto com as outras funções de insert jhonatan
 
 // <-- até aqui Jhonatan
 
@@ -378,7 +383,7 @@ public class QueryLibs {
                 // SET
                 new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
                 new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEndDate()),
-                new QueryParam<String>(TableProperty.Requester, apt.getRequester()),
+                new QueryParam<String>(TableProperty.User, apt.getRequester()),
                 new QueryParam<String>(TableProperty.Project, apt.getProject()),
                 new QueryParam<String>(TableProperty.Client, apt.getClient()),
                 new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
