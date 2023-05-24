@@ -76,8 +76,8 @@ public class QueryLibs {
         return executeInsert(
             QueryTable.Appointment,
             new QueryParam<?>[] {
-                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
-                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEndDate()),
+                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStart()),
+                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEnd()),
                 new QueryParam<String>(TableProperty.User, apt.getRequester()),
                 new QueryParam<String>(TableProperty.Project, apt.getProject()),
                 new QueryParam<String>(TableProperty.Client, apt.getClient()),
@@ -381,8 +381,8 @@ public class QueryLibs {
             new QueryParam<?>[] {
 
                 // SET
-                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
-                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEndDate()),
+                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStart()),
+                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEnd()),
                 new QueryParam<String>(TableProperty.User, apt.getRequester()),
                 new QueryParam<String>(TableProperty.Project, apt.getProject()),
                 new QueryParam<String>(TableProperty.Client, apt.getClient()),

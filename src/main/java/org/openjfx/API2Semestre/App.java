@@ -19,6 +19,8 @@ import org.openjfx.api2semestre.view.manager.ViewsManager;
 
 public class App extends Application {
     
+    public static final String getEnvLocation() { return "././.env"; }
+
     private static Scene scene;
     private static Stage stage;
 
@@ -57,7 +59,8 @@ public class App extends Application {
         // ));
 
         setStage(stage);
-        loginView();
+        // loginView();
+
     }
 
     public static void loginView () {
