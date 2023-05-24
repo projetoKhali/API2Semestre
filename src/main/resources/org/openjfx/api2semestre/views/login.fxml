@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 
 
-<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="320.0" prefWidth="480.0" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.LoginController">
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="320.0" prefWidth="480.0" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view.controllers.views.Login">
    <children>
       <ImageView fitHeight="113.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
          <image>

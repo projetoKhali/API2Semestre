@@ -1,7 +1,7 @@
 package org.openjfx.api2semestre.authentication;
 
-import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.QueryLibs;
+import org.openjfx.api2semestre.utils.PasswordIncription;
 
 public class Authentication {
     private static User currentUser;

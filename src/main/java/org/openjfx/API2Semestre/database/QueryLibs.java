@@ -18,15 +18,15 @@ import java.util.stream.Collectors;
 import org.openjfx.api2semestre.data.Client;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
+import org.openjfx.api2semestre.appointment.Appointment;
+import org.openjfx.api2semestre.appointment.VwAppointment;
 import org.openjfx.api2semestre.authentication.User;
-import org.openjfx.api2semestre.appointments.Appointment;
-import org.openjfx.api2semestre.appointments.VwAppointment;
-import org.openjfx.api2semestre.data_utils.PasswordIncription;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
 import org.openjfx.api2semestre.database.query.QueryTable;
 import org.openjfx.api2semestre.database.query.QueryType;
 import org.openjfx.api2semestre.database.query.TableProperty;
+import org.openjfx.api2semestre.utils.PasswordIncription;
 
 public class QueryLibs {
 
@@ -76,8 +76,8 @@ public class QueryLibs {
         return executeInsert(
             QueryTable.Appointment,
             new QueryParam<?>[] {
-                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
-                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEndDate()),
+                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStart()),
+                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEnd()),
                 new QueryParam<String>(TableProperty.User, apt.getRequester()),
                 new QueryParam<String>(TableProperty.Project, apt.getProject()),
                 new QueryParam<String>(TableProperty.Client, apt.getClient()),
@@ -381,8 +381,8 @@ public class QueryLibs {
             new QueryParam<?>[] {
 
                 // SET
-                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStartDate()),
-                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEndDate()),
+                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStart()),
+                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEnd()),
                 new QueryParam<String>(TableProperty.User, apt.getRequester()),
                 new QueryParam<String>(TableProperty.Project, apt.getProject()),
                 new QueryParam<String>(TableProperty.Client, apt.getClient()),

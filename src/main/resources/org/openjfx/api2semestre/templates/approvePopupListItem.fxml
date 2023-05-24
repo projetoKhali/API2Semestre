@@ -7,7 +7,7 @@
 <?import javafx.scene.text.Font?>
 
 
-<VBox spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view_controllers.templates.ApprovePopupListItem">
+<VBox spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view.controllers.views.templates.ApprovePopupListItem">
    <children>
       <TableView fx:id="tabela" prefHeight="54.0" prefWidth="754.0">
         <columns>
