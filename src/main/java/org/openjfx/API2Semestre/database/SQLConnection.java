@@ -10,6 +10,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.openjfx.api2semestre.App;
+
 public class SQLConnection {
 
     // método de conexão com banco
@@ -25,7 +27,7 @@ public class SQLConnection {
 
         BufferedReader br = null;
         try {
-            br = new BufferedReader(new FileReader("././.env"));
+            br = new BufferedReader(new FileReader(App.getEnvLocation()));
             // loop through the array "env" and overwrite it's contents with the file's contents.
             // each line contains "field:value", we extract only the value by doing a split on ":" 
             // and accessing the index 1 of the result. If we reach the end of the file while trying to

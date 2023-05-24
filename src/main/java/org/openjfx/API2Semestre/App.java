@@ -18,6 +18,17 @@ import org.openjfx.api2semestre.view.manager.View;
 import org.openjfx.api2semestre.view.manager.ViewsManager;
 
 public class App extends Application {
+    
+    /// Retorna o local do arquivo .env a ser utilizado para conectar com o banco de dados.
+    /// App é a classe principal do projeto então faz sentido essa informação estar aqui
+    /// para mais facilmente ser encontrada e modificada para testes ou configuração.
+    /// O arquivo deve estar no seguinte formato:
+    /// host:substitua_pelo_host_do_banco_de_dados
+    /// port:substitua_pelo_port_do_banco_de_dados
+    /// userName:substitua_pelo_userName_do_banco_de_dados
+    /// password:substitua_pela_password_do_banco_de_dados
+    /// database:substitua_pelo_database_do_banco_de_dados
+    public static final String getEnvLocation () { return "././.env"; }
 
     /// Referencias para scene e stage, são populadas ao rodar o programa e modificadas durante execução
     private static Scene scene;
@@ -27,7 +38,7 @@ public class App extends Application {
     private static void setStage (Stage newStage) { stage = newStage; }
     
     /// Nome da tela em exibição no momento
-    private static String currentViewFxmlFile;
+    @SuppressWarnings("unused") private static String currentViewFxmlFile;
     
     /// referencia para o controller da base da janela "base.fxml"
     private static Base baseController;
