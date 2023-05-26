@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.utils;
+package org.openjfx.api2semestre.data;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -36,9 +36,9 @@ public class Expedient {
                 nightShiftStart = result.getTime("night_shift_start").toLocalTime();
                 nightShiftEnd = result.getTime("night_shift_end").toLocalTime();
                 closingDay = result.getInt("closing_day");
-                connection.commit();
-                connection.close();
             }
+            connection.commit();
+            connection.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

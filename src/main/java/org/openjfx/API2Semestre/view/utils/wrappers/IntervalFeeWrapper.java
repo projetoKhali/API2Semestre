@@ -1,8 +1,8 @@
 package org.openjfx.api2semestre.view.utils.wrappers;
 
+import org.openjfx.api2semestre.data.Expedient;
 import org.openjfx.api2semestre.report.IntervalFee;
 import org.openjfx.api2semestre.report.Week;
-import org.openjfx.api2semestre.utils.Expedient;
 
 public class IntervalFeeWrapper {
     

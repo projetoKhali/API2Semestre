@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.openjfx.api2semestre.data.Expedient;
 import org.openjfx.api2semestre.report.IntervalFee;
-import org.openjfx.api2semestre.utils.Expedient;
 import org.openjfx.api2semestre.view.macros.TableMacros;
 import org.openjfx.api2semestre.view.macros.TextFieldTimeFormat;
 import org.openjfx.api2semestre.view.macros.TableMacros.Formatter;
@@ -112,7 +112,7 @@ public class Parametrization {
         
     
     private void updateTable() {
-        loadedIntervalFees = Arrays.asList(IntervalFee.verbas());
+        loadedIntervalFees = Arrays.asList(IntervalFee.getVerbas());
 
         displayedIntervalFees = FXCollections.observableArrayList(
             loadedIntervalFees.stream().map((intervalFee) -> new IntervalFeeWrapper(intervalFee)).collect(Collectors.toList())
@@ -128,6 +128,11 @@ public class Parametrization {
             LocalTime.parse(tf_inicio.getText(), formatter),
             LocalTime.parse(tf_fim.getText(), formatter),
             Integer.parseInt(tf_closingDay.getText())
+        );
+        IntervalFee.saveVerbas(
+            displayedIntervalFees.stream().map(
+                intervalFeeWrapper -> intervalFeeWrapper.getIntervalFee()
+            ).collect(Collectors.toList()).toArray(IntervalFee[]::new)
         );
     }
 }

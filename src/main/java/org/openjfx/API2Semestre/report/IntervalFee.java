@@ -1,5 +1,8 @@
 package org.openjfx.api2semestre.report;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -9,10 +12,11 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.openjfx.api2semestre.appointment.AppointmentType;
-import org.openjfx.api2semestre.utils.Expedient;
+import org.openjfx.api2semestre.data.Expedient;
+import org.openjfx.api2semestre.database.SQLConnection;
 
 public class IntervalFee {
-    static final AppointmentType Overtime = AppointmentType.Overtime;
+    private static final AppointmentType Overtime = AppointmentType.Overtime;
 
     // Values
     private int code;
@@ -26,6 +30,77 @@ public class IntervalFee {
     private LocalTime endHour;
     private long minHourCount;
     private boolean cumulative;
+
+    private static IntervalFee[] verbas = new IntervalFee[] {
+        new IntervalFee(1602, 1.0,    100.0, Overtime, Week.FDS.get(),   Expedient.getNightShiftEnd(),   Expedient.getNightShiftStart(), 0, false),
+        new IntervalFee(1602, 1.0,    100.0, Overtime, Week.UTEIS.get(), Expedient.getNightShiftEnd(),   Expedient.getNightShiftStart(), 2, false),
+        new IntervalFee(1601, 1.0,    75.0,  Overtime, Week.UTEIS.get(), Expedient.getNightShiftEnd(),   Expedient.getNightShiftStart(), 0, false),
+        new IntervalFee(3001, 1.1429, 100.0, Overtime, Week.FDS.get(),   Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(),   0, false),
+        new IntervalFee(3001, 1.1429, 100.0, Overtime, Week.UTEIS.get(), Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(),   2, false),
+        new IntervalFee(3000, 1.1429, 75.0,  Overtime, Week.UTEIS.get(), Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(),   0, false),
+        new IntervalFee(1809, 1.1429, 30.0,  Overtime, Week.ALL.get(),   Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(),   0, true)
+    };
+
+    public static IntervalFee[] getVerbas () { 
+        loadVerbas();
+        return verbas;
+    }
+
+    public static void saveVerbas (IntervalFee[] newVerbas) {
+        try {
+            Connection connection = SQLConnection.connect();
+            connection.createStatement().executeUpdate("DELETE FROM verba");
+            for (int i = 0; i < newVerbas.length; i++) {
+                PreparedStatement statement = connection.prepareStatement("INSERT INTO verba (id, code, expedient, weekend, hour_count, hour_duration, percent) VALUES (?, ?, ?, ?, ?, ?, ?)");
+
+                IntervalFee verba = newVerbas[i];
+
+                statement.setInt(1, i + 1);
+                statement.setInt(2, verba.getCode());
+                statement.setBoolean(3, verba.isNightShift());
+                statement.setBoolean(4, Week.FDS.compare(verba.getDaysOfWeek()));
+                statement.setInt(5, (int)verba.getMinHourCount());
+                statement.setDouble(6, verba.getHourDuration());
+                statement.setDouble(7, verba.getPercent());
+                
+                statement.execute();
+            }
+            connection.commit();
+            connection.close();
+
+            verbas = newVerbas;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void loadVerbas () {
+        try {
+            Connection connection = SQLConnection.connect();
+            ResultSet result = connection.prepareStatement("SELECT * FROM verba").executeQuery();
+            for (int i = 0; i < 7; i++) {
+                if (result.next()) {
+                    boolean isNightShift = result.getBoolean("expedient");
+                    verbas[i] = new IntervalFee(
+                        result.getInt("code"),
+                        result.getDouble("hour_duration"),
+                        result.getDouble("percent"),
+                        Overtime,
+                        result.getBoolean("weekend") ? Week.FDS.get() : Week.UTEIS.get(),
+                        isNightShift ? Expedient.getNightShiftStart() : Expedient.getNightShiftEnd(),
+                        isNightShift ? Expedient.getNightShiftEnd() : Expedient.getNightShiftStart(),
+                        result.getInt("hour_count"),
+                        false
+                    );
+                }
+            }
+            connection.commit();
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
     
     public IntervalFee(
         int code,
@@ -48,22 +123,6 @@ public class IntervalFee {
         this.minHourCount = minHourCount;
         this.cumulative = cumulative;
     }
-    // cadastro de vergas de hora-extra
-
-    // new IntervalFee(1001, 1.25f, Week.FDS.get(), 0, 0, 0, false),
-    public static IntervalFee[] verbas () { 
-        return new IntervalFee[] {
-            new IntervalFee(1602, 1.0,    100.0, Overtime, Week.FDS.get(), Expedient.getNightShiftEnd(), Expedient.getNightShiftStart(), 0, false),
-            new IntervalFee(1602, 1.0,    100.0, Overtime, Week.UTEIS.get(), Expedient.getNightShiftEnd(), Expedient.getNightShiftStart(), 2, false),
-            new IntervalFee(1601, 1.0,    75.0, Overtime, Week.UTEIS.get(), Expedient.getNightShiftEnd(), Expedient.getNightShiftStart(), 0, false),
-            new IntervalFee(3001, 1.1429, 100.0, Overtime, Week.FDS.get(), Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(), 0, false),
-            new IntervalFee(3001, 1.1429, 100.0, Overtime, Week.UTEIS.get(), Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(), 2, false),
-            new IntervalFee(3000, 1.1429, 75.0, Overtime, Week.UTEIS.get(), Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(),  0, false),
-            new IntervalFee(1809, 1.1429, 30.0, Overtime, Week.ALL.get(), Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(),  0, true),
-        };
-    }
-
-    
     
     // conversão de Timestamp para LocalTime
     public Double check (Timestamp appointmentStart, Timestamp appointmentEndTime, long dayHourCount) {
@@ -156,7 +215,9 @@ public class IntervalFee {
     public LocalTime getStartHour() { return startHour; }
     public LocalTime getEndHour() { return endHour; }
     public long getMinHourCount() { return minHourCount; }
+
     public boolean isCumulative() { return cumulative; }
+    public boolean isNightShift() { return startHour.equals(Expedient.getNightShiftStart()) && endHour.equals(Expedient.getNightShiftEnd()); }
 
     // Setters
     public void setCode(int code) { this.code = code; }
