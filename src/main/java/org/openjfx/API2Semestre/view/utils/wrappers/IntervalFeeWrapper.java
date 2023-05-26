@@ -27,6 +27,9 @@ public class IntervalFeeWrapper {
     } 
     public long getHoraMinimo() { return intervalFee.getMinHourCount(); }
     public double getHoraDuracao() { return intervalFee.getHourDuration(); }
-    public String getPorcentagem() { return Integer.valueOf((int)(intervalFee.getPercent() * 100)).toString() + "%"; }
+    public double getPorcentagem() { return intervalFee.getPercent(); }
+
+    public void setCodigo (int codigo) { intervalFee.setCode(codigo); }
+    public void setPorcentagem (double porcentagem) { intervalFee.setPercent(porcentagem); }
 
 }

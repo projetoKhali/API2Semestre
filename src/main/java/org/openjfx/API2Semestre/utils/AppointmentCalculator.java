@@ -46,7 +46,7 @@ public class AppointmentCalculator {
 
                 System.out.println("é hora extra");
 
-                for(IntervalFee verba: IntervalFee.VERBAS){
+                for(IntervalFee verba: IntervalFee.verbas()){
 
                     if(verba.getCode() == 1809 || Week.FDS.compare(verba.getDaysOfWeek())) {
                         for(ReportInterval repInt : calculateIntervals(apt, verba)) reportsFinal.add(repInt);

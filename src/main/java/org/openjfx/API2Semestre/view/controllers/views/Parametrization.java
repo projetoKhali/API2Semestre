@@ -8,19 +8,22 @@ import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.report.IntervalFee;
 import org.openjfx.api2semestre.utils.Expedient;
+import org.openjfx.api2semestre.view.macros.TableMacros;
 import org.openjfx.api2semestre.view.macros.TextFieldTimeFormat;
+import org.openjfx.api2semestre.view.macros.TableMacros.Formatter;
 import org.openjfx.api2semestre.view.utils.wrappers.IntervalFeeWrapper;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ContentDisplay;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
+import javafx.util.converter.DoubleStringConverter;
+import javafx.util.converter.IntegerStringConverter;
 
 public class Parametrization {
 
@@ -51,12 +54,16 @@ public class Parametrization {
 
         Expedient.loadData();
 
+        // Carrega os dados de Expedient para os campos de edição de dia de fechamento e inicio e fim do periodo noturno
         tf_closingDay.setText(Expedient.getClosingDay().toString());
         tf_inicio.setText(Expedient.getNightShiftStart().format(DateTimeFormatter.ofPattern("HH:mm")));
-        TextFieldTimeFormat.addTimeVerifier(tf_inicio);
         tf_fim.setText(Expedient.getNightShiftEnd().format(DateTimeFormatter.ofPattern("HH:mm")));
+
+        // Configura os campos de inicio e fim do periodo noturno para usarem validação do formato de tempo "HH:mm" na inserção
+        TextFieldTimeFormat.addTimeVerifier(tf_inicio);
         TextFieldTimeFormat.addTimeVerifier(tf_fim);
-        
+
+        // Configura o campo de dia de fechamento para usar uma validação numérica entre 1 e 28
         tf_closingDay.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("\\d*")) tf_closingDay.setText(newValue.replaceAll("[^\\d]", ""));
             try {
@@ -68,68 +75,44 @@ public class Parametrization {
             }
         });
 
-        col_codigo.setCellValueFactory( new PropertyValueFactory<>( "codigo" ));
-        col_codigo.setCellFactory(col -> new TableCell<IntervalFeeWrapper, Integer>() {
-            private TextField textField;
-        
-            @Override
-            public void startEdit() {
-                super.startEdit();
-        
-                if (textField == null) {
-                    textField = new TextField(getItem().toString());
-                    textField.setOnAction(event -> commitEdit(Integer.parseInt(textField.getText())));
-                }
-        
-                setGraphic(textField);
-                setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-                textField.requestFocus();
-                textField.selectAll();
+        col_codigo.setCellValueFactory(new PropertyValueFactory<>("codigo"));
+        TableMacros.<IntervalFeeWrapper, Integer>enableEditableCells(
+            col_codigo,
+            (Integer value) -> value < 10000 && value >= 1000,
+            (IntervalFeeWrapper item, Integer value) -> item.setCodigo(value),
+            new Formatter<Integer>() {
+                private final StringConverter<Integer> converter = new IntegerStringConverter();
+                @Override public String format(Integer value, boolean editing) { return converter.toString(value); }
+                @Override public String parse(String text) { return text; }
+                @Override public StringConverter<Integer> getConverter() { return converter; }
             }
+        );
         
-            @Override
-            public void cancelEdit() {
-                super.cancelEdit();
-                setText(getItem().toString());
-                setContentDisplay(ContentDisplay.TEXT_ONLY);
+        col_porcentagem.setCellValueFactory(new PropertyValueFactory<>("porcentagem"));
+        TableMacros.<IntervalFeeWrapper, Double>enableEditableCells(
+            col_porcentagem,
+            (Double value) -> true,
+            (IntervalFeeWrapper item, Double value) -> item.setPorcentagem(value),
+            new Formatter<Double>() {
+                private final StringConverter<Double> converter = new DoubleStringConverter();
+                @Override public String format(Double value, boolean editing) { return converter.toString(value) + (editing ? "" : "%"); }
+                @Override public String parse(String text) { return text.replaceAll("%", ""); }
+                @Override public StringConverter<Double> getConverter() { return converter; }
             }
+        );
         
-            @Override
-            protected void updateItem(Integer item, boolean empty) {
-                super.updateItem(item, empty);
-        
-                if (empty || item == null) {
-                    setText(null);
-                    setGraphic(null);
-                } else {
-                    setText(item.toString());
-                }
-            }
-        
-            @Override
-            public void commitEdit(Integer newValue) {
-                if (!newValue.equals(getItem())) {
-                    getTableRow().getItem().getIntervalFee().setCode(newValue);
-                }
-        
-                super.commitEdit(newValue);
-                setContentDisplay(ContentDisplay.TEXT_ONLY);
-            }
-        });
-        
-        col_tipo.setCellValueFactory( new PropertyValueFactory<>( "tipo" ));
-        col_expediente.setCellValueFactory( new PropertyValueFactory<>( "expediente" ));
-        col_fimDeSemana.setCellValueFactory( new PropertyValueFactory<>( "fimDeSemana" ));
-        col_horaMinimo.setCellValueFactory( new PropertyValueFactory<>( "horaMinimo" ));
-        col_horaDuracao.setCellValueFactory( new PropertyValueFactory<>( "horaDuracao" ));
-        col_porcentagem.setCellValueFactory( new PropertyValueFactory<>( "porcentagem" ));
+        col_tipo.setCellValueFactory( new PropertyValueFactory<>("tipo"));
+        col_expediente.setCellValueFactory( new PropertyValueFactory<>("expediente"));
+        col_fimDeSemana.setCellValueFactory( new PropertyValueFactory<>("fimDeSemana"));
+        col_horaMinimo.setCellValueFactory( new PropertyValueFactory<>("horaMinimo"));
+        col_horaDuracao.setCellValueFactory( new PropertyValueFactory<>("horaDuracao"));
 
         updateTable();
     }
         
     
     private void updateTable() {
-        loadedIntervalFees = Arrays.asList(IntervalFee.VERBAS);
+        loadedIntervalFees = Arrays.asList(IntervalFee.verbas());
 
         displayedIntervalFees = FXCollections.observableArrayList(
             loadedIntervalFees.stream().map((intervalFee) -> new IntervalFeeWrapper(intervalFee)).collect(Collectors.toList())

@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.openjfx.api2semestre.appointment.AppointmentType;
+import org.openjfx.api2semestre.utils.Expedient;
 
 public class IntervalFee {
     static final AppointmentType Overtime = AppointmentType.Overtime;
@@ -50,15 +51,17 @@ public class IntervalFee {
     // cadastro de vergas de hora-extra
 
     // new IntervalFee(1001, 1.25f, Week.FDS.get(), 0, 0, 0, false),
-    public static final IntervalFee[] VERBAS = new IntervalFee[] {
-        new IntervalFee(1602, 1.0,    1.00, Overtime, Week.FDS.get(), LocalTime.of(6, 0, 0), LocalTime.of(22, 0, 0), 0, false),
-        new IntervalFee(1602, 1.0,    1.00, Overtime, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(22, 0, 0), 2, false),
-        new IntervalFee(1601, 1.0,    0.75, Overtime, Week.UTEIS.get(), LocalTime.of(6, 0, 0), LocalTime.of(22, 0, 0), 0, false),
-        new IntervalFee(3001, 1.1429, 1.00, Overtime, Week.FDS.get(), LocalTime.of(22, 0, 0), LocalTime.of(6, 0, 0), 0, false),
-        new IntervalFee(3001, 1.1429, 1.00, Overtime, Week.UTEIS.get(), LocalTime.of(22, 0, 0), LocalTime.of(6, 0, 0), 2, false),
-        new IntervalFee(3000, 1.1429, 0.75, Overtime, Week.UTEIS.get(), LocalTime.of(22, 0, 0), LocalTime.of(6, 0, 0),  0, false),
-        new IntervalFee(1809, 1.1429, 0.3, Overtime, Week.ALL.get(), LocalTime.of(22, 0, 0), LocalTime.of(6, 0, 0),  0, true),
-    };
+    public static IntervalFee[] verbas () { 
+        return new IntervalFee[] {
+            new IntervalFee(1602, 1.0,    100.0, Overtime, Week.FDS.get(), Expedient.getNightShiftEnd(), Expedient.getNightShiftStart(), 0, false),
+            new IntervalFee(1602, 1.0,    100.0, Overtime, Week.UTEIS.get(), Expedient.getNightShiftEnd(), Expedient.getNightShiftStart(), 2, false),
+            new IntervalFee(1601, 1.0,    75.0, Overtime, Week.UTEIS.get(), Expedient.getNightShiftEnd(), Expedient.getNightShiftStart(), 0, false),
+            new IntervalFee(3001, 1.1429, 100.0, Overtime, Week.FDS.get(), Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(), 0, false),
+            new IntervalFee(3001, 1.1429, 100.0, Overtime, Week.UTEIS.get(), Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(), 2, false),
+            new IntervalFee(3000, 1.1429, 75.0, Overtime, Week.UTEIS.get(), Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(),  0, false),
+            new IntervalFee(1809, 1.1429, 30.0, Overtime, Week.ALL.get(), Expedient.getNightShiftStart(), Expedient.getNightShiftEnd(),  0, true),
+        };
+    }
 
     
     
