@@ -18,45 +18,45 @@ public class Dashboard {
     public void initialize() {
 
         Appointment[] appointments = new Appointment[] {
-            // new Appointment(1, "Julio", AppointmentType.Overtime, 
+            // new Appointment(0, AppointmentType.Overtime, 
             //     DateConverter.stringToTimestamp("2023-05-05 22:00:00"), 
             //     DateConverter.stringToTimestamp("2023-05-07 19:00:00"), 
-            //     "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+            //     0, 0, "ProjetoA", "pq sim"
             // ),
-            // new Appointment(1, "Julio", AppointmentType.Overtime, 
+            // new Appointment(0, AppointmentType.Overtime, 
             //     DateConverter.stringToTimestamp("2023-05-05 22:00:00"), 
             //     DateConverter.stringToTimestamp("2023-05-06 01:00:00"), 
-            //     "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+            //     0, 0, "ProjetoA", "pq sim"
             // ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
+            new Appointment(0, AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 12:00:00"), 
                 DateConverter.stringToTimestamp("2023-05-05 13:00:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+                0, 0, "ProjetoA", "pq sim"
             ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
+            new Appointment(0, AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 12:30:00"), 
                 DateConverter.stringToTimestamp("2023-05-05 13:30:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+                0, 0, "ProjetoA", "pq sim"
             ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
+            new Appointment(0, AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 13:00:00"), 
                 DateConverter.stringToTimestamp("2023-05-05 14:00:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+                0, 0, "ProjetoA", "pq sim"
             ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
+            new Appointment(0, AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 13:30:00"), 
                 DateConverter.stringToTimestamp("2023-05-05 14:30:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+                0, 0, "ProjetoA", "pq sim"
             ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
+            new Appointment(0, AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 14:00:00"), 
                 DateConverter.stringToTimestamp("2023-05-05 15:00:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+                0, 0, "ProjetoA", "pq sim"
             ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
+            new Appointment(0, AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 14:15:00"), 
                 DateConverter.stringToTimestamp("2023-05-05 14:45:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+                0, 0, "ProjetoA", "pq sim"
             )
         };
 
