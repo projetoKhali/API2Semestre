@@ -3,6 +3,7 @@ package org.openjfx.api2semestre.view.utils;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.DayOfWeek;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.appointment.Appointment;
@@ -132,6 +133,70 @@ public class ChartGenerator {
         yAxis.setAutoRanging(false);
         yAxis.setLowerBound(0);        
         yAxis.setUpperBound(maxIntersectionCount + 1);
+        yAxis.setTickUnit(1.0);
+        yAxis.setMinorTickVisible(false);
+
+        return lineChart;
+    }
+    public static LineChart<Number, Number> weekIntersectionCountGraph (Appointment[] appointments) {
+
+        NumberAxis xAxis = new NumberAxis(0, 7, 1);
+        xAxis.setTickLabelFormatter(new StringConverter<Number>() {
+            @Override 
+            public String fromString(String string) { 
+                return string; }
+            @Override 
+            public String toString (Number object) {
+                return object;
+            }
+        });
+        xAxis.setCategories("seg","ter","qua","qui","sex","sab","dom");
+
+        ChartData chartData = emptyChart(
+            "Volume de Horas por dia da semana",
+            Optional.of(xAxis),
+            Optional.empty()
+        );
+
+        LineChart<Number, Number> lineChart = chartData.chart;
+        XYChart.Series<Number, Number> series = chartData.series;
+        NumberAxis yAxis = chartData.yAxis;
+
+        // Add the data points to the series
+        // long startChart = Timestamp.valueOf("2023-01-01 00:00:00").getTime();
+        // long endChart = Timestamp.valueOf("2023-01-02 00:00:00").getTime();
+
+        final LocalDate defaultDate = LocalDate.of(2023, 1, 1);
+
+        int maxTotalHours = 0;
+
+        for (DayOfWeek dayOfWeek : DayOfWeek.values()) {
+            String dayOfWeekName = dayOfWeek.toString();
+            int totalHours = 0;
+
+            for (Appointment apt : appointments) {
+                LocalDateTime startDate = apt.getStartDate();
+                LocalDateTime endDate = apt.getEndDate();
+
+                LocalDateTime currentDate = startDate;
+                while (!currentDate.isAfter(endDate)) {
+                    if (currentDate.getDayOfWeek() == dayOfWeek) {
+                        totalHours++;
+                    }
+                    currentDate = currentDate.plus(1, ChronoUnit.HOURS);
+                }
+            }
+
+
+            // Add the data point to the series
+            series.getData().add(new XYChart.Data<>(dayOfWeek, totalHours));
+            if (totalHours > maxTotalHours) maxTotalHours = totalHours;
+
+        }
+
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(0);        
+        yAxis.setUpperBound(maxTotalHours + 1);
         yAxis.setTickUnit(1.0);
         yAxis.setMinorTickVisible(false);
 
