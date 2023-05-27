@@ -12,8 +12,7 @@ AS SELECT
     usuario.matricula as matricula,
     usuario.nome as requester,
     apontamento.projeto,
-    apontamento.clt_id,
-    cliente.razao_social as cliente_nome,
+    apontamento.cliente,
     apontamento.tipo,
     apontamento.justificativa,
     apontamento.cr_id,
@@ -24,9 +23,8 @@ AS SELECT
     FROM apontamento
     
     -- fazendo join com as tabelas usuário, projeto e cliente.
-    LEFT JOIN usuario ON apontamento.usr_id = usuario.id
-    LEFT JOIN cliente ON apontamento.clt_id = cliente.id
-    LEFT JOIN centro_resultado ON apontamento.cr_id = centro_resultado.id;
+    JOIN usuario ON apontamento.usr_id = usuario.nome
+    JOIN centro_resultado ON apontamento.cr_id = centro_resultado.nome;
 
 -- usuário
 CREATE OR REPLACE VIEW public.vw_usuario 
