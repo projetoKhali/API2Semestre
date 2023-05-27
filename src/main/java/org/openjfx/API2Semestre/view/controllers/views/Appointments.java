@@ -203,18 +203,24 @@ public class Appointments implements Initializable {
     }
 
     void inputAppointment (AppointmentType type) {
-        QueryLibs.insertAppointment(new Appointment(        // TODO: use User, CR and Client *IDs*
-            Authentication.getCurrentUser().getName(),
-            type,
-            DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),
-            DateConverter.inputToTimestamp(tf_dataFinal.getValue(),tf_horaFinal.getText()),
-            tf_squad.getText(),
-            tf_cliente.getText(),
-            tf_projeto.getText(),
-            tf_justificativa.getText()
-        ));
+        try {
+            int squad = Integer.parseInt( tf_squad.getText());
+            int client = Integer.parseInt( tf_cliente.getText());
+            QueryLibs.insertAppointment(new Appointment(        // TODO: use User, CR and Client *IDs*
+                Authentication.getCurrentUser().getId(),
+                type,
+                DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),
+                DateConverter.inputToTimestamp(tf_dataFinal.getValue(),tf_horaFinal.getText()),
+                squad,
+                client,
+                tf_projeto.getText(),
+                tf_justificativa.getText()
+            ));
 
-        updateTable();
+            updateTable();
+        } catch (Exception e) {
+            System.out.println("Erro: Appointments.inputAppointment() -- Falha ao inserir apontamento");
+        }
     }
         
     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName
