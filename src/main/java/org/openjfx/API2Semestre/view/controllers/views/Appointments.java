@@ -163,7 +163,7 @@ public class Appointments implements Initializable {
 
     private void updateTable () {
     
-        loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getName()));
+        loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getId()));
         // System.out.println(loadedAppointments.size() + " appointments returned from select ");
 
         applyFilter();
@@ -203,7 +203,7 @@ public class Appointments implements Initializable {
     }
 
     void inputAppointment (AppointmentType type) {
-        QueryLibs.insertAppointment(new Appointment(
+        QueryLibs.insertAppointment(new Appointment(        // TODO: use User, CR and Client *IDs*
             Authentication.getCurrentUser().getName(),
             type,
             DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),

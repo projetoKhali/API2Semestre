@@ -7,7 +7,6 @@ import java.sql.Timestamp;
 
 import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.appointment.AppointmentType;
-import org.openjfx.api2semestre.appointment.VwAppointment;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.data.Client;
@@ -18,32 +17,21 @@ public class Data {
 
     public static <T extends Data> Data create (Class<T> type, ResultSet resultSet) throws SQLException, Exception {
         if (type == Appointment.class) return new Appointment(
-            resultSet.getInt("id"),
-            resultSet.getString("usr_id"),
-            AppointmentType.of(resultSet.getBoolean("tipo")),
-            new Timestamp(((Date) resultSet.getObject("hora_inicio")).getTime()),
-            new Timestamp(((Date) resultSet.getObject("hora_fim")).getTime()),
-            resultSet.getString("cr_id"),
-            resultSet.getString("cliente"),
-            resultSet.getString("projeto"),
-            resultSet.getString("justificativa"),
-            resultSet.getInt("aprovacao"),
-            resultSet.getString("feedback")
-        );
-        if (type == VwAppointment.class) return new VwAppointment(
-            resultSet.getInt("id"),
-            resultSet.getString("matricula"),
-            resultSet.getString("usr_id"),
-            AppointmentType.of(resultSet.getBoolean("tipo")),
-            new Timestamp(((Date) resultSet.getObject("hora_inicio")).getTime()),
-            new Timestamp(((Date) resultSet.getObject("hora_fim")).getTime()),
-            resultSet.getString("cr_id"),
-            resultSet.getString("centro_nome"),
-            resultSet.getString("cliente"),
-            resultSet.getString("projeto"),
-            resultSet.getString("justificativa"),
-            resultSet.getInt("aprovacao"),
-            resultSet.getString("feedback")
+            resultSet.getInt("id"),                                                 // Integer id
+            resultSet.getInt("usr_id"),                                             // int requester
+            resultSet.getString("matricula"),                                       // String requester_registration
+            resultSet.getString("requester"),                                       // String requester_name
+            AppointmentType.of(resultSet.getBoolean("tipo")),                       // AppointmentType type
+            new Timestamp(((Date) resultSet.getObject("hora_inicio")).getTime()),   // Timestamp startDate
+            new Timestamp(((Date) resultSet.getObject("hora_fim")).getTime()),      // Timestamp endDate
+            resultSet.getInt("cr_id"),                                           // int resultCenterId
+            resultSet.getString("centro_nome"),                                        // int resultCenterName
+            resultSet.getInt("clt_id"),                                          // int clientId
+            resultSet.getString("cliente_nome"),                                       // int clientName
+            resultSet.getString("projeto"),                                         // String project
+            resultSet.getString("justificativa"),                                   // String justification
+            resultSet.getInt("aprovacao"),                                          // Status status
+            resultSet.getString("feedback")                                         // String feedback
         );
         if (type == User.class) return new User(
             resultSet.getInt("id"),

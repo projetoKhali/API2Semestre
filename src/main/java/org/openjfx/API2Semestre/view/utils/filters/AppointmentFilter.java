@@ -62,12 +62,12 @@ public class AppointmentFilter {
         Optional<Status> status
     ) {
         return appointments.stream().filter((Appointment appointment) -> {
-            if (requester.isPresent() && !appointment.getRequester().toLowerCase().contains(requester.get().toLowerCase())) return false;
+            if (requester.isPresent() && !appointment.getRequesterName().toLowerCase().contains(requester.get().toLowerCase())) return false;
             if (type.isPresent() && !appointment.getType().equals(type.get())) return false;
             if (startDate.isPresent() && !appointment.getStart().equals(startDate.get())) return false;
             if (endDate.isPresent() && !appointment.getEnd().equals(endDate.get())) return false;
-            if (squad.isPresent() && !appointment.getSquad().toLowerCase().contains(squad.get().toLowerCase())) return false;
-            if (client.isPresent() && !appointment.getClient().toLowerCase().contains(client.get().toLowerCase())) return false;
+            if (squad.isPresent() && !appointment.getResultCenterName().toLowerCase().contains(squad.get().toLowerCase())) return false;
+            if (client.isPresent() && !appointment.getClientName().toLowerCase().contains(client.get().toLowerCase())) return false;
             if (project.isPresent() && !appointment.getProject().toLowerCase().contains(project.get().toLowerCase())) return false;
             if (justification.isPresent() && !appointment.getJustification().toLowerCase().contains(justification.get().toLowerCase())) return false;
             if (status.isPresent() && !appointment.getStatus().equals(status.get())) return false;
