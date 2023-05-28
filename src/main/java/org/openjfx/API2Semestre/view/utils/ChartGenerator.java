@@ -3,11 +3,15 @@ package org.openjfx.api2semestre.view.utils;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.time.DayOfWeek;
 import java.util.Optional;
+import java.util.Locale.Category;
 
 import org.openjfx.api2semestre.appointment.Appointment;
 
+import javafx.collections.FXCollections;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -138,28 +142,71 @@ public class ChartGenerator {
 
         return lineChart;
     }
-    public static LineChart<Number, Number> weekIntersectionCountGraph (Appointment[] appointments) {
+    @SuppressWarnings("unused") private static class ChartDataCategory {
+        LineChart<String, Number> chart;
+        XYChart.Series<String, Number> series;
+        CategoryAxis xAxis;
+        NumberAxis yAxis;
+        public ChartDataCategory(
+            LineChart<String, Number> chart,
+            XYChart.Series<String, Number> series,
+            CategoryAxis xAxis,
+            NumberAxis yAxis
+        ) {
+            this.chart = chart;
+            this.series = series;
+            this.xAxis = xAxis;
+            this.yAxis = yAxis;
+        }
+    }
+    private static ChartDataCategory emptyChartCategory (
+        String title,
+        Optional<CategoryAxis> xAxisOptional,
+        Optional<NumberAxis> yAxisOptional
+    
+    ) {
+        // Create the x-axis representing time
+        CategoryAxis xAxis = xAxisOptional.isPresent() ? xAxisOptional.get() : new CategoryAxis();
 
-        NumberAxis xAxis = new NumberAxis(0, 7, 1);
-        xAxis.setTickLabelFormatter(new StringConverter<Number>() {
-            @Override 
-            public String fromString(String string) { 
-                return string; }
-            @Override 
-            public String toString (Number object) {
-                return object;
-            }
-        });
-        xAxis.setCategories("seg","ter","qua","qui","sex","sab","dom");
+        // Create the y-axis representing integers
+        NumberAxis yAxis = yAxisOptional.isPresent() ? yAxisOptional.get() : new NumberAxis();
 
-        ChartData chartData = emptyChart(
+        // Create the line chart
+        LineChart<String, Number> lineChart = new LineChart<>(xAxis, yAxis);
+
+        // Set the title of the chart
+        lineChart.setTitle(title);
+
+        // Create a series to hold the data points
+        XYChart.Series<String, Number> series = new XYChart.Series<>();
+
+        // Add the series to the line chart
+        lineChart.getData().add(series);
+
+        // Remove os circulos dos pontos da linha
+        lineChart.setCreateSymbols(false);
+
+        // Remove a legenda
+        lineChart.setLegendVisible(false);
+
+        return new ChartDataCategory(lineChart, series, xAxis, yAxis);
+
+    }
+    public static LineChart<String, Number> weekIntersectionCountGraph (Appointment[] appointments) {
+
+        // Cria um eixo de categorias para os dias da semana
+        CategoryAxis xAxis = new CategoryAxis();
+        xAxis.setCategories(FXCollections.observableArrayList(
+                "seg", "ter", "qua", "qui", "sex", "sab", "dom"));
+
+        ChartDataCategory chartData = emptyChartCategory(
             "Volume de Horas por dia da semana",
             Optional.of(xAxis),
             Optional.empty()
         );
 
-        LineChart<Number, Number> lineChart = chartData.chart;
-        XYChart.Series<Number, Number> series = chartData.series;
+        LineChart<String, Number> lineChart = chartData.chart;
+        XYChart.Series<String, Number> series = chartData.series;
         NumberAxis yAxis = chartData.yAxis;
 
         // Add the data points to the series
@@ -175,11 +222,11 @@ public class ChartGenerator {
             int totalHours = 0;
 
             for (Appointment apt : appointments) {
-                LocalDateTime startDate = apt.getStartDate();
-                LocalDateTime endDate = apt.getEndDate();
+                LocalDateTime aptStartDateTime = apt.getStart().toLocalDateTime();
+                LocalDateTime aptEndDateTime = apt.getEnd().toLocalDateTime();
 
-                LocalDateTime currentDate = startDate;
-                while (!currentDate.isAfter(endDate)) {
+                LocalDateTime currentDate = aptStartDateTime;
+                while (!currentDate.isAfter(aptEndDateTime)) {
                     if (currentDate.getDayOfWeek() == dayOfWeek) {
                         totalHours++;
                     }
@@ -189,7 +236,7 @@ public class ChartGenerator {
 
 
             // Add the data point to the series
-            series.getData().add(new XYChart.Data<>(dayOfWeek, totalHours));
+            series.getData().add(new XYChart.Data<>(dayOfWeek.toString(), totalHours));
             if (totalHours > maxTotalHours) maxTotalHours = totalHours;
 
         }
