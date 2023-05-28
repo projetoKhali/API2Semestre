@@ -66,8 +66,9 @@ public class Dashboard {
             )
         };
 
-        fp_charts.getChildren().add(ChartGenerator.hourIntersectionCountGraph(appointments));
+        // fp_charts.getChildren().add(ChartGenerator.hourIntersectionCountGraph(appointments));
         fp_charts.getChildren().add(ChartGenerator.weekIntersectionCountGraph(appointments));
+        // fp_charts.getChildren().add(ChartGenerator.monthIntersectionCountGraph(appointments));
 
     }
 }
