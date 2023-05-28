@@ -7,7 +7,7 @@ CREATE OR REPLACE VIEW public.vw_apontamento
 AS SELECT
     apontamento.id,
     apontamento.hora_inicio,
-    apontamento.hora_fim,
+    apontamento .hora_fim,
     apontamento.usr_id,
     usuario.matricula as matricula,
     usuario.nome as requester,
