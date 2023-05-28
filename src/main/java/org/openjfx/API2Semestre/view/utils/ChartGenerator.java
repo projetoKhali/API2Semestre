@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.time.DayOfWeek;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Locale.Category;
 
@@ -15,6 +17,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.PieChart.Data;
 import javafx.util.StringConverter;
 
 public class ChartGenerator {
@@ -248,5 +251,75 @@ public class ChartGenerator {
         yAxis.setMinorTickVisible(false);
 
         return lineChart;
+    }
+    public static LineChart<Number, Number> monthIntersectionCountGraph (Appointment[] appointments) {
+
+        NumberAxis xAxis = new NumberAxis(0, 31, 1);
+        xAxis.setTickLabelFormatter(new StringConverter<Number>() {
+            @Override public Number fromString(String string) { return null; }
+            @Override public String toString (Number object) {
+                int dias = object.intValue();
+                return String.valueOf(dias);
+            }
+        });
+
+        ChartData chartData = emptyChart(
+            "Quantidade de horas por dia do mês",
+            Optional.of(xAxis),
+            Optional.empty()
+        );
+
+        LineChart<Number, Number> lineChart = chartData.chart;
+        XYChart.Series<Number, Number> series = chartData.series;
+        NumberAxis yAxis = chartData.yAxis;
+
+        // Mapa para armazenar as horas trabalhadas por dia
+        Map<LocalDate, Double> hoursPerDay = new HashMap<>();
+
+        for (int day = 1; day <= 31; day++) {
+
+            // Calcular as horas trabalhadas em cada dia
+            for (Appointment apt : appointments) {
+                LocalDateTime startDateTime = apt.getStart().toLocalDateTime();
+                LocalDateTime endDateTime = apt.getEnd().toLocalDateTime();
+
+                LocalDate currentDate = startDateTime.toLocalDate();
+
+                while (!currentDate.isAfter(endDateTime.toLocalDate())) {
+                    LocalDateTime startOfDay = currentDate.atStartOfDay();
+                    LocalDateTime endOfDay = currentDate.atTime(23, 59, 59);
+
+                    LocalDateTime intersectionStart = startDateTime.isAfter(startOfDay) ? startDateTime : startOfDay;
+                    LocalDateTime intersectionEnd = endDateTime.isBefore(endOfDay) ? endDateTime : endOfDay;
+
+                    double duration = calculateDurationInHours(intersectionStart, intersectionEnd);
+                    hoursPerDay.put(currentDate, hoursPerDay.getOrDefault(currentDate, 0.0) + duration);
+
+                    currentDate = currentDate.plusDays(1);
+                }
+            }
+
+
+                double hoursWorked = hoursPerDay.getOrDefault(LocalDate.of(2023, 1, day), 0.0);
+                series.getData().add(new XYChart.Data<>(day, hoursWorked));
+            }
+
+        // Add the data point to the series
+        series.getData().add(new XYChart.Data<>(day, hoursWorked));
+        if (intersectionCount > maxIntersectionCount) maxIntersectionCount = intersectionCount;
+
+
+        yAxis.setAutoRanging(false);
+        yAxis.setLowerBound(0);        
+        yAxis.setUpperBound(maxIntersectionCount + 1);
+        yAxis.setTickUnit(1.0);
+        yAxis.setMinorTickVisible(false);
+
+        return lineChart;
+    }
+
+    private static double calculateDurationInHours(LocalDateTime start, LocalDateTime end) {
+        long minutes = start.until(end, ChronoUnit.MINUTES);
+        return minutes / 60.0;
     }
 }
