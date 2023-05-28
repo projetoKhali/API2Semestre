@@ -364,6 +364,16 @@ public class QueryLibs {
         );
     }
 
+    public static Appointment[] selectAppointmentByUser(int id) {
+        return executeSelect(
+            Appointment.class,
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+
     public static Optional<User> selectUserByEmail(String email) {
         return executeSelectOne(
             User.class,
