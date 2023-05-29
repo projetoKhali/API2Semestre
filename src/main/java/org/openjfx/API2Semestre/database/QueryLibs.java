@@ -15,6 +15,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import javax.swing.text.html.Option;
+
 import org.openjfx.api2semestre.data.Client;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
@@ -355,6 +357,38 @@ public class QueryLibs {
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+
+    // retorna lista de usuários que são membros de um result center
+    public static User[] selectAllUsersInResultCenter(int cr_id) {
+        return executeSelect(
+            User.class, 
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.CrId, cr_id),
+            }
+        );
+    }
+
+    // retorna lista de centro de resultados dos quais o usuário faz parte
+    public static ResultCenter[] selectAllResultCentersOfUser(int user_id) {
+        return executeSelect(
+            ResultCenter.class, 
+            QueryTable.ResultCenter,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.User, user_id),
+            }
+        );
+    }
+
+    public static Appointment[] selectAppointmentsByUser(int id) {
+        return executeSelect(
+            Appointment.class, 
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.Requester, id),
             }
         );
     }

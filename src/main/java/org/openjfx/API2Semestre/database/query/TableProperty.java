@@ -34,6 +34,9 @@ public enum TableProperty {
     RazaoSocial("razao_social"),
     CNPJ("cnpj"),
 
+    // ResultCenter/User relationship
+    UserId("usr_id"),
+    CrId("cr_id")
     // TODO: IntervalFees table
     
     ;
