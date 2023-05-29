@@ -8,12 +8,18 @@ import org.openjfx.api2semestre.view.utils.ChartGenerator;
 import javafx.fxml.FXML;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.chart.LineChart;
 
 public class Dashboard {
 
     @FXML private HBox hb_filters;
+    
 
     @FXML private FlowPane fp_charts;
+
+
+    @FXML private LineChart<?, ?> chartDiaSemana;
+    
 
     public void initialize() {
 
@@ -61,5 +67,9 @@ public class Dashboard {
         };
 
         fp_charts.getChildren().add(ChartGenerator.hourIntersectionCountGraph(appointments));
+        fp_charts.getChildren().add(ChartGenerator.weekIntersectionCountGraph(appointments));
+        fp_charts.getChildren().add(ChartGenerator.monthIntersectionCountGraph(appointments));
+
     }
+
 }
