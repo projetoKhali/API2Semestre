@@ -99,7 +99,7 @@ public class ChartGenerator {
         int maxIntersectionCount = 0;
 
         // Convert the timestamps to time values in minutes
-        for (long timeAtPosition = startChart; timeAtPosition <= endChart; timeAtPosition += 60000) {
+        for (long timeAtPosition = startChart; timeAtPosition <= endChart; timeAtPosition += 300000) {
             
             double position = (double) (timeAtPosition - startChart) / (endChart - startChart) * 24 * 60;
 
