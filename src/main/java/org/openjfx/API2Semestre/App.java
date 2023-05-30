@@ -72,7 +72,9 @@ public class App extends Application {
         setStage(stage);
         // loginView();
 
-        scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
+        Authentication.login("a@d.m", "123");
+
+        scene = new Scene(loadFXML((currentViewFxmlFile = "views/parametrization")));
         stage.setScene(scene);
         stage.show();
 
