@@ -104,5 +104,13 @@ public class TableMacros {
         String parse(String text);
         StringConverter<T> getConverter();
     }
+
+    public class StringFormatterIdentity implements Formatter<String> {
+        private final StringConverter<String> converter = null;
+        @Override public String format(String value, boolean editing) { return value; }
+        @Override public String parse(String text) { return text; }
+        @Override public StringConverter<String> getConverter() { return converter; }
+    }
+
         
 }
