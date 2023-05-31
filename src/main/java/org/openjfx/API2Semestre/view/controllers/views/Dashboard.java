@@ -1,11 +1,15 @@
 package org.openjfx.api2semestre.view.controllers.views;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.appointment.AppointmentType;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.authentication.User;
+import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.ReportInterval;
 import org.openjfx.api2semestre.utils.AppointmentCalculator;
@@ -69,9 +73,41 @@ public class Dashboard {
 
         fp_charts.getChildren().add(ChartGenerator.hourIntersectionCountGraph(appointments));
 
-        if (Authentication.getCurrentUser().getProfile() == Profile.Administrator){
-            Appointment[] listAppointments = QueryLibs.selectAllAppointments();
-            List<ReportInterval> listResporIntervals = AppointmentCalculator.calculateReports(listAppointments);
+        List<Appointment> listAppointments = new ArrayList<>();
+        List<User> listUsers = new ArrayList<>();
+
+        // se o usuário logado for um administrador, retornar uma lista com todos os apontamentos do sistema
+        if (Authentication.getCurrentUser().getProfile() == Profile.Administrator) {
+            listAppointments = Arrays.asList(QueryLibs.selectAllAppointments());
+            Appointment[] appointmentArray = listAppointments.toArray(new Appointment[0]);
+            List<ReportInterval> reportIntervals = AppointmentCalculator.calculateReports(appointmentArray);
+        }
+        // se o usuário logado for um colaborador, retornar uma lista com todos os apontamentos do usuário logado
+        else if (Authentication.getCurrentUser().getProfile() == Profile.Colaborador) {
+            listAppointments = Arrays.asList(QueryLibs.selectAppointmentsByUser(Authentication.getCurrentUser().getId()));
+            Appointment[] appointmentArray = listAppointments.toArray(new Appointment[0]);
+            List<ReportInterval> reportIntervals = AppointmentCalculator.calculateReports(appointmentArray);
+        }
+        // se o usuário logado for um gestor, retornar uma lista com todos os apontamentos dos colaboradores administradores
+        else if (Authentication.getCurrentUser().getProfile() == Profile.Gestor) {
+            // cria uma lista com todas as squads que o gestor faz parte
+            ResultCenter[] listResultCenters = QueryLibs.selectAllResultCentersOfUser(Authentication.getCurrentUser().getId());
+        
+            // cria uma lista com todos os usuários que estão na squads criadas anteriormente
+            for (ResultCenter resultCenter : listResultCenters) {
+                User[] crUsers = QueryLibs.selectAllUsersInResultCenter(resultCenter.getId());
+                listUsers.addAll(Arrays.asList(crUsers));
+            }
+        
+            // cria uma lista com todos os apontamentos dos usuários criados anteriormente
+            for (User user : listUsers) {
+                Appointment[] userAppointments = QueryLibs.selectAppointmentsByUser(user.getId());
+                listAppointments.addAll(Arrays.asList(userAppointments));
+            }
+        
+            // cria um array com todos os apontamentos e reportIntervals
+            Appointment[] appointmentArray = listAppointments.toArray(new Appointment[0]);
+            List<ReportInterval> reportIntervals = AppointmentCalculator.calculateReports(appointmentArray);
         }
     }
 }

@@ -374,6 +374,38 @@ public class QueryLibs {
         );
     }
 
+    // retorna lista de usuários que são membros de um result center
+    public static User[] selectAllUsersInResultCenter(int cr_id) {
+        return executeSelect(
+            User.class, 
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.CrId, cr_id),
+            }
+        );
+    }
+
+    // retorna lista de centro de resultados dos quais o usuário faz parte
+    public static ResultCenter[] selectAllResultCentersOfUser(int user_id) {
+        return executeSelect(
+            ResultCenter.class, 
+            QueryTable.ResultCenter,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.User, user_id),
+            }
+        );
+    }
+
+    public static Appointment[] selectAppointmentsByUser(int id) {
+        return executeSelect(
+            Appointment.class, 
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.Requester, id),
+            }
+        );
+    }
+
     public static Optional<User> selectUserByEmail(String email) {
         return executeSelectOne(
             User.class,
