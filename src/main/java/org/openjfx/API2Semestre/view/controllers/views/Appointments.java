@@ -189,7 +189,7 @@ public class Appointments implements Initializable {
 
     private void updateTable () {
     
-        loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getName()));
+        loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getId()));
         // System.out.println(loadedAppointments.size() + " appointments returned from select ");
 
         applyFilter();
@@ -235,18 +235,20 @@ public class Appointments implements Initializable {
         @SuppressWarnings("unchecked") LookupTextField<Client> lookupTfClient = ((LookupTextField<Client>)tf_cliente);
         Client cliente = lookupTfClient.getSelectedItem();
         String cliente_str = cliente.getName();
-        QueryLibs.insertAppointment(new Appointment(
-            Authentication.getCurrentUser().getName(),
-            type,
-            DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),
-            DateConverter.inputToTimestamp(tf_dataFinal.getValue(),tf_horaFinal.getText()),
-            resultCenter_str,
-            cliente,
-            tf_projeto.getText(),
-            tf_justificativa.getText()
-        ));
-
-        updateTable();
+        try {
+            QueryLibs.insertAppointment(new Appointment(
+                Authentication.getCurrentUser().getName(),
+                type,
+                DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),
+                DateConverter.inputToTimestamp(tf_dataFinal.getValue(),tf_horaFinal.getText()),
+                resultCenter_str,
+                cliente,
+                tf_projeto.getText(),
+                tf_justificativa.getText()
+            ));
+        } catch (Exception e) {
+            System.out.println("Erro: Appointments.inputAppointment() -- Falha ao inserir apontamento");
+        }
     }
         
     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName

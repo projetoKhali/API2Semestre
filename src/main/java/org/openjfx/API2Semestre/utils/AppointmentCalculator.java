@@ -55,14 +55,14 @@ public class AppointmentCalculator {
                     else if (verba.getMinHourCount() != 0){
                         if (aptTotalTime <= 2) continue;
                         Appointment aptLastHours = apt.copy();
-                        aptLastHours.setStartDate(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
+                        aptLastHours.setStart(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
                         for(ReportInterval repInt : calculateIntervals(aptLastHours, verba)) reportsFinal.add(repInt);
                     }
 
                     else{
                         if (aptTotalTime > 2) {
                             Appointment aptFirstHours = apt.copy();
-                            aptFirstHours.setEndDate(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
+                            aptFirstHours.setEnd(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
                             List<ReportInterval> reportsTemporary = calculateIntervals(aptFirstHours, verba);
                             for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
                         } else {

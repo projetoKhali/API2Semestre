@@ -50,7 +50,7 @@ public class IntervalFilter {
         Optional<String> projeto
     ) {
         return intervals.stream().filter((ReportIntervalWrapper interval) -> {
-            if (matricula.isPresent() && !interval.getMatricula().toLowerCase().contains(matricula.get().toLowerCase())) return false;
+            if (matricula.isPresent() && !interval.getRequesterRegistration().toLowerCase().contains(matricula.get().toLowerCase())) return false;
             if (colaborador.isPresent() && !interval.getColaborador().toLowerCase().contains(colaborador.get().toLowerCase())) return false;
             if (verba.isPresent() && !interval.getVerba().toLowerCase().contains(verba.get().toLowerCase())) return false;
             if (cr.isPresent() && !interval.getCentroResultado().toLowerCase().contains(cr.get().toLowerCase())) return false;
