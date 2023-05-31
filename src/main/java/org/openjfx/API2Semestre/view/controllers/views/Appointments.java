@@ -229,13 +229,19 @@ public class Appointments implements Initializable {
     }
 
     void inputAppointment (AppointmentType type) {
+        @SuppressWarnings("unchecked") LookupTextField<ResultCenter> lookupTfResultCenter = ((LookupTextField<ResultCenter>)tf_resultCenter);
+        ResultCenter resultCenter = lookupTfResultCenter.getSelectedItem();
+        String resultCenter_str = resultCenter.getName();
+        @SuppressWarnings("unchecked") LookupTextField<Client> lookupTfClient = ((LookupTextField<Client>)tf_cliente);
+        Client cliente = lookupTfClient.getSelectedItem();
+        String cliente_str = cliente.getName();
         QueryLibs.insertAppointment(new Appointment(
             Authentication.getCurrentUser().getName(),
             type,
             DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),
             DateConverter.inputToTimestamp(tf_dataFinal.getValue(),tf_horaFinal.getText()),
-            tf_resultCenter.getText(),
-            tf_cliente.getText(),
+            resultCenter_str,
+            cliente,
             tf_projeto.getText(),
             tf_justificativa.getText()
         ));
