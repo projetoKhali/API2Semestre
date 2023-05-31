@@ -23,9 +23,12 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.StringConverter;
+import org.openjfx.api2semestre.view.macros.TableMacros.Formatter;
 
 public class Users {
 
@@ -33,6 +36,10 @@ public class Users {
     @FXML private TextField tf_name;
     @FXML private TextField tf_email;
     @FXML private TextField tf_matricula;   
+    @FXML private Button btCadastrar;
+    @FXML private Button btEditar;
+    @FXML private Button btRemover;
+
 
     @FXML private TableView<User> tabela;
 
@@ -53,6 +60,18 @@ public class Users {
         buildTable();
 
         updateTable();
+        
+        TableMacros.<User, String>enableEditableCells(
+            col_matricula,
+            (String value) -> ! value.isBlank(),
+            (User item, String value) -> item.setMatricula(value),
+            new Formatter<String>() {
+                private final StringConverter<String> converter = new StringConverter<String>();
+                @Override public String format(String value, boolean editing) { return converter.toString(value); }
+                @Override public String parse(String text) { return text; }
+                @Override public StringConverter<String> getConverter() { return converter; }
+            }
+        );
 
     }
 
@@ -112,8 +131,7 @@ public class Users {
         tabela.refresh();
 
     }
-
-    @FXML
+    
     private void register(ActionEvent event) {
         Profile profile = cb_profile.getSelectionModel().getSelectedItem();
         String name = tf_name.getText();
@@ -134,5 +152,11 @@ public class Users {
 
         updateTable();
     }
-
+    
+    public void deleteUser() {
+        
+        User user = tabela.getSelectionModel().getSelectedItem();
+        
+        
+    }   
 }
