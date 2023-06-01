@@ -70,13 +70,13 @@ public class App extends Application {
         // ));
 
         setStage(stage);
-        loginView();
+        // loginView();
 
-        // Authentication.login("a@d.m", "123");
+        Authentication.login("a@d.m", "123");
 
-        // scene = new Scene(loadFXML((currentViewFxmlFile = "views/parametrization")));
-        // stage.setScene(scene);
-        // stage.show();
+        scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
+        stage.setScene(scene);
+        stage.show();
 
     }
 

@@ -5,15 +5,16 @@ import java.util.ArrayList;
 import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Permission;
+import org.openjfx.api2semestre.view.controllers.templates.DashboardTab;
 import org.openjfx.api2semestre.view.utils.dashboard.DashboardContext;
-import org.openjfx.api2semestre.view.utils.dashboard.DashboardTab;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
+// import javafx.scene.layout.FlowPane;
+// import javafx.scene.layout.HBox;
 
 public class Dashboard {
 
@@ -22,6 +23,7 @@ public class Dashboard {
     private DashboardTab[] tabs;
 
     public void initialize() {
+        System.out.println("Dashboard");
         generateTabs();
     }
 
@@ -32,22 +34,39 @@ public class Dashboard {
         for (DashboardContext dashboardContext : DashboardContext.values()) {
             if (!dashboardContext.userHasAccess(userPermissions)) continue;
 
-            Parent tabTemplateRoot = App.loadFXML("templates/dashboardTab");
+            FXMLLoader loader = new FXMLLoader(App.getFXML("templates/dashboardTab"));
 
-            // Create the tab and set its content
-            Tab tab = new Tab();
-            tab.setText(dashboardContext.getName());
-            tab.setContent(tabTemplateRoot);
+            try {
+                Parent tabTemplateRoot = loader.load();
+                DashboardTab dashboardTab = loader.getController();
+                dashboardTab.setContext(dashboardContext);
 
-            // Add the tab to the TabPane
-            tabPane.getTabs().add(tab);
+                // Create the tab and set its content
+                Tab tab = new Tab();
+                tab.setText(dashboardContext.getName());
+                tab.setContent(tabTemplateRoot);
+                tab.setClosable(false);
 
-            tabList.add(new DashboardTab(
-                (HBox) tabTemplateRoot.lookup("#hb_filters"),
-                (FlowPane) tabTemplateRoot.lookup("#fp_charts")                
-            ));
+                // Add the tab to the TabPane
+                tabPane.getTabs().add(tab);
+
+                // Create the DasboardTab
+                // DashboardTab dashboardTab = new DashboardTab(
+                //     dashboardContext,
+                //     (HBox) tabTemplateRoot.lookup("#hb_filters"),
+                //     (FlowPane) tabTemplateRoot.lookup("#fp_charts")                
+                // );
+
+                // dashboardTab.initialize();
+
+                tabList.add(dashboardTab);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         tabs = tabList.toArray(DashboardTab[]::new);
     }
+
 }
