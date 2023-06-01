@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label text="Total de Horas" />
+      <Label fx:id="lblTotalHoras" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom,  #3375BA,  #022041);" text="00:00:00" textFill="WHITE">
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="4.0" left="42.0" right="42.0" top="4.0" />
+         </padding>
+      </Label>
+      <Label text="Total de Horas Verba" />
+      <Label fx:id="lblTotalHorasVerba" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom,  #3375BA,  #022041);" text="00:00:00" textFill="WHITE">
+         <padding>
+            <Insets bottom="4.0" left="42.0" right="42.0" top="4.0" />
+         </padding>
+      </Label>
+      <Label text="Número de Apontamentos" />
+      <Label fx:id="lblNumeroApontamentos" style="-fx-background-radius: 10; -fx-border-radius: 10; -fx-background-color: linear-gradient(to bottom,  #3375BA,  #022041);" text="0" textFill="WHITE">
+         <padding>
+            <Insets bottom="4.0" left="58.0" right="58.0" top="4.0" />
+         </padding>
+      </Label>
+   </children>
+</VBox>
