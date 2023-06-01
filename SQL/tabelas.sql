@@ -67,3 +67,16 @@ CREATE TABLE IF NOT EXISTS public.parametrization(
     
     CONSTRAINT parametrization_pkey PRIMARY KEY (id)
 );
+
+-- verbas
+CREATE TABLE IF NOT EXISTS public.verba(
+    id SERIAL NOT NULL,
+    code INT NOT NULL,
+    expedient BOOLEAN,
+    weekend BOOLEAN,
+    hour_count INT NOT NULL,
+    hour_duration NUMERIC NOT NULL,
+    percent NUMERIC NOT NULL,
+
+    CONSTRAINT verba_pkey PRIMARY KEY (id)
+);
