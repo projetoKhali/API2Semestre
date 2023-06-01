@@ -1,5 +1,9 @@
 package org.openjfx.api2semestre.authentication;
 
+import java.util.ArrayList;
+
+import org.openjfx.api2semestre.database.QueryLibs;
+
 // Represents the user's permissions in the app
 public enum Permission {
 
@@ -25,4 +29,17 @@ public enum Permission {
     public String getStringValue() {
         return stringValue;
     }
+
+    public static Permission[] getPermissions (User u) {
+        ArrayList<Permission> permissions = new ArrayList<>();
+        if (u.getProfile() == Profile.Administrator) {
+            permissions.add(Permission.FullAccess);
+            permissions.add(Permission.Register);
+            permissions.add(Permission.Report);
+        }
+        if (QueryLibs.selectResultCentersManagedBy(u.getId()).length > 0) permissions.add(Permission.Validate);
+        if (QueryLibs.selectResultCentersOfMember(u.getId()).length > 0) permissions.add(Permission.Appoint);
+        return permissions.toArray(Permission[]::new);
+    }
+
 }

@@ -191,7 +191,7 @@ public class App extends Application {
 
     /// Encapsula o código de carregamento de um arquivo fxml.
     /// Retorna a raiz (o node principal) do fxml do arquivo carregado.
-    private static Parent loadFXML(String fxml) {
+    public static Parent loadFXML(String fxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getFXML(fxml));
             return fxmlLoader.load();
