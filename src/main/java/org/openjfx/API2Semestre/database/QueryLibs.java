@@ -86,7 +86,7 @@ public class QueryLibs {
                 new QueryParam<String>    (TableProperty.Apt_ClientName, apt.getClientName()),
                 new QueryParam<Boolean>   (TableProperty.Apt_Type, apt.getType().getBooleanValue()),
                 new QueryParam<String>    (TableProperty.Apt_Justification, apt.getJustification()),
-                new QueryParam<Integer>   (TableProperty.Apt_ResultCenterId, apt.getResultCenterId()),
+                new QueryParam<Integer>   (TableProperty.ResultCenterId, apt.getResultCenterId()),
                 new QueryParam<String>    (TableProperty.Apt_ResultCenterName, apt.getResultCenterName()),
                 new QueryParam<Integer>   (TableProperty.Apt_Status, apt.getStatus().getIntValue()),
                 new QueryParam<String>    (TableProperty.Apt_Feedback, apt.getFeedback()),
@@ -130,7 +130,7 @@ public class QueryLibs {
             QueryTable.Member,
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.UserId, usr_id),
-                new QueryParam<Integer>(TableProperty.Apt_ResultCenterId, cr_id),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, cr_id),
             }
         );
     }
@@ -299,7 +299,7 @@ public class QueryLibs {
             Appointment.class,
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.Apt_ResultCenterId, cr_id),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, cr_id),
             }
         );
     }
@@ -380,7 +380,7 @@ public class QueryLibs {
             User.class, 
             QueryTable.Member,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.CrId, cr_id),
+                new QueryParam<>(TableProperty.ResultCenterId, cr_id),
             }
         );
     }
@@ -391,7 +391,7 @@ public class QueryLibs {
             ResultCenter.class, 
             QueryTable.ResultCenter,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.User, user_id),
+                new QueryParam<>(TableProperty.UserId, user_id),
             }
         );
     }
@@ -401,7 +401,7 @@ public class QueryLibs {
             Appointment.class, 
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.Requester, id),
+                new QueryParam<>(TableProperty.Apt_UserName, id),
             }
         );
     }
@@ -438,7 +438,7 @@ public class QueryLibs {
                 new QueryParam<String>(TableProperty.Apt_ClientName, apt.getClientName()),
                 new QueryParam<Boolean>(TableProperty.Apt_Type, apt.getType().getBooleanValue()),
                 new QueryParam<String>(TableProperty.Apt_Justification, apt.getJustification()),
-                new QueryParam<Integer>(TableProperty.Apt_ResultCenterId, apt.getResultCenterId()),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, apt.getResultCenterId()),
                 new QueryParam<String>(TableProperty.Apt_ResultCenterName, apt.getResultCenterName()),
                 new QueryParam<Integer>(TableProperty.Apt_Status, apt.getStatus().getIntValue()),
                 new QueryParam<String>(TableProperty.Apt_Feedback, apt.getFeedback()),

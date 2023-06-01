@@ -20,7 +20,7 @@ import org.openjfx.api2semestre.report.Week;
 
 public class AppointmentCalculator {
 
-    public static List<ReportInterval> calculateReports (Appointment[] appointments) {
+    public static ReportInterval[] calculateReports (Appointment[] appointments) {
         List<ReportInterval> reportsFinal = new ArrayList<ReportInterval>();
 
         LinkedList<ReportInterval> intervalsOnNotice = new LinkedList<>();
@@ -76,7 +76,7 @@ public class AppointmentCalculator {
 
         for (ReportInterval repInt : calculateOnNotice(intervalsOnNotice, appointments)) reportsFinal.add(repInt);
 
-        return reportsFinal;
+        return reportsFinal.toArray(ReportInterval[]::new);
     }
     
     private static List<ReportInterval> calculateOnNotice (LinkedList<ReportInterval> intervals, Appointment[] appointments) {
