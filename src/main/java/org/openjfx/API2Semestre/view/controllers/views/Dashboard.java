@@ -67,36 +67,21 @@ public class Dashboard {
         //     )
         // };
 
+        createFilters();
+
         loadData();
 
         updateCharts();
+
+    }
+
+    private void createFilters () {
+        
     }
 
     private void loadData () {
 
         User currentUser = Authentication.getCurrentUser();
-
-        // if (currentUser.getProfile() == Profile.Administrator) {
-        //     loadedAppointments = QueryLibs.selectAllAppointments();
-        //     loadedIntervals = AppointmentCalculator.calculateReports(loadedAppointments);
-        //     return;
-        // }
-        // ResultCenter[] resultCentersManagedBy = QueryLibs.selectResultCentersManagedBy(currentUser.getId());
-        // if (resultCentersManagedBy.length > 0) {
-        //     List<Appointment> appointmentsOfCRsManagedBy = new ArrayList<Appointment>();
-        //     for (ResultCenter resultCenter : resultCentersManagedBy) {
-        //        appointmentsOfCRsManagedBy.addAll(Arrays.asList(QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId())));
-        //     }
-        //     loadedAppointments = appointmentsOfCRsManagedBy.toArray(Appointment[]::new);
-        //     loadedIntervals = AppointmentCalculator.calculateReports(loadedAppointments);
-        //     return;
-        // }
-        // ResultCenter[] resultCentersOfMember = QueryLibs.selectResultCentersOfMember(currentUser.getId());
-        // if (resultCentersOfMember.length > 0) {
-        //     loadedAppointments = QueryLibs.collaboratorSelect(currentUser.getId());
-        //     loadedIntervals = AppointmentCalculator.calculateReports(loadedAppointments);
-        //     return;
-        // }
 
         // se o usuário logado for um administrador, retornar uma lista com todos os apontamentos do sistema
         if (currentUser.getProfile().getProfileLevel() >= Profile.Administrator.getProfileLevel()) {
@@ -135,9 +120,13 @@ public class Dashboard {
         }
     }
 
+    private void applyFilter() {
+
+    }
+
     private void updateCharts () {
         fp_charts.getChildren().add(ChartGenerator.hourIntersectionCountGraph(filteredAppointments.toArray(Appointment[]::new)));
-        // fp_charts.getChildren().add(ChartGenerator.weekIntersectionCountGraph(filteredAppointments.toArray(Appointment[]::new)));
-        // fp_charts.getChildren().add(ChartGenerator.monthIntersectionCountGraph(filteredAppointments.toArray(Appointment[]::new)));
+        fp_charts.getChildren().add(ChartGenerator.weekIntersectionCountGraph(filteredAppointments.toArray(Appointment[]::new)));
+        fp_charts.getChildren().add(ChartGenerator.monthIntersectionCountGraph(filteredAppointments.toArray(Appointment[]::new)));
     }
 }
