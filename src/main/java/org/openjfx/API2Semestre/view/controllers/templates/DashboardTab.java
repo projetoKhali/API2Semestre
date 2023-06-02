@@ -5,6 +5,8 @@ import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.authentication.Authentication;
+import org.openjfx.api2semestre.authentication.Profile;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.ReportInterval;
 import org.openjfx.api2semestre.utils.AppointmentCalculator;
 import org.openjfx.api2semestre.view.utils.ChartGenerator;
@@ -12,11 +14,8 @@ import org.openjfx.api2semestre.view.utils.dashboard.DashboardContext;
 import org.openjfx.api2semestre.view.utils.dashboard.FilterField;
 
 import javafx.fxml.FXML;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.CheckBox;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 
@@ -33,20 +32,14 @@ public class DashboardTab {
     private ReportInterval[] loadedIntervals;
 
     private void createFilters () {
-        final ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
-            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                applyFilter();
-            }
-        };
-
         for (FilterField field : context.getFields()) {
 
-            CheckBox checkbox = new CheckBox(field.getName());
+            // load template 
+            field.getName(); // field name
 
-            hb_filters.getChildren().add(checkbox);
-
-            // enableFilterBoolean.addListener(applyFilterCallback);
-
+            // set filter boolean
+            
+            // set applyFilter callback
         }
     }
     
@@ -77,6 +70,8 @@ public class DashboardTab {
     }
 
     private void updateCharts () {
+        fp_charts.getChildren().clear();
+
         switch (context.getProfile()) {
             case Administrator: ; 
 
