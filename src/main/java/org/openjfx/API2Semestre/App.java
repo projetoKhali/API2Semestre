@@ -11,11 +11,17 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Optional;
 
+import org.openjfx.api2semestre.appointment.Appointment;
+import org.openjfx.api2semestre.appointment.AppointmentType;
 import org.openjfx.api2semestre.authentication.Authentication;
+import org.openjfx.api2semestre.report.ReportInterval;
+import org.openjfx.api2semestre.utils.AppointmentCalculator;
+import org.openjfx.api2semestre.utils.DateConverter;
 import org.openjfx.api2semestre.view.controllers.Base;
 import org.openjfx.api2semestre.view.controllers.templates.ViewButton;
 import org.openjfx.api2semestre.view.manager.View;
 import org.openjfx.api2semestre.view.manager.ViewsManager;
+import org.openjfx.api2semestre.view.utils.ChartGenerator;
 
 public class App extends Application {
     
@@ -72,7 +78,53 @@ public class App extends Application {
         setStage(stage);
         // loginView();
 
-        scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
+        // Authentication.login("a@d.m", "123");
+
+        // scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
+        Appointment[] appointments = new Appointment[] {
+            // new Appointment(1, "Julio", AppointmentType.Overtime, 
+            //     DateConverter.stringToTimestamp("2023-05-05 22:00:00"), 
+            //     DateConverter.stringToTimestamp("2023-05-07 19:00:00"), 
+            //     "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+            // ),
+            // new Appointment(1, "Julio", AppointmentType.Overtime, 
+            //     DateConverter.stringToTimestamp("2023-05-05 22:00:00"), 
+            //     DateConverter.stringToTimestamp("2023-05-06 01:00:00"), 
+            //     "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+            // ),
+            new Appointment(1, "Julio", AppointmentType.Overtime, 
+                DateConverter.stringToTimestamp("2023-05-05 12:00:00"), 
+                DateConverter.stringToTimestamp("2023-05-05 17:00:00"), 
+                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+            ),
+            new Appointment(1, "Julio", AppointmentType.Overtime, 
+                DateConverter.stringToTimestamp("2023-05-05 12:30:00"), 
+                DateConverter.stringToTimestamp("2023-05-05 13:30:00"), 
+                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+            ),
+            new Appointment(1, "Julio", AppointmentType.Overtime, 
+                DateConverter.stringToTimestamp("2023-05-05 13:00:00"), 
+                DateConverter.stringToTimestamp("2023-05-05 14:00:00"), 
+                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+            ),
+            new Appointment(1, "Julio", AppointmentType.Overtime, 
+                DateConverter.stringToTimestamp("2023-05-05 22:30:00"), 
+                DateConverter.stringToTimestamp("2023-05-05 23:30:00"), 
+                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+            ),
+            new Appointment(1, "Julio", AppointmentType.Overtime, 
+                DateConverter.stringToTimestamp("2023-05-05 14:00:00"), 
+                DateConverter.stringToTimestamp("2023-05-05 15:20:00"), 
+                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+            ),
+            new Appointment(1, "Julio", AppointmentType.Overtime, 
+                DateConverter.stringToTimestamp("2023-05-06 19:15:00"), 
+                DateConverter.stringToTimestamp("2023-05-06 23:45:00"), 
+                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+            )
+        };
+
+        scene = new Scene(ChartGenerator.reportIntervalChart(AppointmentCalculator.calculateReports(appointments).toArray(new ReportInterval[0])));
         stage.setScene(scene);
         stage.show();
 

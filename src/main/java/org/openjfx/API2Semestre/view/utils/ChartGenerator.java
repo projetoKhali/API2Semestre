@@ -3,10 +3,14 @@ package org.openjfx.api2semestre.view.utils;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.appointment.Appointment;
+import org.openjfx.api2semestre.report.ReportInterval;
 
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -32,7 +36,7 @@ public class ChartGenerator {
         }
     }
     
-    private static  ChartData emptyChart (
+    private static ChartData emptyChart (
         String title,
         Optional<NumberAxis> xAxisOptional,
         Optional<NumberAxis> yAxisOptional
@@ -128,7 +132,7 @@ public class ChartGenerator {
             if (intersectionCount > maxIntersectionCount) maxIntersectionCount = intersectionCount;
 
         }
-
+            
         yAxis.setAutoRanging(false);
         yAxis.setLowerBound(0);        
         yAxis.setUpperBound(maxIntersectionCount + 1);
@@ -137,4 +141,56 @@ public class ChartGenerator {
 
         return lineChart;
     }
+
+    public static BarChart<String, Number> reportIntervalChart(ReportInterval[] reportsInterval){
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
+
+        double hours1601 = 0;
+        double hours1602 = 0;
+        double hours3000 = 0;
+        double hours3001 = 0;
+        double hours1809 = 0;
+        LocalDateTime start;
+        LocalDateTime end;
+
+        for(ReportInterval verba: reportsInterval){
+            start = (verba.getStart()).toLocalDateTime();
+            end = (verba.getEnd()).toLocalDateTime();
+            if(verba.getVerba() == 1601){
+                hours1601 += (ChronoUnit.MINUTES.between(start, end))/60.0;
+            }
+            if(verba.getVerba() == 1602){
+                hours1602 += (ChronoUnit.MINUTES.between(start, end))/60.0;
+            }
+            if(verba.getVerba() == 3000){
+                hours3000 += (ChronoUnit.MINUTES.between(start, end))/60.0;
+            }
+            if(verba.getVerba() == 3001){
+                hours3001 += (ChronoUnit.MINUTES.between(start, end))/60.0;
+            }
+            if(verba.getVerba() == 1809){
+                hours1809 += (ChronoUnit.MINUTES.between(start, end))/60.0;
+            }
+        }
+
+        dataSeries.getData().add(new XYChart.Data<>("1601", hours1601));
+        dataSeries.getData().add(new XYChart.Data<>("1602", hours1602));
+        dataSeries.getData().add(new XYChart.Data<>("3000", hours3000));
+        dataSeries.getData().add(new XYChart.Data<>("3001", hours3001));
+        dataSeries.getData().add(new XYChart.Data<>("1809", hours1809));
+       
+        // Adicione a série de dados ao gráfico de barras
+        barChart.getData().add(dataSeries);
+        barChart.setTitle("Total de horas por verba");
+        barChart.setLegendVisible(false);
+
+        return barChart;
+       
+
+    }
+
+    
 }

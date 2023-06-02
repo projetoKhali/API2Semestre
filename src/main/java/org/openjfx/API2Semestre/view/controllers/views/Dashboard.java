@@ -70,7 +70,7 @@ public class Dashboard {
                 "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
             )
         };
-
+        
         fp_charts.getChildren().add(ChartGenerator.hourIntersectionCountGraph(appointments));
 
         List<Appointment> listAppointments = new ArrayList<>();
