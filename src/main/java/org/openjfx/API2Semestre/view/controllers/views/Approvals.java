@@ -97,7 +97,7 @@ public class Approvals {
             tabela,
             new ColumnConfig[] {
                 new ColumnConfigString<>(col_requester, "requester", "Solicitante", Optional.of(col_requester_enableFilter)),
-                new ColumnConfigString<>(col_squad, "squad", "CR", Optional.of(col_squad_enableFilter)),
+                new ColumnConfigString<>(col_squad, "resultCenter", "CR", Optional.of(col_squad_enableFilter)),
                 new ColumnConfigString<>(col_tipo, "type", "Tipo", Optional.empty()),
                 new ColumnConfigString<>(col_inicio, "startDate", "Data Início", Optional.empty()),
                 new ColumnConfigString<>(col_fim, "endDate", "Data Fim", Optional.empty()),
@@ -127,7 +127,7 @@ public class Approvals {
 
         for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(Authentication.getCurrentUser().getId())) {
             // System.out.println("resultCenter: " + resultCenter);
-            for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getName())) {
+            for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId())) {
                 // System.out.println("apt: " + apt);
                 // try {
                     items.add(apt);

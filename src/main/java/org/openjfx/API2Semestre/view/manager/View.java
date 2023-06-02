@@ -28,9 +28,7 @@ public enum View {
     Parametrization(6, "Parametrização", "views/parametrization", new Permission[] {
         Permission.FullAccess
     }),
-    Dashboard(7, "Dashboard", "views/dashboard", new Permission[] {
-
-    }),
+    Dashboard(7, "Dashboard", "views/dashboard", new Permission[] {}),
     ;
 
     public static final View[] VIEWS = values();

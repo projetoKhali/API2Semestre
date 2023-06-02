@@ -1,6 +1,6 @@
 package org.openjfx.api2semestre.view.controllers.views;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -62,7 +62,7 @@ public class Report {
     private BooleanProperty col_projeto_enableFilter = new SimpleBooleanProperty();
 
     private ObservableList<ReportIntervalWrapper> intervalsToExport;
-    private List<ReportInterval> loadedIntervals;
+    private ReportInterval[] loadedIntervals;
     
     public void initialize() {
 
@@ -121,12 +121,12 @@ public class Report {
         TableMacros.buildTable(
             tabela,
             new ColumnConfig[] {
-                new ColumnConfigString<>(col_matricula, "matricula", "Matricula", Optional.of(col_matricula_enableFilter)),
-                new ColumnConfigString<>(col_colaborador, "colaborador", "Colaborador", Optional.of(col_colaborador_enableFilter)),
-                new ColumnConfigString<>(col_verba, "verba", "Verba", Optional.of(col_verba_enableFilter)),
-                new ColumnConfigString<>(col_cr, "centroResultado", "CR", Optional.of(col_cr_enableFilter)),
-                new ColumnConfigString<>(col_cliente, "cliente", "Cliente", Optional.of(col_cliente_enableFilter)),
-                new ColumnConfigString<>(col_projeto, "projeto", "Projeto", Optional.of(col_projeto_enableFilter)),
+                new ColumnConfigString<>(col_matricula, "requesterRegistration", "Matricula", Optional.of(col_matricula_enableFilter)),
+                new ColumnConfigString<>(col_colaborador, "requesterName", "Colaborador", Optional.of(col_colaborador_enableFilter)),
+                new ColumnConfigString<>(col_verba, "intervalFeeCode", "Verba", Optional.of(col_verba_enableFilter)),
+                new ColumnConfigString<>(col_cr, "resultCenterName", "CR", Optional.of(col_cr_enableFilter)),
+                new ColumnConfigString<>(col_cliente, "clientName", "Cliente", Optional.of(col_cliente_enableFilter)),
+                new ColumnConfigString<>(col_projeto, "projectName", "Projeto", Optional.of(col_projeto_enableFilter)),
             },
             Optional.of(applyFilterCallback)
         );
@@ -139,7 +139,7 @@ public class Report {
 
     private void updateTable () {
         loadedIntervals = AppointmentCalculator.calculateReports(QueryLibs.selectAllAppointments());
-        System.out.println(loadedIntervals.size() + " intervals");
+        System.out.println(loadedIntervals.length + " intervals");
         applyFilter();
     }
 
@@ -147,7 +147,7 @@ public class Report {
         System.out.println("applyFilter");
 
         intervalsToExport = FXCollections.observableArrayList(IntervalFilter.filterFromView(
-            loadedIntervals.stream().map(interval -> {
+            Arrays.asList(loadedIntervals).stream().map(interval -> {
                 System.out.println("Loading appointment of id " + interval.getAppointmmentId());
                 return new ReportIntervalWrapper(
                     org.openjfx.api2semestre.database.QueryLibs.selectAppointmentById(interval.getAppointmmentId()).get(),

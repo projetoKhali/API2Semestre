@@ -117,10 +117,10 @@ public class ResultCenters {
         TableMacros.buildTable(
             tabela,
             new ColumnConfig[] {
-                new ColumnConfigString<>(col_nome, "nome", "Nome", Optional.of(col_nome_enableFilter)),
-                new ColumnConfigString<>(col_sigla, "sigla", "Sigla", Optional.of(col_sigla_enableFilter)),
-                new ColumnConfigString<>(col_codigo, "codigo", "Codigo", Optional.of(col_codigo_enableFilter)),
-                new ColumnConfigString<>(col_gestor, "gestorNome", "Gestor", Optional.of(col_gestor_enableFilter)),
+                new ColumnConfigString<>(col_nome, "name", "Nome", Optional.of(col_nome_enableFilter)),
+                new ColumnConfigString<>(col_sigla, "acronym", "Sigla", Optional.of(col_sigla_enableFilter)),
+                new ColumnConfigString<>(col_codigo, "code", "Codigo", Optional.of(col_codigo_enableFilter)),
+                new ColumnConfigString<>(col_gestor, "managerName", "Gestor", Optional.of(col_gestor_enableFilter)),
                 // new ColumnConfigString<>(col_membros, "membros", "Membros", Optional.empty()),
             },
             Optional.of(applyFilterCallback)
