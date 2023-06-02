@@ -46,10 +46,10 @@ public class Dashboard {
                 tab.setContent(tabTemplateRoot);
                 tab.setClosable(false);
 
-                for (FilterField field : dashboardContext.getFields()) {
+                // for (FilterField field : dashboardContext.getFields()) {
 
-                    LookupTextField<field.getType()> lookupTextField = field.getName();
-                }
+                //     LookupTextField<field.getType()> lookupTextField = field.getName();
+                // }
 
                 // Add the tab to the TabPane
                 tabPane.getTabs().add(tab);
