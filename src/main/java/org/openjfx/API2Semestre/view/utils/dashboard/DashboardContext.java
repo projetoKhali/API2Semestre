@@ -69,7 +69,7 @@ public enum DashboardContext implements HasDisplayName {
     public Appointment[] loadData(User currentUser) {
         switch (profile) {
             case Administrator: return QueryLibs.selectAllAppointments();
-            case Colaborador: QueryLibs.selectAppointmentsByUser(currentUser.getId());
+            case Colaborador: return QueryLibs.selectAppointmentsByUser(currentUser.getId());
             case Gestor:
 
                 // cria uma lista com todas as squads que o gestor faz parte
@@ -96,6 +96,8 @@ public enum DashboardContext implements HasDisplayName {
         }
     }
 
+    public Profile getProfile() { return profile; }
+    public FilterField[] getFields() { return fields; }
     @Override public String getName() { return profile.getName(); }
 
 }

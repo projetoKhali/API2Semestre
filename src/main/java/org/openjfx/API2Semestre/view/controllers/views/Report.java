@@ -121,12 +121,12 @@ public class Report {
         TableMacros.buildTable(
             tabela,
             new ColumnConfig[] {
-                new ColumnConfigString<>(col_matricula, "matricula", "Matricula", Optional.of(col_matricula_enableFilter)),
-                new ColumnConfigString<>(col_colaborador, "colaborador", "Colaborador", Optional.of(col_colaborador_enableFilter)),
-                new ColumnConfigString<>(col_verba, "verba", "Verba", Optional.of(col_verba_enableFilter)),
-                new ColumnConfigString<>(col_cr, "centroResultado", "CR", Optional.of(col_cr_enableFilter)),
-                new ColumnConfigString<>(col_cliente, "cliente", "Cliente", Optional.of(col_cliente_enableFilter)),
-                new ColumnConfigString<>(col_projeto, "projeto", "Projeto", Optional.of(col_projeto_enableFilter)),
+                new ColumnConfigString<>(col_matricula, "requesterRegistration", "Matricula", Optional.of(col_matricula_enableFilter)),
+                new ColumnConfigString<>(col_colaborador, "requesterName", "Colaborador", Optional.of(col_colaborador_enableFilter)),
+                new ColumnConfigString<>(col_verba, "intervalFeeCode", "Verba", Optional.of(col_verba_enableFilter)),
+                new ColumnConfigString<>(col_cr, "resultCenterName", "CR", Optional.of(col_cr_enableFilter)),
+                new ColumnConfigString<>(col_cliente, "clientName", "Cliente", Optional.of(col_cliente_enableFilter)),
+                new ColumnConfigString<>(col_projeto, "projectName", "Projeto", Optional.of(col_projeto_enableFilter)),
             },
             Optional.of(applyFilterCallback)
         );

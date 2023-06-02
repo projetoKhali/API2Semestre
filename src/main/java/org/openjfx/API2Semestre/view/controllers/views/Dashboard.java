@@ -23,7 +23,6 @@ public class Dashboard {
     private DashboardTab[] tabs;
 
     public void initialize() {
-        System.out.println("Dashboard");
         generateTabs();
     }
 
@@ -49,15 +48,6 @@ public class Dashboard {
 
                 // Add the tab to the TabPane
                 tabPane.getTabs().add(tab);
-
-                // Create the DasboardTab
-                // DashboardTab dashboardTab = new DashboardTab(
-                //     dashboardContext,
-                //     (HBox) tabTemplateRoot.lookup("#hb_filters"),
-                //     (FlowPane) tabTemplateRoot.lookup("#fp_charts")                
-                // );
-
-                // dashboardTab.initialize();
 
                 tabList.add(dashboardTab);
 

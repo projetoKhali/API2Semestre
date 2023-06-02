@@ -30,7 +30,7 @@ public class AppointmentWrapper implements HasSelectedProperty {
     public String getRequester() { return appointment.getRequesterName(); }
     public String getStartDate() { return formatTime(appointment.getStart()); }
     public String getEndDate() { return formatTime(appointment.getEnd()); }
-    public String getSquad() { return appointment.getResultCenterName(); }
+    public String getResultCenter() { return appointment.getResultCenterName(); }
     public String getClient() { return appointment.getClientName(); }
     public String getProject() { return appointment.getProject(); }
     public String getStatus() { return appointment.getStatus().getStringValue(); }

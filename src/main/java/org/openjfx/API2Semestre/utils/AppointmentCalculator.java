@@ -26,7 +26,7 @@ public class AppointmentCalculator {
         LinkedList<ReportInterval> intervalsOnNotice = new LinkedList<>();
 
         for(Appointment apt: appointments){
-            System.out.println("start time do apontamento: " + apt.getStart() + " | end time do apontamento: " + apt.getEnd());
+            // System.out.println("start time do apontamento: " + apt.getStart() + " | end time do apontamento: " + apt.getEnd());
 
             LocalDateTime aptStartDateTime = apt.getStart().toLocalDateTime();
             LocalDateTime aptEndDateTime = apt.getEnd().toLocalDateTime();
@@ -34,7 +34,7 @@ public class AppointmentCalculator {
             double aptTotalTime = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime)) / 60;
 
             if(apt.getType() == AppointmentType.OnNotice){
-                System.out.println("start time do sobreaviso: " + apt.getStart() + " | end time do sobreaviso: " + apt.getEnd());
+                // System.out.println("start time do sobreaviso: " + apt.getStart() + " | end time do sobreaviso: " + apt.getEnd());
                 intervalsOnNotice.add(new ReportInterval(
                     apt.getId(),
                     3016,
@@ -43,8 +43,7 @@ public class AppointmentCalculator {
                 );
             }
             else {
-
-                System.out.println("é hora extra");
+                // System.out.println("é hora extra");
 
                 for(IntervalFee verba: IntervalFee.getVerbas()){
 
@@ -215,7 +214,7 @@ public class AppointmentCalculator {
 
         if((intervalFee.getStartHour() != null) && (intervalFee.getEndHour() != null)){
             for (LocalDate actualDay = aptStartLocalDate; !actualDay.isAfter(aptEndLocalDate); actualDay = actualDay.plusDays(1)) {
-                System.out.println("actualDay: " + actualDay.toString() + " | start: " + aptStartLocalDate + " | !actualDay.isAfter(" + aptEndLocalDate + ")? " + !actualDay.isAfter(aptEndLocalDate));
+                // System.out.println("actualDay: " + actualDay.toString() + " | start: " + aptStartLocalDate + " | !actualDay.isAfter(" + aptEndLocalDate + ")? " + !actualDay.isAfter(aptEndLocalDate));
 
                 int actualDayOfWeek = actualDay.getDayOfWeek().getValue();
 
@@ -228,7 +227,7 @@ public class AppointmentCalculator {
                     if(intervalFee.getEndHour().isBefore(intervalFee.getStartHour())){
                         if(actualDay == aptStartLocalDate || (Week.FDS.compare(intervalFee.getDaysOfWeek()) && actualDayOfWeek % 7 == 6)){
 
-                            System.out.println("verba: " + intervalFee.getCode() + " | actualDay: " + actualDay + " == aptStartLocalDate: " + aptStartLocalDate);
+                            // System.out.println("verba: " + intervalFee.getCode() + " | actualDay: " + actualDay + " == aptStartLocalDate: " + aptStartLocalDate);
                             LocalDateTime verbaStart_ = actualDay.atTime(0, 0);
                             LocalDateTime verbaEnd_ = actualDay.atTime(intervalFee.getEndHour());
 
