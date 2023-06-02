@@ -13,8 +13,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
-// import javafx.scene.layout.FlowPane;
-// import javafx.scene.layout.HBox;
 
 public class Dashboard {
 

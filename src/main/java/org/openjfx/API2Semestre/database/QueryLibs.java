@@ -388,7 +388,7 @@ public class QueryLibs {
     public static ResultCenter[] selectAllResultCentersOfUser(int user_id) {
         return executeSelect(
             ResultCenter.class, 
-            QueryTable.ResultCenter,
+            QueryTable.ViewResultCenter,
             new QueryParam<?>[] {
                 new QueryParam<>(TableProperty.UserId, user_id),
             }
@@ -400,7 +400,7 @@ public class QueryLibs {
             Appointment.class, 
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.Apt_UserName, id),
+                new QueryParam<>(TableProperty.UserId, id),
             }
         );
     }
