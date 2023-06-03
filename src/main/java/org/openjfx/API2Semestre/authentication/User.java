@@ -27,7 +27,7 @@ public class User extends Data implements HasDisplayName {
         this.senha = senha;
         this.matricula = matricula;
     }
-
+    public User (){}
     public User(
         String nome, 
         Profile perfil, 

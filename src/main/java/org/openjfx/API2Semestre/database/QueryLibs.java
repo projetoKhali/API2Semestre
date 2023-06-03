@@ -467,4 +467,16 @@ public class QueryLibs {
         // fecha conexão
         // conexao.close();
     }
+    public static void resetUserPassword (String senha, Integer user) {
+        executeQuery(new Query(
+            QueryType.UPDATE,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                // SET
+                new QueryParam<>(TableProperty.Password, PasswordIncription.encryptPassword(senha)),
+                // WHERE
+                new QueryParam<Integer>(TableProperty.Id, user)
+            }
+        ));
+    }
 }
