@@ -5,10 +5,8 @@ import java.util.ArrayList;
 import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Permission;
-import org.openjfx.api2semestre.view.controllers.custom_tags.LookupTextField;
 import org.openjfx.api2semestre.view.controllers.templates.DashboardTab;
 import org.openjfx.api2semestre.view.utils.dashboard.DashboardContext;
-import org.openjfx.api2semestre.view.utils.dashboard.FilterField;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,9 +18,10 @@ public class Dashboard {
 
     @FXML private TabPane tabPane;
 
-    private DashboardTab[] tabs;
+    @SuppressWarnings("unused") private DashboardTab[] tabs;
 
     public void initialize() {
+        
         generateTabs();
     }
 
@@ -45,11 +44,6 @@ public class Dashboard {
                 tab.setText(dashboardContext.getName());
                 tab.setContent(tabTemplateRoot);
                 tab.setClosable(false);
-
-                // for (FilterField field : dashboardContext.getFields()) {
-
-                //     LookupTextField<field.getType()> lookupTextField = field.getName();
-                // }
 
                 // Add the tab to the TabPane
                 tabPane.getTabs().add(tab);
