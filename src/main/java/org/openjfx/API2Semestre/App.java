@@ -78,53 +78,12 @@ public class App extends Application {
         setStage(stage);
         // loginView();
 
-        // Authentication.login("a@d.m", "123");
+        Authentication.login("a@d.m", "123");
 
-        // scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
-        Appointment[] appointments = new Appointment[] {
-            // new Appointment(1, "Julio", AppointmentType.Overtime, 
-            //     DateConverter.stringToTimestamp("2023-05-05 22:00:00"), 
-            //     DateConverter.stringToTimestamp("2023-05-07 19:00:00"), 
-            //     "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
-            // ),
-            // new Appointment(1, "Julio", AppointmentType.Overtime, 
-            //     DateConverter.stringToTimestamp("2023-05-05 22:00:00"), 
-            //     DateConverter.stringToTimestamp("2023-05-06 01:00:00"), 
-            //     "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
-            // ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
-                DateConverter.stringToTimestamp("2023-05-05 12:00:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 17:00:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
-            ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
-                DateConverter.stringToTimestamp("2023-05-05 12:30:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 13:30:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
-            ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
-                DateConverter.stringToTimestamp("2023-05-05 13:00:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 14:00:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
-            ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
-                DateConverter.stringToTimestamp("2023-05-05 22:30:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 23:30:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
-            ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
-                DateConverter.stringToTimestamp("2023-05-05 14:00:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 15:20:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
-            ),
-            new Appointment(1, "Julio", AppointmentType.Overtime, 
-                DateConverter.stringToTimestamp("2023-05-06 19:15:00"), 
-                DateConverter.stringToTimestamp("2023-05-06 23:45:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
-            )
-        };
-
-        scene = new Scene(ChartGenerator.reportIntervalChart(AppointmentCalculator.calculateReports(appointments).toArray(new ReportInterval[0])));
+        scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
+        
+        // scene = new Scene(ChartGenerator.reportIntervalChart(AppointmentCalculator.calculateReports(appointments).toArray(new ReportInterval[0])));
+        // scene = new Scene(ChartGenerator.statusAppointmentChart(appointments));
         stage.setScene(scene);
         stage.show();
 

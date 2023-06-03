@@ -9,12 +9,17 @@ import java.util.Optional;
 import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.report.ReportInterval;
 
+import javafx.application.Platform;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.layout.Region;
+import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
+
 
 public class ChartGenerator {
 
@@ -142,6 +147,7 @@ public class ChartGenerator {
         return lineChart;
     }
 
+    // grafico em barra, com o total de horas para cada verba
     public static BarChart<String, Number> reportIntervalChart(ReportInterval[] reportsInterval){
         CategoryAxis xAxis = new CategoryAxis();
         NumberAxis yAxis = new NumberAxis();
@@ -190,6 +196,53 @@ public class ChartGenerator {
         return barChart;
        
 
+    }
+
+    // grafico de rosca, com o status dos apontamentos
+    public static PieChart statusAppointmentChart(Appointment[] appointments){
+        
+        Integer aprovados = 0;
+        Integer rejeitados = 0;
+        Integer pendentes = 0;
+                
+        for(Appointment apt: appointments){
+            if(apt.getStatus().getStringValue() ==  "Aprovado"){
+                aprovados += 1;
+            }
+            if(apt.getStatus().getStringValue() ==  "Rejeitado"){
+                rejeitados += 1;
+            }
+            if(apt.getStatus().getStringValue() ==  "Pendente"){
+                pendentes += 1;
+            }
+        }
+        // Criar os dados do gráfico de pizza
+        PieChart.Data slice1 = new PieChart.Data("Aprovado", aprovados);
+        PieChart.Data slice2 = new PieChart.Data("Rejeitado", rejeitados);
+        PieChart.Data slice3 = new PieChart.Data("Pendente", pendentes);
+        
+        // Criar o gráfico de pizza e adicionar os dados
+        PieChart pieChart = new PieChart();
+        pieChart.getData().addAll(slice1, slice2, slice3);
+        // slice1.getNode().setStyle("-fx-pie-color: #6ED678;");
+        // slice2.getNode().setStyle("-fx-pie-color: #DD6E6E;");
+        // slice3.getNode().setStyle("-fx-pie-color: #F7FF98;");
+
+        // Estilizar o gráfico para ter um círculo vazio no meio
+        pieChart.setClockwise(false);
+        pieChart.setLabelLineLength(0);
+        pieChart.setLabelsVisible(false);
+        pieChart.setLegendVisible(true);
+        pieChart.setStartAngle(90); // Girar o gráfico para ter o buraco no meio
+        
+        
+        
+        pieChart.setTitle("Status dos Apontamentos");
+        
+
+        return pieChart;
+        
+   
     }
 
     

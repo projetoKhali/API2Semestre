@@ -28,6 +28,7 @@ public class Dashboard {
 
     public void initialize() {
 
+
         Appointment[] appointments = new Appointment[] {
             // new Appointment(1, "Julio", AppointmentType.Overtime, 
             //     DateConverter.stringToTimestamp("2023-05-05 22:00:00"), 
@@ -42,12 +43,12 @@ public class Dashboard {
             new Appointment(1, "Julio", AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 12:00:00"), 
                 DateConverter.stringToTimestamp("2023-05-05 13:00:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 1, "sample"
             ),
             new Appointment(1, "Julio", AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 12:30:00"), 
                 DateConverter.stringToTimestamp("2023-05-05 13:30:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 1, "sample"
             ),
             new Appointment(1, "Julio", AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 13:00:00"), 
@@ -57,7 +58,7 @@ public class Dashboard {
             new Appointment(1, "Julio", AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 13:30:00"), 
                 DateConverter.stringToTimestamp("2023-05-05 14:30:00"), 
-                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 0, "sample"
+                "Squad Foda", "Cleitin", "ProjetoA", "pq sim", 2, "sample"
             ),
             new Appointment(1, "Julio", AppointmentType.Overtime, 
                 DateConverter.stringToTimestamp("2023-05-05 14:00:00"), 
@@ -71,7 +72,7 @@ public class Dashboard {
             )
         };
         
-        fp_charts.getChildren().add(ChartGenerator.hourIntersectionCountGraph(appointments));
+        fp_charts.getChildren().add(ChartGenerator.statusAppointmentChart(appointments));
 
         List<Appointment> listAppointments = new ArrayList<>();
         List<User> listUsers = new ArrayList<>();
