@@ -11,7 +11,6 @@ import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
 import org.openjfx.api2semestre.view.macros.ColumnConfigString;
-import org.openjfx.api2semestre.view.macros.TableCheckBoxMacros;
 import org.openjfx.api2semestre.view.macros.TableMacros;
 import org.openjfx.api2semestre.view.utils.filters.AppointmentFilter;
 import org.openjfx.api2semestre.view.utils.wrappers.AppointmentWrapper;
@@ -26,62 +25,42 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ListagemAdm implements Initializable {
 
-
-
-    @FXML
-    private TableColumn<AppointmentWrapper, Boolean> col_selecionar;
-
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_requester;
+    @FXML private TableColumn<AppointmentWrapper, String> col_requester;
     private BooleanProperty col_requester_enableFilter = new SimpleBooleanProperty();
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_squad;
+    @FXML private TableColumn<AppointmentWrapper, String> col_squad;
     private BooleanProperty col_squad_enableFilter = new SimpleBooleanProperty();
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_tipo;
+    @FXML private TableColumn<AppointmentWrapper, String> col_tipo;
     private BooleanProperty col_tipo_enableFilter = new SimpleBooleanProperty();
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_inicio;
+    @FXML private TableColumn<AppointmentWrapper, String> col_inicio;
     private BooleanProperty col_inicio_enableFilter = new SimpleBooleanProperty();
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_fim;
+    @FXML private TableColumn<AppointmentWrapper, String> col_fim;
     private BooleanProperty col_fim_enableFilter = new SimpleBooleanProperty();
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_cliente;
+    @FXML private TableColumn<AppointmentWrapper, String> col_cliente;
     private BooleanProperty col_cliente_enableFilter = new SimpleBooleanProperty();
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_projeto;
+    @FXML private TableColumn<AppointmentWrapper, String> col_projeto;
     private BooleanProperty col_projeto_enableFilter = new SimpleBooleanProperty();
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_total;
+    @FXML private TableColumn<AppointmentWrapper, String> col_total;
 
-    @FXML 
-    private TableView<AppointmentWrapper> tabela;
+    @FXML private TableView<AppointmentWrapper> tabela;
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
     
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
-    
+    @Override public void initialize(URL url, ResourceBundle resourceBundle){
         buildTable();
-
         updateTable();
-
     }
 
-    @SuppressWarnings("unchecked")
-    private void buildTable () {
+    @SuppressWarnings("unchecked") private void buildTable () {
 
         ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
             @Override
@@ -89,9 +68,6 @@ public class ListagemAdm implements Initializable {
                 applyFilter();
             }
         };
-
-        col_selecionar.setCellValueFactory( new PropertyValueFactory<>( "selected" ));
-        TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
 
         TableMacros.buildTable(
             tabela,
@@ -111,8 +87,8 @@ public class ListagemAdm implements Initializable {
 
     private void updateTable () {
         Appointment[] items = QueryLibs.selectAllAppointments();
-        System.out.println(items.length + " appointments returned from select ");
-    
+        // System.out.println(items.length + " appointments returned from select ");
+
         loadedAppointments = Arrays.asList(items);
 
         displayedAppointments = FXCollections.observableArrayList(
@@ -123,8 +99,6 @@ public class ListagemAdm implements Initializable {
     }
 
     private void applyFilter () {
-
-        // System.out.println("applyFilter");
 
         List<Appointment> appointmentsToDisplay = AppointmentFilter.filterFromView(
             loadedAppointments,
@@ -144,34 +118,6 @@ public class ListagemAdm implements Initializable {
 
         tabela.setItems(displayedAppointments);
         tabela.refresh();
-
-        col_selecionar.setGraphic(null);
-        TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
     }
-
-    
-//     @FXML
-//     void showPopUp(ActionEvent event) throws IOException {
-//           popUp("popups/popUpFeedback", bt_testePopUp);
-    
-//     }
-    
-//     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName
-//     void popUp(String fileName, Button botao) throws IOException{
-        
-//         Stage stage;
-//         Parent root;
-// //        if(event.getSource()==bt_testePopUp){
-//         stage = new Stage();
-//         root = FXMLLoader.load(App.getFXML(fileName));
-//         stage.setScene(new Scene(root));
-//         stage.initModality(Modality.APPLICATION_MODAL);
-//         stage.initOwner(botao.getScene().getWindow());
-//         stage.showAndWait();
-    
-//     }
-        
-         
-
 
 }
