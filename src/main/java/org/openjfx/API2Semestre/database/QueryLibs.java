@@ -208,8 +208,14 @@ public class QueryLibs {
         // itera sobre cada linha retornada pela consulta
         // e extrai os valores das colunas necessárias
         try {
-            while (result.next()) {
-                resultList.add((T)Data.<T>create(type, result));
+            if (result.isBeforeFirst()) {
+                while (result.next()) {
+                    resultList.add(
+                    (T)Data.<T>create(type, result)
+                    .orElseThrow(() -> new Exception("QueryLibs.executeSelect() -- Erro ao criar dado do tipo " + type + " através de Data.create"))
+                );
+                }
+                
             }
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelect() -- Erro ao ler resultado da query");
@@ -239,8 +245,12 @@ public class QueryLibs {
         // itera sobre cada linha retornada pela consulta
         // e extrai os valores das colunas necessárias
         try {
-            result.next();
-            return Optional.of((T)Data.<T>create(type, result));
+            if (result.next()) return Optional.of(
+                (T)Data.<T>create(type, result)
+                .orElseThrow(() -> new Exception("QueryLibs.executeSelectOne() -- Erro ao criar dado do tipo " + type + " através de Data.create"))
+            );
+            
+            return Optional.empty();
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelectOne() -- Erro ao ler resultado da query");
             ex.printStackTrace();
@@ -344,6 +354,16 @@ public class QueryLibs {
         return executeSelectOne(
             User.class,
             QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+
+    public static Optional<Client> selectClientById(int id) {
+        return executeSelectOne(
+            Client.class,
+            QueryTable.Client,
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.Id, id),
             }
