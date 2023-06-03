@@ -1,27 +1,27 @@
 package org.openjfx.api2semestre.view.controllers.templates;
 
-import java.lang.reflect.Array;
-import java.security.Timestamp;
-import java.util.List;
-
+import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.appointment.Appointment;
+import org.openjfx.api2semestre.report.IntervalFee;
 import org.openjfx.api2semestre.report.ReportInterval;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Label;
 
 public class TotalHours {
 
     @FXML
-    private static Label lblNumeroApontamentos;
+    private Label lblNumeroApontamentos;
 
     @FXML
-    private static Label lblTotalHoras;
+    private Label lblTotalHoras;
 
     @FXML
-    private static Label lblTotalHorasVerba;
+    private Label lblTotalHorasVerba;
 
-    public static void setTotalHours(ReportInterval[] listReportInterval) {
+    public void setTotalHours(ReportInterval[] listReportInterval) {
         long totalHora = 0;
         for (ReportInterval reportInterval : listReportInterval) {
             totalHora += reportInterval.getTotal().toNanoOfDay();
@@ -29,14 +29,37 @@ public class TotalHours {
         lblTotalHoras.setText(String.valueOf(totalHora));
     }
 
-    public static void setTotalHoursRemunereted(ReportInterval[] listReportInterval) {
-        long totalHora = 0;
+    public void setTotalHoursRemunereted(ReportInterval[] listReportInterval) {
+        double totalHora = 0;
+        IntervalFee[] verbas = IntervalFee.getVerbas();
         for (ReportInterval reportInterval : listReportInterval) {
-            totalHora += reportInterval.getTotal().toNanoOfDay() * reportInterval.getVerba();
+            for (IntervalFee verba : verbas) {
+                if (reportInterval.getVerba() == verba.getCode()) {
+                    totalHora += reportInterval.getTotal().toNanoOfDay() * verba.getPercent();
+                    break;
+                }
+            }
         }
+        lblTotalHorasVerba.setText(String.valueOf(totalHora));
     }
 
-    public static void setNumTotalAppointments(List<Appointment> listApontamentos) {
-        lblNumeroApontamentos.setText(((Integer)(listApontamentos.size()+1)).toString());
+    public void setNumTotalAppointments(Appointment[] listApontamentos) {
+        lblNumeroApontamentos.setText(((Integer)(listApontamentos.length)).toString());
+    }
+
+    public static Parent totalHoursParent(Appointment[] listAppointments, ReportInterval[] listReportInterval) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(App.getFXML("templates/totalHours"));
+            Parent totalHoursParent = fxmlLoader.load();
+            TotalHours controller = fxmlLoader.getController();
+            controller.setNumTotalAppointments(listAppointments);
+            controller.setTotalHours(listReportInterval);
+            controller.setTotalHoursRemunereted(listReportInterval);
+            return totalHoursParent;
+        } catch (Exception e) {
+            // TODO: handle exception
+            System.out.println("Erro - totalHoursParent() | erro ao gerar tela");
+        }
+        return null;
     }
 }
