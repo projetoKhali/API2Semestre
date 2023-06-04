@@ -1,6 +1,6 @@
 package org.openjfx.api2semestre.view.controllers.views;
 
-import java.util.List;
+import java.util.Arrays;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -62,7 +62,7 @@ public class Report {
     private BooleanProperty col_projeto_enableFilter = new SimpleBooleanProperty();
 
     private ObservableList<ReportIntervalWrapper> intervalsToExport;
-    private List<ReportInterval> loadedIntervals;
+    private ReportInterval[] loadedIntervals;
     
     public void initialize() {
 
@@ -139,7 +139,7 @@ public class Report {
 
     private void updateTable () {
         loadedIntervals = AppointmentCalculator.calculateReports(QueryLibs.selectAllAppointments());
-        System.out.println(loadedIntervals.size() + " intervals");
+        System.out.println(loadedIntervals.length + " intervals");
         applyFilter();
     }
 
@@ -147,7 +147,7 @@ public class Report {
         System.out.println("applyFilter");
 
         intervalsToExport = FXCollections.observableArrayList(IntervalFilter.filterFromView(
-            loadedIntervals.stream().map(interval -> {
+            Arrays.asList(loadedIntervals).stream().map(interval -> {
                 System.out.println("Loading appointment of id " + interval.getAppointmmentId());
                 return new ReportIntervalWrapper(
                     org.openjfx.api2semestre.database.QueryLibs.selectAppointmentById(interval.getAppointmmentId()).get(),
