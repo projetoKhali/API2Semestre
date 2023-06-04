@@ -86,7 +86,7 @@ public class Query {
         Optional<ResultSet> result = Optional.empty();
         try {
             PreparedStatement statement = build(c);
-            System.out.println(statement.toString());
+            // System.out.println(statement.toString());
             switch (type) {
                 case SELECT: case INSERT:
                     result = Optional.of(statement.executeQuery());

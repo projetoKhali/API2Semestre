@@ -20,7 +20,7 @@ import org.openjfx.api2semestre.report.Week;
 
 public class AppointmentCalculator {
 
-    public static List<ReportInterval> calculateReports (Appointment[] appointments) {
+    public static ReportInterval[] calculateReports (Appointment[] appointments) {
         List<ReportInterval> reportsFinal = new ArrayList<ReportInterval>();
 
         LinkedList<ReportInterval> intervalsOnNotice = new LinkedList<>();
@@ -46,7 +46,7 @@ public class AppointmentCalculator {
 
                 System.out.println("é hora extra");
 
-                for(IntervalFee verba: IntervalFee.VERBAS){
+                for(IntervalFee verba: IntervalFee.getVerbas()){
 
                     if(verba.getCode() == 1809 || Week.FDS.compare(verba.getDaysOfWeek())) {
                         for(ReportInterval repInt : calculateIntervals(apt, verba)) reportsFinal.add(repInt);
@@ -55,14 +55,14 @@ public class AppointmentCalculator {
                     else if (verba.getMinHourCount() != 0){
                         if (aptTotalTime <= 2) continue;
                         Appointment aptLastHours = apt.copy();
-                        aptLastHours.setStartDate(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
+                        aptLastHours.setStart(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
                         for(ReportInterval repInt : calculateIntervals(aptLastHours, verba)) reportsFinal.add(repInt);
                     }
 
                     else{
                         if (aptTotalTime > 2) {
                             Appointment aptFirstHours = apt.copy();
-                            aptFirstHours.setEndDate(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
+                            aptFirstHours.setEnd(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
                             List<ReportInterval> reportsTemporary = calculateIntervals(aptFirstHours, verba);
                             for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
                         } else {
@@ -76,7 +76,7 @@ public class AppointmentCalculator {
 
         for (ReportInterval repInt : calculateOnNotice(intervalsOnNotice, appointments)) reportsFinal.add(repInt);
 
-        return reportsFinal;
+        return reportsFinal.toArray(ReportInterval[]::new);
     }
     
     private static List<ReportInterval> calculateOnNotice (LinkedList<ReportInterval> intervals, Appointment[] appointments) {

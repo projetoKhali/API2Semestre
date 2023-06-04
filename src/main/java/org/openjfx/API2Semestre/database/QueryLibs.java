@@ -19,7 +19,6 @@ import org.openjfx.api2semestre.data.Client;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.appointment.Appointment;
-import org.openjfx.api2semestre.appointment.VwAppointment;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
@@ -27,6 +26,7 @@ import org.openjfx.api2semestre.database.query.QueryTable;
 import org.openjfx.api2semestre.database.query.QueryType;
 import org.openjfx.api2semestre.database.query.TableProperty;
 import org.openjfx.api2semestre.utils.PasswordIncription;
+import org.openjfx.api2semestre.view.utils.wrappers.ClientWrapper;
 
 public class QueryLibs {
 
@@ -76,15 +76,21 @@ public class QueryLibs {
         return executeInsert(
             QueryTable.Appointment,
             new QueryParam<?>[] {
-                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStart()),
-                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEnd()),
-                new QueryParam<String>(TableProperty.User, apt.getRequester()),
-                new QueryParam<String>(TableProperty.Project, apt.getProject()),
-                new QueryParam<String>(TableProperty.Client, apt.getClient()),
-                new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
-                new QueryParam<String>(TableProperty.Justification, apt.getJustification()),
-                new QueryParam<String>(TableProperty.ResultCenter, apt.getSquad()),
-                new QueryParam<Integer>(TableProperty.Status, apt.getStatus().getIntValue())
+
+                new QueryParam<Timestamp> (TableProperty.Apt_StartDate, apt.getStart()),
+                new QueryParam<Timestamp> (TableProperty.Apt_EndDate, apt.getEnd()),
+                new QueryParam<Integer>   (TableProperty.UserId, apt.getRequester()),
+                new QueryParam<String>    (TableProperty.Apt_UserRegistration, apt.getRequesterRegistration()),
+                new QueryParam<String>    (TableProperty.Apt_UserName, apt.getRequesterName()),
+                new QueryParam<String>    (TableProperty.Apt_Project, apt.getProject()),
+                new QueryParam<Integer>   (TableProperty.Apt_ClientId, apt.getClientId()),
+                new QueryParam<String>    (TableProperty.Apt_ClientName, apt.getClientName()),
+                new QueryParam<Boolean>   (TableProperty.Apt_Type, apt.getType().getBooleanValue()),
+                new QueryParam<String>    (TableProperty.Apt_Justification, apt.getJustification()),
+                new QueryParam<Integer>   (TableProperty.ResultCenterId, apt.getResultCenterId()),
+                new QueryParam<String>    (TableProperty.Apt_ResultCenterName, apt.getResultCenterName()),
+                new QueryParam<Integer>   (TableProperty.Apt_Status, apt.getStatus().getIntValue()),
+                new QueryParam<String>    (TableProperty.Apt_Feedback, apt.getFeedback()),
             }
         );
     }
@@ -95,11 +101,11 @@ public class QueryLibs {
             return executeInsert(
                 QueryTable.User,
                 new QueryParam<?> [] {
-                new QueryParam<>(TableProperty.Name, user.getName()),
-                new QueryParam<>(TableProperty.Email, user.getEmail()),
-                new QueryParam<>(TableProperty.Password, PasswordIncription.encryptPassword(user.getPassword())),     // incripta senha
-                new QueryParam<Integer>(TableProperty.Profile, user.getProfile().getProfileLevel()),
-                new QueryParam<>(TableProperty.Registration, user.getRegistration())
+                new QueryParam<>(TableProperty.Usr_Name, user.getName()),
+                new QueryParam<>(TableProperty.Usr_Email, user.getEmail()),
+                new QueryParam<>(TableProperty.Usr_Password, PasswordIncription.encryptPassword(user.getPassword())),     // incripta senha
+                new QueryParam<Integer>(TableProperty.Usr_Profile, user.getProfile().getProfileLevel()),
+                new QueryParam<>(TableProperty.Usr_Registration, user.getRegistration())
             });
         } catch (Exception e) {
             System.out.println("ERROR: duplicate key value violates unique constraint\nEmail já existente!");
@@ -112,10 +118,10 @@ public class QueryLibs {
         return executeInsert(
             QueryTable.ResultCenter,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Name, rc.getName()),
-                new QueryParam<String>(TableProperty.Sigla, rc.getAcronym()),
-                new QueryParam<String>(TableProperty.Codigo, rc.getCode()),
-                new QueryParam<Integer>(TableProperty.User, rc.getManagerId())
+                new QueryParam<String>(TableProperty.Usr_Name, rc.getName()),
+                new QueryParam<String>(TableProperty.CR_Sigla, rc.getAcronym()),
+                new QueryParam<String>(TableProperty.CR_Codigo, rc.getCode()),
+                new QueryParam<Integer>(TableProperty.UserId, rc.getManagerId())
             }
         );
     }
@@ -124,8 +130,8 @@ public class QueryLibs {
         return executeInsert(
             QueryTable.Member,
             new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.User, usr_id),
-                new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
+                new QueryParam<Integer>(TableProperty.UserId, usr_id),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, cr_id),
             }
         );
     }
@@ -134,8 +140,8 @@ public class QueryLibs {
         return executeInsert(
             QueryTable.Client,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.RazaoSocial, cliente.getRazaoSocial()),
-                new QueryParam<String>(TableProperty.CNPJ, cliente.getCNPJ()),
+                new QueryParam<String>(TableProperty.Clt_RazaoSocial, cliente.getRazaoSocial()),
+                new QueryParam<String>(TableProperty.Clt_CNPJ, cliente.getCNPJ()),
             }
         );
     }
@@ -235,8 +241,7 @@ public class QueryLibs {
         // e extrai os valores das colunas necessárias
         try {
             result.next();
-            System.out.println(Optional.of((T)Data.<T>create(type, result)));
-            return Optional.of((T)Data.create(type, result));
+            return Optional.of((T)Data.<T>create(type, result));
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelectOne() -- Erro ao ler resultado da query");
             ex.printStackTrace();
@@ -245,12 +250,12 @@ public class QueryLibs {
 
     }
 
-    public static Appointment[] collaboratorSelect (String requester) {
+    public static Appointment[] collaboratorSelect (int usr_id) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
-            QueryTable.Appointment,
+            QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.User, requester),
+                new QueryParam<Integer>(TableProperty.UserId, usr_id),
             }
         );
     }
@@ -270,7 +275,7 @@ public class QueryLibs {
             ResultCenter.class,
             QueryTable.ViewResultCenter,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.User, usr_id)
+                new QueryParam<>(TableProperty.UserId, usr_id)
             }
         );
     }
@@ -280,7 +285,7 @@ public class QueryLibs {
             MemberRelation.class,
             QueryTable.Member,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.User,  usr_id)
+                new QueryParam<>(TableProperty.UserId,  usr_id)
             }
         ))
         .stream()
@@ -289,12 +294,12 @@ public class QueryLibs {
         .toArray(ResultCenter[]::new);
     }
 
-    public static Appointment[] selectAppointmentsOfResultCenter (String cr_id) {
+    public static Appointment[] selectAppointmentsOfResultCenter (Integer cr_id) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.ResultCenter, cr_id),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, cr_id),
             }
         );
     }
@@ -349,9 +354,19 @@ public class QueryLibs {
 
 // <-- botei suas funções aqui Jhonatan
 
-    public static Optional<VwAppointment> selectAppointmentById(int id) {
+    public static Optional<Appointment> selectAppointmentById(int id) {
         return executeSelectOne(
-            VwAppointment.class,
+            Appointment.class,
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+
+    public static Appointment[] selectAppointmentByUser(int id) {
+        return executeSelect(
+            Appointment.class,
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.Id, id),
@@ -365,7 +380,7 @@ public class QueryLibs {
             User.class, 
             QueryTable.Member,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.CrId, cr_id),
+                new QueryParam<>(TableProperty.ResultCenterId, cr_id),
             }
         );
     }
@@ -376,7 +391,7 @@ public class QueryLibs {
             ResultCenter.class, 
             QueryTable.ResultCenter,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.User, user_id),
+                new QueryParam<>(TableProperty.UserId, user_id),
             }
         );
     }
@@ -386,7 +401,7 @@ public class QueryLibs {
             Appointment.class, 
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.Requester, id),
+                new QueryParam<>(TableProperty.Apt_UserName, id),
             }
         );
     }
@@ -396,7 +411,7 @@ public class QueryLibs {
             User.class,
             QueryTable.User,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Email, email),
+                new QueryParam<String>(TableProperty.Usr_Email, email),
             }
         );
     }
@@ -413,16 +428,20 @@ public class QueryLibs {
             new QueryParam<?>[] {
 
                 // SET
-                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStart()),
-                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEnd()),
-                new QueryParam<String>(TableProperty.User, apt.getRequester()),
-                new QueryParam<String>(TableProperty.Project, apt.getProject()),
-                new QueryParam<String>(TableProperty.Client, apt.getClient()),
-                new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
-                new QueryParam<String>(TableProperty.Justification, apt.getJustification()),
-                new QueryParam<String>(TableProperty.ResultCenter, apt.getSquad()),
-                new QueryParam<Integer>(TableProperty.Status, apt.getStatus().getIntValue()),
-                new QueryParam<String>(TableProperty.Feedback, apt.getJustification()),
+                new QueryParam<Timestamp>(TableProperty.Apt_StartDate, apt.getStart()),
+                new QueryParam<Timestamp>(TableProperty.Apt_EndDate, apt.getEnd()),
+                new QueryParam<Integer>(TableProperty.UserId, apt.getRequester()),
+                new QueryParam<String>(TableProperty.UserId, apt.getRequesterRegistration()),
+                new QueryParam<String>(TableProperty.UserId, apt.getRequesterName()),
+                new QueryParam<String>(TableProperty.Apt_Project, apt.getProject()),
+                new QueryParam<Integer>(TableProperty.Apt_ClientId, apt.getClientId()),
+                new QueryParam<String>(TableProperty.Apt_ClientName, apt.getClientName()),
+                new QueryParam<Boolean>(TableProperty.Apt_Type, apt.getType().getBooleanValue()),
+                new QueryParam<String>(TableProperty.Apt_Justification, apt.getJustification()),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, apt.getResultCenterId()),
+                new QueryParam<String>(TableProperty.Apt_ResultCenterName, apt.getResultCenterName()),
+                new QueryParam<Integer>(TableProperty.Apt_Status, apt.getStatus().getIntValue()),
+                new QueryParam<String>(TableProperty.Apt_Feedback, apt.getFeedback()),
 
                 // WHERE
                 new QueryParam<Integer>(TableProperty.Id, apt.getId())
@@ -437,6 +456,26 @@ public class QueryLibs {
             QueryTable.Appointment,
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.Id, apt.getId())
+            }
+        ));
+    }
+
+    public static void deleteUser (User selectedUser) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, selectedUser.getId())
+            }
+        ));
+    }
+
+    public static void deleteClient (ClientWrapper selectedClient) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.Client,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, selectedClient.getClient().getId())
             }
         ));
     }

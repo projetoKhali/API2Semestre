@@ -9,9 +9,10 @@ public class ClientWrapper implements HasSelectedProperty {
 
     private Client cliente;
 
-    public Client getAppointment() {
+    public Client getClient() {
         return cliente;
     }
+    
     private SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
 
     public ClientWrapper (Client cliente) {
