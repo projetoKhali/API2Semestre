@@ -28,7 +28,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.util.StringConverter;
 
 public class Clients implements Initializable {
 
@@ -53,26 +52,16 @@ public class Clients implements Initializable {
 
         TableMacros.<ClientWrapper, String>enableEditableCells(
             col_cnpj,
-            (String value) -> ! value.isBlank(),
+            (String value) -> !value.isBlank(),
             (ClientWrapper item, String value) -> item.getClient().setCnpj(value),
-            new Formatter<String>() {
-                private final StringConverter<String> converter = null;
-                @Override public String format(String value, boolean editing) { return value; }
-                @Override public String parse(String text) { return text; }
-                @Override public StringConverter<String> getConverter() { return converter; }
-            }
+            Formatter.DEFAULT_STRING_FORMATTER
         );
 
         TableMacros.<ClientWrapper, String>enableEditableCells(
             col_razao,
-            (String value) -> ! value.isBlank(),
+            (String value) -> !value.isBlank(),
             (ClientWrapper item, String value) -> item.getClient().setNome(value),
-            new Formatter<String>() {
-                private final StringConverter<String> converter = null;
-                @Override public String format(String value, boolean editing) { return value; }
-                @Override public String parse(String text) { return text; }
-                @Override public StringConverter<String> getConverter() { return converter; }
-            }
+            Formatter.DEFAULT_STRING_FORMATTER
         );
     }
 

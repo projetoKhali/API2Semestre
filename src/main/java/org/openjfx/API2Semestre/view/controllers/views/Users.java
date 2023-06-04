@@ -72,36 +72,21 @@ public class Users {
             col_matricula,
             (String value) -> !value.isBlank(),
             (User item, String value) -> item.setMatricula(value),
-            new Formatter<String>() {
-                private final StringConverter<String> converter = null;
-                @Override public String format(String value, boolean editing) { return value; }
-                @Override public String parse(String text) { return text; }
-                @Override public StringConverter<String> getConverter() { return converter; }
-            }
+            Formatter.DEFAULT_STRING_FORMATTER
         );
 
         TableMacros.<User, String>enableEditableCells(
             col_name,
             (String value) -> !value.isBlank(),
             (User item, String value) -> item.setNome(value),
-            new Formatter<String>() {
-                private final StringConverter<String> converter = null;
-                @Override public String format(String value, boolean editing) { return value; }
-                @Override public String parse(String text) { return text; }
-                @Override public StringConverter<String> getConverter() { return converter; }
-            }
+            Formatter.DEFAULT_STRING_FORMATTER
         );
 
         TableMacros.<User, String>enableEditableCells(
             col_email,
             (String value) -> !value.isBlank(),
             (User item, String value) -> item.setEmail(value),
-            new Formatter<String>() {
-                private final StringConverter<String> converter = null;
-                @Override public String format(String value, boolean editing) { return value; }
-                @Override public String parse(String text) { return text; }
-                @Override public StringConverter<String> getConverter() { return converter; }
-            }
+            Formatter.DEFAULT_STRING_FORMATTER
         );
 
         TableMacros.<User, Profile>enableEditableCells(
@@ -182,5 +167,5 @@ public class Users {
 
         updateTable();
     }
-    
+
 }
