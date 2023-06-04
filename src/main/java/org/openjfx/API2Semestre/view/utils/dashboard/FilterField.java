@@ -1,7 +1,11 @@
 package org.openjfx.api2semestre.view.utils.dashboard;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -19,8 +23,7 @@ import org.openjfx.api2semestre.view.utils.wrappers.AptTypeWrapper;
 
 import javafx.collections.FXCollections;
 import javafx.scene.control.ComboBox;
-import javafx.scene.control.Control;
-import javafx.scene.control.Label;
+import javafx.scene.control.DatePicker;
 import javafx.util.StringConverter;
 
 public enum FilterField implements HasDisplayName {
@@ -39,11 +42,36 @@ public enum FilterField implements HasDisplayName {
         this.displayName = displayName;
     }
 
-    public Control create(Appointment[] appointments, ReportInterval[] intervals) {
+    @FunctionalInterface public static interface FilterCallback {
+        void execute();
+    }
+
+    public Optional<FilterControl> create(Appointment[] appointments, ReportInterval[] intervals, FilterCallback filterCallback) {
         final BooleanProperty useFilterPredicate = new SimpleBooleanProperty();
+        final BooleanProperty datePickerIsEnd = new SimpleBooleanProperty();
         switch (this) {
-            case AppointmentStart: case AppointmentEnd: 
-            return new Label("test");
+            case AppointmentEnd: datePickerIsEnd.set(true);
+            case AppointmentStart: 
+            DatePicker datePicker = new DatePicker();
+            datePicker.setPromptText(datePickerIsEnd.get() ? "Data Final" : "Data Início");
+            datePicker.valueProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            return Optional.ofNullable(new FilterControl(
+                datePicker,
+                datePickerIsEnd.get() ? (Appointment appointment) -> {
+                    LocalDate datePickerValue = datePicker.getValue();
+                    if (datePickerValue == null) return true;
+                    return !appointment.getEnd().toLocalDateTime().isAfter(
+                        LocalDateTime.of(datePickerValue, LocalTime.of(0, 0, 0))
+                    );
+                }
+                : (Appointment appointment) -> {
+                    LocalDate datePickerValue = datePicker.getValue();
+                    if (datePickerValue == null) return true;
+                    return !appointment.getStart().toLocalDateTime().isBefore(
+                        LocalDateTime.of(datePickerValue, LocalTime.of(0, 0, 0))
+                    );
+                }
+            ));
             
             case AppointmentType: 
             ComboBox<AptTypeWrapper> comboBox = new ComboBox<AptTypeWrapper>();
@@ -54,10 +82,17 @@ public enum FilterField implements HasDisplayName {
                 @Override public String toString(AptTypeWrapper aptTypeWrapper) { return aptTypeWrapper.getName(); }
                 @Override public AptTypeWrapper fromString(String string) { return null; }
             });
-            return comboBox;
+            comboBox.valueProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            return Optional.ofNullable(new FilterControl(
+                comboBox,
+                (Appointment appointment) -> {
+                    AptTypeWrapper comboBoxValue = comboBox.getValue();
+                    return comboBoxValue == null | appointment.getType().equals(comboBoxValue.getType().orElse(appointment.getType()));
+                }
+            ));
             
             case ResultCenter: 
-            return new LookupTextField<ResultCenter>(
+            LookupTextField<ResultCenter> ltf_ResultCenter = new LookupTextField<ResultCenter>(
                 "Centro de Resultado",
                 Arrays.asList(appointments)
                 .stream()
@@ -65,12 +100,22 @@ public enum FilterField implements HasDisplayName {
                 .distinct()
                 .collect(Collectors.toList())
                 .stream()
-                .map(id -> QueryLibs.selectResultCenter(id).orElseThrow())
+                .map(id -> QueryLibs.selectResultCenter(id).orElse(null))
+                .filter((ResultCenter resultCenter) -> resultCenter != null)
                 .toArray(ResultCenter[]::new)
             );
+            ltf_ResultCenter.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            return Optional.ofNullable(new FilterControl(
+                ltf_ResultCenter,
+                (Appointment appointment) -> {
+                    ResultCenter lookupTextFieldSelected = ltf_ResultCenter.getSelectedItem();
+                    if (lookupTextFieldSelected == null) return true;
+                    return appointment.getResultCenterId() == lookupTextFieldSelected.getId();
+                }
+            ));
 
             case Project: 
-            return new LookupTextField<DisplayName>(
+            LookupTextField<DisplayName> ltf_Project = new LookupTextField<DisplayName>(
                 "Projeto",
                 Arrays.asList(appointments)
                 .stream()
@@ -80,9 +125,18 @@ public enum FilterField implements HasDisplayName {
                 .collect(Collectors.toList())
                 .toArray(DisplayName[]::new)
             );
+            ltf_Project.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            return Optional.ofNullable(new FilterControl(
+                ltf_Project,
+                (Appointment appointment) -> {
+                    DisplayName lookupTextFieldSelected = ltf_Project.getSelectedItem();
+                    if (lookupTextFieldSelected == null) return true;
+                    return appointment.getProject() == lookupTextFieldSelected.getName();
+                }
+            ));
 
             case Client: 
-            return new LookupTextField<Client>(
+            LookupTextField<Client> ltf_Client = new LookupTextField<Client>(
                 "Cliente",
                 Arrays.asList(appointments)
                 .stream()
@@ -90,13 +144,23 @@ public enum FilterField implements HasDisplayName {
                 .distinct()
                 .collect(Collectors.toList())
                 .stream()
-                .map(id -> QueryLibs.selectClientById(id).orElseThrow())
+                .map(id -> QueryLibs.selectClientById(id).orElse(null))
+                .filter((Client client) -> client != null)
                 .toArray(Client[]::new)
             );
+            ltf_Client.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            return Optional.ofNullable(new FilterControl(
+                ltf_Client,
+                (Appointment appointment) -> {
+                    Client lookupTextFieldSelected = ltf_Client.getSelectedItem();
+                    if (lookupTextFieldSelected == null) return true;
+                    return appointment.getClientId() == lookupTextFieldSelected.getId();
+                }
+            ));
 
             case Manager: useFilterPredicate.set(true);
             case Requester: 
-            return new LookupTextField<User>(
+            LookupTextField<User> ltf_User = new LookupTextField<User>(
                 useFilterPredicate.get() ? "Gestor" : "Solicitante",
                 Arrays.asList(appointments)
                 .stream()
@@ -104,12 +168,23 @@ public enum FilterField implements HasDisplayName {
                 .distinct()
                 .collect(Collectors.toList())
                 .stream()
-                .map(id -> QueryLibs.selectUserById(id).orElseThrow())
-                .filter((User user) -> useFilterPredicate.get() ? true : user.getProfile().getProfileLevel() > 0)
+                .map(id -> QueryLibs.selectUserById(id).orElse(null))
+                .filter((User user) -> user != null && (useFilterPredicate.get() ? true : user.getProfile().getProfileLevel() > 0))
                 .toArray(User[]::new)
             );
+            ltf_User.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            return Optional.ofNullable(new FilterControl(
+                ltf_User,
+                (Appointment appointment) -> {
+                    User lookupTextFieldSelected = ltf_User.getSelectedItem();
+                    if (lookupTextFieldSelected == null) return true;
+                    return appointment.getRequester() == lookupTextFieldSelected.getId();
+                }
+            ));
         }
-        return null;
+
+        System.out.println("Khali | FilterField.create() -- Error: Unsuported FilterField result");
+        return Optional.empty();
     }
 
     @Override public String getName() { return displayName; }

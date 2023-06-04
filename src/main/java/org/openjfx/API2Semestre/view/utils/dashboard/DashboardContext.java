@@ -71,16 +71,13 @@ public enum DashboardContext implements HasDisplayName {
             case Administrator: return QueryLibs.selectAllAppointments();
             case Colaborador: return QueryLibs.selectAppointmentsByUser(currentUser.getId());
             case Gestor:
-
-                ResultCenter[] resultCentersManagedBy = QueryLibs.selectResultCentersManagedBy(currentUser.getId());
-                if (resultCentersManagedBy.length > 0) {
-                    List<Appointment> appointmentsOfCRsManagedBy = new ArrayList<Appointment>();
-                    for (ResultCenter resultCenter : resultCentersManagedBy) {
-                    appointmentsOfCRsManagedBy.addAll(Arrays.asList(QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId())));
-                    }
-                    return appointmentsOfCRsManagedBy.toArray(Appointment[]::new);
+                List<Appointment> appointmentsOfCRsManagedBy = new ArrayList<Appointment>();
+                for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(currentUser.getId())) {
+                    appointmentsOfCRsManagedBy.addAll(
+                        Arrays.asList(QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId()))
+                    );
                 }
-            
+                return appointmentsOfCRsManagedBy.toArray(Appointment[]::new);
             default: return new Appointment[0];
         }
     }

@@ -12,10 +12,6 @@ public class AptTypeWrapper implements HasDisplayName {
         this.typeOptional = typeOptional;
     }
 
-    @Override public String getName() {
-        return typeOptional.isPresent() ? typeOptional.get().getStringValue() : "Todos";
-    }
-
     public static final AptTypeWrapper[] all () {
         return new AptTypeWrapper[] {
             new AptTypeWrapper(Optional.empty()),
@@ -23,5 +19,10 @@ public class AptTypeWrapper implements HasDisplayName {
             new AptTypeWrapper(Optional.of(AppointmentType.OnNotice))
         };
     }
-    
+
+    @Override public String getName() {
+        return typeOptional.isPresent() ? typeOptional.get().getStringValue() : "Todos";
+    }
+
+    public Optional<AppointmentType> getType() { return typeOptional; }
 }
