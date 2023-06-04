@@ -72,7 +72,12 @@ public class App extends Application {
         setStage(stage);
         // loginView();
 
-        scene = new Scene(loadFXML((currentViewFxmlFile = "views/appointments")));
+        Authentication.login("a@d.m", "123");
+
+        scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
+        
+        // scene = new Scene(ChartGenerator.reportIntervalChart(AppointmentCalculator.calculateReports(appointments).toArray(new ReportInterval[0])));
+        // scene = new Scene(ChartGenerator.statusAppointmentChart(appointments));
         stage.setScene(scene);
         stage.show();
 

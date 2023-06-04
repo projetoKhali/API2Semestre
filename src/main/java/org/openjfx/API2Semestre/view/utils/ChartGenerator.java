@@ -9,11 +9,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import org.openjfx.api2semestre.appointment.Appointment;
+import org.openjfx.api2semestre.report.ReportInterval;
 
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.util.StringConverter;
+
 
 public class ChartGenerator {
 
@@ -131,7 +136,7 @@ public class ChartGenerator {
             if (intersectionCount > maxIntersectionCount) maxIntersectionCount = intersectionCount;
 
         }
-
+            
         yAxis.setAutoRanging(false);
         yAxis.setLowerBound(0);        
         yAxis.setUpperBound(maxIntersectionCount + 1);
@@ -141,6 +146,105 @@ public class ChartGenerator {
         return lineChart;
     }
 
+    // grafico em barra, com o total de horas para cada verba
+    public static BarChart<String, Number> reportIntervalChart(ReportInterval[] reportsInterval){
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+        XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
+
+        double hours1601 = 0;
+        double hours1602 = 0;
+        double hours3000 = 0;
+        double hours3001 = 0;
+        double hours1809 = 0;
+        LocalDateTime start;
+        LocalDateTime end;
+
+        for(ReportInterval verba: reportsInterval){
+            start = (verba.getStart()).toLocalDateTime();
+            end = (verba.getEnd()).toLocalDateTime();
+            if(verba.getVerba() == 1601){
+                hours1601 += (ChronoUnit.MINUTES.between(start, end))/60.0;
+            }
+            if(verba.getVerba() == 1602){
+                hours1602 += (ChronoUnit.MINUTES.between(start, end))/60.0;
+            }
+            if(verba.getVerba() == 3000){
+                hours3000 += (ChronoUnit.MINUTES.between(start, end))/60.0;
+            }
+            if(verba.getVerba() == 3001){
+                hours3001 += (ChronoUnit.MINUTES.between(start, end))/60.0;
+            }
+            if(verba.getVerba() == 1809){
+                hours1809 += (ChronoUnit.MINUTES.between(start, end))/60.0;
+            }
+        }
+
+        dataSeries.getData().add(new XYChart.Data<>("1601", hours1601));
+        dataSeries.getData().add(new XYChart.Data<>("1602", hours1602));
+        dataSeries.getData().add(new XYChart.Data<>("3000", hours3000));
+        dataSeries.getData().add(new XYChart.Data<>("3001", hours3001));
+        dataSeries.getData().add(new XYChart.Data<>("1809", hours1809));
+       
+        // Adicione a série de dados ao gráfico de barras
+        barChart.getData().add(dataSeries);
+        barChart.setTitle("Total de horas por verba");
+        barChart.setLegendVisible(false);
+
+        return barChart;
+       
+
+    }
+
+    // grafico de rosca, com o status dos apontamentos
+    public static PieChart statusAppointmentChart(Appointment[] appointments){
+        
+        Integer aprovados = 0;
+        Integer rejeitados = 0;
+        Integer pendentes = 0;
+                
+        for(Appointment apt: appointments){
+            if(apt.getStatus().getStringValue() ==  "Aprovado"){
+                aprovados += 1;
+            }
+            if(apt.getStatus().getStringValue() ==  "Rejeitado"){
+                rejeitados += 1;
+            }
+            if(apt.getStatus().getStringValue() ==  "Pendente"){
+                pendentes += 1;
+            }
+        }
+        // Criar os dados do gráfico de pizza
+        PieChart.Data slice1 = new PieChart.Data("Aprovado", aprovados);
+        PieChart.Data slice2 = new PieChart.Data("Rejeitado", rejeitados);
+        PieChart.Data slice3 = new PieChart.Data("Pendente", pendentes);
+        
+        // Criar o gráfico de pizza e adicionar os dados
+        PieChart pieChart = new PieChart();
+        pieChart.getData().addAll(slice1, slice2, slice3);
+        // slice1.getNode().setStyle("-fx-pie-color: #6ED678;");
+        // slice2.getNode().setStyle("-fx-pie-color: #DD6E6E;");
+        // slice3.getNode().setStyle("-fx-pie-color: #F7FF98;");
+
+        // Estilizar o gráfico para ter um círculo vazio no meio
+        pieChart.setClockwise(false);
+        pieChart.setLabelLineLength(0);
+        pieChart.setLabelsVisible(false);
+        pieChart.setLegendVisible(true);
+        pieChart.setStartAngle(90); // Girar o gráfico para ter o buraco no meio
+        
+        
+        
+        pieChart.setTitle("Status dos Apontamentos");
+        
+
+        return pieChart;
+        
+   
+    }
+
+    
     public static LineChart<Number, Number> weekIntersectionCountGraph (Appointment[] appointments) {
 
         // Cria um eixo de categorias para os dias da semana
