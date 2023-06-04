@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  */
 // método que converte data em LocalDate e tempo em string para Timestamp
 public class DateConverter {
-    
+
     // LocalDate + String para TimeStamp
     public static Timestamp inputToTimestamp (LocalDate dateInput, String timeInput) {
         Date date = Date.valueOf(dateInput);
@@ -31,7 +31,7 @@ public class DateConverter {
     public static Timestamp toTimestamp(LocalDateTime localDateTime){
         Timestamp timeStamp = Timestamp.valueOf(localDateTime);
         return timeStamp;
-        
+
     }
 
     public static Timestamp stringToTimestamp(String dataEhora) {

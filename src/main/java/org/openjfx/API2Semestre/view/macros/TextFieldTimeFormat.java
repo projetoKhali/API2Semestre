@@ -20,7 +20,7 @@ public class TextFieldTimeFormat {
             }}
 
             newValue = newValue.replaceAll("[^\\d:]", "");
-            
+
             // Format the input into a valid time value
             String[] split = newValue.split(":");
             System.out.println(newValue + " length " + split.length);

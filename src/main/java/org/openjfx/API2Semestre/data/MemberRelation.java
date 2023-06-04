@@ -7,7 +7,7 @@ public class MemberRelation extends Data {
     private int id;
     private int usr_id;
     private int cr_id;
-    
+
     public MemberRelation(int id, int usr_id, int cr_id) {
         this.id = id;
         this.usr_id = usr_id;

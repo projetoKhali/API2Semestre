@@ -12,7 +12,7 @@ import javafx.scene.control.Button;
 public class ViewButton {
     @FXML
     private Button button;
-    
+
     private String viewFxmlFile;
 
     public void setView (String viewFxmlFile) {

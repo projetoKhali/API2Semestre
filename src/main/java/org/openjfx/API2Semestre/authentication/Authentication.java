@@ -35,9 +35,9 @@ public class Authentication {
 
             else System.out.println("Erro: Senha inválida");
         }
-        
+
         catch (Exception e) {}
-        
+
         return false;
 
     }

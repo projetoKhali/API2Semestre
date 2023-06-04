@@ -17,7 +17,7 @@ public class ReportInterval {
         this.start = start;
         this.end = end;
     }
-    
+
     public int getAppointmmentId() { return appointmmentId; }
     public int getVerba() { return verba; }
     public Timestamp getStart() { return start; }

@@ -68,7 +68,7 @@ public class User extends Data implements HasDisplayName {
     public Profile getProfile() { return perfil; }
     public String getEmail() { return email; }
     public String getPassword() { return senha; }
-    
+
     public void setNome(String nome) { this.nome = nome; }
     public void setPerfil(Profile perfil) { this.perfil = perfil; }
     public void setEmail(String email) { this.email = email; }

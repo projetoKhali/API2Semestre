@@ -21,7 +21,7 @@ AS SELECT
     apontamento.feedback
 
     FROM apontamento
-    
+
     -- fazendo join com as tabelas usuário, projeto e cliente.
     JOIN usuario ON apontamento.usr_id = usuario.nome
     JOIN centro_resultado ON apontamento.cr_id = centro_resultado.nome;

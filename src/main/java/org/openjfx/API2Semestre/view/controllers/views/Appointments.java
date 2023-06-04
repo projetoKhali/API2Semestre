@@ -111,7 +111,7 @@ public class Appointments implements Initializable {
     private TableView<AppointmentWrapper> tabela;
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
-    
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
@@ -156,13 +156,13 @@ public class Appointments implements Initializable {
 
                 Feedback.apt_selected = selectedItem;
                 popUp("popups/feedback");
-                                    
+
             }
         });
     }
 
     private void updateTable () {
-    
+
         loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getName()));
         // System.out.println(loadedAppointments.size() + " appointments returned from select ");
 
@@ -216,30 +216,30 @@ public class Appointments implements Initializable {
 
         updateTable();
     }
-        
+
     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName
     void popUp(String fileName){
         try{
-        
+
             Stage stage;
             Parent root;
-           
+
             stage = new Stage();
-    
+
             root = FXMLLoader.load(App.getFXML(fileName));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(tabela.getScene().getWindow());
             stage.showAndWait();
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-        
-    
-         
 
     
+
+
+
 
 }

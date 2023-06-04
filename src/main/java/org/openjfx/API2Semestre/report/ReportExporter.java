@@ -35,7 +35,7 @@ public class ReportExporter {
             return null;
         }
     }
-    
+
     public static void exporterCSV(List<ReportInterval> data, String LocalFile) {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(LocalFile));

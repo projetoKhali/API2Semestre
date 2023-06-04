@@ -70,10 +70,10 @@ public class ListagemAdm implements Initializable {
     private TableView<AppointmentWrapper> tabela;
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
-    
+
         buildTable();
 
         updateTable();
@@ -112,7 +112,7 @@ public class ListagemAdm implements Initializable {
     private void updateTable () {
         Appointment[] items = QueryLibs.selectAllAppointments();
         System.out.println(items.length + " appointments returned from select ");
-    
+
         loadedAppointments = Arrays.asList(items);
 
         displayedAppointments = FXCollections.observableArrayList(
@@ -149,16 +149,16 @@ public class ListagemAdm implements Initializable {
         TableCheckBoxMacros.setCheckBoxHeader(tabela, col_selecionar);
     }
 
-    
+
 //     @FXML
 //     void showPopUp(ActionEvent event) throws IOException {
 //           popUp("popups/feedback", bt_testePopUp);
-    
+
 //     }
-    
+
 //     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName
 //     void popUp(String fileName, Button botao) throws IOException{
-        
+
 //         Stage stage;
 //         Parent root;
 // //        if(event.getSource()==bt_testePopUp){
@@ -168,9 +168,9 @@ public class ListagemAdm implements Initializable {
 //         stage.initModality(Modality.APPLICATION_MODAL);
 //         stage.initOwner(botao.getScene().getWindow());
 //         stage.showAndWait();
-    
+
 //     }
-        
+
          
 
 

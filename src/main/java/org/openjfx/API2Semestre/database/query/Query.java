@@ -46,7 +46,7 @@ public class Query {
                 buildParams(sb);
                 sb.append(" WHERE ").append(params[params.length - 1].build(QueryType.SELECT));
             break;
-        
+
             case DELETE:
                 if (params.length == 0) break;
                 sb.append(" WHERE ");

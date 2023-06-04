@@ -22,7 +22,7 @@ public class PrettyTableCellInstruction <S, T> {
             )
         );
     }
-    
+
     public boolean apply (TableCell<S, T> cell, T item, boolean empty) {
         if (empty && expectedValue.isPresent()) return false;
         if (!item.equals(expectedValue.get())) return false;

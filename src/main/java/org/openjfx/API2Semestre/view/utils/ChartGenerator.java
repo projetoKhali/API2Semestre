@@ -34,12 +34,12 @@ public class ChartGenerator {
             this.yAxis = yAxis;
         }
     }
-    
+
     private static ChartData emptyChart (
         String title,
         Optional<NumberAxis> xAxisOptional,
         Optional<NumberAxis> yAxisOptional
-    
+
     ) {
         // Create the x-axis representing time
         NumberAxis xAxis = xAxisOptional.isPresent() ? xAxisOptional.get() : new NumberAxis();
@@ -100,7 +100,7 @@ public class ChartGenerator {
 
         // Convert the timestamps to time values in minutes
         for (long timeAtPosition = startChart; timeAtPosition <= endChart; timeAtPosition += 300000) {
-            
+
             double position = (double) (timeAtPosition - startChart) / (endChart - startChart) * 24 * 60;
 
             // Count the number of intersections for the current time
@@ -111,7 +111,7 @@ public class ChartGenerator {
                 LocalDateTime aptEndDateTime = apt.getEnd().toLocalDateTime();   
 
                 int dayCount = aptEndDateTime.toLocalDate().compareTo(aptStartDateTime.toLocalDate());
-             
+
                 long aptStart = Timestamp.valueOf(aptStartDateTime.toLocalTime().atDate(
                     defaultDate
                 )).getTime();
@@ -179,10 +179,10 @@ public class ChartGenerator {
                     if (currentDate.getDayOfWeek() == dayOfWeek) {
                         LocalDateTime startOfDay = currentDate.atStartOfDay();
                         LocalDateTime endOfDay = currentDate.plusDays(1).atStartOfDay();
-        
+
                         LocalDateTime intersectionStart = aptStartDateTime.isAfter(startOfDay) ? aptStartDateTime : startOfDay;
                         LocalDateTime intersectionEnd = aptEndDateTime.isBefore(endOfDay) ? aptEndDateTime : endOfDay;
-                
+
                         totalHours += calculateDurationInHours(intersectionStart, intersectionEnd);
                     }
 

@@ -12,7 +12,7 @@ public class ClientWrapper implements HasSelectedProperty {
     public Client getClient() {
         return cliente;
     }
-    
+
     private SimpleBooleanProperty selected = new SimpleBooleanProperty(false);
 
     public ClientWrapper (Client cliente) {
@@ -20,7 +20,7 @@ public class ClientWrapper implements HasSelectedProperty {
     }
     public String getRazaoSocial() { return cliente.getRazaoSocial(); }
     public String getCnpj() { return cliente.getCNPJ(); }
-    
+
     @Override
     public BooleanProperty selectedProperty() {
         return selected;

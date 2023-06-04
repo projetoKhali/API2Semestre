@@ -13,13 +13,13 @@ import javafx.scene.chart.LineChart;
 public class Dashboard {
 
     @FXML private HBox hb_filters;
-    
+
 
     @FXML private FlowPane fp_charts;
 
 
     @FXML private LineChart<?, ?> chartDiaSemana;
-    
+
 
     public void initialize() {
 

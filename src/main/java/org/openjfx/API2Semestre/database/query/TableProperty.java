@@ -16,7 +16,7 @@ public enum TableProperty {
     Justification("justificativa"),
     Status("aprovacao"),
     Feedback("feedback"),
-    
+
     // Users table
     Name("nome"),
     Email("email"),
@@ -35,7 +35,7 @@ public enum TableProperty {
     CNPJ("cnpj"),
 
     // TODO: IntervalFees table
-    
+
     ;
 
     // TableProperty variable and constructor
