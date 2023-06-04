@@ -203,12 +203,12 @@ public class QueryLibs {
         // itera sobre cada linha retornada pela consulta
         // e extrai os valores das colunas necessárias
         try {
-            while (result.next()) {
+            if (result.isBeforeFirst()) while (result.next()) {
                 resultList.add((T)Data.<T>create(type, result));
             }
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelect() -- Erro ao ler resultado da query");
-            ex.printStackTrace();
+            // ex.printStackTrace();
         }
         return resultList.toArray((T[])Array.newInstance(type, resultList.size()));
     }
@@ -234,8 +234,7 @@ public class QueryLibs {
         // itera sobre cada linha retornada pela consulta
         // e extrai os valores das colunas necessárias
         try {
-            result.next();
-            return Optional.of((T)Data.<T>create(type, result));
+            if (result.next()) return Optional.of((T)Data.<T>create(type, result));
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelectOne() -- Erro ao ler resultado da query");
             ex.printStackTrace();
@@ -283,7 +282,8 @@ public class QueryLibs {
             }
         ))
         .stream()
-        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()).get())
+        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()).orElse(null))
+        .filter((ResultCenter resultCenter) -> resultCenter != null)
         .collect(Collectors.toList())
         .toArray(ResultCenter[]::new);
     }

@@ -4,16 +4,12 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.appointment.VwAppointment;
 import org.openjfx.api2semestre.database.QueryLibs;
-import org.openjfx.api2semestre.utils.DateConverter;
-
 import com.opencsv.CSVWriter;
 
 import javafx.stage.FileChooser;

@@ -70,13 +70,13 @@ public class App extends Application {
         // ));
 
         setStage(stage);
-        // loginView();
+        loginView();
 
-        Authentication.login("a@d.m", "123");
+        // Authentication.login("a@d.m", "123");
 
-        scene = new Scene(loadFXML((currentViewFxmlFile = "views/Report")));
-        stage.setScene(scene);
-        stage.show();
+        // scene = new Scene(loadFXML((currentViewFxmlFile = "views/Report")));
+        // stage.setScene(scene);
+        // stage.show();
 
     }
 
@@ -92,7 +92,7 @@ public class App extends Application {
             // Tenta carregar o fxml da tela de login e define como a nova "scene",
             // Define a nova scene como scene do stage e chama .show() para:
             // abrir, redimensionar e reposicionar a janela
-            scene = new Scene(loadFXML((currentViewFxmlFile = "views/Report")));
+            scene = new Scene(loadFXML((currentViewFxmlFile = "views/login")));
             stage.setScene(scene);
             stage.show();
             // System.out.println(currentViewFxmlFile);
