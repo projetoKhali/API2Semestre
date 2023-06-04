@@ -27,7 +27,6 @@ import org.openjfx.api2semestre.database.query.QueryTable;
 import org.openjfx.api2semestre.database.query.QueryType;
 import org.openjfx.api2semestre.database.query.TableProperty;
 import org.openjfx.api2semestre.utils.PasswordIncription;
-import org.openjfx.api2semestre.view.utils.wrappers.ClientWrapper;
 
 public class QueryLibs {
 
@@ -409,22 +408,22 @@ public class QueryLibs {
         ));
     }
 
-    public static void deleteUser (User selectedUser) {
+    public static void deleteUser (User usr_id) {
         executeQuery(new Query(
             QueryType.DELETE,
             QueryTable.User,
             new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.Id, selectedUser.getId())
+                new QueryParam<Integer>(TableProperty.Id, usr_id.getId())
             }
         ));
     }
 
-    public static void deleteClient (ClientWrapper selectedClient) {
+    public static void deleteClient (int clt_id) {
         executeQuery(new Query(
             QueryType.DELETE,
             QueryTable.Client,
             new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.Id, selectedClient.getClient().getId())
+                new QueryParam<Integer>(TableProperty.Id, clt_id)
             }
         ));
     }
