@@ -3,10 +3,9 @@ package org.openjfx.api2semestre.report;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
-import org.openjfx.api2semestre.appointment.VwAppointment;
+import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.database.QueryLibs;
 
 import com.opencsv.CSVWriter;
@@ -35,8 +34,8 @@ public class ReportExporter {
             return null;
         }
     }
-
-    public static void exporterCSV(List<ReportInterval> data, String LocalFile) {
+    
+    public static void exporterCSV(ReportInterval[] intervals, String LocalFile) {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(LocalFile));
 
@@ -55,25 +54,25 @@ public class ReportExporter {
             });
 
             // escreve registros enquanto houver
-            for (ReportInterval reportInterval : data) {
+            for (ReportInterval reportInterval : intervals) {
 
-                Optional<VwAppointment> optionalAppointment = QueryLibs.selectAppointmentById(reportInterval.getAppointmmentId());
+                Optional<Appointment> optionalAppointment = QueryLibs.selectAppointmentById(reportInterval.getAppointmmentId());
 
                 if (optionalAppointment.isEmpty()) {
                     System.out.println("Erro ao retornar apontamento");
                     continue;
                 }
-                VwAppointment appointment = optionalAppointment.get();
+                Appointment appointment = optionalAppointment.get();
 
                 writer.writeNext(new String[] {
-                        appointment.getMatricula(),
-                        appointment.getRequester(),
+                        appointment.getRequesterRegistration(),
+                        appointment.getRequesterName(),
                         Integer.toString(reportInterval.getVerba()),
                         reportInterval.getStart().toString(),
                         reportInterval.getEnd().toString(),
-                        reportInterval.getTotal(),
-                        appointment.getCrName(),
-                        appointment.getClient(),
+                        reportInterval.getTotalString(),
+                        appointment.getResultCenterName(),
+                        appointment.getClientName(),
                         appointment.getProject(),
                         appointment.getJustification()
                 });

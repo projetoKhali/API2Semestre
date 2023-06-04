@@ -9,9 +9,6 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
-<!-- <?import org.openjfx.api2semestre.custom_tags.ViewConfig?>
-<?import org.openjfx.api2semestre.custom_tags.Permission?> -->
-
 <VBox id="AnchorPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="826.0" snapToPixel="false" spacing="8.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view.controllers.views.Appointments">
    <children>
       <!-- <ViewConfig name="primary" fx:id="view">
@@ -22,7 +19,7 @@
       </ViewConfig> -->
       <FlowPane hgap="8.0" maxWidth="1.7976931348623157E308" snapToPixel="false" vgap="8.0">
          <children>
-            <TextField fx:id="tf_squad" prefHeight="24.0" prefWidth="95.0" promptText="Squad">
+            <TextField fx:id="tf_resultCenter" prefHeight="24.0" prefWidth="95.0" promptText="Squad">
                <FlowPane.margin>
                   <Insets />
                </FlowPane.margin></TextField>

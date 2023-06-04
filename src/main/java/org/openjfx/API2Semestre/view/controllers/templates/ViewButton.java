@@ -8,11 +8,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 
-
 public class ViewButton {
-    @FXML
-    private Button button;
 
+    @FXML private Button button;
+    
     private String viewFxmlFile;
 
     public void setView (String viewFxmlFile) {
@@ -23,13 +22,11 @@ public class ViewButton {
         button.setText(text);
     }
 
-    @FXML
-    void enterView(ActionEvent event) {
+    @FXML void enterView(ActionEvent event) {
         App.changeView(Optional.of(viewFxmlFile));
     }
 
     public void setDisable (boolean disable) {
         button.setDisable(disable);
     }
-
 }

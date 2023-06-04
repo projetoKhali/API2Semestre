@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -44,10 +45,11 @@ public class App extends Application {
     private static Base baseController;
 
     @Override public void start(Stage stage) throws IOException {
+        setStage(stage);
 
-        // // Para criar as tabelas que estiverem faltando
+        // Para criar as tabelas que estiverem faltando
         // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/tabelas.sql");
-        // // Para criar as views que estiverem faltando
+        // Para criar as views que estiverem faltando
         // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/views.sql");
 
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
@@ -63,20 +65,18 @@ public class App extends Application {
         //     "123" //                                <---------------------------- SENHA
         // ));
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
-        //     "humano adm exemplo",
+        //     "humano col exemplo",
         //     org.openjfx.api2semestre.authentication.Profile.Colaborador,
         //     "c@o.l", //                             <---------------------------- LOGIN
         //     "123" //                                <---------------------------- SENHA
         // ));
 
-        setStage(stage);
-        // loginView();
 
-        Authentication.login("a@d.m", "123");
+        loginView();
 
-        scene = new Scene(loadFXML((currentViewFxmlFile = "views/resultCenters")));
-        stage.setScene(scene);
-        stage.show();
+        // scene = new Scene(loadFXML((currentViewFxmlFile = "views/resultCenters")));
+        // stage.setScene(scene);
+        // stage.show();
 
     }
 
@@ -128,12 +128,18 @@ public class App extends Application {
         // pega a label lb_currentUser através do baseController e coloca o texto de usuário logado
         Label lb_currentUser = baseController.getLb_currentUser();
         lb_currentUser.setText("Logado como " + Authentication.getCurrentUser().getName());
+        lb_currentUser.setFont(new Font(12));
         lb_currentUser.setWrapText(true);
 
     }
 
+    public static void closeWindow() {
+        stage.hide();
+    }
+
     /// Troca a exibição para a tela especificada
     public static void changeView (Optional<String> newViewFxmlOptional) {
+
         try {
 
             // carrega a base
@@ -152,7 +158,8 @@ public class App extends Application {
             currentViewFxmlFile = newViewFxml;
 
             // itera sobre as telas que o usuário logado tem acesso
-            for (View view : ViewsManager.getViews()) {
+            View[] accessibleViews = ViewsManager.getViews();
+            if (accessibleViews != null) for (View view : accessibleViews) {
 
                 // carrega o template de botão pra tela
                 FXMLLoader viewButtonLoader = new FXMLLoader(App.getFXML("templates/viewButtonTemplate"));
@@ -191,7 +198,7 @@ public class App extends Application {
 
     /// Encapsula o código de carregamento de um arquivo fxml.
     /// Retorna a raiz (o node principal) do fxml do arquivo carregado.
-    private static Parent loadFXML(String fxml) {
+    public static Parent loadFXML(String fxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getFXML(fxml));
             return fxmlLoader.load();

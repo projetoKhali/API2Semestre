@@ -96,7 +96,7 @@ public class Users implements EditableTableView<User> {
             (User item, Profile value) -> item.setPerfil(value),
             new Formatter<Profile>() {
                 private final StringConverter<Profile> converter = null;
-                @Override public String format(Profile value, boolean editing) { return value.getDisplayName(); }
+                @Override public String format(Profile value, boolean editing) { return value.getName(); }
                 @Override public String parse(String text) { return text; }
                 @Override public StringConverter<Profile> getConverter() { return converter; }
             }

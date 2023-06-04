@@ -25,11 +25,18 @@ public class LookupTextField<T extends HasDisplayName & HasId> extends TextField
     private final ObservableList<T> listViewSuggestions;
     private ListView<T> suggestionsListView;
 
-    public LookupTextField (T[] suggestions) { this(new LinkedList<T>(Arrays.asList(suggestions))); }
-    public LookupTextField (LinkedList<T> suggestions) {
+    public LookupTextField (T[] suggestions) {
+        this(null, new LinkedList<T>(Arrays.asList(suggestions)));
+    }
+    public LookupTextField (String promptText, T[] suggestions) {
+        this(promptText, new LinkedList<T>(Arrays.asList(suggestions)));
+    }
+    public LookupTextField (String promptText, LinkedList<T> suggestions) {
         this.suggestions.setAll(suggestions);
         this.listViewSuggestions = FXCollections.observableArrayList();
         this.selectedItem = new SimpleObjectProperty<>();
+
+        this.setPromptText(promptText);
 
         suggestionsListView = new ListView<>(this.listViewSuggestions);
         suggestionsListView.setCellFactory(param -> new ListCell<>() {

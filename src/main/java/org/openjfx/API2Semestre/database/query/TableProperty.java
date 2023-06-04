@@ -2,40 +2,42 @@ package org.openjfx.api2semestre.database.query;
 
 public enum TableProperty {
 
-    // Universal property - All tables have this!
+    // Property universal! Todas as tabelas tem:
     Id("id"),
 
-    // Appointments table
-    Requester("requester"),
-    Type("tipo"),
-    StartDate("hora_inicio"),
-    EndDate("hora_fim"),
-    ResultCenter("cr_id"),
-    Client("cliente"),
-    Project("projeto"),
-    Justification("justificativa"),
-    Status("aprovacao"),
-    Feedback("feedback"),
-
-    // Users table
+    // Multiplas tabelas possuem essas:
     Name("nome"),
-    Email("email"),
-    Password("senha"),
-    Profile("perfil"),
-    Registration("matricula"),
+    UserId("usr_id"),
+    ResultCenterId("cr_id"),
 
-    // ResultCenters table
-    Sigla("sigla"),
-    Codigo("codigo"),
-    User("usr_id"),
-    NomeGestor("gestor_nome"),
+    // tabela Appointments
+    Apt_UserName("requester"),
+    Apt_UserRegistration("matricula"),
+    Apt_Type("tipo"),
+    Apt_StartDate("hora_inicio"),
+    Apt_EndDate("hora_fim"),
+    Apt_ResultCenterName("centro_nome"),
+    Apt_ClientId("clt_id"),
+    Apt_ClientName("cliente_nome"),
+    Apt_Project("projeto"),
+    Apt_Justification("justificativa"),
+    Apt_Status("aprovacao"),
+    Apt_Feedback("feedback"),
+    
+    // tabela Users
+    Usr_Email("email"),
+    Usr_Password("senha"),
+    Usr_Profile("perfil"),
+    Usr_Registration("matricula"),
+
+    // tabela ResultCenters
+    CR_Sigla("sigla"),
+    CR_Codigo("codigo"),
+    CR_NomeGestor("gestor_nome"),
 
     // Clients table
-    RazaoSocial("razao_social"),
-    CNPJ("cnpj"),
-
-    // TODO: IntervalFees table
-
+    Clt_RazaoSocial("razao_social"),
+    Clt_CNPJ("cnpj"),    
     ;
 
     // TableProperty variable and constructor
