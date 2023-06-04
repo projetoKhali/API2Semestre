@@ -42,7 +42,7 @@ public class Client extends Data implements HasDisplayName {
     public String getRazaoSocial() { return razaoSocial; }
     public String getCNPJ() { return cnpj; }
 
-    public void set(Integer id) { this.id = id; }
-    public void setNome(String razaoSocial) { this.razaoSocial = razaoSocial; }
     public void setId(Integer id) { this.id = id; }
+    public void setNome(String razaoSocial) { this.razaoSocial = razaoSocial; }
+    public void setCnpj(String cnpj) { this.cnpj = cnpj; }
 }
