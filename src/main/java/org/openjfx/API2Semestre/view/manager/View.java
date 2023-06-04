@@ -32,6 +32,7 @@ public enum View {
 
     }),
     ResetPassword(7, "Alterar senha", "views/resetPassword", new Permission[] {
+
     }),
     ;
 

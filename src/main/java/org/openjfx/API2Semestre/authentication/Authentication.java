@@ -44,18 +44,4 @@ public class Authentication {
     public static void logout () {
         currentUser = null;
     }
-
-    public boolean resetPasswordUser(String novaSenha, String repitaSenha){
-        try {
-            if (novaSenha != null && repitaSenha != null){
-                if(novaSenha == repitaSenha){
-                    return true;
-                }
-                else System.out.println("Erro: Senhas estão diferente");
-            }
-            else System.out.println("Erro:Os Campos não podem estar vazio");
-        }
-        catch (Exception e) {}
-        return false;
-      }
 }

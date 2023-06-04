@@ -8,8 +8,6 @@ import java.time.DayOfWeek;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-import java.util.Locale.Category;
-
 import org.openjfx.api2semestre.appointment.Appointment;
 
 import javafx.collections.FXCollections;
@@ -17,7 +15,6 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.PieChart.Data;
 import javafx.util.StringConverter;
 
 public class ChartGenerator {
