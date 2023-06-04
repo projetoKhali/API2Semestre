@@ -29,11 +29,24 @@ public class TableMacros {
         }
     }
 
-    @FunctionalInterface public static interface DeleteConfirmationCallback<T> {
-        void execute(T item);
+    @FunctionalInterface public static interface DeleteConfirmationCallback<T> { void execute(T item); }
+    @FunctionalInterface public static interface Validator<T> { boolean validate(T value); }
+    @FunctionalInterface public static interface Updater<S, T> { void update(S item, T value); }
+
+    public interface Formatter<T> {
+        String format(T value, boolean editing);
+        String parse(String text);
+        StringConverter<T> getConverter();
     }
 
-    public static <T> void createDeleteColumn(TableView<T> table, DeleteConfirmationCallback<T> deleteConfirmationCallback) {
+    public class StringFormatterIdentity implements Formatter<String> {
+        private final StringConverter<String> converter = null;
+        @Override public String format(String value, boolean editing) { return value; }
+        @Override public String parse(String text) { return text; }
+        @Override public StringConverter<String> getConverter() { return converter; }
+    }
+
+    public static <T> void createDeleteColumn(TableView<T> table, String objectName, DeleteConfirmationCallback<T> deleteConfirmationCallback) {
 
         TableColumn<T, Void> buttonColumn = new TableColumn<>("Opção");
         buttonColumn.setMaxWidth(64);
@@ -48,8 +61,8 @@ public class TableMacros {
                         alert.initModality(Modality.APPLICATION_MODAL);
                         alert.initOwner((Stage) table.getScene().getWindow());
                 
-                        alert.getDialogPane().setContentText("Tem certeza que deseja excluir este usuário?");
-                        alert.getDialogPane().setHeaderText("Excluir usuário: ");
+                        alert.getDialogPane().setContentText("Tem certeza que deseja excluir este " + objectName + "?");
+                        alert.getDialogPane().setHeaderText("Excluir " + objectName + ": ");
                 
                         Optional<ButtonType> result = alert.showAndWait();
                 
@@ -139,26 +152,6 @@ public class TableMacros {
         });
     }
 
-    public interface Validator<T> {
-        boolean validate(T value);
-    }
-
-    public interface Updater<S, T> {
-        void update(S item, T value);
-    }
-
-    public interface Formatter<T> {
-        String format(T value, boolean editing);
-        String parse(String text);
-        StringConverter<T> getConverter();
-    }
-
-    public class StringFormatterIdentity implements Formatter<String> {
-        private final StringConverter<String> converter = null;
-        @Override public String format(String value, boolean editing) { return value; }
-        @Override public String parse(String text) { return text; }
-        @Override public StringConverter<String> getConverter() { return converter; }
-    }
 
         
 }

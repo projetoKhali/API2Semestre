@@ -85,7 +85,7 @@ public class Clients implements Initializable {
             }
         };
 
-        TableMacros.<ClientWrapper>createDeleteColumn(tabela, (ClientWrapper clientWrapper) -> {
+        TableMacros.<ClientWrapper>createDeleteColumn(tabela, "cliente", (ClientWrapper clientWrapper) -> {
             QueryLibs.deleteClient(clientWrapper.getClient().getId());
             updateTable();
         });

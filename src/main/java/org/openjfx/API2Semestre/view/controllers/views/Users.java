@@ -116,7 +116,7 @@ public class Users {
             }
         );
 
-        TableMacros.<User>createDeleteColumn(tabela, (User user) -> {
+        TableMacros.<User>createDeleteColumn(tabela, "usuário", (User user) -> {
             QueryLibs.deleteUser(user);
             updateTable();
         });
