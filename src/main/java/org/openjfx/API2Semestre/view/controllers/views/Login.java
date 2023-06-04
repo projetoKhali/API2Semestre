@@ -17,7 +17,9 @@ public class Login {
             String email = tf_email.getText();
             String password = tf_senha.getText();
             if (Authentication.login(email, password)) {
+                App.closeWindow();
                 App.changeView(ViewsManager.handleViews());
+                App.getStage().show();
             }
         } catch (Exception e) {
             System.out.println("Erro ao efetuar login");

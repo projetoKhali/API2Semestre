@@ -18,9 +18,10 @@ public class Dashboard {
 
     @FXML private TabPane tabPane;
 
-    private DashboardTab[] tabs;
+    @SuppressWarnings("unused") private DashboardTab[] tabs;
 
     public void initialize() {
+        
         generateTabs();
     }
 

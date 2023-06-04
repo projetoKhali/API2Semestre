@@ -71,27 +71,13 @@ public enum DashboardContext implements HasDisplayName {
             case Administrator: return QueryLibs.selectAllAppointments();
             case Colaborador: return QueryLibs.selectAppointmentsByUser(currentUser.getId());
             case Gestor:
-
-                // cria uma lista com todas as squads que o gestor faz parte
-                ResultCenter[] listResultCenters = QueryLibs.selectAllResultCentersOfUser(currentUser.getId());
-            
-                List<Appointment> listAppointments = new ArrayList<>();
-                List<User> loadedUsers = new ArrayList<>();
-        
-                // cria uma lista com todos os usuários que estão na squads criadas anteriormente
-                for (ResultCenter resultCenter : listResultCenters) {
-                    User[] crUsers = QueryLibs.selectAllUsersInResultCenter(resultCenter.getId());
-                    loadedUsers.addAll(Arrays.asList(crUsers));
+                List<Appointment> appointmentsOfCRsManagedBy = new ArrayList<Appointment>();
+                for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(currentUser.getId())) {
+                    appointmentsOfCRsManagedBy.addAll(
+                        Arrays.asList(QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId()))
+                    );
                 }
-            
-                // cria uma lista com todos os apontamentos dos usuários criados anteriormente
-                for (User user : loadedUsers) {
-                    Appointment[] userAppointments = QueryLibs.selectAppointmentsByUser(user.getId());
-                    listAppointments.addAll(Arrays.asList(userAppointments));
-                }
-            
-                // cria um array com todos os apontamentos e reportIntervals
-                return listAppointments.toArray(Appointment[]::new);
+                return appointmentsOfCRsManagedBy.toArray(Appointment[]::new);
             default: return new Appointment[0];
         }
     }

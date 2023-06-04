@@ -58,6 +58,13 @@ public class ChartGenerator {
         // Set the title of the chart
         lineChart.setTitle(title);
 
+        lineChart.setMaxWidth(416);
+        lineChart.setPrefWidth(-1);
+        lineChart.setMinWidth(-1);
+        lineChart.setMaxHeight(336);
+        lineChart.setPrefHeight(-1);
+        lineChart.setMinHeight(-1);
+
         // Create a series to hold the data points
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
 

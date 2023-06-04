@@ -15,7 +15,6 @@
       </HBox>
       <TableView fx:id="tabela" editable="true" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
         <columns>
-          <TableColumn fx:id="col_selecionar" editable="false" maxWidth="22.0" minWidth="22.0" prefWidth="22.0" resizable="false" sortable="false" text="☐" />
           <TableColumn fx:id="col_requester" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" sortable="false" text="Solicitante" />
           <TableColumn fx:id="col_squad" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Squad" />
           <TableColumn fx:id="col_tipo" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Tipo" />
