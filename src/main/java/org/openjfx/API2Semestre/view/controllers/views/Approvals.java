@@ -12,8 +12,8 @@ import org.openjfx.api2semestre.appointment.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
-import org.openjfx.api2semestre.view.controllers.popups.PopUpJustification;
-import org.openjfx.api2semestre.view.controllers.popups.PopupCallbackHandler;
+import org.openjfx.api2semestre.view.controllers.popups.Justification;
+import org.openjfx.api2semestre.view.controllers.popups.PopupCallback;
 import org.openjfx.api2semestre.view.controllers.popups.Popup;
 import org.openjfx.api2semestre.view.controllers.templates.ApprovePopupListItem;
 import org.openjfx.api2semestre.view.controllers.templates.RejectPopupListItem;
@@ -178,9 +178,9 @@ public class Approvals {
             popupStage.setTitle("Justificativa de " + apt.getType() + " do(a) " + apt.getRequester());
 
             // Load the FXML file for the list item
-            FXMLLoader loader = new FXMLLoader(App.getFXML("popups/popUpJustification"));
+            FXMLLoader loader = new FXMLLoader(App.getFXML("popups/justification"));
             AnchorPane popup = loader.load();
-            ((PopUpJustification)loader.getController()).setAppointment(apt);
+            ((Justification)loader.getController()).setAppointment(apt);
 
             // Create a scene for the popup
             Scene scene = new Scene(popup, 800, 400);
@@ -245,7 +245,7 @@ public class Approvals {
         );
     }
 
-    private <T extends Popup> Stage createPopup (String popupFxmlFile, String actionText, PopupCallbackHandler<T> callback) {
+    private <T extends Popup> Stage createPopup (String popupFxmlFile, String actionText, PopupCallback<T> callback) {
 
         // Get the list of items from the main application
         List<AppointmentWrapper> selectedAppointments = getSelected();

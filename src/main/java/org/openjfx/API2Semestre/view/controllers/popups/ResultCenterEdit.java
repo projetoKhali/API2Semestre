@@ -15,7 +15,7 @@ import org.openjfx.api2semestre.view.utils.pretty_table_cell.PrettyTableCellInst
 import org.openjfx.api2semestre.view.utils.wrappers.AppointmentWrapper;
 
 
-public class PopUpJustification {
+public class ResultCenterEdit {
 
     @FXML private TableView<AppointmentWrapper> tabela;
 

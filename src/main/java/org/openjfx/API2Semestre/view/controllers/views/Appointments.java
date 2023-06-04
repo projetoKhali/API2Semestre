@@ -14,7 +14,7 @@ import org.openjfx.api2semestre.appointment.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.utils.DateConverter;
-import org.openjfx.api2semestre.view.controllers.popups.PopUpFeedback;
+import org.openjfx.api2semestre.view.controllers.popups.Feedback;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
 import org.openjfx.api2semestre.view.macros.ColumnConfigStatus;
 import org.openjfx.api2semestre.view.macros.ColumnConfigString;
@@ -154,8 +154,8 @@ public class Appointments implements Initializable {
                 AppointmentWrapper selectedItem = tabela.getSelectionModel().getSelectedItem();
                 if (selectedItem == null || selectedItem.getAppointment().getStatus() != targetStatus) return;
 
-                PopUpFeedback.apt_selected = selectedItem;
-                popUp("popups/popUpFeedback");
+                Feedback.apt_selected = selectedItem;
+                popUp("popups/feedback");
                                     
             }
         });
