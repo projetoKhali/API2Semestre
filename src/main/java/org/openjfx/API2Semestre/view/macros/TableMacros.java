@@ -4,16 +4,14 @@ import java.io.IOException;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.App;
-import org.openjfx.api2semestre.view.controllers.popups.Popup;
+import org.openjfx.api2semestre.view.utils.interfaces.EditPopup;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-
 import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -43,8 +41,11 @@ public class TableMacros {
     @FunctionalInterface public static interface Updater<S, T> { void update(S item, T value); }
 
     public interface Formatter<T> {
-        public static Formatter<String> DEFAULT_STRING_FORMATTER =new Formatter<String>() {
-            private final StringConverter<String> converter = null;
+        public static Formatter<String> DEFAULT_STRING_FORMATTER = new Formatter<String>() {
+            private final StringConverter<String> converter = new StringConverter<String>() {
+                @Override public String toString(String object) { return object; }
+                @Override public String fromString(String string) { return string; }
+            };
             @Override public String format(String value, boolean editing) { return value; }
             @Override public String parse(String text) { return text; }
             @Override public StringConverter<String> getConverter() { return converter; }
@@ -54,20 +55,18 @@ public class TableMacros {
         StringConverter<T> getConverter();
     }
 
-    public class StringFormatterIdentity implements Formatter<String> {
-        private final StringConverter<String> converter = null;
-        @Override public String format(String value, boolean editing) { return value; }
-        @Override public String parse(String text) { return text; }
-        @Override public StringConverter<String> getConverter() { return converter; }
-    }
-
     public static <T> void createDeleteColumn(TableView<T> table, String objectName, DeleteConfirmationCallback<T> deleteConfirmationCallback) {
         TableColumn<T, Void> buttonColumn = new TableColumn<>("Opção");
         buttonColumn.setMaxWidth(64);
         buttonColumn.setResizable(false);
         buttonColumn.setEditable(false);
         buttonColumn.setCellFactory(param -> new TableCell<>() {
+            {
+                setAlignment(Pos.CENTER);
+            }
             private final Button button = new Button("Deletar"); {
+                button.maxHeight(20);
+                button.setPrefWidth(-1);
                 button.setOnAction(event -> {
                     try {
                         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "");
@@ -75,8 +74,10 @@ public class TableMacros {
                         alert.initModality(Modality.APPLICATION_MODAL);
                         alert.initOwner((Stage) table.getScene().getWindow());
 
-                        alert.getDialogPane().setContentText("Tem certeza que deseja excluir este " + objectName + "?");
-                        alert.getDialogPane().setHeaderText("Excluir " + objectName + ": ");
+                        alert.getDialogPane().setContentText(
+                            "Tem certeza que deseja excluir este " + objectName + "? Essa operação não pode ser desfeita."
+                        );
+                        alert.getDialogPane().setHeaderText("Excluir " + objectName + "");
 
                         Optional<ButtonType> result = alert.showAndWait();
 
@@ -96,7 +97,7 @@ public class TableMacros {
         table.getColumns().add(buttonColumn);
     }
 
-    public static <T, P extends Popup<T>> void createEditPopupColumn (
+    public static <T, P extends EditPopup<T>> void createEditPopupColumn (
         TableView<T> table,
         String objectName,
         String fxmlTemplate,
@@ -108,29 +109,18 @@ public class TableMacros {
         buttonColumn.setEditable(false);
         buttonColumn.setCellFactory(param -> new TableCell<>() {
             private final Button button = new Button("Editar"); {
+                button.maxHeight(20);
                 button.setOnAction(event -> {
-                    // Create a new stage for the popup
                     Stage popupStage = new Stage();
                     popupStage.initModality(Modality.APPLICATION_MODAL);
-                    popupStage.setTitle("Editar Centro de Resultado");
-
-                    // Create a VBox to hold the HBox controls for each item
-                    VBox root = new VBox();
-                    root.setPrefWidth(-1);
-                    root.setPrefHeight(-1);
-                    root.setAlignment(Pos.TOP_RIGHT);
-                    root.setPadding(new Insets(16));
+                    popupStage.setTitle("Editar " + objectName);
 
                     try {
-                        // Load the FXML file for the list item
                         FXMLLoader loader = new FXMLLoader(App.getFXML(fxmlTemplate));
-                        VBox listItem = loader.load();
+                        VBox root = loader.load();
                         P controller = loader.getController();
 
                         controller.setSelected(table.getItems().get(getIndex()));
-
-                        // Add the HBox to the VBox
-                        root.getChildren().add(listItem);
 
                         if (deleteConfirmationCallback.isPresent()) {
                             createDeleteColumn(
@@ -143,12 +133,16 @@ public class TableMacros {
                             );
                         }
 
-                    } catch (IOException e) { e.printStackTrace(); }
+                        controller.setSaveCallback((T newItem) -> {
+                            table.getItems().set(getIndex(), newItem);
+                            table.refresh();
+                        });
 
-                    // Create a scene for the popup
-                    Scene scene = new Scene(root, 800, 400);
-                    popupStage.setScene(scene);
-                    popupStage.showAndWait();
+                        Scene scene = new Scene(root, -1, -1);
+                        popupStage.setScene(scene);
+                        popupStage.showAndWait();
+
+                    } catch (IOException e) { e.printStackTrace(); }
                 });
             }
             @Override protected void updateItem(Void item, boolean empty) {
@@ -168,8 +162,10 @@ public class TableMacros {
 
         column.setCellFactory(c -> {
             TextFieldTableCell<S, T> cell = new TextFieldTableCell<S, T>(formatter.getConverter()) {
-                @Override
-                public void updateItem(T item, boolean empty) {
+                {
+                    setAlignment(Pos.CENTER);
+                }
+                @Override public void updateItem(T item, boolean empty) {
                     super.updateItem(item, empty);
                     if (empty || item == null) {
                         setText(null);

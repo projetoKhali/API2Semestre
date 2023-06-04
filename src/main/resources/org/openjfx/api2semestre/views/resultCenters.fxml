@@ -73,12 +73,12 @@
             <Insets left="4.0" right="4.0" />
          </padding>
       </FlowPane>
-      <TableView fx:id="tabela" cacheShape="false" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+      <TableView fx:id="tabela" cacheShape="false" editable="true" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
          <columns>
-            <TableColumn fx:id="col_nome" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Nome" />
-            <TableColumn fx:id="col_sigla" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Sigla" />
-            <TableColumn fx:id="col_codigo" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Código" />
-            <TableColumn fx:id="col_gestor" editable="false" maxWidth="128.0" prefWidth="-1.0" sortable="false" text="Gestor" />
+            <TableColumn fx:id="col_nome" maxWidth="128.0" prefWidth="128" sortable="false" text="Nome" />
+            <TableColumn fx:id="col_sigla" maxWidth="128.0" prefWidth="128" sortable="false" text="Sigla" />
+            <TableColumn fx:id="col_codigo" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Código" />
+            <TableColumn fx:id="col_gestor" maxWidth="128.0" prefWidth="-1.0" sortable="false" text="Gestor" />
          </columns>
          <padding>
             <Insets bottom="4.0" left="4.0" right="4.0" top="4.0" />
