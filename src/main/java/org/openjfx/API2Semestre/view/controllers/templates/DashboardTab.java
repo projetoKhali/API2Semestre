@@ -89,7 +89,7 @@ public class DashboardTab {
         }
 
         fp_charts.getChildren().add(ChartGenerator.weekIntersectionCountGraph(filteredAppointments.toArray(Appointment[]::new)));
-        fp_charts.getChildren().add(ChartGenerator.monthIntersectionCountGraph(filteredAppointments.toArray(Appointment[]::new)));
+        fp_charts.getChildren().add(TotalHours.totalHoursParent(filteredAppointments.toArray(Appointment[]::new), filteredIntervals.toArray(ReportInterval[]::new)));
     }
 
 }
