@@ -70,16 +70,13 @@ public class App extends Application {
         // ));
 
         setStage(stage);
-        // loginView();
 
-        Authentication.login("a@d.m", "123");
+        loginView();
 
-        scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
-        
-        // scene = new Scene(ChartGenerator.reportIntervalChart(AppointmentCalculator.calculateReports(appointments).toArray(new ReportInterval[0])));
-        // scene = new Scene(ChartGenerator.statusAppointmentChart(appointments));
-        stage.setScene(scene);
-        stage.show();
+        // Authentication.login("a@d.m", "123");
+        // scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
+        // stage.setScene(scene);
+        // stage.show();
 
     }
 
@@ -194,7 +191,7 @@ public class App extends Application {
 
     /// Encapsula o código de carregamento de um arquivo fxml.
     /// Retorna a raiz (o node principal) do fxml do arquivo carregado.
-    private static Parent loadFXML(String fxml) {
+    public static Parent loadFXML(String fxml) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getFXML(fxml));
             return fxmlLoader.load();

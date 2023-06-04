@@ -152,14 +152,14 @@ public class Users {
             }
         };
 
-        col_function.setCellValueFactory( new PropertyValueFactory<>( "perfil" ));
+        col_function.setCellValueFactory( new PropertyValueFactory<>( "profile" ));
 
         TableMacros.buildTable(
             tabela,
             new ColumnConfig[] {
-                new ColumnConfigString<>(col_name, "nome", "Nome", Optional.of(col_name_enableFilter)),
+                new ColumnConfigString<>(col_name, "name", "Nome", Optional.of(col_name_enableFilter)),
                 new ColumnConfigString<>(col_email, "email", "Email", Optional.of(col_email_enableFilter)),
-                new ColumnConfigString<>(col_matricula, "matricula", "Matricula", Optional.of(col_matricula_enableFilter)),
+                new ColumnConfigString<>(col_matricula, "registration", "Matricula", Optional.of(col_matricula_enableFilter)),
             },
             Optional.of(applyFilterCallback)
         );

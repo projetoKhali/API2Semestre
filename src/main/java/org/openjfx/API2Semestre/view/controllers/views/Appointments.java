@@ -160,7 +160,7 @@ public class Appointments implements Initializable {
             tabela,
             new ColumnConfig[] {
                 new ColumnConfigStatus(col_status, "status", "Status"),
-                new ColumnConfigString<>(col_squad, "squad", "CR", Optional.of(col_squad_enableFilter)),
+                new ColumnConfigString<>(col_squad, "resultCenter", "CR", Optional.of(col_squad_enableFilter)),
                 new ColumnConfigString<>(col_tipo, "type", "Tipo", Optional.of(col_tipo_enableFilter)),
                 new ColumnConfigString<>(col_inicio, "startDate", "Data Início", Optional.of(col_inicio_enableFilter)),
                 new ColumnConfigString<>(col_fim, "endDate", "Data Fim", Optional.of(col_fim_enableFilter)),
@@ -176,7 +176,7 @@ public class Appointments implements Initializable {
             public void handle(MouseEvent event) {
                 if (event.getClickCount() != 1) return;
 
-                Status targetStatus = Status.Rejected; // TODO: change to Rejected in production
+                Status targetStatus = Status.Rejected;
                 AppointmentWrapper selectedItem = tabela.getSelectionModel().getSelectedItem();
                 if (selectedItem == null || selectedItem.getAppointment().getStatus() != targetStatus) return;
 

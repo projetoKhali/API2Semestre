@@ -17,13 +17,13 @@ public class ReportIntervalWrapper {
     public ReportInterval getInterval() { return interval; }
 
     public String getRequesterRegistration() { return appointment.getRequesterRegistration() ; }
-    public String getColaborador() { return appointment.getRequesterName() ; }
-    public String getVerba() { return Integer.toString(interval.getVerba()) ; }
-    public String getHoraInício() { return interval.getStart().toString() ; }
-    public String getHoraFim() { return interval.getEnd().toString() ; }
-    public String getTotal() { return interval.getTotal(); }
-    public String getCentroResultado() { return appointment.getResultCenterName() ; }
-    public String getCliente() { return appointment.getClientName() ; }
-    public String getProjeto() { return appointment.getProject() ; }
-    public String getJustificativa() { return appointment.getJustification() ; }
+    public String getRequesterName() { return appointment.getRequesterName() ; }
+    public String getIntervalFeeCode() { return Integer.toString(interval.getVerba()) ; }
+    public String getStart() { return interval.getStart().toString() ; }
+    public String getEnd() { return interval.getEnd().toString() ; }
+    public String getTotal() { return interval.getTotalString(); }
+    public String getResultCenterName() { return appointment.getResultCenterName() ; }
+    public String getClientName() { return appointment.getClientName() ; }
+    public String getProjectName() { return appointment.getProject() ; }
+    public String getJustification() { return appointment.getJustification() ; }
 }

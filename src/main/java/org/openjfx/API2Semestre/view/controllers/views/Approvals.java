@@ -97,7 +97,7 @@ public class Approvals {
             tabela,
             new ColumnConfig[] {
                 new ColumnConfigString<>(col_requester, "requester", "Solicitante", Optional.of(col_requester_enableFilter)),
-                new ColumnConfigString<>(col_squad, "squad", "CR", Optional.of(col_squad_enableFilter)),
+                new ColumnConfigString<>(col_squad, "resultCenter", "CR", Optional.of(col_squad_enableFilter)),
                 new ColumnConfigString<>(col_tipo, "type", "Tipo", Optional.empty()),
                 new ColumnConfigString<>(col_inicio, "startDate", "Data Início", Optional.empty()),
                 new ColumnConfigString<>(col_fim, "endDate", "Data Fim", Optional.empty()),
