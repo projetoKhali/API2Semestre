@@ -532,6 +532,16 @@ public class QueryLibs {
         ));
     }
 
+    public static void removeAllusersFromResultCenter (int cr_id) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.ResultCenter, cr_id)
+            }
+        ));
+    }
+
 /// -----------------------------------------------------------------------------------------------------------------------
 /// --------------------------------- TESTE DE CONEXÃO  -------------------------------------------------------------------
 /// -----------------------------------------------------------------------------------------------------------------------

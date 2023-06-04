@@ -187,6 +187,16 @@ public class ResultCenterEdit implements EditPopup<ResultCenter> {
 
     @FXML private void save (ActionEvent e) throws IOException {
         if (saveCallback != null) saveCallback.execute(tabela.getItems().get(0));
+
+        int cr_id = tabela.getItems().get(0).getId();
+
+        QueryLibs.removeAllusersFromResultCenter(cr_id);
+
+        // add the membro_cr relation between each selectedUser and thhe new ResultCenter
+        for (User selectedUser : selectedUsers) {
+            QueryLibs.addUserToResultCenter(selectedUser.getId(), cr_id);
+        }
+
         close(e);
     }
 
