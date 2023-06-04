@@ -172,12 +172,12 @@ public class QueryLibs {
             conexao.commit();
             conexao.close();
             br.close();
-                
+
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSqlFile() -- Erro ao executar query para o arquivo " + file_path);
             ex.printStackTrace();
         }
-        
+
     }
 
     /// Executa um SELECT especificando tipo de dado esperado, tabela e parametros da query
@@ -424,6 +424,16 @@ public class QueryLibs {
             QueryTable.Client,
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.Id, clt_id)
+            }
+        ));
+    }
+
+    public static void deleteResultCenter (int cr_id) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.ResultCenter,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, cr_id)
             }
         ));
     }
