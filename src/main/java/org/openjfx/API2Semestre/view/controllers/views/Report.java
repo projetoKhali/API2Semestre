@@ -4,11 +4,13 @@ package org.openjfx.api2semestre.view.controllers.views;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.openjfx.api2semestre.utils.DateConverter;
 import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.data.Expedient;
 import org.openjfx.api2semestre.database.QueryLibs;
@@ -188,9 +190,25 @@ public class Report {
     }
 
     private void updateTable () {
-        loadedIntervals = AppointmentCalculator.calculateReports(QueryLibs.selectAllAppointments());
+        // dados de teste
+
+        ReportInterval[] reportsIntervals = new ReportInterval[]{
+            new ReportInterval(1, 1601, DateConverter.stringToTimestamp("2023-06-06 15:00:30"), DateConverter.stringToTimestamp("2023-06-04 16:00:30")),
+            new ReportInterval(2, 1601, DateConverter.stringToTimestamp("2023-05-03 15:00:30"), DateConverter.stringToTimestamp("2023-05-04 16:00:30")),
+            new ReportInterval(3, 1601, DateConverter.stringToTimestamp("2023-05-02 15:00:30"), DateConverter.stringToTimestamp("2023-05-02 16:00:30")),
+            new ReportInterval(4, 1601, DateConverter.stringToTimestamp("2023-05-01 15:00:30"), DateConverter.stringToTimestamp("2023-05-01 16:00:30")),
+            new ReportInterval(5, 1601, DateConverter.stringToTimestamp("2023-04-28 15:00:30"), DateConverter.stringToTimestamp("2023-04-28 16:00:30"))
+        };
+
+        List<ReportInterval> listReportIntervals = Arrays.asList(reportsIntervals);
+
+        
+        // loadedIntervals = AppointmentCalculator.calculateReports(QueryLibs.selectAllAppointments());
+        loadedIntervals = listReportIntervals;
         System.out.println(loadedIntervals.size() + " intervals");
-        applyFilter();
+        // applyFilter();
+        tabela.setItems(intervalsToExport);
+        tabela.refresh();
     }
 
     // filtro de escrever
@@ -216,6 +234,19 @@ public class Report {
         tabela.setItems(intervalsToExport);
         tabela.refresh();
     }
+
+    // dados de teste
+
+    ReportInterval[] reportsIntervals = new ReportInterval[]{
+        new ReportInterval(1, 1601, DateConverter.stringToTimestamp("2023-06-01 15:00:30"), DateConverter.stringToTimestamp("2023-06-01 16:00:30")),
+        new ReportInterval(2, 1601, DateConverter.stringToTimestamp("2023-05-03 15:00:30"), DateConverter.stringToTimestamp("2023-05-04 16:00:30")),
+        new ReportInterval(3, 1601, DateConverter.stringToTimestamp("2023-05-02 15:00:30"), DateConverter.stringToTimestamp("2023-05-02 16:00:30")),
+        new ReportInterval(4, 1601, DateConverter.stringToTimestamp("2023-05-01 15:00:30"), DateConverter.stringToTimestamp("2023-05-01 16:00:30")),
+        new ReportInterval(5, 1601, DateConverter.stringToTimestamp("2023-04-28 15:00:30"), DateConverter.stringToTimestamp("2023-04-28 16:00:30"))
+    };
+
+    List<ReportInterval> listReportIntervals = Arrays.asList(reportsIntervals);
+
     
     @FXML public void export (ActionEvent e) {
         
@@ -300,5 +331,6 @@ public class Report {
         }
 
         ReportExporter.exporterCSV(loadedIntervals, selectedItens, local, data_inicio, data_fim); // TODO: Use filtered Intervals
+        // ReportExporter.exporterCSV(listReportIntervals, selectedItens, local, data_inicio, data_fim); // TODO: Use filtered Intervals
     }
 }

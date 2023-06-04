@@ -4,12 +4,15 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.appointment.VwAppointment;
 import org.openjfx.api2semestre.database.QueryLibs;
+import org.openjfx.api2semestre.utils.DateConverter;
 
 import com.opencsv.CSVWriter;
 
@@ -37,9 +40,22 @@ public class ReportExporter {
             return null;
         }
     }
+
+    // Lista para teste
     
+    // ReportInterval[] reportsIntervals = new ReportInterval[]{
+    //     new ReportInterval(1, 1601, DateConverter.stringToTimestamp("2023-05-04 15:00:30"), DateConverter.stringToTimestamp("2023-05-04 16:00:30")),
+    //     new ReportInterval(2, 1601, DateConverter.stringToTimestamp("2023-05-03 15:00:30"), DateConverter.stringToTimestamp("2023-05-04 16:00:30")),
+    //     new ReportInterval(3, 1601, DateConverter.stringToTimestamp("2023-05-02 15:00:30"), DateConverter.stringToTimestamp("2023-05-02 16:00:30")),
+    //     new ReportInterval(4, 1601, DateConverter.stringToTimestamp("2023-05-01 15:00:30"), DateConverter.stringToTimestamp("2023-05-01 16:00:30")),
+    //     new ReportInterval(5, 1601, DateConverter.stringToTimestamp("2023-04-28 15:00:30"), DateConverter.stringToTimestamp("2023-04-28 16:00:30"))
+    // };
+
+    // List<ReportInterval> listReportIntervals = Arrays.asList(reportsIntervals);
+
     // inserir condições do filtro
     public static void exporterCSV(List<ReportInterval> data, Boolean[] camposBoolean, String LocalFile, Timestamp data_inicio, Timestamp data_fim) {
+    // public static void exporterCSV(List<ReportInterval> data, Boolean[] camposBoolean, String LocalFile, Timestamp data_inicio, Timestamp data_fim) {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(LocalFile));
 
@@ -81,6 +97,7 @@ public class ReportExporter {
                     if(camposBoolean[8]){dados.add( appointment.getProject());}
                     if(camposBoolean[9]){dados.add(appointment.getJustification());}
                 }
+                System.out.print("teste, datafim: " + data_fim);
     
                 writer.writeNext(dados.toArray(String[]::new));
             }
