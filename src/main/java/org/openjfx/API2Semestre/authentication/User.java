@@ -27,7 +27,6 @@ public class User extends Data implements HasDisplayName {
         this.senha = senha;
         this.matricula = matricula;
     }
-
     public User(
         String nome, 
         Profile perfil, 
@@ -69,9 +68,9 @@ public class User extends Data implements HasDisplayName {
     public String getEmail() { return email; }
     public String getPassword() { return senha; }
     
-    // public void setNome(String nome) { this.nome = nome; }
-    // public void setPerfil(Profile perfil) { this.perfil = perfil; }
-    // public void setEmail(String email) { this.email = email; }
-    // public void setSenha(String senha) { this.senha = senha; }
-    // public void setMatricula(String matricula) { this.matricula = matricula; }
+    public void setNome(String nome) { this.nome = nome; }
+    public void setPerfil(Profile perfil) { this.perfil = perfil; }
+    public void setEmail(String email) { this.email = email; }
+    public void setSenha(String senha) { this.senha = senha; }
+    public void setMatricula(String matricula) { this.matricula = matricula; }
 }

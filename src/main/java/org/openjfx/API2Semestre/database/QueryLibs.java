@@ -26,6 +26,7 @@ import org.openjfx.api2semestre.database.query.QueryTable;
 import org.openjfx.api2semestre.database.query.QueryType;
 import org.openjfx.api2semestre.database.query.TableProperty;
 import org.openjfx.api2semestre.utils.PasswordIncription;
+import org.openjfx.api2semestre.view.utils.wrappers.ClientWrapper;
 
 public class QueryLibs {
 
@@ -459,6 +460,26 @@ public class QueryLibs {
         ));
     }
 
+    public static void deleteUser (User selectedUser) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, selectedUser.getId())
+            }
+        ));
+    }
+
+    public static void deleteClient (ClientWrapper selectedClient) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.Client,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, selectedClient.getClient().getId())
+            }
+        ));
+    }
+
     public static void testConnection(Connection conexao) {
         // Connection conexao = getConnection(); // Add param to testConnection so that it doesn't call getConnection() creating infinite loop
 
@@ -516,5 +537,17 @@ public class QueryLibs {
         }
         // fecha conexão
         // conexao.close();
+    }
+    public static void resetUserPassword (String senha, Integer user) {
+        executeQuery(new Query(
+            QueryType.UPDATE,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                // SET
+                new QueryParam<>(TableProperty.Password, PasswordIncription.encryptPassword(senha)),
+                // WHERE
+                new QueryParam<Integer>(TableProperty.Id, user)
+            }
+        ));
     }
 }
