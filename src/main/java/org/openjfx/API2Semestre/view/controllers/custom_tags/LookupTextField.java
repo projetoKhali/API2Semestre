@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 
 import org.openjfx.api2semestre.data.HasDisplayName;
+import org.openjfx.api2semestre.data.HasId;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -17,7 +18,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.stage.Popup;
 
-public class LookupTextField<T extends HasDisplayName> extends TextField {
+public class LookupTextField<T extends HasDisplayName & HasId> extends TextField {
 
     private final ObservableList<T> suggestions = FXCollections.observableList(new LinkedList<T>());
     private final ObjectProperty<T> selectedItem;
@@ -32,8 +33,7 @@ public class LookupTextField<T extends HasDisplayName> extends TextField {
 
         suggestionsListView = new ListView<>(this.listViewSuggestions);
         suggestionsListView.setCellFactory(param -> new ListCell<>() {
-            @Override
-            protected void updateItem(T item, boolean empty) {
+            @Override protected void updateItem(T item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) {
                     setText(null);
@@ -46,8 +46,7 @@ public class LookupTextField<T extends HasDisplayName> extends TextField {
         popup.getContent().add(suggestionsListView);
 
         focusedProperty().addListener(new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
+            @Override public void changed(ObservableValue<? extends Boolean> arg0, Boolean oldPropertyValue, Boolean newPropertyValue) {
                 if (newPropertyValue) {
                     if (getText().isEmpty()) {
                         updateListViewSuggestions();
@@ -143,7 +142,12 @@ public class LookupTextField<T extends HasDisplayName> extends TextField {
     }
 
     public void removeSuggestion (T suggestion) {
-        this.suggestions.remove(suggestion);
+        if (this.suggestions.size() < 1) return;
+        for (T item : this.suggestions) {
+            if (item.getId() != suggestion.getId()) continue; 
+            suggestions.remove(item);
+            return;
+        }
     }
 
 
