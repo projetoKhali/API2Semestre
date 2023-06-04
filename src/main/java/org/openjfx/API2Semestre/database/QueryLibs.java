@@ -86,7 +86,7 @@ public class QueryLibs {
                 new QueryParam<String>    (TableProperty.Apt_ClientName, apt.getClientName()),
                 new QueryParam<Boolean>   (TableProperty.Apt_Type, apt.getType().getBooleanValue()),
                 new QueryParam<String>    (TableProperty.Apt_Justification, apt.getJustification()),
-                new QueryParam<Integer>   (TableProperty.Apt_ResultCenterId, apt.getResultCenterId()),
+                new QueryParam<Integer>   (TableProperty.ResultCenterId, apt.getResultCenterId()),
                 new QueryParam<String>    (TableProperty.Apt_ResultCenterName, apt.getResultCenterName()),
                 new QueryParam<Integer>   (TableProperty.Apt_Status, apt.getStatus().getIntValue()),
                 new QueryParam<String>    (TableProperty.Apt_Feedback, apt.getFeedback()),
@@ -130,7 +130,7 @@ public class QueryLibs {
             QueryTable.Member,
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.UserId, usr_id),
-                new QueryParam<Integer>(TableProperty.Apt_ResultCenterId, cr_id),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, cr_id),
             }
         );
     }
@@ -298,7 +298,7 @@ public class QueryLibs {
             Appointment.class,
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.Apt_ResultCenterId, cr_id),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, cr_id),
             }
         );
     }
@@ -373,6 +373,38 @@ public class QueryLibs {
         );
     }
 
+    // retorna lista de usuários que são membros de um result center
+    public static User[] selectAllUsersInResultCenter(int cr_id) {
+        return executeSelect(
+            User.class, 
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.ResultCenterId, cr_id),
+            }
+        );
+    }
+
+    // retorna lista de centro de resultados dos quais o usuário faz parte
+    public static ResultCenter[] selectAllResultCentersOfUser(int user_id) {
+        return executeSelect(
+            ResultCenter.class, 
+            QueryTable.ResultCenter,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.UserId, user_id),
+            }
+        );
+    }
+
+    public static Appointment[] selectAppointmentsByUser(int id) {
+        return executeSelect(
+            Appointment.class, 
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.Apt_UserName, id),
+            }
+        );
+    }
+
     public static Optional<User> selectUserByEmail(String email) {
         return executeSelectOne(
             User.class,
@@ -405,7 +437,7 @@ public class QueryLibs {
                 new QueryParam<String>(TableProperty.Apt_ClientName, apt.getClientName()),
                 new QueryParam<Boolean>(TableProperty.Apt_Type, apt.getType().getBooleanValue()),
                 new QueryParam<String>(TableProperty.Apt_Justification, apt.getJustification()),
-                new QueryParam<Integer>(TableProperty.Apt_ResultCenterId, apt.getResultCenterId()),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, apt.getResultCenterId()),
                 new QueryParam<String>(TableProperty.Apt_ResultCenterName, apt.getResultCenterName()),
                 new QueryParam<Integer>(TableProperty.Apt_Status, apt.getStatus().getIntValue()),
                 new QueryParam<String>(TableProperty.Apt_Feedback, apt.getFeedback()),

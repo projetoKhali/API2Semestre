@@ -2,17 +2,19 @@ package org.openjfx.api2semestre.database.query;
 
 public enum TableProperty {
 
-    // Universal property - All tables have this!
+    // Property universal! Todas as tabelas tem:
     Id("id"),
-    UserId("usr_id"),
 
-    // Appointments tables
+    // Multiplas tabelas possuem essas:
+    UserId("usr_id"),
+    ResultCenterId("cr_id"),
+
+    // tabela Appointments
     Apt_UserName("requester"),
     Apt_UserRegistration("matricula"),
     Apt_Type("tipo"),
     Apt_StartDate("hora_inicio"),
     Apt_EndDate("hora_fim"),
-    Apt_ResultCenterId("cr_id"),
     Apt_ResultCenterName("centro_nome"),
     Apt_ClientId("clt_id"),
     Apt_ClientName("cliente_nome"),
@@ -21,14 +23,14 @@ public enum TableProperty {
     Apt_Status("aprovacao"),
     Apt_Feedback("feedback"),
     
-    // Users table
+    // tabela Users
     Usr_Name("nome"),
     Usr_Email("email"),
     Usr_Password("senha"),
     Usr_Profile("perfil"),
     Usr_Registration("matricula"),
 
-    // ResultCenters table
+    // tabela ResultCenters
     CR_Sigla("sigla"),
     CR_Codigo("codigo"),
     CR_NomeGestor("gestor_nome"),
