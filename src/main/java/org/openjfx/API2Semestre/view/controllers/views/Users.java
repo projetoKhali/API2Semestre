@@ -3,12 +3,6 @@ package org.openjfx.api2semestre.view.controllers.views;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableSelectionModel;
-
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -16,7 +10,6 @@ import java.util.Optional;
 import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.database.QueryLibs;
-import org.openjfx.api2semestre.database.SQLConnection;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
 import org.openjfx.api2semestre.view.macros.ColumnConfigString;
 import org.openjfx.api2semestre.view.macros.TableMacros;
@@ -29,16 +22,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.openjfx.api2semestre.view.macros.TableMacros.Formatter;
 
@@ -55,7 +41,6 @@ public class Users {
     @FXML private TableColumn<User, String> col_name;
     @FXML private TableColumn<User, String> col_email;
     @FXML private TableColumn<User, Profile> col_function;
-    @FXML private AnchorPane confirmation;
 
     private BooleanProperty col_matricula_enableFilter = new SimpleBooleanProperty();
     private BooleanProperty col_name_enableFilter = new SimpleBooleanProperty();
@@ -63,16 +48,29 @@ public class Users {
 
     private ObservableList<User> displayedUsers;
     private List<User> loadedUsers;
-    
-    public void initialize() {
-    
-        buildTable();
 
+    public void initialize() {
+        buildTable();
         updateTable();
-        
+    }
+
+    @SuppressWarnings("unchecked") private void buildTable () {
+
+        cb_profile.setItems(FXCollections.observableArrayList(Profile.PROFILES));
+        cb_profile.setValue(Profile.Colaborador);
+
+        ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                applyFilter();
+            }
+        };
+
+        col_function.setCellValueFactory( new PropertyValueFactory<>( "profile" ));
+
         TableMacros.<User, String>enableEditableCells(
             col_matricula,
-            (String value) -> ! value.isBlank(),
+            (String value) -> !value.isBlank(),
             (User item, String value) -> item.setMatricula(value),
             new Formatter<String>() {
                 private final StringConverter<String> converter = null;
@@ -84,7 +82,7 @@ public class Users {
 
         TableMacros.<User, String>enableEditableCells(
             col_name,
-            (String value) -> ! value.isBlank(),
+            (String value) -> !value.isBlank(),
             (User item, String value) -> item.setNome(value),
             new Formatter<String>() {
                 private final StringConverter<String> converter = null;
@@ -96,7 +94,7 @@ public class Users {
 
         TableMacros.<User, String>enableEditableCells(
             col_email,
-            (String value) -> ! value.isBlank(),
+            (String value) -> !value.isBlank(),
             (User item, String value) -> item.setEmail(value),
             new Formatter<String>() {
                 private final StringConverter<String> converter = null;
@@ -118,48 +116,17 @@ public class Users {
             }
         );
 
-    }
-
-    @SuppressWarnings("unchecked")
-    private void buildTable () {
-
-        TableColumn<User, Void> buttonColumn = new TableColumn<>("Opção");
-        tabela.getColumns().add(buttonColumn);
-
-        buttonColumn.setCellFactory(param -> new TableCell<>() {
-            
-            private final Button button = new Button("Deletar");
-
-            {
-                button.setOnAction(event -> {
-                    try {
-                        deleteUser();
-                    } catch (IOException | SQLException e) {
-                        // TODO Auto-generated catch block
-                        e.printStackTrace();
-                    }
-                });
-            }
+        TableMacros.<User>createDeleteColumn(tabela, (User user) -> {
+            QueryLibs.deleteUser(user);
+            updateTable();
         });
-
-        cb_profile.setItems(FXCollections.observableArrayList(Profile.PROFILES));
-        cb_profile.setValue(Profile.Colaborador);
-
-        ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                applyFilter();
-            }
-        };
-
-        col_function.setCellValueFactory( new PropertyValueFactory<>( "perfil" ));
 
         TableMacros.buildTable(
             tabela,
             new ColumnConfig[] {
-                new ColumnConfigString<>(col_name, "nome", "Nome", Optional.of(col_name_enableFilter)),
+                new ColumnConfigString<>(col_name, "name", "Nome", Optional.of(col_name_enableFilter)),
                 new ColumnConfigString<>(col_email, "email", "Email", Optional.of(col_email_enableFilter)),
-                new ColumnConfigString<>(col_matricula, "matricula", "Matricula", Optional.of(col_matricula_enableFilter)),
+                new ColumnConfigString<>(col_matricula, "registration", "Matricula", Optional.of(col_matricula_enableFilter)),
             },
             Optional.of(applyFilterCallback)
         );
@@ -169,14 +136,13 @@ public class Users {
         User[] items = QueryLibs.selectAllUsers();
 
         System.out.println(items.length + " users returned from select ");
-    
+
         loadedUsers = Arrays.asList(items);
 
         applyFilter();
     }
 
     private void applyFilter () {
-
         // System.out.println("applyFilter");
 
         List<User> usersToDisplay = UserFilter.filterFromView(
@@ -195,8 +161,8 @@ public class Users {
         tabela.refresh();
 
     }
-    
-    private void register(ActionEvent event) {
+
+    @FXML private void register(ActionEvent event) {
         Profile profile = cb_profile.getSelectionModel().getSelectedItem();
         String name = tf_name.getText();
         String email = tf_email.getText();
@@ -217,26 +183,4 @@ public class Users {
         updateTable();
     }
     
-    private void deleteUser() throws IOException, SQLException {
-        
-        Stage stage = (Stage) confirmation.getScene().getWindow();
-        
-        Alert.AlertType type = Alert.AlertType.CONFIRMATION;
-        Alert alert = new Alert(type, "");
-
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.initOwner(stage);
-
-        alert.getDialogPane().setContentText("Tem certeza que deseja excluir este usuário?");
-        alert.getDialogPane().setHeaderText("Excluir usuário: ");
-
-        Optional<ButtonType> result = alert.showAndWait();
-        
-        if(result.get() == ButtonType.OK) {
-        
-            User selectedUser = tabela.getSelectionModel().getSelectedItem();
-
-            QueryLibs.deleteUser(selectedUser); 
-        }
-    }   
 }
