@@ -1,9 +1,10 @@
 package org.openjfx.api2semestre.authentication;
 
 import org.openjfx.api2semestre.data.HasDisplayName;
+import org.openjfx.api2semestre.data.HasId;
 import org.openjfx.api2semestre.database.Data;
 
-public class User extends Data implements HasDisplayName {
+public class User extends Data implements HasDisplayName, HasId {
 
     private Integer id;    
     private String matricula;

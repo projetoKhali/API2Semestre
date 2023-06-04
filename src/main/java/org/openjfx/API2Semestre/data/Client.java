@@ -2,7 +2,7 @@ package org.openjfx.api2semestre.data;
 
 import org.openjfx.api2semestre.database.Data;
 
-public class Client extends Data implements HasDisplayName {
+public class Client extends Data implements HasDisplayName, HasId {
     private Integer id;
     private String razaoSocial;
     private String cnpj;
