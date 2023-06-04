@@ -43,21 +43,19 @@ public class ResultCenters {
 
     @FXML private FlowPane fp_colaboradores;
     private LinkedList<User> selectedUsers = new LinkedList<User>();
-    
+
     @FXML private TableView<ResultCenter> tabela;
-    
+
     @FXML private TableColumn<ResultCenter, String> col_nome;
-    private BooleanProperty col_nome_enableFilter = new SimpleBooleanProperty();
-    
     @FXML private TableColumn<ResultCenter, String> col_sigla;
-    private BooleanProperty col_sigla_enableFilter = new SimpleBooleanProperty();
-    
     @FXML private TableColumn<ResultCenter, String> col_codigo;
-    private BooleanProperty col_codigo_enableFilter = new SimpleBooleanProperty();
-    
     @FXML private TableColumn<ResultCenter, String> col_gestor;
+
+    private BooleanProperty col_nome_enableFilter = new SimpleBooleanProperty();
+    private BooleanProperty col_sigla_enableFilter = new SimpleBooleanProperty();
+    private BooleanProperty col_codigo_enableFilter = new SimpleBooleanProperty();
     private BooleanProperty col_gestor_enableFilter = new SimpleBooleanProperty();
-    
+
     // @FXML private TableColumn<ResultCenter, String> col_membros;
     // private BooleanProperty col_membros_enableFilter = new SimpleBooleanProperty();
 
@@ -65,9 +63,8 @@ public class ResultCenters {
     private List<ResultCenter> loadedResultCenters;
 
     public void initialize(){
-            
-        buildTable();
 
+        buildTable();
         updateTable();
 
         // Query all users from database. TODO: implement pagination
@@ -102,8 +99,7 @@ public class ResultCenters {
         tf_gestor = lookupTextFieldGestor;
     }
 
-    @SuppressWarnings("unchecked")
-    private void buildTable () {
+    @SuppressWarnings("unchecked") private void buildTable () {
 
         ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
             @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -130,7 +126,7 @@ public class ResultCenters {
     private void updateTable () {
         ResultCenter[] items = QueryLibs.selectAllResultCenters();
         System.out.println(items.length + " resultCenters returned from select ");
-    
+
         loadedResultCenters = Arrays.asList(items);
         displayedResultCenters =  FXCollections.observableArrayList(loadedResultCenters);
 
@@ -159,7 +155,7 @@ public class ResultCenters {
     }
 
     @FXML void adicionarColaborador(ActionEvent event) {
-        
+
         // get the TextFields as LookupTextField
         @SuppressWarnings("unchecked") LookupTextField<User> lookupTfColaborador = ((LookupTextField<User>)tf_colaborador);
         @SuppressWarnings("unchecked") LookupTextField<User> lookupTfGestor = ((LookupTextField<User>)tf_gestor);
@@ -210,11 +206,11 @@ public class ResultCenters {
             if (selectedUser.getProfile().getProfileLevel() > 0) lookupTfGestor.addSuggestion(selectedUser);
             selectedUsers.remove(selectedUser);
         });
-        
+
     }
 
     @FXML void cadastrarCentro (ActionEvent event) {
-        
+
         // get the TextFields as LookupTextField
         @SuppressWarnings("unchecked") LookupTextField<User> lookupTfcolaborador = ((LookupTextField<User>)tf_colaborador);
         @SuppressWarnings("unchecked") LookupTextField<User> lookupTfgestor = ((LookupTextField<User>)tf_gestor);
@@ -237,7 +233,7 @@ public class ResultCenters {
             codigo,
             gestor.getId()
         ));
-        
+
         // add the membro_cr relation between each selectedUser and thhe new ResultCenter
         for (User selectedUser : selectedUsers) {
             QueryLibs.addUserToResultCenter(selectedUser.getId(), cr_id);
@@ -262,5 +258,4 @@ public class ResultCenters {
         // atualiza a tabela para incluir o ResultCenter inserido
         updateTable();
     }
-
 }
