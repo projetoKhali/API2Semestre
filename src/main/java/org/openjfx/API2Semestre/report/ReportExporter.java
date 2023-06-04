@@ -3,6 +3,7 @@ package org.openjfx.api2semestre.report;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class ReportExporter {
     }
     
     // inserir condições do filtro
-    public static void exporterCSV(List<ReportInterval> data, Boolean[] camposBoolean, String LocalFile) {
+    public static void exporterCSV(List<ReportInterval> data, Boolean[] camposBoolean, String LocalFile, Timestamp data_inicio, Timestamp data_fim) {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(LocalFile));
 
@@ -68,16 +69,18 @@ public class ReportExporter {
                 VwAppointment appointment = optionalAppointment.get();
                 
                 List<String> dados = new ArrayList<>();
-                if(camposBoolean[0]){dados.add(appointment.getMatricula());}
-                if(camposBoolean[1]){dados.add(appointment.getRequester());}
-                if(camposBoolean[2]){dados.add(Integer.toString(reportInterval.getVerba()));}
-                if(camposBoolean[3]){dados.add(reportInterval.getStart().toString());}
-                if(camposBoolean[4]){dados.add(reportInterval.getEnd().toString());}
-                if(camposBoolean[5]){dados.add(reportInterval.getTotal());}
-                if(camposBoolean[6]){dados.add(appointment.getCrName());}
-                if(camposBoolean[7]){dados.add(appointment.getClient());}
-                if(camposBoolean[8]){dados.add( appointment.getProject());}
-                if(camposBoolean[9]){dados.add(appointment.getJustification());}
+                if(!(reportInterval.getStart().after(data_fim) || reportInterval.getEnd().before(data_inicio))){
+                    if(camposBoolean[0]){dados.add(appointment.getMatricula());}
+                    if(camposBoolean[1]){dados.add(appointment.getRequester());}
+                    if(camposBoolean[2]){dados.add(Integer.toString(reportInterval.getVerba()));}
+                    if(camposBoolean[3]){dados.add(reportInterval.getStart().toString());}
+                    if(camposBoolean[4]){dados.add(reportInterval.getEnd().toString());}
+                    if(camposBoolean[5]){dados.add(reportInterval.getTotal());}
+                    if(camposBoolean[6]){dados.add(appointment.getCrName());}
+                    if(camposBoolean[7]){dados.add(appointment.getClient());}
+                    if(camposBoolean[8]){dados.add( appointment.getProject());}
+                    if(camposBoolean[9]){dados.add(appointment.getJustification());}
+                }
     
                 writer.writeNext(dados.toArray(String[]::new));
             }
