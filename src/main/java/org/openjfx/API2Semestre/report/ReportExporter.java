@@ -3,6 +3,7 @@ package org.openjfx.api2semestre.report;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,23 +37,24 @@ public class ReportExporter {
         }
     }
     
-    public static void exporterCSV(List<ReportInterval> data, String LocalFile) {
+    // inserir condições do filtro
+    public static void exporterCSV(List<ReportInterval> data, Boolean[] camposBoolean, String LocalFile) {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(LocalFile));
 
             // escreve o cabeçalho do arquivo csv
-            writer.writeNext(new String[] {
-                "Matricula",
-                "Colaborador",
-                "Verba",
-                "Hora Início",
-                "Hora Fim",
-                "Total",
-                "Centro Resultado",
-                "Cliente",
-                "Projeto",
-                "Justificativa"
-            });
+            List<String> campos = new ArrayList<>();
+            if(camposBoolean[0]){campos.add("Matricula");}
+            if(camposBoolean[1]){campos.add("Colaborador");}
+            if(camposBoolean[2]){campos.add("Verba");}
+            if(camposBoolean[3]){campos.add("Hora Início");}
+            if(camposBoolean[4]){campos.add("Hora Fim");}
+            if(camposBoolean[5]){campos.add("Total");}
+            if(camposBoolean[6]){campos.add("Centro Resultado");}
+            if(camposBoolean[7]){campos.add("Cliente");}
+            if(camposBoolean[8]){campos.add("Projeto");}
+            if(camposBoolean[9]){campos.add("Justificativa");}
+            writer.writeNext(campos.toArray(String[]::new));
 
             // escreve registros enquanto houver
             for (ReportInterval reportInterval : data) {
@@ -64,19 +66,20 @@ public class ReportExporter {
                     continue;
                 }
                 VwAppointment appointment = optionalAppointment.get();
-
-                writer.writeNext(new String[] {
-                        appointment.getMatricula(),
-                        appointment.getRequester(),
-                        Integer.toString(reportInterval.getVerba()),
-                        reportInterval.getStart().toString(),
-                        reportInterval.getEnd().toString(),
-                        reportInterval.getTotal(),
-                        appointment.getCrName(),
-                        appointment.getClient(),
-                        appointment.getProject(),
-                        appointment.getJustification()
-                });
+                
+                List<String> dados = new ArrayList<>();
+                if(camposBoolean[0]){dados.add(appointment.getMatricula());}
+                if(camposBoolean[1]){dados.add(appointment.getRequester());}
+                if(camposBoolean[2]){dados.add(Integer.toString(reportInterval.getVerba()));}
+                if(camposBoolean[3]){dados.add(reportInterval.getStart().toString());}
+                if(camposBoolean[4]){dados.add(reportInterval.getEnd().toString());}
+                if(camposBoolean[5]){dados.add(reportInterval.getTotal());}
+                if(camposBoolean[6]){dados.add(appointment.getCrName());}
+                if(camposBoolean[7]){dados.add(appointment.getClient());}
+                if(camposBoolean[8]){dados.add( appointment.getProject());}
+                if(camposBoolean[9]){dados.add(appointment.getJustification());}
+    
+                writer.writeNext(dados.toArray(String[]::new));
             }
             System.out.println("Successful Extraction! - ReportExporter.java");
             writer.close();

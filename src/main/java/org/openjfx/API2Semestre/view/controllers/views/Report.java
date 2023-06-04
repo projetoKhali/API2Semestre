@@ -143,6 +143,7 @@ public class Report {
         applyFilter();
     }
 
+    // filtro de escrever
     private void applyFilter () {
         System.out.println("applyFilter");
 
@@ -165,9 +166,22 @@ public class Report {
         tabela.setItems(intervalsToExport);
         tabela.refresh();
     }
-
+    
     @FXML public void export (ActionEvent e) {
         String local = ReportExporter.showSaveDialog(App.getStage());
-        ReportExporter.exporterCSV(loadedIntervals, local); // TODO: Use filtered Intervals
+        Boolean[] selectedItens = new Boolean[]{
+        cb_matricula.isSelected(),
+        cb_colaborador.isSelected(),
+        cb_verba.isSelected(),
+        cb_inicio.isSelected(),
+        cb_fim.isSelected(),
+        cb_total.isSelected(),
+        cb_cr.isSelected(),
+        cb_cliente.isSelected(),
+        cb_projeto.isSelected(),
+        cb_justificativa.isSelected()
+        };
+
+        ReportExporter.exporterCSV(loadedIntervals, selectedItens, local); // TODO: Use filtered Intervals
     }
 }
