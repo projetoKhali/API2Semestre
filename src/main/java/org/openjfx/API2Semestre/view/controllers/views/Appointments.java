@@ -163,7 +163,7 @@ public class Appointments implements Initializable {
 
     private void updateTable () {
 
-        loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getName()));
+        loadedAppointments = Arrays.asList(QueryLibs.selectAppointmentsOfUser(Authentication.getCurrentUser().getName()));
         // System.out.println(loadedAppointments.size() + " appointments returned from select ");
 
         applyFilter();

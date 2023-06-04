@@ -1,4 +1,4 @@
-package org.openjfx.api2semestre.view.controllers.popups;
+package org.openjfx.api2semestre.view.utils.interfaces;
 
 import javafx.scene.control.TableView;
 

@@ -13,8 +13,6 @@ import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view.controllers.popups.Justification;
-import org.openjfx.api2semestre.view.controllers.popups.PopupCallback;
-import org.openjfx.api2semestre.view.controllers.popups.Popup;
 import org.openjfx.api2semestre.view.controllers.templates.ApprovePopupListItem;
 import org.openjfx.api2semestre.view.controllers.templates.RejectPopupListItem;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
@@ -22,6 +20,8 @@ import org.openjfx.api2semestre.view.macros.ColumnConfigString;
 import org.openjfx.api2semestre.view.macros.TableCheckBoxMacros;
 import org.openjfx.api2semestre.view.macros.TableMacros;
 import org.openjfx.api2semestre.view.utils.filters.AppointmentFilter;
+import org.openjfx.api2semestre.view.utils.interfaces.Popup;
+import org.openjfx.api2semestre.view.utils.interfaces.PopupListCallback;
 import org.openjfx.api2semestre.view.utils.wrappers.AppointmentWrapper;
 
 import javafx.beans.property.BooleanProperty;
@@ -207,7 +207,7 @@ public class Approvals {
                 for (ApprovePopupListItem controller : controllers) {
                     Appointment appointment = controller.getSelected().getAppointment();
                     appointment.setStatus(1);
-                    QueryLibs.updateTable(appointment);
+                    QueryLibs.updateAppointment(appointment);
                     // System.out.println("Apontamento atualizado");
                 }
                 updateTable();
@@ -235,7 +235,7 @@ public class Approvals {
                     appointments.add(appointment);
                 }
                 for (Appointment appointment : appointments) {
-                    QueryLibs.updateTable(appointment);
+                    QueryLibs.updateAppointment(appointment);
                     // System.out.println("Apontamento atualizado");
                 }
                 updateTable();
@@ -246,7 +246,7 @@ public class Approvals {
     private <T extends Popup<AppointmentWrapper>> Stage createPopup (
         String popupFxmlFile,
         String actionText,
-        PopupCallback<T> callback
+        PopupListCallback<T> callback
     ) {
 
         // Get the list of items from the main application

@@ -7,7 +7,9 @@ import org.openjfx.api2semestre.view.controllers.popups.ResultCenterEdit;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
 import org.openjfx.api2semestre.view.macros.ColumnConfigString;
 import org.openjfx.api2semestre.view.macros.TableMacros;
+import org.openjfx.api2semestre.view.macros.TableMacros.Formatter;
 import org.openjfx.api2semestre.view.utils.filters.ResultCenterFilter;
+import org.openjfx.api2semestre.view.utils.interfaces.EditableTableView;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -34,7 +36,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
-public class ResultCenters {
+public class ResultCenters implements EditableTableView<ResultCenter> {
 
     @FXML private TextField tf_codigo;
     @FXML private TextField tf_colaborador;
@@ -120,6 +122,25 @@ public class ResultCenters {
                 new ColumnConfigString<>(col_gestor, "managerName", "Gestor", Optional.of(col_gestor_enableFilter)),
             },
             Optional.of(applyFilterCallback)
+        );
+
+        TableMacros.<ResultCenter, String>enableEditableCells(
+            col_nome,
+            (String value) -> !value.isBlank(),
+            (ResultCenter item, String value) -> item.setName(value),
+            Formatter.DEFAULT_STRING_FORMATTER
+        );
+        TableMacros.<ResultCenter, String>enableEditableCells(
+            col_sigla,
+            (String value) -> !value.isBlank(),
+            (ResultCenter item, String value) -> item.setAcronym(value),
+            Formatter.DEFAULT_STRING_FORMATTER
+        );
+        TableMacros.<ResultCenter, String>enableEditableCells(
+            col_codigo,
+            (String value) -> !value.isBlank(),
+            (ResultCenter item, String value) -> item.setCode(value),
+            Formatter.DEFAULT_STRING_FORMATTER
         );
 
         TableMacros.<ResultCenter, ResultCenterEdit>createEditPopupColumn(
@@ -268,4 +289,9 @@ public class ResultCenters {
         // atualiza a tabela para incluir o ResultCenter inserido
         updateTable();
     }
+
+    @Override @FXML public void saveChanges(ActionEvent event) {
+        tabela.getItems().stream().forEach((ResultCenter user) -> QueryLibs.updateResultCenter(user));
+    }
+
 }

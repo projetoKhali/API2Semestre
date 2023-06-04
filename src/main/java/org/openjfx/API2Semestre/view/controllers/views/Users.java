@@ -14,6 +14,7 @@ import org.openjfx.api2semestre.view.macros.ColumnConfig;
 import org.openjfx.api2semestre.view.macros.ColumnConfigString;
 import org.openjfx.api2semestre.view.macros.TableMacros;
 import org.openjfx.api2semestre.view.utils.filters.UserFilter;
+import org.openjfx.api2semestre.view.utils.interfaces.EditableTableView;
 
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
@@ -28,7 +29,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.util.StringConverter;
 import org.openjfx.api2semestre.view.macros.TableMacros.Formatter;
 
-public class Users {
+public class Users implements EditableTableView<User> {
 
     @FXML private ComboBox<Profile> cb_profile;
     @FXML private TextField tf_name;
@@ -166,6 +167,10 @@ public class Users {
         ));
 
         updateTable();
+    }
+
+    @Override @FXML public void saveChanges(ActionEvent event) {
+        tabela.getItems().stream().forEach((User user) -> QueryLibs.updateUser(user));
     }
 
 }

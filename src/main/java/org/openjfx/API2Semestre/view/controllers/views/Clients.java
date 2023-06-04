@@ -1,10 +1,8 @@
 package org.openjfx.api2semestre.view.controllers.views;
 
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.data.Client;
@@ -14,6 +12,7 @@ import org.openjfx.api2semestre.view.macros.ColumnConfigString;
 import org.openjfx.api2semestre.view.macros.TableMacros;
 import org.openjfx.api2semestre.view.macros.TableMacros.Formatter;
 import org.openjfx.api2semestre.view.utils.filters.ClientFilter;
+import org.openjfx.api2semestre.view.utils.interfaces.EditableTableView;
 import org.openjfx.api2semestre.view.utils.wrappers.ClientWrapper;
 
 import javafx.beans.property.BooleanProperty;
@@ -24,12 +23,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class Clients implements Initializable {
+public class Clients implements EditableTableView<Client> {
 
     @FXML private TextField tf_razao;
     @FXML private TextField tf_cnpj;
@@ -44,11 +42,23 @@ public class Clients implements Initializable {
     private ObservableList<ClientWrapper> displayedClients;
     private List<Client> loadedClients;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize() {
         buildTable();
-
         updateTable();  
+    }
+
+    @SuppressWarnings("unchecked") private void buildTable () {
+
+        ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
+            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                applyFilter();
+            }
+        };
+
+        TableMacros.<ClientWrapper>createDeleteColumn(tabela, "cliente", (ClientWrapper clientWrapper) -> {
+            QueryLibs.deleteClient(clientWrapper.getClient().getId());
+            updateTable();
+        });
 
         TableMacros.<ClientWrapper, String>enableEditableCells(
             col_cnpj,
@@ -63,22 +73,6 @@ public class Clients implements Initializable {
             (ClientWrapper item, String value) -> item.getClient().setNome(value),
             Formatter.DEFAULT_STRING_FORMATTER
         );
-    }
-
-    @SuppressWarnings("unchecked") private void buildTable () {
-
-        ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                applyFilter();
-            }
-        };
-
-        TableMacros.<ClientWrapper>createDeleteColumn(tabela, "cliente", (ClientWrapper clientWrapper) -> {
-            QueryLibs.deleteClient(clientWrapper.getClient().getId());
-            updateTable();
-        });
-
 
         TableMacros.buildTable(
             tabela,
@@ -129,6 +123,10 @@ public class Clients implements Initializable {
             cnpj
         ));
         updateTable();
-
     }
+
+    @Override @FXML public void saveChanges(ActionEvent event) {
+        tabela.getItems().stream().forEach((ClientWrapper clientWrapper) -> QueryLibs.updateClient(clientWrapper.getClient()));
+    }
+
 }

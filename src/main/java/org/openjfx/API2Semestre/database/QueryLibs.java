@@ -55,6 +55,50 @@ public class QueryLibs {
         return result;
     }
 
+    /// Executa um arquivo SQL no caminho especificado.
+    public static void executeSqlFile (String file_path) {
+        Connection conexao = getConnection();
+
+        // Abre o arquivo e inicializa um StringBuilder para a leitura dos comandos SQL
+        try {
+
+            BufferedReader br = new BufferedReader(new FileReader(file_path));
+
+            StringBuilder sb = new StringBuilder();
+            String linha;
+
+            // Lê a próxima linha. Repete enquanto linha não for nula
+            while ((linha = br.readLine()) != null) {
+
+                // adiciona a linha ao StringBuilder e quebra de linha ao final
+                sb.append(linha).append(System.lineSeparator());
+            }
+
+            // Converte o StringBuilder em uma String
+            String sql = sb.toString();
+
+            // System.out.println("QueryLibs.executeSqlFile() -- File loaded, executing SQL commands:\n" + sql);
+
+            // executa as instruções SQL contidas no arquivo
+            Statement statement = conexao.createStatement();
+
+            statement.execute(sql);
+            // envia mudanças para conexão remota
+            conexao.commit();
+            conexao.close();
+            br.close();
+
+        } catch (Exception ex) {
+            System.out.println("QueryLibs.executeSqlFile() -- Erro ao executar query para o arquivo " + file_path);
+            ex.printStackTrace();
+        }
+
+    }
+
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- FUNÇÕES DE INSERT -------------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
+
     /// Executa um INSERT na tabela especificada
     private static int executeInsert (QueryTable table, QueryParam<?>[] params) {
         try {
@@ -140,50 +184,13 @@ public class QueryLibs {
         );
     }
 
-    /// Executa um arquivo SQL no caminho especificado.
-    public static void executeSqlFile (String file_path) {
-        Connection conexao = getConnection();
-
-        // Abre o arquivo e inicializa um StringBuilder para a leitura dos comandos SQL
-        try {
-
-            BufferedReader br = new BufferedReader(new FileReader(file_path));
-
-            StringBuilder sb = new StringBuilder();
-            String linha;
-
-            // Lê a próxima linha. Repete enquanto linha não for nula
-            while ((linha = br.readLine()) != null) {
-
-                // adiciona a linha ao StringBuilder e quebra de linha ao final
-                sb.append(linha).append(System.lineSeparator());
-            }
-
-            // Converte o StringBuilder em uma String
-            String sql = sb.toString();
-
-            // System.out.println("QueryLibs.executeSqlFile() -- File loaded, executing SQL commands:\n" + sql);
-
-            // executa as instruções SQL contidas no arquivo
-            Statement statement = conexao.createStatement();
-
-            statement.execute(sql);
-            // envia mudanças para conexão remota
-            conexao.commit();
-            conexao.close();
-            br.close();
-
-        } catch (Exception ex) {
-            System.out.println("QueryLibs.executeSqlFile() -- Erro ao executar query para o arquivo " + file_path);
-            ex.printStackTrace();
-        }
-
-    }
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- FUNÇÕES DE SELECT -------------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
 
     /// Executa um SELECT especificando tipo de dado esperado, tabela e parametros da query
     /// Pode ser usada uma lista de parametros, o ultimo parametro apresentado representa o WHERE dá query.
-    @SuppressWarnings("unchecked")
-    public static <T extends Data> T[] executeSelect (Class<T> type, QueryTable table, QueryParam<?>[] params) {
+    @SuppressWarnings("unchecked") private static <T extends Data> T[] executeSelect (Class<T> type, QueryTable table, QueryParam<?>[] params) {
         ResultSet result = null;
         try {
             result = executeQuery(new Query(
@@ -213,9 +220,8 @@ public class QueryLibs {
         return resultList.toArray((T[])Array.newInstance(type, resultList.size()));
     }
 
-    @SuppressWarnings("unchecked")
     // select que trás apenas 1 item
-    private static <T extends Data> Optional<T> executeSelectOne (Class<T> type, QueryTable table, QueryParam<?>[] params) {
+    @SuppressWarnings("unchecked") private static <T extends Data> Optional<T> executeSelectOne (Class<T> type, QueryTable table, QueryParam<?>[] params) {
         ResultSet result = null;
         try {
             result = executeQuery(new Query(
@@ -244,7 +250,7 @@ public class QueryLibs {
 
     }
 
-    public static Appointment[] collaboratorSelect (String requester) {
+    public static Appointment[] selectAppointmentsOfUser (String requester) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
             QueryTable.Appointment,
@@ -254,6 +260,37 @@ public class QueryLibs {
         );
     }
 
+    public static Optional<User> selectUserById(int id) {
+        return executeSelectOne(
+            User.class,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+    
+    
+    public static Optional<VwAppointment> selectAppointmentById(int id) {
+        return executeSelectOne(
+            VwAppointment.class,
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+    
+    public static Optional<User> selectUserByEmail(String email) {
+        return executeSelectOne(
+            User.class,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Email, email),
+            }
+        );
+    }
+    
     public static Optional<ResultCenter> selectResultCenter (int id) {
         return QueryLibs.<ResultCenter>executeSelectOne(
             ResultCenter.class,
@@ -288,6 +325,20 @@ public class QueryLibs {
         .toArray(ResultCenter[]::new);
     }
 
+    public static User[] selectMembersOfResultCenter (int cr_id) {
+        return Arrays.asList(QueryLibs.<MemberRelation>executeSelect(
+            MemberRelation.class,
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.ResultCenter,  cr_id)
+            }
+        ))
+        .stream()
+        .map((MemberRelation relation) -> selectUserById(relation.getUserId()).get())
+        .collect(Collectors.toList())
+        .toArray(User[]::new);
+    }
+
     public static Appointment[] selectAppointmentsOfResultCenter (String cr_id) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
@@ -297,6 +348,10 @@ public class QueryLibs {
             }
         );
     }
+
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- FUNÇÕES DE SELECT ALL ---------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
 
     /// Executa um SELECT sem WHERE especificando o tipo de dado esperado e tabela.
     private static <T extends Data> T[] executeSelectAll (Class<T> type, QueryTable table) {
@@ -321,6 +376,16 @@ public class QueryLibs {
         );
     }
 
+    public static User[] selectAllManagersAndAdms() {
+        return QueryLibs.<User>executeSelect(
+            User.class,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.Profile, 1).or(2)
+            }
+        );
+    }
+
     public static ResultCenter[] selectAllResultCenters() {
         return QueryLibs.<ResultCenter>executeSelectAll(
             ResultCenter.class,
@@ -335,47 +400,23 @@ public class QueryLibs {
         );
     }
 
-    public static Optional<User> selectUserById(int id) {
-        return executeSelectOne(
-            User.class,
-            QueryTable.User,
-            new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.Id, id),
-            }
-        );
-    }
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- FUNÇÕES DE UPDATE -------------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
 
-
-// <-- botei suas funções aqui Jhonatan
-
-    public static Optional<VwAppointment> selectAppointmentById(int id) {
-        return executeSelectOne(
-            VwAppointment.class,
-            QueryTable.ViewAppointment,
-            new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.Id, id),
-            }
-        );
-    }
-
-    public static Optional<User> selectUserByEmail(String email) {
-        return executeSelectOne(
-            User.class,
-            QueryTable.User,
-            new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Email, email),
-            }
-        );
-    }
-
-    // movi sua função "insertUser(User user)" lá pra cima junto com as outras funções de insert jhonatan
-
-// <-- até aqui Jhonatan
-
-    // Atualiza um apontammento na tabela. TODO: generic
-    public static void updateTable (Appointment apt) {
+    /// Executa um INSERT na tabela especificada
+    private static void executeUpdate (QueryTable table, QueryParam<?>[] params) {
         executeQuery(new Query(
             QueryType.UPDATE,
+            table,
+            params
+        ));
+        System.out.println("QueryLibs.executeUpdate() -- Erro: nenhum id retornado");
+    }
+
+    // Atualiza um apontammento na tabela.
+    public static void updateAppointment (Appointment apt) {
+        executeUpdate(
             QueryTable.Appointment,
             new QueryParam<?>[] {
 
@@ -394,8 +435,61 @@ public class QueryLibs {
                 // WHERE
                 new QueryParam<Integer>(TableProperty.Id, apt.getId())
             }
-        ));
+        );
     }
+
+    public static void updateUser (User user) {
+        executeUpdate(
+            QueryTable.User,
+            new QueryParam<?>[] {
+
+                // SET
+                new QueryParam<String>(TableProperty.Name, user.getName()),
+                new QueryParam<String>(TableProperty.Registration, user.getRegistration()),
+                new QueryParam<Integer>(TableProperty.Profile, user.getProfile().getProfileLevel()),
+                new QueryParam<String>(TableProperty.Email, user.getEmail()),
+    
+                // WHERE
+                new QueryParam<Integer>(TableProperty.Id, user.getId())
+            }
+        );
+    }
+
+    public static void updateClient (Client client) {
+        executeUpdate(
+            QueryTable.Client,
+            new QueryParam<?>[] {
+
+                // SET
+                new QueryParam<String>(TableProperty.RazaoSocial, client.getRazaoSocial()),
+                new QueryParam<String>(TableProperty.CNPJ, client.getCNPJ()),
+    
+                // WHERE
+                new QueryParam<Integer>(TableProperty.Id, client.getId())
+            }
+        );
+    }
+
+    public static void updateResultCenter (ResultCenter resultCenter) {
+        executeUpdate(
+            QueryTable.ResultCenter,
+            new QueryParam<?>[] {
+
+                // SET
+                new QueryParam<String>(TableProperty.Name, resultCenter.getName()),
+                new QueryParam<String>(TableProperty.Sigla, resultCenter.getAcronym()),
+                new QueryParam<String>(TableProperty.Codigo, resultCenter.getCode()),
+                new QueryParam<Integer>(TableProperty.User, resultCenter.getManagerId()),
+    
+                // WHERE
+                new QueryParam<Integer>(TableProperty.Id, resultCenter.getId())
+            }
+        );
+    }
+
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- FUNÇÕES DE DELETE -------------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
 
     /// Remove um apontamento do banco de dados. TODO: generic
     public static void deleteIdAppointment (Appointment apt) {
@@ -437,6 +531,10 @@ public class QueryLibs {
             }
         ));
     }
+
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- TESTE DE CONEXÃO  -------------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
 
     public static void testConnection(Connection conexao) {
         // Connection conexao = getConnection(); // Add param to testConnection so that it doesn't call getConnection() creating infinite loop

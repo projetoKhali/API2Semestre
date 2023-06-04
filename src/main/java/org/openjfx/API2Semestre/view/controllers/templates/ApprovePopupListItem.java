@@ -3,7 +3,7 @@ package org.openjfx.api2semestre.view.controllers.templates;
 import java.util.List;
 import java.util.Optional;
 
-import org.openjfx.api2semestre.view.controllers.popups.Popup;
+import org.openjfx.api2semestre.view.utils.interfaces.Popup;
 import org.openjfx.api2semestre.view.utils.pretty_table_cell.PrettyTableCell;
 import org.openjfx.api2semestre.view.utils.pretty_table_cell.PrettyTableCellInstruction;
 import org.openjfx.api2semestre.view.utils.wrappers.AppointmentWrapper;
