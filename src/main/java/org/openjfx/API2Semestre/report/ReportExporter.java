@@ -3,7 +3,6 @@ package org.openjfx.api2semestre.report;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.Optional;
 
 import org.openjfx.api2semestre.appointment.Appointment;
@@ -36,7 +35,7 @@ public class ReportExporter {
         }
     }
     
-    public static void exporterCSV(List<ReportInterval> data, String LocalFile) {
+    public static void exporterCSV(ReportInterval[] intervals, String LocalFile) {
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(LocalFile));
 
@@ -55,7 +54,7 @@ public class ReportExporter {
             });
 
             // escreve registros enquanto houver
-            for (ReportInterval reportInterval : data) {
+            for (ReportInterval reportInterval : intervals) {
 
                 Optional<Appointment> optionalAppointment = QueryLibs.selectAppointmentById(reportInterval.getAppointmmentId());
 

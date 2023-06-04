@@ -1,7 +1,5 @@
 package org.openjfx.api2semestre.view.controllers.views;
 
-import java.util.List;
-
 import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.appointment.AppointmentType;
 import org.openjfx.api2semestre.authentication.Authentication;
@@ -80,7 +78,7 @@ public class Dashboard {
 
         if (Authentication.getCurrentUser().getProfile() == Profile.Administrator){
             Appointment[] listAppointments = QueryLibs.selectAllAppointments();
-            List<ReportInterval> listResporIntervals = AppointmentCalculator.calculateReports(listAppointments);
+            ReportInterval[] reportIntervals = AppointmentCalculator.calculateReports(listAppointments);
         }
     }
 
