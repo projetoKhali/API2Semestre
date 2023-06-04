@@ -133,7 +133,7 @@ public class Report {
 
         col_inicio.setCellValueFactory(new PropertyValueFactory<>("horaInício"));
         col_fim.setCellValueFactory(new PropertyValueFactory<>("horaFim"));
-        col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
+        col_total.setCellValueFactory(new PropertyValueFactory<>("totalString"));
         col_justificativa.setCellValueFactory(new PropertyValueFactory<>("justificativa"));
     }
 

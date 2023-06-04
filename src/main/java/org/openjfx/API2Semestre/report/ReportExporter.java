@@ -70,7 +70,7 @@ public class ReportExporter {
                         Integer.toString(reportInterval.getVerba()),
                         reportInterval.getStart().toString(),
                         reportInterval.getEnd().toString(),
-                        reportInterval.getTotal(),
+                        reportInterval.getTotalString(),
                         appointment.getResultCenterName(),
                         appointment.getClientName(),
                         appointment.getProject(),

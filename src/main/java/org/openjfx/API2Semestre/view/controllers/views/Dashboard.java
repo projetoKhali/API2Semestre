@@ -57,5 +57,4 @@ public class Dashboard {
 
         tabs = tabList.toArray(DashboardTab[]::new);
     }
-
 }

@@ -18,14 +18,18 @@ public class ReportInterval {
         this.end = end;
     }
     
+    public LocalTime getTotal() {
+        return LocalTime.ofSecondOfDay(
+            Duration.between(getStart().toInstant(), getEnd().toInstant()).getSeconds()
+        );
+    }
+
     public int getAppointmmentId() { return appointmmentId; }
     public int getVerba() { return verba; }
     public Timestamp getStart() { return start; }
     public Timestamp getEnd() { return end; }
-    public String getTotal() {
-        return LocalTime.ofSecondOfDay(
-            Duration.between(getStart().toInstant(), getEnd().toInstant()).getSeconds()
-        ).format(DateTimeFormatter.ofPattern("HH:mm"));
+    public String getTotalString() {
+        return getTotal().format(DateTimeFormatter.ofPattern("HH:mm"));
     }
 
     public void setAppointmmentId (int appointmmentId) { this.appointmmentId = appointmmentId; }

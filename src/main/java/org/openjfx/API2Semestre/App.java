@@ -47,9 +47,9 @@ public class App extends Application {
     @Override public void start(Stage stage) throws IOException {
         setStage(stage);
 
-        // // Para criar as tabelas que estiverem faltando
+        // Para criar as tabelas que estiverem faltando
         // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/tabelas.sql");
-        // // Para criar as views que estiverem faltando
+        // Para criar as views que estiverem faltando
         // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/views.sql");
 
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
@@ -65,7 +65,7 @@ public class App extends Application {
         //     "123" //                                <---------------------------- SENHA
         // ));
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
-        //     "humano adm exemplo",
+        //     "humano col exemplo",
         //     org.openjfx.api2semestre.authentication.Profile.Colaborador,
         //     "c@o.l", //                             <---------------------------- LOGIN
         //     "123" //                                <---------------------------- SENHA

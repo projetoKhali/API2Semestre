@@ -29,6 +29,7 @@ public enum View {
         Permission.FullAccess
     }),
     Dashboard(7, "Dashboard", "views/dashboard", new Permission[] {}),
+    ResetPassword(7, "Alterar senha", "views/resetPassword", new Permission[] {}),
     ;
 
     public static final View[] VIEWS = values();
