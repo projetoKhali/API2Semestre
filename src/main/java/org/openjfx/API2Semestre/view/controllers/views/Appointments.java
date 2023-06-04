@@ -12,8 +12,11 @@ import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.appointment.AppointmentType;
 import org.openjfx.api2semestre.appointment.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
+import org.openjfx.api2semestre.data.Client;
+import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.utils.DateConverter;
+import org.openjfx.api2semestre.view.controllers.custom_tags.LookupTextField;
 import org.openjfx.api2semestre.view.controllers.popups.PopUpFeedback;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
 import org.openjfx.api2semestre.view.macros.ColumnConfigStatus;
@@ -41,6 +44,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -68,7 +72,7 @@ public class Appointments implements Initializable {
     private TextField tf_projeto;
 
     @FXML
-    private TextField tf_squad;
+    private TextField tf_resultCenter;
 
     @FXML
     private Button bt_horaExtra;
@@ -118,6 +122,28 @@ public class Appointments implements Initializable {
         buildTable();
 
         updateTable();
+
+        // Query all user's resultCenters. TODO: implement pagination
+        ResultCenter[] resultCenters = QueryLibs.selectResultCentersOfMember(Authentication.getCurrentUser().getId());
+
+        // Create a new LookupTextField to replace the default javafx TextField at tf_resultCenter
+        LookupTextField<ResultCenter> lookupTextFieldResultCenter = new LookupTextField<ResultCenter>(resultCenters);
+        ((FlowPane)tf_resultCenter.getParent()).getChildren().set(
+            ((FlowPane)tf_resultCenter.getParent()).getChildren().indexOf(tf_resultCenter),
+            lookupTextFieldResultCenter
+        );
+        tf_resultCenter = lookupTextFieldResultCenter;
+
+        // Query all clients. TODO: implement pagination
+        Client[] clients = QueryLibs.selectAllClients();
+
+        // Create a new LookupTextField to replace the default javafx TextField at tf_cliente
+        LookupTextField<Client> lookupTextFieldClient = new LookupTextField<Client>(clients);
+        ((FlowPane)tf_cliente.getParent()).getChildren().set(
+            ((FlowPane)tf_cliente.getParent()).getChildren().indexOf(tf_cliente),
+            lookupTextFieldClient
+        );
+        tf_cliente = lookupTextFieldClient;
     }
 
     @SuppressWarnings("unchecked")
@@ -203,21 +229,23 @@ public class Appointments implements Initializable {
     }
 
     void inputAppointment (AppointmentType type) {
+        @SuppressWarnings("unchecked") LookupTextField<ResultCenter> lookupTfResultCenter = ((LookupTextField<ResultCenter>)tf_resultCenter);
+        ResultCenter resultCenter = lookupTfResultCenter.getSelectedItem();
+        Integer resultCenter_id = resultCenter.getId();
+        @SuppressWarnings("unchecked") LookupTextField<Client> lookupTfClient = ((LookupTextField<Client>)tf_cliente);
+        Client cliente = lookupTfClient.getSelectedItem();
+        Integer cliente_id = cliente.getId();
         try {
-            int squad = Integer.parseInt( tf_squad.getText());
-            int client = Integer.parseInt( tf_cliente.getText());
-            QueryLibs.insertAppointment(new Appointment(        // TODO: use User, CR and Client *IDs*
+            QueryLibs.insertAppointment(new Appointment(
                 Authentication.getCurrentUser().getId(),
                 type,
                 DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),
                 DateConverter.inputToTimestamp(tf_dataFinal.getValue(),tf_horaFinal.getText()),
-                squad,
-                client,
+                resultCenter_id,
+                cliente_id,
                 tf_projeto.getText(),
                 tf_justificativa.getText()
             ));
-
-            updateTable();
         } catch (Exception e) {
             System.out.println("Erro: Appointments.inputAppointment() -- Falha ao inserir apontamento");
         }
