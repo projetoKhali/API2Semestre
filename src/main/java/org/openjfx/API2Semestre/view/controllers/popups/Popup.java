@@ -1,9 +1,9 @@
 package org.openjfx.api2semestre.view.controllers.popups;
 
-import org.openjfx.api2semestre.view.utils.wrappers.AppointmentWrapper;
+import javafx.scene.control.TableView;
 
-public interface Popup {
-    AppointmentWrapper getSelected();
-    void setSelected (AppointmentWrapper aptWrapper);
-    void buildTable ();
+public interface Popup<T> {
+    T getSelected();
+    void setSelected (T item);
+    TableView<T> getTable();
 }

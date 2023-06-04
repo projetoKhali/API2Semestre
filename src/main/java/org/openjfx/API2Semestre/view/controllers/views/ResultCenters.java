@@ -3,6 +3,7 @@ package org.openjfx.api2semestre.view.controllers.views;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view.controllers.custom_tags.LookupTextField;
+import org.openjfx.api2semestre.view.controllers.popups.ResultCenterEdit;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
 import org.openjfx.api2semestre.view.macros.ColumnConfigString;
 import org.openjfx.api2semestre.view.macros.TableMacros;
@@ -113,13 +114,22 @@ public class ResultCenters {
         TableMacros.buildTable(
             tabela,
             new ColumnConfig[] {
-                new ColumnConfigString<>(col_nome, "nome", "Nome", Optional.of(col_nome_enableFilter)),
-                new ColumnConfigString<>(col_sigla, "sigla", "Sigla", Optional.of(col_sigla_enableFilter)),
-                new ColumnConfigString<>(col_codigo, "codigo", "Codigo", Optional.of(col_codigo_enableFilter)),
-                new ColumnConfigString<>(col_gestor, "gestorNome", "Gestor", Optional.of(col_gestor_enableFilter)),
-                // new ColumnConfigString<>(col_membros, "membros", "Membros", Optional.empty()),
+                new ColumnConfigString<>(col_nome, "name", "Nome", Optional.of(col_nome_enableFilter)),
+                new ColumnConfigString<>(col_sigla, "acronym", "Sigla", Optional.of(col_sigla_enableFilter)),
+                new ColumnConfigString<>(col_codigo, "code", "Codigo", Optional.of(col_codigo_enableFilter)),
+                new ColumnConfigString<>(col_gestor, "managerName", "Gestor", Optional.of(col_gestor_enableFilter)),
             },
             Optional.of(applyFilterCallback)
+        );
+
+        TableMacros.<ResultCenter, ResultCenterEdit>createEditPopupColumn(
+            tabela, 
+            "Centro de Resultado",
+            "popups/resultCenterEdit",
+            Optional.of((ResultCenter resultCenter) -> {
+                QueryLibs.deleteResultCenter(resultCenter.getId());
+                updateTable();
+            })
         );
     }
 

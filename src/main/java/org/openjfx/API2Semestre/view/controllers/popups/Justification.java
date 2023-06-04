@@ -29,12 +29,12 @@ public class Justification {
     @FXML private TableColumn<AppointmentWrapper, String> col_total;
 
     @FXML private Label lb_justification;
-    
+
     public void setAppointment(AppointmentWrapper apt) {
         lb_justification.setText(apt.getJustification());
         buildTable(apt);
     }
-    
+
     @SuppressWarnings("unchecked")
     private void buildTable (AppointmentWrapper apt) {
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
@@ -52,7 +52,7 @@ public class Justification {
         col_cliente.setCellValueFactory( new PropertyValueFactory<>( "client" ));
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
-    
+
         tabela.setItems(FXCollections.observableArrayList(List.of(apt)));
     }
 }

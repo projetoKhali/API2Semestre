@@ -65,9 +65,9 @@ public class ResultCenter extends Data implements HasDisplayName {
     public String getAcronym () { return acronym; }
     public String getCode () { return code; }
     public Integer getManagerId() { return managerId; }
-    
+
     public String getManagerName () { return managerName; }
-    
+
     public void setId(Integer id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setAcronym(String acronym) { this.acronym = acronym; }

@@ -71,9 +71,9 @@ public class Approvals {
     @FXML private TableView<AppointmentWrapper> tabela;
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
-    
+
     public void initialize() {
-    
+
         buildTable();
 
         updateTable();
@@ -197,8 +197,7 @@ public class Approvals {
         return displayedAppointments.stream().filter((AppointmentWrapper apt) -> apt.getSelected()).collect(Collectors.toList());
     }
 
-    @FXML
-    private void showApprovePopup (ActionEvent event) throws IOException {
+    @FXML private void showApprovePopup (ActionEvent event) throws IOException {
         System.out.println("showApprovePopup");
         createPopup(
             "templates/approvePopupListItem",
@@ -216,8 +215,7 @@ public class Approvals {
         );
     }
 
-    @FXML
-    private void showRejectPopup (ActionEvent event) throws IOException {
+    @FXML private void showRejectPopup (ActionEvent event) throws IOException {
         System.out.println("showRejectPopup");
         createPopup(
             "templates/rejectPopupListItem",
@@ -245,7 +243,11 @@ public class Approvals {
         );
     }
 
-    private <T extends Popup> Stage createPopup (String popupFxmlFile, String actionText, PopupCallback<T> callback) {
+    private <T extends Popup<AppointmentWrapper>> Stage createPopup (
+        String popupFxmlFile,
+        String actionText,
+        PopupCallback<T> callback
+    ) {
 
         // Get the list of items from the main application
         List<AppointmentWrapper> selectedAppointments = getSelected();
@@ -271,7 +273,6 @@ public class Approvals {
                 T controller = loader.getController();
 
                 controller.setSelected(aptWrapper);
-                controller.buildTable();
 
                 // Add the HBox to the VBox
                 itemsVBox.getChildren().add(listItem);
@@ -307,7 +308,7 @@ public class Approvals {
         Scene scene = new Scene(root, 800, 400);
         popupStage.setScene(scene);
         popupStage.showAndWait();
-    
+
         return popupStage;
     }
 

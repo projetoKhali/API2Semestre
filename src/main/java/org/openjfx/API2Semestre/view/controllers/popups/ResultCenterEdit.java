@@ -1,58 +1,60 @@
 package org.openjfx.api2semestre.view.controllers.popups;
 
 import java.util.List;
-import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.paint.Color;
-
-import org.openjfx.api2semestre.view.utils.pretty_table_cell.PrettyTableCell;
-import org.openjfx.api2semestre.view.utils.pretty_table_cell.PrettyTableCellInstruction;
-import org.openjfx.api2semestre.view.utils.wrappers.AppointmentWrapper;
+import org.openjfx.api2semestre.data.ResultCenter;
+import org.openjfx.api2semestre.view.macros.TableMacros;
+import org.openjfx.api2semestre.view.macros.TableMacros.Formatter;
 
 
-public class ResultCenterEdit {
+public class ResultCenterEdit implements Popup<ResultCenter> {
 
-    @FXML private TableView<AppointmentWrapper> tabela;
+    @FXML private TableView<ResultCenter> tabela;
 
-    @FXML private TableColumn<AppointmentWrapper, String> col_status;
-    @FXML private TableColumn<AppointmentWrapper, String> col_squad;
-    @FXML private TableColumn<AppointmentWrapper, String> col_tipo;
-    @FXML private TableColumn<AppointmentWrapper, String> col_inicio;
-    @FXML private TableColumn<AppointmentWrapper, String> col_fim;
-    @FXML private TableColumn<AppointmentWrapper, String> col_cliente;
-    @FXML private TableColumn<AppointmentWrapper, String> col_projeto;
-    @FXML private TableColumn<AppointmentWrapper, String> col_total;
+    @FXML private TableColumn<ResultCenter, String> col_nome;
+    @FXML private TableColumn<ResultCenter, String> col_sigla;
+    @FXML private TableColumn<ResultCenter, String> col_codigo;
+    @FXML private TableColumn<ResultCenter, String> col_gestor;
 
-    @FXML private Label lb_justification;
-    
-    public void setAppointment(AppointmentWrapper apt) {
-        lb_justification.setText(apt.getJustification());
-        buildTable(apt);
+    @Override public void setSelected(ResultCenter resultCenter) {
+        col_nome.setCellValueFactory( new PropertyValueFactory<>( "name" ));
+        col_sigla.setCellValueFactory( new PropertyValueFactory<>( "acronym" ));
+        col_codigo.setCellValueFactory( new PropertyValueFactory<>( "code" ));
+        col_gestor.setCellValueFactory( new PropertyValueFactory<>( "managerName" ));
+
+        TableMacros.<ResultCenter, String>enableEditableCells(
+            col_nome,
+            (String value) -> !value.isBlank(),
+            (ResultCenter item, String value) -> item.setName(value),
+            Formatter.DEFAULT_STRING_FORMATTER
+        );
+        TableMacros.<ResultCenter, String>enableEditableCells(
+            col_sigla,
+            (String value) -> !value.isBlank(),
+            (ResultCenter item, String value) -> item.setAcronym(value),
+            Formatter.DEFAULT_STRING_FORMATTER
+        );
+        TableMacros.<ResultCenter, String>enableEditableCells(
+            col_codigo,
+            (String value) -> !value.isBlank(),
+            (ResultCenter item, String value) -> item.setCode(value),
+            Formatter.DEFAULT_STRING_FORMATTER
+        );
+        // TableMacros.<ResultCenter, String>enableEditableCells(
+        //     col_gestor,
+        //     (String value) -> !value.isBlank(),
+        //     (ResultCenter item, String value) -> item.?(value),
+        //     Formatter.DEFAULT_STRING_FORMATTER
+        // );
+
+        tabela.setItems(FXCollections.observableArrayList(List.of(resultCenter)));
     }
-    
-    @SuppressWarnings("unchecked")
-    private void buildTable (AppointmentWrapper apt) {
-        col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
-        col_status.setCellFactory(column -> {
-            return new PrettyTableCell<AppointmentWrapper, String>(new PrettyTableCellInstruction[] {
-                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Pendente"), new Color(0.97, 1, 0.6, 1)),
-                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Aprovado"), new Color(0.43, 0.84, 0.47, 1)),
-                new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Rejeitado"), new Color(0.87, 0.43, 0.43, 1))
-            });
-        });
-        col_squad.setCellValueFactory( new PropertyValueFactory<>( "squad" ));
-        col_tipo.setCellValueFactory( new PropertyValueFactory<>( "type" ));
-        col_inicio.setCellValueFactory( new PropertyValueFactory<>( "startDate" ));
-        col_fim.setCellValueFactory( new PropertyValueFactory<>( "endDate" ));
-        col_cliente.setCellValueFactory( new PropertyValueFactory<>( "client" ));
-        col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
-        col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
-    
-        tabela.setItems(FXCollections.observableArrayList(List.of(apt)));
-    }
+
+    @Override public ResultCenter getSelected() { return tabela.getItems().get(0); }
+    @Override public TableView<ResultCenter> getTable() { return tabela; }
+
 }

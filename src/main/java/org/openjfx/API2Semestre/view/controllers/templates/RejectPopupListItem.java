@@ -16,60 +16,22 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 
-public class RejectPopupListItem implements Popup {
+public class RejectPopupListItem implements Popup<AppointmentWrapper> {
 
-    @FXML
-    private TableView<AppointmentWrapper> tabela;
+    @FXML private TableView<AppointmentWrapper> tabela;
 
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_status;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_squad;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_tipo;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_inicio;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_fim;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_cliente;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_projeto;
-    
-    @FXML
-    private TableColumn<AppointmentWrapper, String> col_total;
-   
-    @FXML
-    private TextField textField;
+    @FXML private TableColumn<AppointmentWrapper, String> col_status;
+    @FXML private TableColumn<AppointmentWrapper, String> col_squad;
+    @FXML private TableColumn<AppointmentWrapper, String> col_tipo;
+    @FXML private TableColumn<AppointmentWrapper, String> col_inicio;
+    @FXML private TableColumn<AppointmentWrapper, String> col_fim;
+    @FXML private TableColumn<AppointmentWrapper, String> col_cliente;
+    @FXML private TableColumn<AppointmentWrapper, String> col_projeto;
+    @FXML private TableColumn<AppointmentWrapper, String> col_total;
 
-    private AppointmentWrapper apt_selected;
+    @FXML private TextField textField;
 
-    @Override
-    public AppointmentWrapper getSelected() {
-        return apt_selected;
-    }
-
-    @Override
-    public void setSelected(AppointmentWrapper aptWrapper) {
-        apt_selected = aptWrapper;
-    }
-
-    public void initialize(){
-
-    }
-
-    public String getFeedback () {
-        return textField.getText();
-    }
-
-    @SuppressWarnings("unchecked")
-    public void buildTable () {
+    @SuppressWarnings("unchecked") @Override public void setSelected(AppointmentWrapper appointmentWrapper) {
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
         col_status.setCellFactory(column -> {
             return new PrettyTableCell<AppointmentWrapper, String>(new PrettyTableCellInstruction[] {
@@ -85,9 +47,13 @@ public class RejectPopupListItem implements Popup {
         col_cliente.setCellValueFactory( new PropertyValueFactory<>( "client" ));
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
-    
-        tabela.setItems(FXCollections.observableArrayList(List.of(apt_selected)));
+
+        tabela.setItems(FXCollections.observableArrayList(List.of(appointmentWrapper)));
     }
 
+    @Override public AppointmentWrapper getSelected() { return tabela.getItems().get(0); }
+    @Override public TableView<AppointmentWrapper> getTable() { return tabela; }
+
+    public String getFeedback () { return textField.getText(); }
 
 }
