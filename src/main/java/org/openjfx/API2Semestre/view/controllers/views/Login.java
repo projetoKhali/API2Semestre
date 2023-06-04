@@ -3,7 +3,6 @@ package org.openjfx.api2semestre.view.controllers.views;
 import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.view.manager.ViewsManager;
-// import org.openjfx.api2semestre.view.utils.SplashScreenHandler;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
@@ -19,14 +18,8 @@ public class Login {
             String password = tf_senha.getText();
             if (Authentication.login(email, password)) {
                 App.closeWindow();
-                // SplashScreenHandler.showSplashScreen(() -> {
-                    // try {
                 App.changeView(ViewsManager.handleViews());
-                    // } catch (Exception e) {
-                    //     e.printStackTrace();
-                    // }
                 App.getStage().show();
-                // });
             }
         } catch (Exception e) {
             System.out.println("Erro ao efetuar login");
