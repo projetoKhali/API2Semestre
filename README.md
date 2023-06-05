@@ -30,7 +30,6 @@
 |[Marcos Malaquias](https://github.com/Incivius) | <a href="https://www.linkedin.com/in/marcos-malaquias-criatividade-%C3%A9-o-que-me-faz-ser-eu/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = "mailto:vitchenso1@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href="https://www.instagram.com/mv.malaquias/?next=%2F" target="blank"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 |[Matheus Almeida](https://github.com/matheusalmsou) |  <a href= - target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = - ><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href=- ><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 |[Paulo Granthon](https://github.com/paulo-granthon) | <a href="https://www.linkedin.com/in/paulo-granthon/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = "mailto:pv.granthon@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href="https://www.instagram.com/p.granthon/?next=%2F"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
-|[Renato Mendes](https://github.com/RenatoCMMendes) |  <a href= - target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = - ><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href=- ><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 |[Tânia Cruz](https://github.com/taniacruzz) | <a href="https://www.linkedin.com/in/t%C3%A2nia-cruz-30ab5812a/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = "mailto:tanicruz112@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href="https://www.instagram.com/tanicruz_/?next=%2F"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 
 
@@ -75,7 +74,7 @@
 - [x] 13/03 a 02/04 - Sprint 1
 - [x] 03/04 a 23/04 - Sprint 2
 - [x] 24/04 a 14/05 - Sprint 3
-- [ ] 15/05 a 04/06 - Sptint 4
+- [x] 15/05 a 04/06 - Sprint 4
 - [ ] 13/06 a 14/06 - Feira de soluções
 
 </details>
@@ -88,6 +87,8 @@
 ![image](https://user-images.githubusercontent.com/79020769/233870703-35cb9ada-bca1-4812-a1a4-47e435f4a8cd.png)
 
 ![image](https://github.com/projetoKhali/API2Semestre/assets/79020769/048e3e03-e52a-476c-a399-6399b83de7fa)
+ 
+![image](https://github.com/projetoKhali/API2Semestre/assets/79020769/79639f7f-48f2-4a5c-9f23-46afb1daf39b)
 
 </details>
 <br> 
