@@ -90,32 +90,29 @@ public class ResultCenterEdit implements EditPopup<ResultCenter> {
         tabela.setItems(FXCollections.observableArrayList(List.of(resultCenter)));
 
         col_gestor.setCellFactory(column -> new TableCell<ResultCenter, String>() {
-            private LookupTextField<User> lookupTextField;
-
             {
                 User[] users = QueryLibs.selectAllManagersAndAdms();
-                lookupTextField = new LookupTextField<User>(
+                lookupTextFieldGestor = new LookupTextField<User>(
                     (User[])Arrays.stream(users).filter((User user) -> user.getProfile().getProfileLevel() > 0).toArray(User[]::new)
                 );
-                lookupTextField.setPromptText(resultCenter.getManagerName());
+                lookupTextFieldGestor.setPromptText(resultCenter.getManagerName());
                 try {
                     User currentManager = QueryLibs.selectUserById(resultCenter.getManagerId()).orElseThrow(() -> new Exception());
-                    lookupTextField.selectedItemProperty().addListener(new ChangeListener<User>() {
+                    lookupTextFieldGestor.selectedItemProperty().addListener(new ChangeListener<User>() {
                         @Override public void changed(ObservableValue<? extends User> arg0, User oldPropertyValue, User newPropertyValue) {
                             if (oldPropertyValue != null) lookupTextFieldColaborador.addSuggestion(oldPropertyValue);
                             if (newPropertyValue != null) lookupTextFieldColaborador.removeSuggestion(newPropertyValue);
                         }
                     });
-                    // lookupTextField.setText(currentManager.getName());
-                    lookupTextField.selectedItemProperty().set(currentManager);
+                    // lookupTextFieldGestor.setText(currentManager.getName());
+                    lookupTextFieldGestor.selectedItemProperty().set(currentManager);
                     lookupTextFieldColaborador.removeSuggestion(currentManager);
 
                 } catch (Exception e) {
                     System.out.println("Gestor não encontrado!");
                     e.printStackTrace();
                 }
-                setGraphic(lookupTextField);
-                lookupTextFieldGestor = lookupTextField;
+                setGraphic(lookupTextFieldGestor);
             }
         });
 
@@ -142,7 +139,7 @@ public class ResultCenterEdit implements EditPopup<ResultCenter> {
         selectedUsers.add(user);
 
         // Remove the suggestion from both LookupTextFields and clear the contents of lookupTextFieldColaborador
-        lookupTextFieldGestor.removeSuggestion(user);
+        if (lookupTextFieldGestor != null) lookupTextFieldGestor.removeSuggestion(user);
         lookupTextFieldColaborador.removeSuggestion(user);
 
         // Create a label with the User's name
@@ -173,7 +170,7 @@ public class ResultCenterEdit implements EditPopup<ResultCenter> {
         userRemoveButton.setOnAction(e -> {
             fp_members.getChildren().remove(userContainer);
             lookupTextFieldColaborador.addSuggestion(user);
-            if (user.getProfile().getProfileLevel() > 0) lookupTextFieldGestor.addSuggestion(user);
+            if (user.getProfile().getProfileLevel() > 0 && lookupTextFieldGestor != null) lookupTextFieldGestor.addSuggestion(user);
             selectedUsers.remove(user);
         });
     }

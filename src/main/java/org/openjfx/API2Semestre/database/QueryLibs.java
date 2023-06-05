@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -375,13 +376,25 @@ public class QueryLibs {
     }
 
     public static User[] selectAllManagersAndAdms() {
-        return QueryLibs.<User>executeSelect(
-            User.class,
-            QueryTable.User,
-            new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.Usr_Profile, 1).or(2)
-            }
-        );
+        LinkedList<User> users = new LinkedList<>(Arrays.asList(
+            QueryLibs.<User>executeSelect(
+                User.class,
+                QueryTable.User,
+                new QueryParam<?>[] {
+                    new QueryParam<>(TableProperty.Usr_Profile, 1)
+                }
+            )
+        ));
+        users.addAll(Arrays.asList(
+            QueryLibs.<User>executeSelect(
+                User.class,
+                QueryTable.User,
+                new QueryParam<?>[] {
+                    new QueryParam<>(TableProperty.Usr_Profile, 2)
+                }
+            )
+        ));
+        return users.toArray(User[]::new);
     }
 
     public static ResultCenter[] selectAllResultCenters() {
@@ -466,18 +479,25 @@ public class QueryLibs {
 /// -----------------------------------------------------------------------------------------------------------------------
 
     /// Executa um INSERT na tabela especificada
-    private static void executeUpdate (QueryTable table, QueryParam<?>[] params) {
-        executeQuery(new Query(
-            QueryType.UPDATE,
-            table,
-            params
-        ));
-        System.out.println("QueryLibs.executeUpdate() -- Erro: nenhum id retornado");
+    private static int executeUpdate (QueryTable table, QueryParam<?>[] params) {
+        try {
+            ResultSet resultSet = executeQuery(new Query(
+                QueryType.UPDATE,
+                table,
+                params
+            )).get();
+            resultSet.next();
+            return resultSet.getInt("id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("QueryLibs.executeInsert() -- Erro: nenhum id retornado");
+        return -1;
     }
 
     // Atualiza um apontammento na tabela.
-    public static void updateAppointment (Appointment apt) {
-        executeUpdate(
+    public static int updateAppointment (Appointment apt) {
+        return executeUpdate(
             QueryTable.Appointment,
             new QueryParam<?>[] {
 
@@ -485,15 +505,11 @@ public class QueryLibs {
                 new QueryParam<Timestamp>(TableProperty.Apt_StartDate, apt.getStart()),
                 new QueryParam<Timestamp>(TableProperty.Apt_EndDate, apt.getEnd()),
                 new QueryParam<Integer>(TableProperty.UserId, apt.getRequester()),
-                new QueryParam<String>(TableProperty.UserId, apt.getRequesterRegistration()),
-                new QueryParam<String>(TableProperty.UserId, apt.getRequesterName()),
                 new QueryParam<String>(TableProperty.Apt_Project, apt.getProject()),
                 new QueryParam<Integer>(TableProperty.Apt_ClientId, apt.getClientId()),
-                new QueryParam<String>(TableProperty.Apt_ClientName, apt.getClientName()),
                 new QueryParam<Boolean>(TableProperty.Apt_Type, apt.getType().getBooleanValue()),
                 new QueryParam<String>(TableProperty.Apt_Justification, apt.getJustification()),
                 new QueryParam<Integer>(TableProperty.ResultCenterId, apt.getResultCenterId()),
-                new QueryParam<String>(TableProperty.Apt_ResultCenterName, apt.getResultCenterName()),
                 new QueryParam<Integer>(TableProperty.Apt_Status, apt.getStatus().getIntValue()),
                 new QueryParam<String>(TableProperty.Apt_Feedback, apt.getFeedback()),
 
@@ -503,8 +519,8 @@ public class QueryLibs {
         );
     }
 
-    public static void updateUser (User user) {
-        executeUpdate(
+    public static int updateUser (User user) {
+        return executeUpdate(
             QueryTable.User,
             new QueryParam<?>[] {
 
@@ -520,8 +536,8 @@ public class QueryLibs {
         );
     }
 
-    public static void updateClient (Client client) {
-        executeUpdate(
+    public static int updateClient (Client client) {
+        return executeUpdate(
             QueryTable.Client,
             new QueryParam<?>[] {
 
@@ -535,8 +551,8 @@ public class QueryLibs {
         );
     }
 
-    public static void updateResultCenter (ResultCenter resultCenter) {
-        executeUpdate(
+    public static int updateResultCenter (ResultCenter resultCenter) {
+        return executeUpdate(
             QueryTable.ResultCenter,
             new QueryParam<?>[] {
 

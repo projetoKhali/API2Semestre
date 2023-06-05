@@ -2,8 +2,6 @@ package org.openjfx.api2semestre.report;
 
 import java.sql.Timestamp;
 import java.time.Duration;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 
 public class ReportInterval {
     private int appointmmentId;
@@ -18,10 +16,8 @@ public class ReportInterval {
         this.end = end;
     }
     
-    public LocalTime getTotal() {
-        return LocalTime.ofSecondOfDay(
-            Duration.between(getStart().toInstant(), getEnd().toInstant()).getSeconds()
-        );
+    public long getTotal() {
+        return Duration.between(getStart().toInstant(), getEnd().toInstant()).getSeconds() / 60;
     }
 
     public int getAppointmmentId() { return appointmmentId; }
@@ -29,7 +25,8 @@ public class ReportInterval {
     public Timestamp getStart() { return start; }
     public Timestamp getEnd() { return end; }
     public String getTotalString() {
-        return getTotal().format(DateTimeFormatter.ofPattern("HH:mm"));
+        long minutes = getTotal();
+        return new StringBuilder(String.valueOf(minutes / 60)).append(":").append(minutes).toString();
     }
 
     public void setAppointmmentId (int appointmmentId) { this.appointmmentId = appointmmentId; }
