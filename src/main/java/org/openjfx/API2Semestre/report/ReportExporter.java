@@ -57,16 +57,16 @@ public class ReportExporter {
 
             // escreve o cabeçalho do arquivo csv
             List<String> campos = new ArrayList<>();
-            if(camposBoolean[0]){campos.add("Matricula");}
-            if(camposBoolean[1]){campos.add("Colaborador");}
-            if(camposBoolean[2]){campos.add("Verba");}
-            if(camposBoolean[3]){campos.add("Hora Início");}
-            if(camposBoolean[4]){campos.add("Hora Fim");}
-            if(camposBoolean[5]){campos.add("Total");}
-            if(camposBoolean[6]){campos.add("Centro Resultado");}
-            if(camposBoolean[7]){campos.add("Cliente");}
-            if(camposBoolean[8]){campos.add("Projeto");}
-            if(camposBoolean[9]){campos.add("Justificativa");}
+            if(camposBoolean[0]) campos.add("Matricula");
+            if(camposBoolean[1]) campos.add("Colaborador");
+            if(camposBoolean[2]) campos.add("Verba");
+            if(camposBoolean[3]) campos.add("Hora Início");
+            if(camposBoolean[4]) campos.add("Hora Fim");
+            if(camposBoolean[5]) campos.add("Total");
+            if(camposBoolean[6]) campos.add("Centro Resultado");
+            if(camposBoolean[7]) campos.add("Cliente");
+            if(camposBoolean[8]) campos.add("Projeto");
+            if(camposBoolean[9]) campos.add("Justificativa");
             writer.writeNext(campos.toArray(String[]::new));
 
             // escreve registros enquanto houver
@@ -82,16 +82,16 @@ public class ReportExporter {
                 
                 List<String> dados = new ArrayList<>();
                 if(!(reportInterval.getStart().after(data_fim) || reportInterval.getEnd().before(data_inicio))){
-                    if(camposBoolean[0]){dados.add(appointment.getRequesterRegistration());}
-                    if(camposBoolean[1]){dados.add(appointment.getRequesterName());}
-                    if(camposBoolean[2]){dados.add(Integer.toString(reportInterval.getVerba()));}
-                    if(camposBoolean[3]){dados.add(reportInterval.getStart().toString());}
-                    if(camposBoolean[4]){dados.add(reportInterval.getEnd().toString());}
-                    if(camposBoolean[5]){dados.add(reportInterval.getTotalString());}
-                    if(camposBoolean[6]){dados.add(appointment.getResultCenterName());}
-                    if(camposBoolean[7]){dados.add(appointment.getClientName());}
-                    if(camposBoolean[8]){dados.add( appointment.getProject());}
-                    if(camposBoolean[9]){dados.add(appointment.getJustification());}
+                    if(camposBoolean[0]) dados.add(appointment.getRequesterRegistration());
+                    if(camposBoolean[1]) dados.add(appointment.getRequesterName());
+                    if(camposBoolean[2]) dados.add(Integer.toString(reportInterval.getVerba()));
+                    if(camposBoolean[3]) dados.add(reportInterval.getStart().toString());
+                    if(camposBoolean[4]) dados.add(reportInterval.getEnd().toString());
+                    if(camposBoolean[5]) dados.add(reportInterval.getTotalString());
+                    if(camposBoolean[6]) dados.add(appointment.getResultCenterName());
+                    if(camposBoolean[7]) dados.add(appointment.getClientName());
+                    if(camposBoolean[8]) dados.add( appointment.getProject());
+                    if(camposBoolean[9]) dados.add(appointment.getJustification());
                 }
                 System.out.print("teste, datafim: " + data_fim);
     
