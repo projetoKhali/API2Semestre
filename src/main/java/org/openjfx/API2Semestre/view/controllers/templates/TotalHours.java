@@ -22,25 +22,29 @@ public class TotalHours {
     private Label lblTotalHorasVerba;
 
     public void setTotalHours(ReportInterval[] listReportInterval) {
-        long totalHora = 0;
+        long totalMinutes = 0;
         for (ReportInterval reportInterval : listReportInterval) {
-            totalHora += reportInterval.getTotal().toNanoOfDay();
+            totalMinutes += reportInterval.getTotal();
         }
-        lblTotalHoras.setText(String.valueOf(totalHora));
+        lblTotalHoras.setText(String.valueOf(
+            new StringBuilder(String.valueOf(totalMinutes / 60)).append(":").append(totalMinutes).toString()
+        ));
     }
 
     public void setTotalHoursRemunereted(ReportInterval[] listReportInterval) {
-        double totalHora = 0;
+        double totalMinutes = 0;
         IntervalFee[] verbas = IntervalFee.getVerbas();
         for (ReportInterval reportInterval : listReportInterval) {
             for (IntervalFee verba : verbas) {
                 if (reportInterval.getVerba() == verba.getCode()) {
-                    totalHora += reportInterval.getTotal().toNanoOfDay() * verba.getPercent();
+                    totalMinutes += reportInterval.getTotal() * verba.getPercent();
                     break;
                 }
             }
         }
-        lblTotalHorasVerba.setText(String.valueOf(totalHora));
+        lblTotalHorasVerba.setText(String.valueOf(
+            new StringBuilder(String.valueOf(totalMinutes / 60)).append(":").append(totalMinutes).toString()
+        ));
     }
 
     public void setNumTotalAppointments(Appointment[] listApontamentos) {
@@ -57,8 +61,8 @@ public class TotalHours {
             controller.setTotalHoursRemunereted(listReportInterval);
             return totalHoursParent;
         } catch (Exception e) {
-            // TODO: handle exception
             System.out.println("Erro - totalHoursParent() | erro ao gerar tela");
+            e.printStackTrace();
         }
         return null;
     }

@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.appointment.Appointment;
-import org.openjfx.api2semestre.appointment.AppointmentType;
+import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.report.ReportInterval;
 import org.openjfx.api2semestre.utils.AppointmentCalculator;
-import org.openjfx.api2semestre.utils.DateConverter;
 import org.openjfx.api2semestre.view.utils.ChartGenerator;
 import org.openjfx.api2semestre.view.utils.dashboard.DashboardContext;
 import org.openjfx.api2semestre.view.utils.dashboard.FilterControl;
@@ -71,58 +70,7 @@ public class DashboardTab {
     public void setContext(DashboardContext context) {
         this.context = context;
         
-        // loadedAppointments = context.loadData(Authentication.getCurrentUser());
-
-        loadedAppointments = new Appointment[] {
-            new Appointment(1, 0, "123", "Julio",
-                AppointmentType.Overtime,
-                DateConverter.stringToTimestamp("2023-05-05 12:00:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 13:00:00"), 
-                0, "Squad Foda", 
-                0, "Cleitin", "ProjetoA", 
-                "pq sim", 1, "sample"
-            ),
-            new Appointment(1, 0, "123", "Julio",
-                AppointmentType.Overtime,
-                DateConverter.stringToTimestamp("2023-05-05 12:30:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 13:30:00"), 
-                0, "Squad Foda", 
-                0, "Cleitin", "ProjetoA", 
-                "pq sim", 1, "sample"
-            ),
-            new Appointment(1, 0, "123", "Julio",
-                AppointmentType.OnNotice,
-                DateConverter.stringToTimestamp("2023-05-05 13:00:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 14:00:00"), 
-                0, "Squad Foda", 
-                0, "Clovis", "GTA Brasileiro", 
-                "pq sim", 0, "sample"
-            ),
-            new Appointment(1, 0, "123", "Julio",
-                AppointmentType.Overtime,
-                DateConverter.stringToTimestamp("2023-05-05 13:30:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 14:30:00"), 
-                0, "Squad Foda", 
-                0, "Clovis", "GTA Brasileiro", 
-                "pq sim", 2, "sample"
-            ),
-            new Appointment(1, 0, "123", "Julio",
-                AppointmentType.Overtime,
-                DateConverter.stringToTimestamp("2023-05-05 14:00:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 15:00:00"), 
-                0, "Squad Foda", 
-                0, "Mr. Klayent", "Porojereto", 
-                "pq sim", 0, "sample"
-            ),
-            new Appointment(1, 0, "123", "Julio",
-                AppointmentType.OnNotice,
-                DateConverter.stringToTimestamp("2023-05-05 14:15:00"), 
-                DateConverter.stringToTimestamp("2023-05-05 14:45:00"), 
-                0, "Squad Foda", 
-                0, "Mr. Klayent", "Porojereto", 
-                "pq sim", 0, "sample"
-            )
-        };
+        loadedAppointments = context.loadData(Authentication.getCurrentUser());
         loadedIntervals = AppointmentCalculator.calculateReports(loadedAppointments);
 
         createFilters();
@@ -158,19 +106,23 @@ public class DashboardTab {
     private void updateCharts () {
         fp_charts.getChildren().clear();
 
+        Appointment[] appointmentsArray = filteredAppointments.toArray(Appointment[]::new);
+        ReportInterval[] intervalsArray = filteredIntervals.toArray(ReportInterval[]::new);
+
+        addChart(TotalHours.totalHoursParent(appointmentsArray, intervalsArray));
+        addChart(ChartGenerator.statusAppointmentChart(appointmentsArray));
+
         switch (context.getProfile()) {
             case Administrator: ; 
-
+                addChart(ChartGenerator.reportIntervalChart(intervalsArray));
             break;
             case Colaborador: ; 
-                addChart(ChartGenerator.hourIntersectionCountGraph(filteredAppointments.toArray(Appointment[]::new)));
-            break;
-            case Gestor:
-            break;
+                addChart(ChartGenerator.hourIntersectionCountGraph(appointmentsArray));
+            default: break;
         }
 
-        addChart(ChartGenerator.weekIntersectionCountGraph(filteredAppointments.toArray(Appointment[]::new)));
-        addChart(ChartGenerator.monthIntersectionCountGraph(filteredAppointments.toArray(Appointment[]::new)));
+        addChart(ChartGenerator.weekIntersectionCountGraph(appointmentsArray));
+        addChart(ChartGenerator.monthIntersectionCountGraph(appointmentsArray));
     }
 
     private void addChart (Node control) {

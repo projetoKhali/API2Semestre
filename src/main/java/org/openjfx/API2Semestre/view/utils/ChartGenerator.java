@@ -371,19 +371,15 @@ public class ChartGenerator {
         }
 
         double maxTotalHours = 0;
-        double maxIntersectionCount = 0;
 
         // Adicionar os pontos de dados à série do gráfico
         for (int day = 1; day <= 31; day++) {
             double hoursWorked = hoursPerDay.getOrDefault(LocalDate.of(2023, 1, day), 0.0);
             series.getData().add(new XYChart.Data<>(day, hoursWorked));
-            if (hoursWorked > maxIntersectionCount) maxIntersectionCount = hoursWorked;
-
-            double totalHours = hoursPerDay.getOrDefault(day, 0.0);
 
             // Add the data point to the series
-            series.getData().add(new XYChart.Data<>(day, totalHours));
-            if (totalHours > maxTotalHours) maxTotalHours = totalHours;
+            series.getData().add(new XYChart.Data<>(day, hoursWorked));
+            if (hoursWorked > maxTotalHours) maxTotalHours = hoursWorked;
         }
 
         yAxis.setAutoRanging(false);

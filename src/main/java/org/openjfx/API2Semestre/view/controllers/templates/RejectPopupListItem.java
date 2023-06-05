@@ -40,7 +40,7 @@ public class RejectPopupListItem implements Popup<AppointmentWrapper> {
                 new PrettyTableCellInstruction<AppointmentWrapper, String>(Optional.of("Rejeitado"), new Color(0.87, 0.43, 0.43, 1))
             });
         });
-        col_squad.setCellValueFactory( new PropertyValueFactory<>( "squad" ));
+        col_squad.setCellValueFactory( new PropertyValueFactory<>( "resultCenter" ));
         col_tipo.setCellValueFactory( new PropertyValueFactory<>( "type" ));
         col_inicio.setCellValueFactory( new PropertyValueFactory<>( "startDate" ));
         col_fim.setCellValueFactory( new PropertyValueFactory<>( "endDate" ));

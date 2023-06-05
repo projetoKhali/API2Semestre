@@ -158,7 +158,7 @@ public class Appointment extends Data {
     public String getProject() { return project; }
     public String getJustification() { return justification; }
     public Status getStatus() { return status; }
-    public String getFeedback() { return feedback; }
+    public String getFeedback() { return feedback == null ? "" : feedback; }
 
     /// Requester related Getters 
     public int getRequester() { return requester; }
