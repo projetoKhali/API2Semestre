@@ -230,8 +230,7 @@ public class Appointments implements Initializable {
 
     void inputAppointment (AppointmentType type) {
         @SuppressWarnings("unchecked") LookupTextField<ResultCenter> lookupTfResultCenter = ((LookupTextField<ResultCenter>)tf_resultCenter);
-        ResultCenter resultCenter = lookupTfResultCenter.getSelectedItem();
-        Integer resultCenter_id = resultCenter.getId();
+        Integer resultCenter_id = lookupTfResultCenter.getSelectedItem().getId();
         @SuppressWarnings("unchecked") LookupTextField<Client> lookupTfClient = ((LookupTextField<Client>)tf_cliente);
         Client cliente = lookupTfClient.getSelectedItem();
         Integer cliente_id = cliente.getId();
@@ -239,8 +238,8 @@ public class Appointments implements Initializable {
             QueryLibs.insertAppointment(new Appointment(
                 Authentication.getCurrentUser().getId(),
                 type,
-                DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),
-                DateConverter.inputToTimestamp(tf_dataFinal.getValue(),tf_horaFinal.getText()),
+                DateConverter.inputToTimestamp(tf_dataInicio.getValue(), tf_horaInicio.getText()),
+                DateConverter.inputToTimestamp(tf_dataFinal.getValue(), tf_horaFinal.getText()),
                 resultCenter_id,
                 cliente_id,
                 tf_projeto.getText(),
@@ -248,7 +247,9 @@ public class Appointments implements Initializable {
             ));
         } catch (Exception e) {
             System.out.println("Erro: Appointments.inputAppointment() -- Falha ao inserir apontamento");
+            e.printStackTrace();
         }
+        updateTable();
     }
 
     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName

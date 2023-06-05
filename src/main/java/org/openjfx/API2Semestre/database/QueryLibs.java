@@ -123,17 +123,11 @@ public class QueryLibs {
                 new QueryParam<Timestamp> (TableProperty.Apt_StartDate, apt.getStart()),
                 new QueryParam<Timestamp> (TableProperty.Apt_EndDate, apt.getEnd()),
                 new QueryParam<Integer>   (TableProperty.UserId, apt.getRequester()),
-                new QueryParam<String>    (TableProperty.Apt_UserRegistration, apt.getRequesterRegistration()),
-                new QueryParam<String>    (TableProperty.Apt_UserName, apt.getRequesterName()),
                 new QueryParam<String>    (TableProperty.Apt_Project, apt.getProject()),
                 new QueryParam<Integer>   (TableProperty.Apt_ClientId, apt.getClientId()),
-                new QueryParam<String>    (TableProperty.Apt_ClientName, apt.getClientName()),
                 new QueryParam<Boolean>   (TableProperty.Apt_Type, apt.getType().getBooleanValue()),
                 new QueryParam<String>    (TableProperty.Apt_Justification, apt.getJustification()),
                 new QueryParam<Integer>   (TableProperty.ResultCenterId, apt.getResultCenterId()),
-                new QueryParam<String>    (TableProperty.Apt_ResultCenterName, apt.getResultCenterName()),
-                new QueryParam<Integer>   (TableProperty.Apt_Status, apt.getStatus().getIntValue()),
-                new QueryParam<String>    (TableProperty.Apt_Feedback, apt.getFeedback()),
             }
         );
     }
@@ -218,11 +212,10 @@ public class QueryLibs {
             if (result.isBeforeFirst()) {
                 while (result.next()) {
                     resultList.add(
-                    (T)Data.<T>create(type, result)
-                    .orElseThrow(() -> new Exception("QueryLibs.executeSelect() -- Erro ao criar dado do tipo " + type + " através de Data.create"))
-                );
+                        (T)Data.<T>create(type, result)
+                        .orElseThrow(() -> new Exception("QueryLibs.executeSelect() -- Erro ao criar dado do tipo " + type + " através de Data.create"))
+                    );
                 }
-                
             }
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelect() -- Erro ao ler resultado da query");
@@ -325,7 +318,8 @@ public class QueryLibs {
             }
         ))
         .stream()
-        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()).get())
+        .map((MemberRelation relation) -> selectResultCenter(relation.getResultCenterId()).orElse(null))
+        .filter((ResultCenter resultCenter) -> resultCenter != null)
         .collect(Collectors.toList())
         .toArray(ResultCenter[]::new);
     }
