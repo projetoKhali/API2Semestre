@@ -103,7 +103,7 @@
                         <Insets right="2.0" />
                      </HBox.margin>
                   </Label>
-                  <DatePicker fx:id="date_Inicio" prefHeight="25.0" prefWidth="105.0">
+                  <DatePicker fx:id="dp_inicio" prefHeight="25.0" prefWidth="105.0">
                      <HBox.margin>
                         <Insets right="10.0" />
                      </HBox.margin>
@@ -113,7 +113,7 @@
                         <Insets right="2.0" />
                      </HBox.margin>
                   </Label>
-                  <DatePicker fx:id="date_Fim" prefHeight="25.0" prefWidth="105.0">
+                  <DatePicker fx:id="dp_fim" prefHeight="25.0" prefWidth="105.0">
                      <HBox.margin>
                         <Insets right="44.0" />
                      </HBox.margin>
