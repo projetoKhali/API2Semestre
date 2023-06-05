@@ -1,10 +1,8 @@
 package org.openjfx.api2semestre.view.controllers.views;
 
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.appointment.Appointment;
@@ -22,11 +20,10 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 
-public class ListagemAdm implements Initializable {
+public class ListagemAdm {
 
     @FXML private TableColumn<AppointmentWrapper, String> col_requester;
     private BooleanProperty col_requester_enableFilter = new SimpleBooleanProperty();
@@ -55,7 +52,7 @@ public class ListagemAdm implements Initializable {
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
     
-    @Override public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize(){
         buildTable();
         updateTable();
     }
@@ -119,5 +116,4 @@ public class ListagemAdm implements Initializable {
         tabela.setItems(displayedAppointments);
         tabela.refresh();
     }
-
 }

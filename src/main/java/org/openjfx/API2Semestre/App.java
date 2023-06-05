@@ -19,7 +19,7 @@ import org.openjfx.api2semestre.view.manager.View;
 import org.openjfx.api2semestre.view.manager.ViewsManager;
 
 public class App extends Application {
-    
+
     /// Retorna o local do arquivo .env a ser utilizado para conectar com o banco de dados.
     /// App é a classe principal do projeto então faz sentido essa informação estar aqui
     /// para mais facilmente ser encontrada e modificada para testes ou configuração.
@@ -37,13 +37,13 @@ public class App extends Application {
 
     public static Stage getStage () { return stage; }
     private static void setStage (Stage newStage) { stage = newStage; }
-    
+
     /// Nome da tela em exibição no momento
     @SuppressWarnings("unused") private static String currentViewFxmlFile;
-    
+
     /// referencia para o controller da base da janela "base.fxml"
     private static Base baseController;
-    
+
     @Override public void start(Stage stage) throws IOException {
         setStage(stage);
 
@@ -74,8 +74,7 @@ public class App extends Application {
 
         loginView();
 
-        // Authentication.login("a@d.m", "123");
-        // scene = new Scene(loadFXML((currentViewFxmlFile = "views/dashboard")));
+        // scene = new Scene(loadFXML((currentViewFxmlFile = "views/resultCenters")));
         // stage.setScene(scene);
         // stage.show();
 

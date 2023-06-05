@@ -30,7 +30,7 @@ public class Parametrization {
     @FXML private TextField tf_closingDay;
     @FXML private TextField tf_inicio;
     @FXML private TextField tf_fim;
- 
+
     @FXML private TableView<IntervalFeeWrapper> tabela;
     @FXML private TableColumn<IntervalFeeWrapper, Integer> col_codigo;
     @FXML private TableColumn<IntervalFeeWrapper, String> col_tipo;
@@ -39,7 +39,7 @@ public class Parametrization {
     @FXML private TableColumn<IntervalFeeWrapper, String> col_horaMinimo;
     @FXML private TableColumn<IntervalFeeWrapper, Double> col_horaDuracao;
     @FXML private TableColumn<IntervalFeeWrapper, Double> col_porcentagem;
-    
+
     private ObservableList<IntervalFeeWrapper> displayedIntervalFees;
     private List<IntervalFee> loadedIntervalFees;
 
@@ -87,7 +87,7 @@ public class Parametrization {
                 @Override public StringConverter<Integer> getConverter() { return converter; }
             }
         );
-        
+
         col_porcentagem.setCellValueFactory(new PropertyValueFactory<>("porcentagem"));
         TableMacros.<IntervalFeeWrapper, Double>enableEditableCells(
             col_porcentagem,
@@ -100,7 +100,7 @@ public class Parametrization {
                 @Override public StringConverter<Double> getConverter() { return converter; }
             }
         );
-        
+
         col_tipo.setCellValueFactory( new PropertyValueFactory<>("tipo"));
         col_expediente.setCellValueFactory( new PropertyValueFactory<>("expediente"));
         col_fimDeSemana.setCellValueFactory( new PropertyValueFactory<>("fimDeSemana"));
@@ -109,7 +109,7 @@ public class Parametrization {
 
         updateTable();
     }
-        
+
     
     private void updateTable() {
         loadedIntervalFees = Arrays.asList(IntervalFee.getVerbas());

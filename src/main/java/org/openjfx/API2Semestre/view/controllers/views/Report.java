@@ -42,7 +42,7 @@ public class Report {
     @FXML private TableColumn<ReportIntervalWrapper, String> col_cliente;
     @FXML private TableColumn<ReportIntervalWrapper, String> col_projeto;
     @FXML private TableColumn<ReportIntervalWrapper, String> col_justificativa;
-    
+
     @FXML private CheckBox cb_matricula;
     @FXML private CheckBox cb_colaborador;
     @FXML private CheckBox cb_verba;
@@ -67,13 +67,13 @@ public class Report {
     public void initialize() {
 
         // System.out.println("oi");
-        
+
         buildCheckBoxes();
         // System.out.println("buildCheckBoxes() done!");
-        
+
         buildTable();
         // System.out.println("buildTable() done!");
-        
+
         updateTable();
         // System.out.println("updateTable() done!");
 
@@ -108,8 +108,7 @@ public class Report {
         column.setVisible(selected);
     }
 
-    @SuppressWarnings("unchecked")
-    private void buildTable () {
+    @SuppressWarnings("unchecked") private void buildTable () {
 
         ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
             @Override

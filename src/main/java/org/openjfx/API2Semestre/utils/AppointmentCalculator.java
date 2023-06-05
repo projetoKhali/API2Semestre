@@ -50,7 +50,7 @@ public class AppointmentCalculator {
                     if(verba.getCode() == 1809 || Week.FDS.compare(verba.getDaysOfWeek())) {
                         for(ReportInterval repInt : calculateIntervals(apt, verba)) reportsFinal.add(repInt);
                     }
-                    
+
                     else if (verba.getMinHourCount() != 0){
                         if (aptTotalTime <= 2) continue;
                         Appointment aptLastHours = apt.copy();
@@ -77,7 +77,7 @@ public class AppointmentCalculator {
 
         return reportsFinal.toArray(ReportInterval[]::new);
     }
-    
+
     private static List<ReportInterval> calculateOnNotice (LinkedList<ReportInterval> intervals, Appointment[] appointments) {
 
         // System.out.println("\ncalculateOnNotice");
@@ -99,7 +99,7 @@ public class AppointmentCalculator {
 
             // System.out.println("onNoticeStart " + onNoticeStart);
             // System.out.println("onNoticeEnd  " + onNoticeEnd);
-            
+
             LocalDateTime onNoticeStartDateTime = onNoticeStart.toLocalDateTime();
             LocalDateTime onNoticeEndDateTime = onNoticeEnd.toLocalDateTime();
 
@@ -131,7 +131,7 @@ public class AppointmentCalculator {
                 ) {
                     currentInterval.setStart(aptEnd);
                 }
-                
+
                 // Situação C: apt faz instersecção com o meio do sobreaviso
                 // apt.start > sobreaviso.start && apt.end < sobreaviso.end 
                 else if (aptStartDateTime.isAfter(onNoticeStartDateTime) && aptEndDateTime.isBefore(onNoticeEndDateTime)) {
@@ -162,7 +162,7 @@ public class AppointmentCalculator {
                     i--;
 
                     break;
-                    
+
                 } 
             }
         }
@@ -203,13 +203,13 @@ public class AppointmentCalculator {
     private static List<ReportInterval> calculateIntervals(Appointment aptOverTime, IntervalFee intervalFee){
 
         List<ReportInterval> reportsOvertime = new ArrayList<ReportInterval>();
-            
+
         LocalDateTime aptStartDateTime = aptOverTime.getStart().toLocalDateTime();
         LocalDate aptStartLocalDate = aptStartDateTime.toLocalDate();
-        
+
         LocalDateTime aptEndDateTime = aptOverTime.getEnd().toLocalDateTime();
         LocalDate aptEndLocalDate = aptEndDateTime.toLocalDate();
-        
+
         if (!detectaInterDiaSemana(intervalFee, aptStartLocalDate, aptEndLocalDate)) return List.of();
 
         if((intervalFee.getStartHour() != null) && (intervalFee.getEndHour() != null)){
@@ -235,7 +235,7 @@ public class AppointmentCalculator {
 
                                 LocalDateTime laterStart_ = Collections.max(Arrays.asList(verbaStart_, aptStartDateTime));
                                 LocalDateTime earlierEnd_ = Collections.min(Arrays.asList(verbaEnd_, aptEndDateTime));
-            
+
                                 reportsOvertime.add(new ReportInterval(
                                     aptOverTime.getId(),
                                     intervalFee.getCode(),
@@ -252,17 +252,17 @@ public class AppointmentCalculator {
 
                         // se no dia seguinte a verba não está ativa
                         else verbaEnd = actualDay.plusDays(1).atTime(0,0);
-                        
+
                     }
 
                     // situação em que a hora começa e termina no mesmo dia
                     else verbaEnd = actualDay.atTime(intervalFee.getEndHour());
 
                     if (!verbastart.isAfter(aptEndDateTime) && !aptStartDateTime.isAfter(verbaEnd)) {
-                        
+
                         LocalDateTime laterStart = Collections.max(Arrays.asList(verbastart, aptStartDateTime));
                         LocalDateTime earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
-    
+
                         reportsOvertime.add(new ReportInterval(
                             aptOverTime.getId(),
                             intervalFee.getCode(),

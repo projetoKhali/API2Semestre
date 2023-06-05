@@ -25,7 +25,7 @@ public enum Status {
     public int getIntValue() {
         return index;
     }
-    
+
     // returns the string value of the Status
     public String getStringValue() {
         return stringValue;
@@ -44,5 +44,5 @@ public enum Status {
         }
         throw new IllegalArgumentException("Invalid Status value: " + stringValue);
     }
-    
+
 }

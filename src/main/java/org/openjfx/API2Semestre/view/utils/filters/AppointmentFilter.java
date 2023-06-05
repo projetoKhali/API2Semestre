@@ -15,7 +15,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 
 public class AppointmentFilter {
-    
+
     public static List<Appointment> filterFromView (
         List<Appointment> appointments,
         Optional<TableColumn<AppointmentWrapper, String>> col_requester,

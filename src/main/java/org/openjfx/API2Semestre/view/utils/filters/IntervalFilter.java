@@ -11,7 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 
 public class IntervalFilter {
-    
+
     public static List<ReportIntervalWrapper> filterFromView (
         List<ReportIntervalWrapper> intervals,
         Optional<TableColumn<ReportIntervalWrapper, String>> col_matricula,

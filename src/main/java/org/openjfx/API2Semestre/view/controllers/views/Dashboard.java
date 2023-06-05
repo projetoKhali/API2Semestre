@@ -13,9 +13,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.HBox;
 
 public class Dashboard {
 
+    @FXML private HBox hb_filters;
+    @FXML private FlowPane fp_charts;
     @FXML private TabPane tabPane;
 
     @SuppressWarnings("unused") private DashboardTab[] tabs;

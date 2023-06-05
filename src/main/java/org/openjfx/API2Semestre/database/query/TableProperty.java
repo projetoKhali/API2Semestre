@@ -6,6 +6,7 @@ public enum TableProperty {
     Id("id"),
 
     // Multiplas tabelas possuem essas:
+    Name("nome"),
     UserId("usr_id"),
     ResultCenterId("cr_id"),
 
@@ -24,7 +25,6 @@ public enum TableProperty {
     Apt_Feedback("feedback"),
     
     // tabela Users
-    Usr_Name("nome"),
     Usr_Email("email"),
     Usr_Password("senha"),
     Usr_Profile("perfil"),

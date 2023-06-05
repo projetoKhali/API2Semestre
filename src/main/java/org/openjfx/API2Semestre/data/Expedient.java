@@ -48,7 +48,7 @@ public class Expedient {
             closingDay == null ? defaultClosingDay : closingDay
         );
     }
-    
+
     public static void saveData (LocalTime newStart, LocalTime newEnd, Integer newClosingDay) {
         if (nightShiftStart == newStart && nightShiftEnd == newEnd && closingDay == newClosingDay) return;
         try {

@@ -4,7 +4,7 @@ import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.report.ReportInterval;
 
 public class ReportIntervalWrapper {
-    
+
     private Appointment appointment;
     private ReportInterval interval;
 

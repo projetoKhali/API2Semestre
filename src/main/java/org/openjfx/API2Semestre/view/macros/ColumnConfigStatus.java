@@ -12,7 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.paint.Color;
 
 public class ColumnConfigStatus extends ColumnConfig <AppointmentWrapper, String> {
- 
+
     public ColumnConfigStatus(
         TableColumn<AppointmentWrapper, String> column,
         String propertyName,

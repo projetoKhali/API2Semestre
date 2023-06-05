@@ -11,7 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 
 public class ClientFilter {
-    
+
     public static List<Client> filterFromView (
         List<Client> cliente,
         Optional<TableColumn<ClientWrapper, String>> col_razao,

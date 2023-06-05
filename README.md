@@ -240,7 +240,7 @@ CR e colaborador.
 <details>
 
 <summary> SPRINT 3: </summary>
- 
+
  | COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
  |---------|----------------------|------|------------|
  | Administrador | cadastrar colaboradores, gestores e administradores | que eu possa designá-los às permissões corretas no sistema. | 1 |
@@ -255,7 +255,7 @@ CR e colaborador.
 
 <details>
 <summary> SPRINT 4: </summary>
- 
+
  | COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
  |---------|----------------------|------|------------|
  | Administrador | acessar um Dashboard com informações da jornada de trabalho de todos os meus colaboradores | melhor visualização e tratamento dos dados. | 1 |

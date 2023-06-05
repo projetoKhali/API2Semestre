@@ -11,7 +11,7 @@ import javafx.scene.control.TableColumn;
 
 
 public final class TableColumnFilterMacros {
-    
+
     /// Given a Table of S and the given TableColumn of S and String:
     /// Replaces the column's header with an "select / deselect all" TextField.
     /// Binds the neccessary callbacks to each row's TextFieldes as well

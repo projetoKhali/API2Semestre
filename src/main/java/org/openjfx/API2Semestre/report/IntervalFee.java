@@ -62,7 +62,7 @@ public class IntervalFee {
                 statement.setInt(5, (int)verba.getMinHourCount());
                 statement.setDouble(6, verba.getHourDuration());
                 statement.setDouble(7, verba.getPercent());
-                
+
                 statement.execute();
             }
             connection.commit();
@@ -101,7 +101,7 @@ public class IntervalFee {
             e.printStackTrace();
         }
     }
-    
+
     public IntervalFee(
         int code,
         double hourDuration,
@@ -123,19 +123,19 @@ public class IntervalFee {
         this.minHourCount = minHourCount;
         this.cumulative = cumulative;
     }
-    
+
     // conversão de Timestamp para LocalTime
     public Double check (Timestamp appointmentStart, Timestamp appointmentEndTime, long dayHourCount) {
-        
+
         
         LocalDateTime aptStartDateTime = appointmentStart.toLocalDateTime();
         LocalDate aptStartLocalDate = aptStartDateTime.toLocalDate();
-        
+
         LocalDateTime aptEndDateTime = appointmentEndTime.toLocalDateTime();
         LocalDate aptEndLocalDate = aptEndDateTime.toLocalDate();
-        
+
         long numberOfOverlappingMinutes = 0;
-                             
+
         
         // Check if the day of the week falls within the configured range
         LocalDate actualDay = aptStartLocalDate;
@@ -156,7 +156,7 @@ public class IntervalFee {
             System.out.println("\tfails at: dayHourCount(" + dayHourCount + ") < minHourCount(" + minHourCount + ")");
             return 0.0;
         }
-            
+
         // checar se há intersecção com período noturno  
         LocalTime meiaNoite = LocalTime.of(0, 0, 0);
         LocalDateTime verbastart = null;
@@ -195,11 +195,11 @@ public class IntervalFee {
             }
         }
         if(auxiliar == false){return 0.0;}
-        
+
         if(minHourCount != 0 && numberOfOverlappingMinutes != 0){
             numberOfOverlappingMinutes = numberOfOverlappingMinutes - minHourCount;
         }
-        
+
         Double overlappingMinutes = (double)numberOfOverlappingMinutes;
         return overlappingMinutes/60;
         // return true;
