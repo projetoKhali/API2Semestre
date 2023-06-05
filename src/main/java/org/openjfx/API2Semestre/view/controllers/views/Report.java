@@ -1,10 +1,14 @@
 package org.openjfx.api2semestre.view.controllers.views;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.App;
+import org.openjfx.api2semestre.data.Expedient;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.ReportExporter;
 import org.openjfx.api2semestre.report.ReportInterval;
@@ -16,14 +20,16 @@ import org.openjfx.api2semestre.view.utils.filters.IntervalFilter;
 import org.openjfx.api2semestre.view.utils.wrappers.ReportIntervalWrapper;
 
 import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -43,6 +49,11 @@ public class Report {
     @FXML private TableColumn<ReportIntervalWrapper, String> col_projeto;
     @FXML private TableColumn<ReportIntervalWrapper, String> col_justificativa;
 
+    @FXML private DatePicker dp_inicio = new DatePicker(null);
+    @FXML private DatePicker dp_fim = new DatePicker(null);
+    
+    @FXML private CheckBox cb_fechaAtual;
+    @FXML private CheckBox cb_fechaAnterior;
     @FXML private CheckBox cb_matricula;
     @FXML private CheckBox cb_colaborador;
     @FXML private CheckBox cb_verba;
@@ -61,22 +72,40 @@ public class Report {
     private BooleanProperty col_cliente_enableFilter = new SimpleBooleanProperty();
     private BooleanProperty col_projeto_enableFilter = new SimpleBooleanProperty();
 
-    private ObservableList<ReportIntervalWrapper> intervalsToExport;
+    private LinkedList<ReportIntervalWrapper> intervalsToExport = new LinkedList<>();
     private ReportInterval[] loadedIntervals;
     
     public void initialize() {
-
-        // System.out.println("oi");
-
+        Expedient.loadData();
+        buildCheckBoxesPeriod();
         buildCheckBoxes();
-        // System.out.println("buildCheckBoxes() done!");
-
         buildTable();
-        // System.out.println("buildTable() done!");
-
         updateTable();
-        // System.out.println("updateTable() done!");
+    }
 
+    private void choose_period(){
+        if (cb_fechaAtual.isSelected() || cb_fechaAnterior.isSelected()) {
+            dp_inicio.setDisable(true);
+            dp_fim.setDisable(true);
+        } else {
+            dp_inicio.setDisable(false);
+            dp_fim.setDisable(false);
+        }
+        applyFilter();
+    }
+
+    private void buildCheckBoxesPeriod(){
+        dp_inicio.setDisable(true);
+        dp_fim.setDisable(true);
+
+        dp_inicio.valueProperty().addListener((observable, oldValue, newValue) -> applyFilter());
+        dp_fim.valueProperty().addListener((observable, oldValue, newValue) -> applyFilter());
+
+        cb_fechaAtual.setSelected(true);
+        cb_fechaAnterior.setSelected(true);
+
+        cb_fechaAtual.setOnAction(event -> choose_period());
+        cb_fechaAnterior.setOnAction(event -> choose_period());
     }
 
     private void buildCheckBoxes () {
@@ -130,43 +159,129 @@ public class Report {
             Optional.of(applyFilterCallback)
         );
 
-        col_inicio.setCellValueFactory(new PropertyValueFactory<>("horaInício"));
-        col_fim.setCellValueFactory(new PropertyValueFactory<>("horaFim"));
-        col_total.setCellValueFactory(new PropertyValueFactory<>("totalString"));
-        col_justificativa.setCellValueFactory(new PropertyValueFactory<>("justificativa"));
+        col_inicio.setCellValueFactory(new PropertyValueFactory<>("start"));
+        col_fim.setCellValueFactory(new PropertyValueFactory<>("end"));
+        col_total.setCellValueFactory(new PropertyValueFactory<>("total"));
+        col_justificativa.setCellValueFactory(new PropertyValueFactory<>("justification"));
     }
 
-    private void updateTable () {
+    private void updateTable () {        
         loadedIntervals = AppointmentCalculator.calculateReports(QueryLibs.selectAllAppointments());
         System.out.println(loadedIntervals.length + " intervals");
         applyFilter();
     }
 
+    // filtro de escrever
     private void applyFilter () {
-        System.out.println("applyFilter");
+        // System.out.println("applyFilter");
 
-        intervalsToExport = FXCollections.observableArrayList(IntervalFilter.filterFromView(
-            Arrays.asList(loadedIntervals).stream().map(interval -> {
-                System.out.println("Loading appointment of id " + interval.getAppointmmentId());
+        intervalsToExport = IntervalFilter.filterFromView(
+            new LinkedList<ReportIntervalWrapper>(Arrays.asList(loadedIntervals).stream().map(interval -> {
                 return new ReportIntervalWrapper(
                     org.openjfx.api2semestre.database.QueryLibs.selectAppointmentById(interval.getAppointmmentId()).get(),
                     interval
                 );
-            }).collect(Collectors.toList()),
+            }).collect(Collectors.toList())),
             col_matricula_enableFilter.get() ? Optional.of(col_matricula) : Optional.empty(),
             col_colaborador_enableFilter.get() ? Optional.of(col_colaborador) : Optional.empty(),
             col_verba_enableFilter.get() ? Optional.of(col_verba) : Optional.empty(),
             col_cr_enableFilter.get() ? Optional.of(col_cr) : Optional.empty(),
             col_cliente_enableFilter.get() ? Optional.of(col_cliente) : Optional.empty(),
             col_projeto_enableFilter.get() ? Optional.of(col_projeto) : Optional.empty()
-        ));
+        );
 
-        tabela.setItems(intervalsToExport);
+        Integer dia_inicio;
+        Integer dia_fim;
+        ObjectProperty<Timestamp> data_inicio = new SimpleObjectProperty<>();
+        ObjectProperty<Timestamp> data_fim = new SimpleObjectProperty<>();
+
+        LocalDate hoje = LocalDate.now();
+        Integer mesAtual = hoje.getMonthValue();
+        int anoAtual = hoje.getYear();
+
+        data_inicio.set(Timestamp.valueOf((hoje.atTime(23, 59, 59)).minusMonths(6)));
+        data_fim.set(Timestamp.valueOf(hoje.atTime(23, 59, 59)));
+        
+        if(cb_fechaAtual.isSelected() & cb_fechaAnterior.isSelected()){
+            dia_fim = Expedient.getClosingDay();
+            dia_inicio = dia_fim + 1;
+            if(hoje.getDayOfMonth() >= dia_inicio){
+                data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(1)));
+            }
+            else{
+                data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(2)));
+            }
+            data_fim.set(Timestamp.valueOf(hoje.atTime(23, 59, 59)));
+            
+        }
+        else if(cb_fechaAtual.isSelected()){
+            dia_fim = Expedient.getClosingDay();
+            dia_inicio = dia_fim + 1;
+            if(hoje.getDayOfMonth() >= dia_inicio){
+                data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay())));
+            }
+            else{
+                data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(1)));
+            }
+            data_fim.set(Timestamp.valueOf(hoje.atTime(23, 59, 59)));
+            
+        }
+        else if(cb_fechaAnterior.isSelected()){
+            dia_fim = Expedient.getClosingDay();
+            dia_inicio = dia_fim + 1;
+            if(hoje.getDayOfMonth() >= dia_inicio){
+                if(hoje.getDayOfMonth()!= 1){
+                    data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(1)));
+                    data_fim.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_fim).atTime(23, 59, 59))));
+                }
+                else{
+                    data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(1)));
+                    data_fim.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_fim).atTime(23, 59, 59)).minusMonths(1)));
+                }
+            }
+            else{
+                data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(2)));
+                data_fim.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_fim).atTime(23, 59, 59)).minusMonths(1)));
+            }
+        }
+
+        else{
+            if(dp_inicio.getValue() != null && dp_fim.getValue() != null){
+                data_inicio.set(Timestamp.valueOf(dp_inicio.getValue().atStartOfDay()));
+                data_fim.set(Timestamp.valueOf(dp_fim.getValue().atTime(23, 59, 59)));
+
+            }
+
+        }
+
+        intervalsToExport = new LinkedList<ReportIntervalWrapper>(intervalsToExport.stream().filter((ReportIntervalWrapper reportInterval) -> 
+            !(reportInterval.getInterval().getStart().after(data_fim.get()) || reportInterval.getInterval().getEnd().before(data_inicio.get()))
+        ).collect(Collectors.toList()));
+
+        tabela.setItems(FXCollections.observableArrayList(intervalsToExport));
         tabela.refresh();
     }
 
     @FXML public void export (ActionEvent e) {
+        
         String local = ReportExporter.showSaveDialog(App.getStage());
-        ReportExporter.exporterCSV(loadedIntervals, local); // TODO: Use filtered Intervals
+        Boolean[] selectedItens = new Boolean[]{
+            cb_matricula.isSelected(),
+            cb_colaborador.isSelected(),
+            cb_verba.isSelected(),
+            cb_inicio.isSelected(),
+            cb_fim.isSelected(),
+            cb_total.isSelected(),
+            cb_cr.isSelected(),
+            cb_cliente.isSelected(),
+            cb_projeto.isSelected(),
+            cb_justificativa.isSelected()
+        };
+
+        ReportExporter.exportCSV(
+            intervalsToExport.stream().map(riw -> riw.getInterval()).collect(Collectors.toList()), 
+            selectedItens, 
+            local
+        );
     }
 }

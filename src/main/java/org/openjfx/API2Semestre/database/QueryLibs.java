@@ -219,7 +219,7 @@ public class QueryLibs {
             }
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelect() -- Erro ao ler resultado da query");
-            ex.printStackTrace();
+            // ex.printStackTrace();
         }
         return resultList.toArray((T[])Array.newInstance(type, resultList.size()));
     }
@@ -248,7 +248,6 @@ public class QueryLibs {
                 (T)Data.<T>create(type, result)
                 .orElseThrow(() -> new Exception("QueryLibs.executeSelectOne() -- Erro ao criar dado do tipo " + type + " através de Data.create"))
             );
-            
             return Optional.empty();
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelectOne() -- Erro ao ler resultado da query");
