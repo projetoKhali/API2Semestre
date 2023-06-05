@@ -12,7 +12,7 @@ import javafx.scene.control.TableView;
 import javafx.util.Callback;
 
 public final class TableCheckBoxMacros {
-    
+
     /// Given a Table of T and the given TableColumn of T and Boolean:
     /// Replaces the column's header with an "select / deselect all" checkbox.
     /// Binds the neccessary callbacks to each row's checkboxes as well

@@ -4,16 +4,16 @@ CREATE TABLE IF NOT EXISTS public.apontamento(
     hora_inicio TIMESTAMP null,
     hora_fim TIMESTAMP null,
     -- usr_id INT NULL,
-    usr_id VARCHAR NULL,
+    usr_id INT NULL,
     projeto VARCHAR NULL,
-    cliente VARCHAR NULL,
+    clt_id INT NULL,
     tipo BOOLEAN NULL,
     justificativa VARCHAR NULL,
     -- cr_id int NULL,
-    cr_id VARCHAR NULL,
+    cr_id INT NULL,
     aprovacao INT DEFAULT 0,
     feedback VARCHAR NULL,
-    
+
     CONSTRAINT apontamento_pkey PRIMARY KEY (id)
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS public.usuario(
     senha TEXT NULL,
     perfil INT NOT NULL,
     matricula VARCHAR NULL,
-    
+
     CONSTRAINT usuario_pkey PRIMARY KEY (id)
 );
 
@@ -64,7 +64,7 @@ CREATE TABLE IF NOT EXISTS public.parametrization(
     night_shift_start TIME NULL,
     night_shift_end TIME NULL,
     closing_day INT NULL,
-    
+
     CONSTRAINT parametrization_pkey PRIMARY KEY (id)
 );
 

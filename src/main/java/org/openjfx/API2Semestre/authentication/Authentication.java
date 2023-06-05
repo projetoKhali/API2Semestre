@@ -5,7 +5,6 @@ import org.openjfx.api2semestre.utils.PasswordIncription;
 
 public class Authentication {
     private static User currentUser;
-
     public static User getCurrentUser() {
         return currentUser;
     }
@@ -35,9 +34,9 @@ public class Authentication {
 
             else System.out.println("Erro: Senha inválida");
         }
-        
+
         catch (Exception e) {}
-        
+
         return false;
 
     }
@@ -45,6 +44,4 @@ public class Authentication {
     public static void logout () {
         currentUser = null;
     }
-
-
 }

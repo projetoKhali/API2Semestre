@@ -2,7 +2,7 @@ package org.openjfx.api2semestre.data;
 
 import org.openjfx.api2semestre.database.Data;
 
-public class Client extends Data implements HasDisplayName {
+public class Client extends Data implements HasDisplayName, HasId {
     private Integer id;
     private String razaoSocial;
     private String cnpj;
@@ -42,7 +42,7 @@ public class Client extends Data implements HasDisplayName {
     public String getRazaoSocial() { return razaoSocial; }
     public String getCNPJ() { return cnpj; }
 
-    public void set(Integer id) { this.id = id; }
-    public void setNome(String razaoSocial) { this.razaoSocial = razaoSocial; }
     public void setId(Integer id) { this.id = id; }
+    public void setNome(String razaoSocial) { this.razaoSocial = razaoSocial; }
+    public void setCnpj(String cnpj) { this.cnpj = cnpj; }
 }

@@ -2,7 +2,7 @@ package org.openjfx.api2semestre.data;
 
 import org.openjfx.api2semestre.database.Data;
 
-public class ResultCenter extends Data implements HasDisplayName {
+public class ResultCenter extends Data implements HasDisplayName, HasId {
     private Integer id;
     private String name;        // Nome
     private String acronym;     // Sigla
@@ -65,9 +65,9 @@ public class ResultCenter extends Data implements HasDisplayName {
     public String getAcronym () { return acronym; }
     public String getCode () { return code; }
     public Integer getManagerId() { return managerId; }
-    
+
     public String getManagerName () { return managerName; }
-    
+
     public void setId(Integer id) { this.id = id; }
     public void setName(String name) { this.name = name; }
     public void setAcronym(String acronym) { this.acronym = acronym; }

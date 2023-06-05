@@ -16,6 +16,6 @@ module org.openjfx.api2semestre {
     opens org.openjfx.api2semestre.view.utils.filters to javafx.base;
     opens org.openjfx.api2semestre.authentication to javafx.base;
     opens org.openjfx.api2semestre.data to javafx.base;
-    
+
     exports org.openjfx.api2semestre;
 }

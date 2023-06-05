@@ -11,7 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 
 public class ResultCenterFilter {
-    
+
     public static List<ResultCenter> filterFromView (
         List<ResultCenter> resultCenters,
         Optional<TableColumn<ResultCenter, String>> col_nome,

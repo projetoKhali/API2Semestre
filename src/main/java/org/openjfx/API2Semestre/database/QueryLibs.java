@@ -19,7 +19,6 @@ import org.openjfx.api2semestre.data.Client;
 import org.openjfx.api2semestre.data.MemberRelation;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.appointment.Appointment;
-import org.openjfx.api2semestre.appointment.VwAppointment;
 import org.openjfx.api2semestre.authentication.User;
 import org.openjfx.api2semestre.database.query.Query;
 import org.openjfx.api2semestre.database.query.QueryParam;
@@ -55,91 +54,6 @@ public class QueryLibs {
         return result;
     }
 
-    /// Executa um INSERT na tabela especificada
-    private static int executeInsert (QueryTable table, QueryParam<?>[] params) {
-        try {
-            ResultSet resultSet = executeQuery(new Query(
-                QueryType.INSERT,
-                table,
-                params
-            )).get();
-            resultSet.next();
-            return resultSet.getInt("id");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("QueryLibs.executeInsert() -- Erro: nenhum id retornado");
-        return -1;
-    }
-
-    public static int insertAppointment (Appointment apt) {
-        return executeInsert(
-            QueryTable.Appointment,
-            new QueryParam<?>[] {
-                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStart()),
-                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEnd()),
-                new QueryParam<String>(TableProperty.User, apt.getRequester()),
-                new QueryParam<String>(TableProperty.Project, apt.getProject()),
-                new QueryParam<String>(TableProperty.Client, apt.getClient()),
-                new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
-                new QueryParam<String>(TableProperty.Justification, apt.getJustification()),
-                new QueryParam<String>(TableProperty.ResultCenter, apt.getSquad()),
-                new QueryParam<Integer>(TableProperty.Status, apt.getStatus().getIntValue())
-            }
-        );
-    }
-
-    // Insere uma senha criptografada no banco
-    public static int insertUser(User user) {
-        try {
-            return executeInsert(
-                QueryTable.User,
-                new QueryParam<?> [] {
-                new QueryParam<>(TableProperty.Name, user.getName()),
-                new QueryParam<>(TableProperty.Email, user.getEmail()),
-                new QueryParam<>(TableProperty.Password, PasswordIncription.encryptPassword(user.getPassword())),     // incripta senha
-                new QueryParam<Integer>(TableProperty.Profile, user.getProfile().getProfileLevel()),
-                new QueryParam<>(TableProperty.Registration, user.getRegistration())
-            });
-        } catch (Exception e) {
-            System.out.println("ERROR: duplicate key value violates unique constraint\nEmail já existente!");
-            e.printStackTrace();
-            return -1;
-        }
-    }
-
-    public static int insertResultCenter (ResultCenter rc) {
-        return executeInsert(
-            QueryTable.ResultCenter,
-            new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Name, rc.getName()),
-                new QueryParam<String>(TableProperty.Sigla, rc.getAcronym()),
-                new QueryParam<String>(TableProperty.Codigo, rc.getCode()),
-                new QueryParam<Integer>(TableProperty.User, rc.getManagerId())
-            }
-        );
-    }
-
-    public static int addUserToResultCenter (int usr_id, int cr_id) {
-        return executeInsert(
-            QueryTable.Member,
-            new QueryParam<?>[] {
-                new QueryParam<Integer>(TableProperty.User, usr_id),
-                new QueryParam<Integer>(TableProperty.ResultCenter, cr_id),
-            }
-        );
-    }
-
-    public static int insertClient(Client cliente) {
-        return executeInsert(
-            QueryTable.Client,
-            new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.RazaoSocial, cliente.getRazaoSocial()),
-                new QueryParam<String>(TableProperty.CNPJ, cliente.getCNPJ()),
-            }
-        );
-    }
-
     /// Executa um arquivo SQL no caminho especificado.
     public static void executeSqlFile (String file_path) {
         Connection conexao = getConnection();
@@ -172,18 +86,110 @@ public class QueryLibs {
             conexao.commit();
             conexao.close();
             br.close();
-                
+
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSqlFile() -- Erro ao executar query para o arquivo " + file_path);
             ex.printStackTrace();
         }
-        
+
     }
+
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- FUNÇÕES DE INSERT -------------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
+
+    /// Executa um INSERT na tabela especificada
+    private static int executeInsert (QueryTable table, QueryParam<?>[] params) {
+        try {
+            ResultSet resultSet = executeQuery(new Query(
+                QueryType.INSERT,
+                table,
+                params
+            )).get();
+            resultSet.next();
+            return resultSet.getInt("id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("QueryLibs.executeInsert() -- Erro: nenhum id retornado");
+        return -1;
+    }
+
+    public static int insertAppointment (Appointment apt) {
+        return executeInsert(
+            QueryTable.Appointment,
+            new QueryParam<?>[] {
+
+                new QueryParam<Timestamp> (TableProperty.Apt_StartDate, apt.getStart()),
+                new QueryParam<Timestamp> (TableProperty.Apt_EndDate, apt.getEnd()),
+                new QueryParam<Integer>   (TableProperty.UserId, apt.getRequester()),
+                new QueryParam<String>    (TableProperty.Apt_Project, apt.getProject()),
+                new QueryParam<Integer>   (TableProperty.Apt_ClientId, apt.getClientId()),
+                new QueryParam<Boolean>   (TableProperty.Apt_Type, apt.getType().getBooleanValue()),
+                new QueryParam<String>    (TableProperty.Apt_Justification, apt.getJustification()),
+                new QueryParam<Integer>   (TableProperty.ResultCenterId, apt.getResultCenterId()),
+            }
+        );
+    }
+
+    // Insere uma senha criptografada no banco
+    public static int insertUser(User user) {
+        try {
+            return executeInsert(
+                QueryTable.User,
+                new QueryParam<?> [] {
+                new QueryParam<>(TableProperty.Name, user.getName()),
+                new QueryParam<>(TableProperty.Usr_Email, user.getEmail()),
+                new QueryParam<>(TableProperty.Usr_Password, PasswordIncription.encryptPassword(user.getPassword())),     // incripta senha
+                new QueryParam<Integer>(TableProperty.Usr_Profile, user.getProfile().getProfileLevel()),
+                new QueryParam<>(TableProperty.Usr_Registration, user.getRegistration())
+            });
+        } catch (Exception e) {
+            System.out.println("ERROR: duplicate key value violates unique constraint\nEmail já existente!");
+            e.printStackTrace();
+            return -1;
+        }
+    }
+
+    public static int insertResultCenter (ResultCenter rc) {
+        return executeInsert(
+            QueryTable.ResultCenter,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Name, rc.getName()),
+                new QueryParam<String>(TableProperty.CR_Sigla, rc.getAcronym()),
+                new QueryParam<String>(TableProperty.CR_Codigo, rc.getCode()),
+                new QueryParam<Integer>(TableProperty.UserId, rc.getManagerId())
+            }
+        );
+    }
+
+    public static int addUserToResultCenter (int usr_id, int cr_id) {
+        return executeInsert(
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.UserId, usr_id),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, cr_id),
+            }
+        );
+    }
+
+    public static int insertClient(Client cliente) {
+        return executeInsert(
+            QueryTable.Client,
+            new QueryParam<?>[] {
+                new QueryParam<String>(TableProperty.Clt_RazaoSocial, cliente.getRazaoSocial()),
+                new QueryParam<String>(TableProperty.Clt_CNPJ, cliente.getCNPJ()),
+            }
+        );
+    }
+
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- FUNÇÕES DE SELECT -------------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
 
     /// Executa um SELECT especificando tipo de dado esperado, tabela e parametros da query
     /// Pode ser usada uma lista de parametros, o ultimo parametro apresentado representa o WHERE dá query.
-    @SuppressWarnings("unchecked")
-    public static <T extends Data> T[] executeSelect (Class<T> type, QueryTable table, QueryParam<?>[] params) {
+    @SuppressWarnings("unchecked") private static <T extends Data> T[] executeSelect (Class<T> type, QueryTable table, QueryParam<?>[] params) {
         ResultSet result = null;
         try {
             result = executeQuery(new Query(
@@ -203,8 +209,13 @@ public class QueryLibs {
         // itera sobre cada linha retornada pela consulta
         // e extrai os valores das colunas necessárias
         try {
-            if (result.isBeforeFirst()) while (result.next()) {
-                resultList.add((T)Data.<T>create(type, result));
+            if (result.isBeforeFirst()) {
+                while (result.next()) {
+                    resultList.add(
+                        (T)Data.<T>create(type, result)
+                        .orElseThrow(() -> new Exception("QueryLibs.executeSelect() -- Erro ao criar dado do tipo " + type + " através de Data.create"))
+                    );
+                }
             }
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelect() -- Erro ao ler resultado da query");
@@ -213,9 +224,8 @@ public class QueryLibs {
         return resultList.toArray((T[])Array.newInstance(type, resultList.size()));
     }
 
-    @SuppressWarnings("unchecked")
     // select que trás apenas 1 item
-    private static <T extends Data> Optional<T> executeSelectOne (Class<T> type, QueryTable table, QueryParam<?>[] params) {
+    @SuppressWarnings("unchecked") private static <T extends Data> Optional<T> executeSelectOne (Class<T> type, QueryTable table, QueryParam<?>[] params) {
         ResultSet result = null;
         try {
             result = executeQuery(new Query(
@@ -234,7 +244,11 @@ public class QueryLibs {
         // itera sobre cada linha retornada pela consulta
         // e extrai os valores das colunas necessárias
         try {
-            if (result.next()) return Optional.of((T)Data.<T>create(type, result));
+            if (result.next()) return Optional.of(
+                (T)Data.<T>create(type, result)
+                .orElseThrow(() -> new Exception("QueryLibs.executeSelectOne() -- Erro ao criar dado do tipo " + type + " através de Data.create"))
+            );
+            return Optional.empty();
         } catch (Exception ex) {
             System.out.println("QueryLibs.executeSelectOne() -- Erro ao ler resultado da query");
             ex.printStackTrace();
@@ -243,16 +257,37 @@ public class QueryLibs {
 
     }
 
-    public static Appointment[] collaboratorSelect (String requester) {
+    public static Appointment[] selectAppointmentsOfUser (int usr_id) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
-            QueryTable.Appointment,
+            QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.User, requester),
+                new QueryParam<Integer>(TableProperty.UserId, usr_id),
             }
         );
     }
 
+    public static Optional<User> selectUserById(int id) {
+        return executeSelectOne(
+            User.class,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+    
+    
+    public static Optional<Appointment> selectAppointmentById(int id) {
+        return executeSelectOne(
+            Appointment.class,
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+    
     public static Optional<ResultCenter> selectResultCenter (int id) {
         return QueryLibs.<ResultCenter>executeSelectOne(
             ResultCenter.class,
@@ -268,7 +303,7 @@ public class QueryLibs {
             ResultCenter.class,
             QueryTable.ViewResultCenter,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.User, usr_id)
+                new QueryParam<>(TableProperty.UserId, usr_id)
             }
         );
     }
@@ -278,7 +313,7 @@ public class QueryLibs {
             MemberRelation.class,
             QueryTable.Member,
             new QueryParam<?>[] {
-                new QueryParam<>(TableProperty.User,  usr_id)
+                new QueryParam<>(TableProperty.UserId,  usr_id)
             }
         ))
         .stream()
@@ -288,15 +323,33 @@ public class QueryLibs {
         .toArray(ResultCenter[]::new);
     }
 
-    public static Appointment[] selectAppointmentsOfResultCenter (String cr_id) {
+    public static User[] selectMembersOfResultCenter (int cr_id) {
+        return Arrays.asList(QueryLibs.<MemberRelation>executeSelect(
+            MemberRelation.class,
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.ResultCenterId, cr_id)
+            }
+        ))
+        .stream()
+        .map((MemberRelation relation) -> selectUserById(relation.getUserId()).get())
+        .collect(Collectors.toList())
+        .toArray(User[]::new);
+    }
+
+    public static Appointment[] selectAppointmentsOfResultCenter (Integer cr_id) {
         return QueryLibs.<Appointment>executeSelect(
             Appointment.class,
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.ResultCenter, cr_id),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, cr_id),
             }
         );
     }
+
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- FUNÇÕES DE SELECT ALL ---------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
 
     /// Executa um SELECT sem WHERE especificando o tipo de dado esperado e tabela.
     private static <T extends Data> T[] executeSelectAll (Class<T> type, QueryTable table) {
@@ -321,6 +374,16 @@ public class QueryLibs {
         );
     }
 
+    public static User[] selectAllManagersAndAdms() {
+        return QueryLibs.<User>executeSelect(
+            User.class,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.Usr_Profile, 1).or(2)
+            }
+        );
+    }
+
     public static ResultCenter[] selectAllResultCenters() {
         return QueryLibs.<ResultCenter>executeSelectAll(
             ResultCenter.class,
@@ -335,10 +398,10 @@ public class QueryLibs {
         );
     }
 
-    public static Optional<User> selectUserById(int id) {
+    public static Optional<Client> selectClientById(int id) {
         return executeSelectOne(
-            User.class,
-            QueryTable.User,
+            Client.class,
+            QueryTable.Client,
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.Id, id),
             }
@@ -346,14 +409,44 @@ public class QueryLibs {
     }
 
 
-// <-- botei suas funções aqui Jhonatan
-
-    public static Optional<VwAppointment> selectAppointmentById(int id) {
-        return executeSelectOne(
-            VwAppointment.class,
+    public static Appointment[] selectAppointmentByUser(int id) {
+        return executeSelect(
+            Appointment.class,
             QueryTable.ViewAppointment,
             new QueryParam<?>[] {
                 new QueryParam<Integer>(TableProperty.Id, id),
+            }
+        );
+    }
+
+    // retorna lista de usuários que são membros de um result center
+    public static User[] selectAllUsersInResultCenter(int cr_id) {
+        return executeSelect(
+            User.class, 
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.ResultCenterId, cr_id),
+            }
+        );
+    }
+
+    // retorna lista de centro de resultados dos quais o usuário faz parte
+    public static ResultCenter[] selectAllResultCentersOfUser(int user_id) {
+        return executeSelect(
+            ResultCenter.class, 
+            QueryTable.ViewResultCenter,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.UserId, user_id),
+            }
+        );
+    }
+
+    public static Appointment[] selectAppointmentsByUser(int id) {
+        return executeSelect(
+            Appointment.class, 
+            QueryTable.ViewAppointment,
+            new QueryParam<?>[] {
+                new QueryParam<>(TableProperty.UserId, id),
             }
         );
     }
@@ -363,39 +456,105 @@ public class QueryLibs {
             User.class,
             QueryTable.User,
             new QueryParam<?>[] {
-                new QueryParam<String>(TableProperty.Email, email),
+                new QueryParam<String>(TableProperty.Usr_Email, email),
             }
         );
     }
 
-    // movi sua função "insertUser(User user)" lá pra cima junto com as outras funções de insert jhonatan
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- FUNÇÕES DE UPDATE -------------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
 
-// <-- até aqui Jhonatan
-
-    // Atualiza um apontammento na tabela. TODO: generic
-    public static void updateTable (Appointment apt) {
+    /// Executa um INSERT na tabela especificada
+    private static void executeUpdate (QueryTable table, QueryParam<?>[] params) {
         executeQuery(new Query(
             QueryType.UPDATE,
+            table,
+            params
+        ));
+        System.out.println("QueryLibs.executeUpdate() -- Erro: nenhum id retornado");
+    }
+
+    // Atualiza um apontammento na tabela.
+    public static void updateAppointment (Appointment apt) {
+        executeUpdate(
             QueryTable.Appointment,
             new QueryParam<?>[] {
 
                 // SET
-                new QueryParam<Timestamp>(TableProperty.StartDate, apt.getStart()),
-                new QueryParam<Timestamp>(TableProperty.EndDate, apt.getEnd()),
-                new QueryParam<String>(TableProperty.User, apt.getRequester()),
-                new QueryParam<String>(TableProperty.Project, apt.getProject()),
-                new QueryParam<String>(TableProperty.Client, apt.getClient()),
-                new QueryParam<Boolean>(TableProperty.Type, apt.getType().getBooleanValue()),
-                new QueryParam<String>(TableProperty.Justification, apt.getJustification()),
-                new QueryParam<String>(TableProperty.ResultCenter, apt.getSquad()),
-                new QueryParam<Integer>(TableProperty.Status, apt.getStatus().getIntValue()),
-                new QueryParam<String>(TableProperty.Feedback, apt.getJustification()),
+                new QueryParam<Timestamp>(TableProperty.Apt_StartDate, apt.getStart()),
+                new QueryParam<Timestamp>(TableProperty.Apt_EndDate, apt.getEnd()),
+                new QueryParam<Integer>(TableProperty.UserId, apt.getRequester()),
+                new QueryParam<String>(TableProperty.UserId, apt.getRequesterRegistration()),
+                new QueryParam<String>(TableProperty.UserId, apt.getRequesterName()),
+                new QueryParam<String>(TableProperty.Apt_Project, apt.getProject()),
+                new QueryParam<Integer>(TableProperty.Apt_ClientId, apt.getClientId()),
+                new QueryParam<String>(TableProperty.Apt_ClientName, apt.getClientName()),
+                new QueryParam<Boolean>(TableProperty.Apt_Type, apt.getType().getBooleanValue()),
+                new QueryParam<String>(TableProperty.Apt_Justification, apt.getJustification()),
+                new QueryParam<Integer>(TableProperty.ResultCenterId, apt.getResultCenterId()),
+                new QueryParam<String>(TableProperty.Apt_ResultCenterName, apt.getResultCenterName()),
+                new QueryParam<Integer>(TableProperty.Apt_Status, apt.getStatus().getIntValue()),
+                new QueryParam<String>(TableProperty.Apt_Feedback, apt.getFeedback()),
 
                 // WHERE
                 new QueryParam<Integer>(TableProperty.Id, apt.getId())
             }
-        ));
+        );
     }
+
+    public static void updateUser (User user) {
+        executeUpdate(
+            QueryTable.User,
+            new QueryParam<?>[] {
+
+                // SET
+                new QueryParam<String>(TableProperty.Name, user.getName()),
+                new QueryParam<String>(TableProperty.Usr_Registration, user.getRegistration()),
+                new QueryParam<Integer>(TableProperty.Usr_Profile, user.getProfile().getProfileLevel()),
+                new QueryParam<String>(TableProperty.Usr_Email, user.getEmail()),
+    
+                // WHERE
+                new QueryParam<Integer>(TableProperty.Id, user.getId())
+            }
+        );
+    }
+
+    public static void updateClient (Client client) {
+        executeUpdate(
+            QueryTable.Client,
+            new QueryParam<?>[] {
+
+                // SET
+                new QueryParam<String>(TableProperty.Clt_RazaoSocial, client.getRazaoSocial()),
+                new QueryParam<String>(TableProperty.Clt_CNPJ, client.getCNPJ()),
+    
+                // WHERE
+                new QueryParam<Integer>(TableProperty.Id, client.getId())
+            }
+        );
+    }
+
+    public static void updateResultCenter (ResultCenter resultCenter) {
+        executeUpdate(
+            QueryTable.ResultCenter,
+            new QueryParam<?>[] {
+
+                // SET
+                new QueryParam<String>(TableProperty.Name, resultCenter.getName()),
+                new QueryParam<String>(TableProperty.CR_Sigla, resultCenter.getAcronym()),
+                new QueryParam<String>(TableProperty.CR_Codigo, resultCenter.getCode()),
+                new QueryParam<Integer>(TableProperty.UserId, resultCenter.getManagerId()),
+    
+                // WHERE
+                new QueryParam<Integer>(TableProperty.Id, resultCenter.getId())
+            }
+        );
+    }
+
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- FUNÇÕES DE DELETE -------------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
 
     /// Remove um apontamento do banco de dados. TODO: generic
     public static void deleteIdAppointment (Appointment apt) {
@@ -407,6 +566,50 @@ public class QueryLibs {
             }
         ));
     }
+
+    public static void deleteUser (User usr_id) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, usr_id.getId())
+            }
+        ));
+    }
+
+    public static void deleteClient (int clt_id) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.Client,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, clt_id)
+            }
+        ));
+    }
+
+    public static void deleteResultCenter (int cr_id) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.ResultCenter,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.Id, cr_id)
+            }
+        ));
+    }
+
+    public static void removeAllusersFromResultCenter (int cr_id) {
+        executeQuery(new Query(
+            QueryType.DELETE,
+            QueryTable.Member,
+            new QueryParam<?>[] {
+                new QueryParam<Integer>(TableProperty.ResultCenterId, cr_id)
+            }
+        ));
+    }
+
+/// -----------------------------------------------------------------------------------------------------------------------
+/// --------------------------------- TESTE DE CONEXÃO  -------------------------------------------------------------------
+/// -----------------------------------------------------------------------------------------------------------------------
 
     public static void testConnection(Connection conexao) {
         // Connection conexao = getConnection(); // Add param to testConnection so that it doesn't call getConnection() creating infinite loop
@@ -465,5 +668,17 @@ public class QueryLibs {
         }
         // fecha conexão
         // conexao.close();
+    }
+    public static void resetUserPassword (String senha, Integer user) {
+        executeQuery(new Query(
+            QueryType.UPDATE,
+            QueryTable.User,
+            new QueryParam<?>[] {
+                // SET
+                new QueryParam<>(TableProperty.Usr_Password, PasswordIncription.encryptPassword(senha)),
+                // WHERE
+                new QueryParam<Integer>(TableProperty.Id, user)
+            }
+        ));
     }
 }

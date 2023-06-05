@@ -1,9 +1,10 @@
 package org.openjfx.api2semestre.authentication;
 
 import org.openjfx.api2semestre.data.HasDisplayName;
+import org.openjfx.api2semestre.data.HasId;
 import org.openjfx.api2semestre.database.Data;
 
-public class User extends Data implements HasDisplayName {
+public class User extends Data implements HasDisplayName, HasId {
 
     private Integer id;    
     private String matricula;
@@ -27,7 +28,6 @@ public class User extends Data implements HasDisplayName {
         this.senha = senha;
         this.matricula = matricula;
     }
-
     public User(
         String nome, 
         Profile perfil, 
@@ -68,10 +68,10 @@ public class User extends Data implements HasDisplayName {
     public Profile getProfile() { return perfil; }
     public String getEmail() { return email; }
     public String getPassword() { return senha; }
-    
-    // public void setNome(String nome) { this.nome = nome; }
-    // public void setPerfil(Profile perfil) { this.perfil = perfil; }
-    // public void setEmail(String email) { this.email = email; }
-    // public void setSenha(String senha) { this.senha = senha; }
-    // public void setMatricula(String matricula) { this.matricula = matricula; }
+
+    public void setNome(String nome) { this.nome = nome; }
+    public void setPerfil(Profile perfil) { this.perfil = perfil; }
+    public void setEmail(String email) { this.email = email; }
+    public void setSenha(String senha) { this.senha = senha; }
+    public void setMatricula(String matricula) { this.matricula = matricula; }
 }

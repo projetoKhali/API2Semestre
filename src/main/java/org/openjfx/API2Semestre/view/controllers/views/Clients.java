@@ -1,10 +1,8 @@
 package org.openjfx.api2semestre.view.controllers.views;
 
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.data.Client;
@@ -12,7 +10,9 @@ import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
 import org.openjfx.api2semestre.view.macros.ColumnConfigString;
 import org.openjfx.api2semestre.view.macros.TableMacros;
+import org.openjfx.api2semestre.view.macros.TableMacros.Formatter;
 import org.openjfx.api2semestre.view.utils.filters.ClientFilter;
+import org.openjfx.api2semestre.view.utils.interfaces.EditableTableView;
 import org.openjfx.api2semestre.view.utils.wrappers.ClientWrapper;
 
 import javafx.beans.property.BooleanProperty;
@@ -23,13 +23,12 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class Clients implements Initializable {
-    
+public class Clients implements EditableTableView<Client> {
+
     @FXML private TextField tf_razao;
     @FXML private TextField tf_cnpj;
 
@@ -38,27 +37,42 @@ public class Clients implements Initializable {
 
     private BooleanProperty col_cnpj_enableFilter = new SimpleBooleanProperty();
     private BooleanProperty col_razao_enableFilter = new SimpleBooleanProperty();
-    
+
     @FXML private TableView<ClientWrapper> tabela;
     private ObservableList<ClientWrapper> displayedClients;
     private List<Client> loadedClients;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+    public void initialize() {
         buildTable();
-
-        updateTable();    
+        updateTable();  
     }
 
-    @SuppressWarnings("unchecked")
-    private void buildTable () {
+    @SuppressWarnings("unchecked") private void buildTable () {
 
         ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 applyFilter();
             }
         };
+
+        TableMacros.<ClientWrapper>createDeleteColumn(tabela, "cliente", (ClientWrapper clientWrapper) -> {
+            QueryLibs.deleteClient(clientWrapper.getClient().getId());
+            updateTable();
+        });
+
+        TableMacros.<ClientWrapper, String>enableEditableCells(
+            col_cnpj,
+            (String value) -> !value.isBlank(),
+            (ClientWrapper item, String value) -> item.getClient().setCnpj(value),
+            Formatter.DEFAULT_STRING_FORMATTER
+        );
+
+        TableMacros.<ClientWrapper, String>enableEditableCells(
+            col_razao,
+            (String value) -> !value.isBlank(),
+            (ClientWrapper item, String value) -> item.getClient().setNome(value),
+            Formatter.DEFAULT_STRING_FORMATTER
+        );
 
         TableMacros.buildTable(
             tabela,
@@ -68,11 +82,10 @@ public class Clients implements Initializable {
             },
             Optional.of(applyFilterCallback)
         );
-    
     }
 
     private void updateTable () {
-        
+
         loadedClients = Arrays.asList(QueryLibs.selectAllClients());
 
         applyFilter();
@@ -93,9 +106,9 @@ public class Clients implements Initializable {
         tabela.setItems(displayedClients);
         tabela.refresh();
 
-    }  
+    }
 
-    @FXML void register (ActionEvent event) {
+    @FXML private void register (ActionEvent event) {
 
         String razao = tf_razao.getText();
         String cnpj = tf_cnpj.getText();
@@ -110,11 +123,10 @@ public class Clients implements Initializable {
             cnpj
         ));
         updateTable();
-
     }
 
-    void inputClient () {
+    @Override @FXML public void saveChanges(ActionEvent event) {
+        tabela.getItems().stream().forEach((ClientWrapper clientWrapper) -> QueryLibs.updateClient(clientWrapper.getClient()));
     }
-
 
 }

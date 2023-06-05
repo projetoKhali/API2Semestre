@@ -1,6 +1,8 @@
 package org.openjfx.api2semestre.authentication;
 
-public enum Profile {
+import org.openjfx.api2semestre.data.HasDisplayName;
+
+public enum Profile implements HasDisplayName {
     Colaborador(0, "Colaborador"),
     Gestor(1, "Gestor"),
     Administrator(2, "Administrador");
@@ -25,5 +27,5 @@ public enum Profile {
     }
 
     public int getProfileLevel() { return profileLevel; }
-    public String getDisplayName() { return displayName; }
+    public String getName() { return displayName; }
 }

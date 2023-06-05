@@ -12,9 +12,7 @@ import org.openjfx.api2semestre.appointment.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
-import org.openjfx.api2semestre.view.controllers.popups.PopUpJustification;
-import org.openjfx.api2semestre.view.controllers.popups.PopupCallbackHandler;
-import org.openjfx.api2semestre.view.controllers.popups.Popup;
+import org.openjfx.api2semestre.view.controllers.popups.Justification;
 import org.openjfx.api2semestre.view.controllers.templates.ApprovePopupListItem;
 import org.openjfx.api2semestre.view.controllers.templates.RejectPopupListItem;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
@@ -22,6 +20,8 @@ import org.openjfx.api2semestre.view.macros.ColumnConfigString;
 import org.openjfx.api2semestre.view.macros.TableCheckBoxMacros;
 import org.openjfx.api2semestre.view.macros.TableMacros;
 import org.openjfx.api2semestre.view.utils.filters.AppointmentFilter;
+import org.openjfx.api2semestre.view.utils.interfaces.Popup;
+import org.openjfx.api2semestre.view.utils.interfaces.PopupListCallback;
 import org.openjfx.api2semestre.view.utils.wrappers.AppointmentWrapper;
 
 import javafx.beans.property.BooleanProperty;
@@ -71,9 +71,9 @@ public class Approvals {
     @FXML private TableView<AppointmentWrapper> tabela;
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
-    
+
     public void initialize() {
-    
+
         buildTable();
 
         updateTable();
@@ -97,7 +97,7 @@ public class Approvals {
             tabela,
             new ColumnConfig[] {
                 new ColumnConfigString<>(col_requester, "requester", "Solicitante", Optional.of(col_requester_enableFilter)),
-                new ColumnConfigString<>(col_squad, "squad", "CR", Optional.of(col_squad_enableFilter)),
+                new ColumnConfigString<>(col_squad, "resultCenter", "CR", Optional.of(col_squad_enableFilter)),
                 new ColumnConfigString<>(col_tipo, "type", "Tipo", Optional.empty()),
                 new ColumnConfigString<>(col_inicio, "startDate", "Data Início", Optional.empty()),
                 new ColumnConfigString<>(col_fim, "endDate", "Data Fim", Optional.empty()),
@@ -127,7 +127,7 @@ public class Approvals {
 
         for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(Authentication.getCurrentUser().getId())) {
             // System.out.println("resultCenter: " + resultCenter);
-            for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getName())) {
+            for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId())) {
                 // System.out.println("apt: " + apt);
                 // try {
                     items.add(apt);
@@ -178,9 +178,9 @@ public class Approvals {
             popupStage.setTitle("Justificativa de " + apt.getType() + " do(a) " + apt.getRequester());
 
             // Load the FXML file for the list item
-            FXMLLoader loader = new FXMLLoader(App.getFXML("popups/popUpJustification"));
+            FXMLLoader loader = new FXMLLoader(App.getFXML("popups/justification"));
             AnchorPane popup = loader.load();
-            ((PopUpJustification)loader.getController()).setAppointment(apt);
+            ((Justification)loader.getController()).setAppointment(apt);
 
             // Create a scene for the popup
             Scene scene = new Scene(popup, 800, 400);
@@ -197,8 +197,7 @@ public class Approvals {
         return displayedAppointments.stream().filter((AppointmentWrapper apt) -> apt.getSelected()).collect(Collectors.toList());
     }
 
-    @FXML
-    private void showApprovePopup (ActionEvent event) throws IOException {
+    @FXML private void showApprovePopup (ActionEvent event) throws IOException {
         System.out.println("showApprovePopup");
         createPopup(
             "templates/approvePopupListItem",
@@ -208,7 +207,7 @@ public class Approvals {
                 for (ApprovePopupListItem controller : controllers) {
                     Appointment appointment = controller.getSelected().getAppointment();
                     appointment.setStatus(1);
-                    QueryLibs.updateTable(appointment);
+                    QueryLibs.updateAppointment(appointment);
                     // System.out.println("Apontamento atualizado");
                 }
                 updateTable();
@@ -216,8 +215,7 @@ public class Approvals {
         );
     }
 
-    @FXML
-    private void showRejectPopup (ActionEvent event) throws IOException {
+    @FXML private void showRejectPopup (ActionEvent event) throws IOException {
         System.out.println("showRejectPopup");
         createPopup(
             "templates/rejectPopupListItem",
@@ -237,7 +235,7 @@ public class Approvals {
                     appointments.add(appointment);
                 }
                 for (Appointment appointment : appointments) {
-                    QueryLibs.updateTable(appointment);
+                    QueryLibs.updateAppointment(appointment);
                     // System.out.println("Apontamento atualizado");
                 }
                 updateTable();
@@ -245,7 +243,11 @@ public class Approvals {
         );
     }
 
-    private <T extends Popup> Stage createPopup (String popupFxmlFile, String actionText, PopupCallbackHandler<T> callback) {
+    private <T extends Popup<AppointmentWrapper>> Stage createPopup (
+        String popupFxmlFile,
+        String actionText,
+        PopupListCallback<T> callback
+    ) {
 
         // Get the list of items from the main application
         List<AppointmentWrapper> selectedAppointments = getSelected();
@@ -271,7 +273,6 @@ public class Approvals {
                 T controller = loader.getController();
 
                 controller.setSelected(aptWrapper);
-                controller.buildTable();
 
                 // Add the HBox to the VBox
                 itemsVBox.getChildren().add(listItem);
@@ -307,7 +308,7 @@ public class Approvals {
         Scene scene = new Scene(root, 800, 400);
         popupStage.setScene(scene);
         popupStage.showAndWait();
-    
+
         return popupStage;
     }
 

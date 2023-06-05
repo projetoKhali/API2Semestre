@@ -38,5 +38,5 @@ public enum AppointmentType {
             Optional.empty()
         ;
     }
-    
+
 }

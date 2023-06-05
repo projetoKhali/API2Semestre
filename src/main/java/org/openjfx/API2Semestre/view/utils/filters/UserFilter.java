@@ -11,7 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 
 public class UserFilter {
-    
+
     public static List<User> filterFromView (
         List<User> users,
         Optional<TableColumn<User, String>> col_matricula,

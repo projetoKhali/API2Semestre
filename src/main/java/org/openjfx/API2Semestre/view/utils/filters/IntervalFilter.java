@@ -11,7 +11,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
 
 public class IntervalFilter {
-    
+
     public static List<ReportIntervalWrapper> filterFromView (
         List<ReportIntervalWrapper> intervals,
         Optional<TableColumn<ReportIntervalWrapper, String>> col_matricula,
@@ -50,12 +50,12 @@ public class IntervalFilter {
         Optional<String> projeto
     ) {
         return intervals.stream().filter((ReportIntervalWrapper interval) -> {
-            if (matricula.isPresent() && !interval.getMatricula().toLowerCase().contains(matricula.get().toLowerCase())) return false;
-            if (colaborador.isPresent() && !interval.getColaborador().toLowerCase().contains(colaborador.get().toLowerCase())) return false;
-            if (verba.isPresent() && !interval.getVerba().toLowerCase().contains(verba.get().toLowerCase())) return false;
-            if (cr.isPresent() && !interval.getCentroResultado().toLowerCase().contains(cr.get().toLowerCase())) return false;
-            if (cliente.isPresent() && !interval.getCliente().toLowerCase().contains(cliente.get().toLowerCase())) return false;
-            if (projeto.isPresent() && !interval.getProjeto().toLowerCase().contains(projeto.get().toLowerCase())) return false;
+            if (matricula.isPresent() && !interval.getRequesterRegistration().toLowerCase().contains(matricula.get().toLowerCase())) return false;
+            if (colaborador.isPresent() && !interval.getRequesterName().toLowerCase().contains(colaborador.get().toLowerCase())) return false;
+            if (verba.isPresent() && !interval.getIntervalFeeCode().toLowerCase().contains(verba.get().toLowerCase())) return false;
+            if (cr.isPresent() && !interval.getResultCenterName().toLowerCase().contains(cr.get().toLowerCase())) return false;
+            if (cliente.isPresent() && !interval.getClientName().toLowerCase().contains(cliente.get().toLowerCase())) return false;
+            if (projeto.isPresent() && !interval.getProjectName().toLowerCase().contains(projeto.get().toLowerCase())) return false;
             return true;
         }).collect(Collectors.toList());
 

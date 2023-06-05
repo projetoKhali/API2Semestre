@@ -52,7 +52,7 @@ public class SQLConnection {
         // driver de conexão
         String driver = "jdbc:postgresql://" + host + ":" + port + "/" + database;
         Connection conexao = null;
-        
+
         // tenta abrir conexão
         try {
             //carrega a classe do driver do PostgreSQL na memória permitindo comunicação com o banco de dados

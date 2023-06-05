@@ -12,9 +12,12 @@ import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.appointment.AppointmentType;
 import org.openjfx.api2semestre.appointment.Status;
 import org.openjfx.api2semestre.authentication.Authentication;
+import org.openjfx.api2semestre.data.Client;
+import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.utils.DateConverter;
-import org.openjfx.api2semestre.view.controllers.popups.PopUpFeedback;
+import org.openjfx.api2semestre.view.controllers.custom_tags.LookupTextField;
+import org.openjfx.api2semestre.view.controllers.popups.Feedback;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
 import org.openjfx.api2semestre.view.macros.ColumnConfigStatus;
 import org.openjfx.api2semestre.view.macros.ColumnConfigString;
@@ -41,6 +44,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -68,7 +72,7 @@ public class Appointments implements Initializable {
     private TextField tf_projeto;
 
     @FXML
-    private TextField tf_squad;
+    private TextField tf_resultCenter;
 
     @FXML
     private Button bt_horaExtra;
@@ -111,13 +115,35 @@ public class Appointments implements Initializable {
     private TableView<AppointmentWrapper> tabela;
     private ObservableList<AppointmentWrapper> displayedAppointments;
     private List<Appointment> loadedAppointments;
-    
+
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         buildTable();
 
         updateTable();
+
+        // Query all user's resultCenters. TODO: implement pagination
+        ResultCenter[] resultCenters = QueryLibs.selectResultCentersOfMember(Authentication.getCurrentUser().getId());
+
+        // Create a new LookupTextField to replace the default javafx TextField at tf_resultCenter
+        LookupTextField<ResultCenter> lookupTextFieldResultCenter = new LookupTextField<ResultCenter>(resultCenters);
+        ((FlowPane)tf_resultCenter.getParent()).getChildren().set(
+            ((FlowPane)tf_resultCenter.getParent()).getChildren().indexOf(tf_resultCenter),
+            lookupTextFieldResultCenter
+        );
+        tf_resultCenter = lookupTextFieldResultCenter;
+
+        // Query all clients. TODO: implement pagination
+        Client[] clients = QueryLibs.selectAllClients();
+
+        // Create a new LookupTextField to replace the default javafx TextField at tf_cliente
+        LookupTextField<Client> lookupTextFieldClient = new LookupTextField<Client>(clients);
+        ((FlowPane)tf_cliente.getParent()).getChildren().set(
+            ((FlowPane)tf_cliente.getParent()).getChildren().indexOf(tf_cliente),
+            lookupTextFieldClient
+        );
+        tf_cliente = lookupTextFieldClient;
     }
 
     @SuppressWarnings("unchecked")
@@ -134,7 +160,7 @@ public class Appointments implements Initializable {
             tabela,
             new ColumnConfig[] {
                 new ColumnConfigStatus(col_status, "status", "Status"),
-                new ColumnConfigString<>(col_squad, "squad", "CR", Optional.of(col_squad_enableFilter)),
+                new ColumnConfigString<>(col_squad, "resultCenter", "CR", Optional.of(col_squad_enableFilter)),
                 new ColumnConfigString<>(col_tipo, "type", "Tipo", Optional.of(col_tipo_enableFilter)),
                 new ColumnConfigString<>(col_inicio, "startDate", "Data Início", Optional.of(col_inicio_enableFilter)),
                 new ColumnConfigString<>(col_fim, "endDate", "Data Fim", Optional.of(col_fim_enableFilter)),
@@ -150,20 +176,20 @@ public class Appointments implements Initializable {
             public void handle(MouseEvent event) {
                 if (event.getClickCount() != 1) return;
 
-                Status targetStatus = Status.Rejected; // TODO: change to Rejected in production
+                Status targetStatus = Status.Rejected;
                 AppointmentWrapper selectedItem = tabela.getSelectionModel().getSelectedItem();
                 if (selectedItem == null || selectedItem.getAppointment().getStatus() != targetStatus) return;
 
-                PopUpFeedback.apt_selected = selectedItem;
-                popUp("popups/popUpFeedback");
-                                    
+                Feedback.apt_selected = selectedItem;
+                popUp("popups/feedback");
+
             }
         });
     }
 
     private void updateTable () {
-    
-        loadedAppointments = Arrays.asList(QueryLibs.collaboratorSelect(Authentication.getCurrentUser().getName()));
+
+        loadedAppointments = Arrays.asList(QueryLibs.selectAppointmentsOfUser(Authentication.getCurrentUser().getId()));
         // System.out.println(loadedAppointments.size() + " appointments returned from select ");
 
         applyFilter();
@@ -203,43 +229,52 @@ public class Appointments implements Initializable {
     }
 
     void inputAppointment (AppointmentType type) {
-        QueryLibs.insertAppointment(new Appointment(
-            Authentication.getCurrentUser().getName(),
-            type,
-            DateConverter.inputToTimestamp(tf_dataInicio.getValue(),tf_horaInicio.getText()),
-            DateConverter.inputToTimestamp(tf_dataFinal.getValue(),tf_horaFinal.getText()),
-            tf_squad.getText(),
-            tf_cliente.getText(),
-            tf_projeto.getText(),
-            tf_justificativa.getText()
-        ));
-
+        @SuppressWarnings("unchecked") LookupTextField<ResultCenter> lookupTfResultCenter = ((LookupTextField<ResultCenter>)tf_resultCenter);
+        Integer resultCenter_id = lookupTfResultCenter.getSelectedItem().getId();
+        @SuppressWarnings("unchecked") LookupTextField<Client> lookupTfClient = ((LookupTextField<Client>)tf_cliente);
+        Client cliente = lookupTfClient.getSelectedItem();
+        Integer cliente_id = cliente.getId();
+        try {
+            QueryLibs.insertAppointment(new Appointment(
+                Authentication.getCurrentUser().getId(),
+                type,
+                DateConverter.inputToTimestamp(tf_dataInicio.getValue(), tf_horaInicio.getText()),
+                DateConverter.inputToTimestamp(tf_dataFinal.getValue(), tf_horaFinal.getText()),
+                resultCenter_id,
+                cliente_id,
+                tf_projeto.getText(),
+                tf_justificativa.getText()
+            ));
+        } catch (Exception e) {
+            System.out.println("Erro: Appointments.inputAppointment() -- Falha ao inserir apontamento");
+            e.printStackTrace();
+        }
         updateTable();
     }
-        
+
     // função usada para exibir um pop up, que deve corresponder ao fxml de nome fileName
     void popUp(String fileName){
         try{
-        
+
             Stage stage;
             Parent root;
-           
+
             stage = new Stage();
-    
+
             root = FXMLLoader.load(App.getFXML(fileName));
             stage.setScene(new Scene(root));
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initOwner(tabela.getScene().getWindow());
             stage.showAndWait();
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
-        
-    
-         
 
     
+
+
+
 
 }

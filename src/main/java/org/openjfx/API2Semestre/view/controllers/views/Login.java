@@ -11,13 +11,15 @@ public class Login {
 
     @FXML private TextField tf_email;
     @FXML private TextField tf_senha;
-   
+
     public void login() {
         try {
             String email = tf_email.getText();
             String password = tf_senha.getText();
             if (Authentication.login(email, password)) {
+                App.closeWindow();
                 App.changeView(ViewsManager.handleViews());
+                App.getStage().show();
             }
         } catch (Exception e) {
             System.out.println("Erro ao efetuar login");

@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import org.openjfx.api2semestre.appointment.VwAppointment;
+import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.database.QueryLibs;
 import com.opencsv.CSVWriter;
 
@@ -72,24 +72,24 @@ public class ReportExporter {
             // escreve registros enquanto houver
             for (ReportInterval reportInterval : data) {
 
-                Optional<VwAppointment> optionalAppointment = QueryLibs.selectAppointmentById(reportInterval.getAppointmmentId());
+                Optional<Appointment> optionalAppointment = QueryLibs.selectAppointmentById(reportInterval.getAppointmmentId());
 
                 if (optionalAppointment.isEmpty()) {
                     System.out.println("Erro ao retornar apontamento");
                     continue;
                 }
-                VwAppointment appointment = optionalAppointment.get();
+                Appointment appointment = optionalAppointment.get();
                 
                 List<String> dados = new ArrayList<>();
                 if(!(reportInterval.getStart().after(data_fim) || reportInterval.getEnd().before(data_inicio))){
-                    if(camposBoolean[0]){dados.add(appointment.getMatricula());}
-                    if(camposBoolean[1]){dados.add(appointment.getRequester());}
+                    if(camposBoolean[0]){dados.add(appointment.getRequesterRegistration());}
+                    if(camposBoolean[1]){dados.add(appointment.getRequesterName());}
                     if(camposBoolean[2]){dados.add(Integer.toString(reportInterval.getVerba()));}
                     if(camposBoolean[3]){dados.add(reportInterval.getStart().toString());}
                     if(camposBoolean[4]){dados.add(reportInterval.getEnd().toString());}
-                    if(camposBoolean[5]){dados.add(reportInterval.getTotal());}
-                    if(camposBoolean[6]){dados.add(appointment.getCrName());}
-                    if(camposBoolean[7]){dados.add(appointment.getClient());}
+                    if(camposBoolean[5]){dados.add(reportInterval.getTotalString());}
+                    if(camposBoolean[6]){dados.add(appointment.getResultCenterName());}
+                    if(camposBoolean[7]){dados.add(appointment.getClientName());}
                     if(camposBoolean[8]){dados.add( appointment.getProject());}
                     if(camposBoolean[9]){dados.add(appointment.getJustification());}
                 }

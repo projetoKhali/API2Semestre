@@ -7,9 +7,7 @@ import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Permission;
-import org.openjfx.api2semestre.authentication.Profile;
 import org.openjfx.api2semestre.authentication.User;
-import org.openjfx.api2semestre.database.QueryLibs;
 
 public class ViewsManager {
 
@@ -28,7 +26,7 @@ public class ViewsManager {
         final User user = Authentication.getCurrentUser();
 
         // puxa as permissões do usuário
-        Permission[] userPermissions = getPermissions(user);
+        Permission[] userPermissions = Permission.getPermissions(user);
 
         // inicializa uma lista de View
         List<View> userViews = new ArrayList<>();
@@ -69,18 +67,6 @@ public class ViewsManager {
         views = userViews.toArray(View[]::new);
         return firstView == null ? Optional.empty() : Optional.of(firstView.getFxmlFileName());
 
-    }
-
-    private static Permission[] getPermissions (User u) {
-        List<Permission> permissions = new ArrayList<>();
-        if (u.getProfile() == Profile.Administrator) {
-            permissions.add(Permission.FullAccess);
-            permissions.add(Permission.Register);
-            permissions.add(Permission.Report);
-        }
-        if (QueryLibs.selectResultCentersManagedBy(u.getId()).length > 0) permissions.add(Permission.Validate);
-        if (QueryLibs.selectResultCentersOfMember(u.getId()).length > 0) permissions.add(Permission.Appoint);
-        return permissions.toArray(Permission[]::new);
     }
 
 }

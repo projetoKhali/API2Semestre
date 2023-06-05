@@ -8,7 +8,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 public class ColumnConfig <T, S> {
-        
+
     protected TableColumn<T,S> column;
     protected String propertyName;
     protected String displayName;
@@ -20,7 +20,7 @@ public class ColumnConfig <T, S> {
         this.displayName = displayName;
         this.isCheckBoxColumn = isCheckBoxColumn;
     }
-    
+
     public TableColumn<T, S> getColumn() { return column; }
     public String getPropertyName() { return propertyName; }
     public String getDisplayName() { return displayName; }

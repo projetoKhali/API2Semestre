@@ -3,10 +3,13 @@ package org.openjfx.api2semestre.view.controllers.views;
 import org.openjfx.api2semestre.data.ResultCenter;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view.controllers.custom_tags.LookupTextField;
+import org.openjfx.api2semestre.view.controllers.popups.ResultCenterEdit;
 import org.openjfx.api2semestre.view.macros.ColumnConfig;
 import org.openjfx.api2semestre.view.macros.ColumnConfigString;
 import org.openjfx.api2semestre.view.macros.TableMacros;
+import org.openjfx.api2semestre.view.macros.TableMacros.Formatter;
 import org.openjfx.api2semestre.view.utils.filters.ResultCenterFilter;
+import org.openjfx.api2semestre.view.utils.interfaces.EditableTableView;
 
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -33,7 +36,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.Font;
 
-public class ResultCenters {
+public class ResultCenters implements EditableTableView<ResultCenter> {
 
     @FXML private TextField tf_codigo;
     @FXML private TextField tf_colaborador;
@@ -43,21 +46,19 @@ public class ResultCenters {
 
     @FXML private FlowPane fp_colaboradores;
     private LinkedList<User> selectedUsers = new LinkedList<User>();
-    
+
     @FXML private TableView<ResultCenter> tabela;
-    
+
     @FXML private TableColumn<ResultCenter, String> col_nome;
-    private BooleanProperty col_nome_enableFilter = new SimpleBooleanProperty();
-    
     @FXML private TableColumn<ResultCenter, String> col_sigla;
-    private BooleanProperty col_sigla_enableFilter = new SimpleBooleanProperty();
-    
     @FXML private TableColumn<ResultCenter, String> col_codigo;
-    private BooleanProperty col_codigo_enableFilter = new SimpleBooleanProperty();
-    
     @FXML private TableColumn<ResultCenter, String> col_gestor;
+
+    private BooleanProperty col_nome_enableFilter = new SimpleBooleanProperty();
+    private BooleanProperty col_sigla_enableFilter = new SimpleBooleanProperty();
+    private BooleanProperty col_codigo_enableFilter = new SimpleBooleanProperty();
     private BooleanProperty col_gestor_enableFilter = new SimpleBooleanProperty();
-    
+
     // @FXML private TableColumn<ResultCenter, String> col_membros;
     // private BooleanProperty col_membros_enableFilter = new SimpleBooleanProperty();
 
@@ -65,9 +66,8 @@ public class ResultCenters {
     private List<ResultCenter> loadedResultCenters;
 
     public void initialize(){
-            
-        buildTable();
 
+        buildTable();
         updateTable();
 
         // Query all users from database. TODO: implement pagination
@@ -102,8 +102,7 @@ public class ResultCenters {
         tf_gestor = lookupTextFieldGestor;
     }
 
-    @SuppressWarnings("unchecked")
-    private void buildTable () {
+    @SuppressWarnings("unchecked") private void buildTable () {
 
         ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
             @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
@@ -117,20 +116,48 @@ public class ResultCenters {
         TableMacros.buildTable(
             tabela,
             new ColumnConfig[] {
-                new ColumnConfigString<>(col_nome, "nome", "Nome", Optional.of(col_nome_enableFilter)),
-                new ColumnConfigString<>(col_sigla, "sigla", "Sigla", Optional.of(col_sigla_enableFilter)),
-                new ColumnConfigString<>(col_codigo, "codigo", "Codigo", Optional.of(col_codigo_enableFilter)),
-                new ColumnConfigString<>(col_gestor, "gestorNome", "Gestor", Optional.of(col_gestor_enableFilter)),
-                // new ColumnConfigString<>(col_membros, "membros", "Membros", Optional.empty()),
+                new ColumnConfigString<>(col_nome, "name", "Nome", Optional.of(col_nome_enableFilter)),
+                new ColumnConfigString<>(col_sigla, "acronym", "Sigla", Optional.of(col_sigla_enableFilter)),
+                new ColumnConfigString<>(col_codigo, "code", "Codigo", Optional.of(col_codigo_enableFilter)),
+                new ColumnConfigString<>(col_gestor, "managerName", "Gestor", Optional.of(col_gestor_enableFilter)),
             },
             Optional.of(applyFilterCallback)
+        );
+
+        TableMacros.<ResultCenter, String>enableEditableCells(
+            col_nome,
+            (String value) -> !value.isBlank(),
+            (ResultCenter item, String value) -> item.setName(value),
+            Formatter.DEFAULT_STRING_FORMATTER
+        );
+        TableMacros.<ResultCenter, String>enableEditableCells(
+            col_sigla,
+            (String value) -> !value.isBlank(),
+            (ResultCenter item, String value) -> item.setAcronym(value),
+            Formatter.DEFAULT_STRING_FORMATTER
+        );
+        TableMacros.<ResultCenter, String>enableEditableCells(
+            col_codigo,
+            (String value) -> !value.isBlank(),
+            (ResultCenter item, String value) -> item.setCode(value),
+            Formatter.DEFAULT_STRING_FORMATTER
+        );
+
+        TableMacros.<ResultCenter, ResultCenterEdit>createEditPopupColumn(
+            tabela, 
+            "Centro de Resultado",
+            "popups/resultCenterEdit",
+            Optional.of((ResultCenter resultCenter) -> {
+                QueryLibs.deleteResultCenter(resultCenter.getId());
+                updateTable();
+            })
         );
     }
 
     private void updateTable () {
         ResultCenter[] items = QueryLibs.selectAllResultCenters();
         System.out.println(items.length + " resultCenters returned from select ");
-    
+
         loadedResultCenters = Arrays.asList(items);
         displayedResultCenters =  FXCollections.observableArrayList(loadedResultCenters);
 
@@ -159,7 +186,7 @@ public class ResultCenters {
     }
 
     @FXML void adicionarColaborador(ActionEvent event) {
-        
+
         // get the TextFields as LookupTextField
         @SuppressWarnings("unchecked") LookupTextField<User> lookupTfColaborador = ((LookupTextField<User>)tf_colaborador);
         @SuppressWarnings("unchecked") LookupTextField<User> lookupTfGestor = ((LookupTextField<User>)tf_gestor);
@@ -210,11 +237,11 @@ public class ResultCenters {
             if (selectedUser.getProfile().getProfileLevel() > 0) lookupTfGestor.addSuggestion(selectedUser);
             selectedUsers.remove(selectedUser);
         });
-        
+
     }
 
     @FXML void cadastrarCentro (ActionEvent event) {
-        
+
         // get the TextFields as LookupTextField
         @SuppressWarnings("unchecked") LookupTextField<User> lookupTfcolaborador = ((LookupTextField<User>)tf_colaborador);
         @SuppressWarnings("unchecked") LookupTextField<User> lookupTfgestor = ((LookupTextField<User>)tf_gestor);
@@ -237,7 +264,7 @@ public class ResultCenters {
             codigo,
             gestor.getId()
         ));
-        
+
         // add the membro_cr relation between each selectedUser and thhe new ResultCenter
         for (User selectedUser : selectedUsers) {
             QueryLibs.addUserToResultCenter(selectedUser.getId(), cr_id);
@@ -261,6 +288,10 @@ public class ResultCenters {
 
         // atualiza a tabela para incluir o ResultCenter inserido
         updateTable();
+    }
+
+    @Override @FXML public void saveChanges(ActionEvent event) {
+        tabela.getItems().stream().forEach((ResultCenter user) -> QueryLibs.updateResultCenter(user));
     }
 
 }

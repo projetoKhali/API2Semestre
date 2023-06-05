@@ -15,10 +15,10 @@ import org.openjfx.api2semestre.view.utils.pretty_table_cell.PrettyTableCellInst
 import org.openjfx.api2semestre.view.utils.wrappers.AppointmentWrapper;
 
 
-public class PopUpFeedback {
+public class Feedback {
 
     @FXML private TableView<AppointmentWrapper> tabela;
-    
+
     @FXML private TableColumn<AppointmentWrapper, String> col_status;
     @FXML private TableColumn<AppointmentWrapper, String> col_squad;
     @FXML private TableColumn<AppointmentWrapper, String> col_tipo;
@@ -27,19 +27,19 @@ public class PopUpFeedback {
     @FXML private TableColumn<AppointmentWrapper, String> col_cliente;
     @FXML private TableColumn<AppointmentWrapper, String> col_projeto;
     @FXML private TableColumn<AppointmentWrapper, String> col_total;
-   
+
     @FXML private Label lb_feedback;
 
-    
+
     public static AppointmentWrapper apt_selected;
-    
+
     
     public void initialize(){
         // System.out.println("testeoi");
         lb_feedback.setText(apt_selected.getFeedback());
         buildTable();
     }
-    
+
     @SuppressWarnings("unchecked")
     private void buildTable () {
         col_status.setCellValueFactory( new PropertyValueFactory<>( "status" ));
@@ -58,7 +58,7 @@ public class PopUpFeedback {
         col_projeto.setCellValueFactory( new PropertyValueFactory<>( "project" ));
         col_total.setCellValueFactory( new PropertyValueFactory<>( "total" ));
         // asdasdasdasdas( new PropertyValueFactory<>( "justification" ));
-    
+
         tabela.setItems(FXCollections.observableArrayList(List.of(apt_selected)));
     }
 }

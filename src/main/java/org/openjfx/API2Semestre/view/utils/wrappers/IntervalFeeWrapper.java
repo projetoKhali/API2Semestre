@@ -5,13 +5,13 @@ import org.openjfx.api2semestre.report.IntervalFee;
 import org.openjfx.api2semestre.report.Week;
 
 public class IntervalFeeWrapper {
-    
+
     private IntervalFee intervalFee;
-    
+
     public IntervalFeeWrapper(IntervalFee intervalFee) {
         this.intervalFee = intervalFee;
     }
-    
+
     public IntervalFee getIntervalFee() { return intervalFee; }
 
     public int getCodigo() { return intervalFee.getCode(); }
