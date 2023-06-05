@@ -29,14 +29,12 @@ public class DashboardTab {
     private ObservableList<Appointment> filteredAppointments;
     private Appointment[] loadedAppointments;
 
-    @SuppressWarnings("unused") private ObservableList<ReportInterval> filteredIntervals;
+    private ObservableList<ReportInterval> filteredIntervals;
     private ReportInterval[] loadedIntervals;
 
     FilterControl[] filterControls;
 
     private void createFilters () {
-
-        // double filter_width = hb_filters.getScene().getWindow().getWidth() / (double)context.getFields().length;
 
         List<FilterControl> filterControlsList = Arrays.asList(context.getFields()).stream()
             .map((FilterField filterField) -> {
@@ -72,6 +70,8 @@ public class DashboardTab {
         
         loadedAppointments = context.loadData(Authentication.getCurrentUser());
         loadedIntervals = AppointmentCalculator.calculateReports(loadedAppointments);
+
+        System.out.println(loadedIntervals.length + " intervals | dashboardTab");
 
         createFilters();
 
@@ -113,10 +113,10 @@ public class DashboardTab {
         addChart(ChartGenerator.statusAppointmentChart(appointmentsArray));
 
         switch (context.getProfile()) {
-            case Administrator: ; 
+            case Administrator:
                 addChart(ChartGenerator.reportIntervalChart(intervalsArray));
             break;
-            case Colaborador: ; 
+            case Gestor: case Colaborador:
                 addChart(ChartGenerator.hourIntersectionCountGraph(appointmentsArray));
             default: break;
         }
