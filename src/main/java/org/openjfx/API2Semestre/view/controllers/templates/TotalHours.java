@@ -27,7 +27,7 @@ public class TotalHours {
             totalMinutes += reportInterval.getTotal();
         }
         lblTotalHoras.setText(String.valueOf(
-            new StringBuilder(String.valueOf(totalMinutes / 60)).append(":").append(totalMinutes).toString()
+            new StringBuilder(String.valueOf(totalMinutes / 60)).append(":").append(String.valueOf((int)totalMinutes % 60)).toString()
         ));
     }
 
@@ -35,15 +35,17 @@ public class TotalHours {
         double totalMinutes = 0;
         IntervalFee[] verbas = IntervalFee.getVerbas();
         for (ReportInterval reportInterval : listReportInterval) {
+            System.out.println(reportInterval.getVerba() + " | " + verbas.length + " | " +listReportInterval.length);
             for (IntervalFee verba : verbas) {
                 if (reportInterval.getVerba() == verba.getCode()) {
+                    System.out.println("reportInterval.getVerba " + reportInterval.getVerba() + " | verba.getCode " + verba.getCode());
                     totalMinutes += reportInterval.getTotal() * verba.getPercent();
                     break;
                 }
             }
         }
         lblTotalHorasVerba.setText(String.valueOf(
-            new StringBuilder(String.valueOf(totalMinutes / 60)).append(":").append(totalMinutes).toString()
+            new StringBuilder(String.valueOf(totalMinutes / 60)).append(":").append(String.valueOf((int)totalMinutes % 60)).toString()
         ));
     }
 

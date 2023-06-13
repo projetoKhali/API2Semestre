@@ -50,7 +50,7 @@ public class App extends Application {
         // Para criar as tabelas que estiverem faltando
         // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/tabelas.sql");
         // Para criar as views que estiverem faltando
-        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/views.sql");
+        org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/views.sql");
 
         // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
         //     "humano adm exemplo",

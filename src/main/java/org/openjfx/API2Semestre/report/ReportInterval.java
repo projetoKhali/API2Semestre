@@ -26,7 +26,7 @@ public class ReportInterval {
     public Timestamp getEnd() { return end; }
     public String getTotalString() {
         long minutes = getTotal();
-        return new StringBuilder(String.valueOf(minutes / 60)).append(":").append(minutes).toString();
+        return new StringBuilder(String.valueOf(minutes / 60)).append(":").append(minutes % 60).toString();
     }
 
     public void setAppointmmentId (int appointmmentId) { this.appointmmentId = appointmmentId; }

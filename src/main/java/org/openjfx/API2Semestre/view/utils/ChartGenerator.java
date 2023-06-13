@@ -178,7 +178,7 @@ public class ChartGenerator {
             for(ReportInterval verba: reportsInterval){
                 LocalDateTime start = (verba.getStart()).toLocalDateTime();
                 LocalDateTime end = (verba.getEnd()).toLocalDateTime();
-                System.out.println("verba: " + verba.getVerba());
+                // System.out.println("verba: " + verba.getVerba());
                 if (verba.getVerba() == intervalFee) totalHours += (ChronoUnit.MINUTES.between(start, end)) / 60.0;
             }
 
