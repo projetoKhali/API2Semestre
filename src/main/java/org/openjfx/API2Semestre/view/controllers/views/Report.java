@@ -180,7 +180,7 @@ public class Report {
     }
 
     private void applyFilter (boolean includeTextFieldFilter) {
-        System.out.println("applyFilter");
+        // System.out.println("Report.applyFilter -- " + intervalsToExport.size() + " intervals at start of call");
 
         // Inicia a conexão com o banco de dados
         Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
@@ -215,6 +215,8 @@ public class Report {
 
         // Fecha a conexão com o banco de dados
         QueryLibs.close(connectionOptional);
+
+        // System.out.println("Report.applyFilter -- " + intervalsToExport.size() + " intervals after match filter");
 
         Integer dia_inicio;
         Integer dia_fim;
@@ -277,12 +279,20 @@ public class Report {
                 data_fim.set(Timestamp.valueOf(dp_fim.getValue().plusDays(1).atTime(0, 0, 0)));
 
             }
-
         }
 
-        intervalsToExport = new LinkedList<ReportIntervalWrapper>(intervalsToExport.stream().filter((ReportIntervalWrapper reportInterval) -> 
-            !(reportInterval.getInterval().getStart().after(data_fim.get()) || reportInterval.getInterval().getEnd().before(data_inicio.get()))
+        // System.out.println("data_inicio == null ? " +( data_inicio == null) + " | " + (data_inicio == null ? "-" : data_inicio.get()));
+        // System.out.println("data_fim == null ? " + (data_fim == null) + " | " + (data_fim == null ? "-" : data_fim.get()));
+
+        intervalsToExport = new LinkedList<ReportIntervalWrapper>(intervalsToExport.stream().filter(
+            (ReportIntervalWrapper reportInterval) -> !(
+                reportInterval.getInterval().getStart().after(data_fim.get())
+                || 
+                reportInterval.getInterval().getEnd().before(data_inicio.get())
+            )
         ).collect(Collectors.toList()));
+
+        // System.out.println("Report.applyFilter -- " + intervalsToExport.size() + " intervals after period filter");
 
         tabela.setItems(FXCollections.observableArrayList(intervalsToExport));
         tabela.refresh();
