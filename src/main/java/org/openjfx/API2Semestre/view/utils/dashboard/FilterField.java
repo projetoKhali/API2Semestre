@@ -110,6 +110,7 @@ public enum FilterField implements HasDisplayName {
                 .toArray(ResultCenter[]::new)
             );
             ltf_ResultCenter.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            // ltf_ResultCenter.textProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
             return Optional.ofNullable(new FilterControl(
                 ltf_ResultCenter,
                 (Appointment appointment) -> {

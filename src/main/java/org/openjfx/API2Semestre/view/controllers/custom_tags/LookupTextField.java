@@ -70,11 +70,15 @@ public class LookupTextField<T extends HasDisplayName & HasId> extends TextField
 
         textProperty().addListener((observable, oldValue, newValue) -> {
             T selItem = selectedItem.get();
-            if (newValue.isBlank() || (selItem != null && newValue.equals(selItem.getName()))) {
+            if (selItem != null && newValue.equals(selItem.getName())) {
                 setStyle("-fx-text-fill: black;");
             } else {
+                if (newValue.isBlank()) {
+                    setStyle("-fx-text-fill: black;");
+                } else {
+                    setStyle("-fx-text-fill: red;");
+                }
                 selectedItem.set(null);
-                setStyle("-fx-text-fill: red;");
             }
             if (focusedProperty().get()) {
                 // System.out.println("newvalue NOT empty");
