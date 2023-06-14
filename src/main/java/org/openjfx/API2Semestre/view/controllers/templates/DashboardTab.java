@@ -1,7 +1,5 @@
 package org.openjfx.api2semestre.view.controllers.templates;
 
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -40,15 +38,21 @@ public class DashboardTab {
 
     private void createFilters () {
 
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
         List<FilterControl> filterControlsList = Arrays.asList(context.getFields()).stream()
             .map((FilterField filterField) -> {
                 try {
                     FilterControl filterControl = filterField.create(
                         loadedAppointments,
                         loadedIntervals,
-                        this::applyFilter
+                        this::applyFilter,
+                        connectionOptional
                     ).orElseThrow(
-                        () -> new Exception("Khali | DashboardTab.createFilters -- Error: unhadled FilterField.create() implementation")
+                        () -> new Exception(
+                            "Khali | DashboardTab.createFilters -- Error: unhadled FilterField.create() implementation"
+                        )
                     );
                     return filterControl;
                 } catch (Exception e) {
@@ -60,6 +64,9 @@ public class DashboardTab {
             .collect(Collectors.toList()
         );
 
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
+
         hb_filters.getChildren().addAll(
             filterControlsList.stream().map(
                 (FilterControl filterControl) -> filterControl.getControl()
@@ -69,39 +76,39 @@ public class DashboardTab {
         filterControls = filterControlsList.toArray(FilterControl[]::new);
     }
     
-    public void setContext(DashboardContext context) {
+    public void setContext(DashboardContext context, Optional<java.sql.Connection> connectionOptional) {
         this.context = context;
         
-        loadedAppointments = context.loadData(Authentication.getCurrentUser());
+        loadedAppointments = context.loadData(Authentication.getCurrentUser(), connectionOptional);
         loadedIntervals = AppointmentCalculator.calculateReports(loadedAppointments);
 
-        System.out.println("DashboardTab | loadedAppointments.length: " + loadedAppointments.length);
-        System.out.println("DashboardTab | loadedIntervals.length: " + loadedIntervals.length);
+        // System.out.println("DashboardTab | loadedAppointments.length: " + loadedAppointments.length);
+        // System.out.println("DashboardTab | loadedIntervals.length: " + loadedIntervals.length);
 
-        for (Appointment apt : loadedAppointments) {
-            System.out.println(
-                "setContext | auth.curUsr -- apt: " + Authentication.getCurrentUser().getName() 
-                + " | apt.usr: " + apt.getRequesterName()
-                + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(apt.getStart().getTime()))
-                + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(apt.getEnd().getTime()))
-            );
-        }
-        for (ReportInterval ri : loadedIntervals) {
-            Optional<Appointment> apt = QueryLibs.selectAppointmentById(ri.getAppointmmentId());
-            System.out.println(
-                "setContext | auth.curUsr -- ri: " + Authentication.getCurrentUser().getName() 
-                + " | apt.usr: " + (apt.isEmpty() ? "NULL APT" : apt.get().getRequesterName()) 
-                + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(ri.getStart().getTime()))
-                + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(ri.getEnd().getTime()))
-            );
-        }
+        // for (Appointment apt : loadedAppointments) {
+        //     System.out.println(
+        //         "setContext | auth.curUsr -- apt: " + Authentication.getCurrentUser().getName() 
+        //         + " | apt.usr: " + apt.getRequesterName()
+        //         + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(apt.getStart().getTime()))
+        //         + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(apt.getEnd().getTime()))
+        //     );
+        // }
+        // for (ReportInterval ri : loadedIntervals) {
+        //     Optional<Appointment> apt = QueryLibs.selectAppointmentById(ri.getAppointmmentId());
+        //     System.out.println(
+        //         "setContext | auth.curUsr -- ri: " + Authentication.getCurrentUser().getName() 
+        //         + " | apt.usr: " + (apt.isEmpty() ? "NULL APT" : apt.get().getRequesterName()) 
+        //         + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(ri.getStart().getTime()))
+        //         + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(ri.getEnd().getTime()))
+        //     );
+        // }
 
         createFilters();
 
         applyFilter();
 
-        System.out.println("DashboardTab | filteredAppointments.size(): " + filteredAppointments.size());
-        System.out.println("DashboardTab | filteredIntervals.size(): " + filteredIntervals.size());
+        // System.out.println("DashboardTab | filteredAppointments.size(): " + filteredAppointments.size());
+        // System.out.println("DashboardTab | filteredIntervals.size(): " + filteredIntervals.size());
 
         // for (Appointment apt : loadedAppointments) {
         //     System.out.println(Authentication.getCurrentUser().getName() + " | " + apt.getRequesterName());

@@ -123,8 +123,17 @@ public class Appointments implements Initializable {
 
         updateTable();
 
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
         // Query all user's resultCenters. TODO: implement pagination
         ResultCenter[] resultCenters = QueryLibs.selectResultCentersOfMember(Authentication.getCurrentUser().getId());
+
+        // Query all clients. TODO: implement pagination
+        Client[] clients = QueryLibs.selectAllClients();
+
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
 
         // Create a new LookupTextField to replace the default javafx TextField at tf_resultCenter
         LookupTextField<ResultCenter> lookupTextFieldResultCenter = new LookupTextField<ResultCenter>(resultCenters);
@@ -133,9 +142,6 @@ public class Appointments implements Initializable {
             lookupTextFieldResultCenter
         );
         tf_resultCenter = lookupTextFieldResultCenter;
-
-        // Query all clients. TODO: implement pagination
-        Client[] clients = QueryLibs.selectAllClients();
 
         // Create a new LookupTextField to replace the default javafx TextField at tf_cliente
         LookupTextField<Client> lookupTextFieldClient = new LookupTextField<Client>(clients);

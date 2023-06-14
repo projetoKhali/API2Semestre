@@ -47,29 +47,50 @@ public class App extends Application {
     @Override public void start(Stage stage) throws IOException {
         setStage(stage);
 
-        // Para criar as tabelas que estiverem faltando
-        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/tabelas.sql");
-        // Para criar as views que estiverem faltando
-        org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/views.sql");
+        /// -------------------------------------------------------------------------------------------------------
+        /// ------------ SQL FILES --------------------------------------------------------------------------------
+        /// -------------------------------------------------------------------------------------------------------
 
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
-        //     "humano adm exemplo",
-        //     org.openjfx.api2semestre.authentication.Profile.Administrator,
-        //     "a@d.m", //                             <---------------------------- LOGIN
-        //     "123" //                                <---------------------------- SENHA
-        // ));
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
-        //     "humano ges exemplo",
-        //     org.openjfx.api2semestre.authentication.Profile.Gestor,
-        //     "g@e.s", //                             <---------------------------- LOGIN
-        //     "123" //                                <---------------------------- SENHA
-        // ));
-        // org.openjfx.api2semestre.database.QueryLibs.insertUser(new org.openjfx.api2semestre.authentication.User(
-        //     "humano col exemplo",
-        //     org.openjfx.api2semestre.authentication.Profile.Colaborador,
-        //     "c@o.l", //                             <---------------------------- LOGIN
-        //     "123" //                                <---------------------------- SENHA
-        // ));
+        // Inicia a conexão com o banco de dados
+        // Optional<java.sql.Connection> connectionOptional = org.openjfx.api2semestre.database.QueryLibs.connect();
+        
+        // Para criar as tabelas que estiverem faltando
+        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/tabelas.sql", connectionOptional);
+
+        // Para criar as views que estiverem faltando
+        // org.openjfx.api2semestre.database.QueryLibs.executeSqlFile("SQL/views.sql", connectionOptional);
+        
+        /// -------------------------------------------------------------------------------------------------------
+        /// ------------ POPULATE USERS  --------------------------------------------------------------------------
+        /// -------------------------------------------------------------------------------------------------------
+
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "adm exemplo",
+        //         org.openjfx.api2semestre.authentication.Profile.Administrator,
+        //         "a@d.m", //                             <---------------------------- LOGIN
+        //         "123" //                                <---------------------------- SENHA
+        //     ),
+        //     connectionOptional
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "ges exemplo",
+        //         org.openjfx.api2semestre.authentication.Profile.Gestor,
+        //         "g@e.s", //                             <---------------------------- LOGIN
+        //         "123" //                                <---------------------------- SENHA
+        //     ),
+        //     connectionOptional
+        // );
+        // org.openjfx.api2semestre.database.QueryLibs.insertUser(
+        //     new org.openjfx.api2semestre.authentication.User(
+        //         "col exemplo",
+        //         org.openjfx.api2semestre.authentication.Profile.Colaborador,
+        //         "c@o.l", //                             <---------------------------- LOGIN
+        //         "123" //                                <---------------------------- SENHA
+        //     ),
+        //     connectionOptional
+        // );
 
         scene = new Scene(loadFXML((currentViewFxmlFile = "views/empty")));
         stage.setScene(scene);

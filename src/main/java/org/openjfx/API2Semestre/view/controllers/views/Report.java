@@ -182,11 +182,17 @@ public class Report {
     private void applyFilter (boolean includeTextFieldFilter) {
         System.out.println("applyFilter");
 
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
         // filtro de escrever
         if (includeTextFieldFilter) intervalsToExport = IntervalFilter.filterFromView(
             new LinkedList<ReportIntervalWrapper>(Arrays.asList(loadedIntervals).stream().map(interval -> {
                 return new ReportIntervalWrapper(
-                    org.openjfx.api2semestre.database.QueryLibs.selectAppointmentById(interval.getAppointmmentId()).get(),
+                    QueryLibs.selectAppointmentById(
+                        interval.getAppointmmentId(),
+                        connectionOptional
+                    ).get(),
                     interval
                 );
             }).collect(Collectors.toList())),
@@ -199,10 +205,16 @@ public class Report {
         );
         else intervalsToExport = new LinkedList<ReportIntervalWrapper>(Arrays.asList(loadedIntervals).stream().map(interval -> {
             return new ReportIntervalWrapper(
-                org.openjfx.api2semestre.database.QueryLibs.selectAppointmentById(interval.getAppointmmentId()).get(),
+                QueryLibs.selectAppointmentById(
+                    interval.getAppointmmentId(),
+                    connectionOptional
+                ).get(),
                 interval
             );
         }).collect(Collectors.toList()));
+
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
 
         Integer dia_inicio;
         Integer dia_fim;
@@ -292,10 +304,18 @@ public class Report {
             cb_justificativa.isSelected()
         };
 
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
         ReportExporter.exportCSV(
             intervalsToExport.stream().map(riw -> riw.getInterval()).collect(Collectors.toList()), 
             selectedItens, 
-            local
+            local,
+            connectionOptional
         );
+
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
+
     }
 }

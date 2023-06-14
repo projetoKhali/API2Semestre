@@ -1,6 +1,7 @@
 package org.openjfx.api2semestre.authentication;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.openjfx.api2semestre.database.QueryLibs;
 
@@ -37,8 +38,16 @@ public enum Permission {
             permissions.add(Permission.Register);
             permissions.add(Permission.Report);
         }
-        if (QueryLibs.selectResultCentersManagedBy(u.getId()).length > 0) permissions.add(Permission.Validate);
-        if (QueryLibs.selectResultCentersOfMember(u.getId()).length > 0) permissions.add(Permission.Appoint);
+
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
+        if (QueryLibs.selectResultCentersManagedBy(u.getId(), connectionOptional).length > 0) permissions.add(Permission.Validate);
+        if (QueryLibs.selectResultCentersOfMember(u.getId(), connectionOptional).length > 0) permissions.add(Permission.Appoint);
+
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
+
         return permissions.toArray(Permission[]::new);
     }
 

@@ -21,7 +21,7 @@ public class ResetPassword {
 
         if(!novaSenha.equals(repitaNovaSenha)) return;
 
-        QueryLibs.resetUserPassword(tfNovaSenha.getText(), Authentication.getCurrentUser().getId());
+        QueryLibs.updateUserPassword(Authentication.getCurrentUser().getId(), tfNovaSenha.getText());
     }
 }
 

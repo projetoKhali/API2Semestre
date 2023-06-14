@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -91,13 +92,25 @@ public class ResultCenterEdit implements EditPopup<ResultCenter> {
 
         col_gestor.setCellFactory(column -> new TableCell<ResultCenter, String>() {
             {
-                User[] users = QueryLibs.selectAllManagersAndAdms();
+                // Inicia a conexão com o banco de dados
+                Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
+                User[] users = QueryLibs.selectAllManagersAndAdms(connectionOptional);
                 lookupTextFieldGestor = new LookupTextField<User>(
                     (User[])Arrays.stream(users).filter((User user) -> user.getProfile().getProfileLevel() > 0).toArray(User[]::new)
                 );
                 lookupTextFieldGestor.setPromptText(resultCenter.getManagerName());
                 try {
-                    User currentManager = QueryLibs.selectUserById(resultCenter.getManagerId()).orElseThrow(() -> new Exception());
+                    User currentManager = QueryLibs.selectUserById(
+                        resultCenter.getManagerId(),
+                        connectionOptional
+                    ).orElseThrow(
+                        () -> new Exception()
+                    );
+
+                    // Fecha a conexão com o banco de dados
+                    QueryLibs.close(connectionOptional);
+
                     lookupTextFieldGestor.selectedItemProperty().addListener(new ChangeListener<User>() {
                         @Override public void changed(ObservableValue<? extends User> arg0, User oldPropertyValue, User newPropertyValue) {
                             if (oldPropertyValue != null) lookupTextFieldColaborador.addSuggestion(oldPropertyValue);
@@ -116,7 +129,16 @@ public class ResultCenterEdit implements EditPopup<ResultCenter> {
             }
         });
 
-        Arrays.asList(QueryLibs.selectMembersOfResultCenter(resultCenter.getId())).stream().forEach((User user) -> addUser(user));
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
+        Arrays.asList(QueryLibs.selectMembersOfResultCenter(
+            resultCenter.getId(),
+            connectionOptional
+        )).stream().forEach((User user) -> addUser(user));
+
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
     }
 
     @FXML void adicionarColaborador(ActionEvent event) {
@@ -187,12 +209,25 @@ public class ResultCenterEdit implements EditPopup<ResultCenter> {
 
         int cr_id = tabela.getItems().get(0).getId();
 
-        QueryLibs.removeAllusersFromResultCenter(cr_id);
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
+        QueryLibs.removeAllusersFromResultCenter(
+            cr_id,
+            connectionOptional
+        );
 
         // add the membro_cr relation between each selectedUser and thhe new ResultCenter
         for (User selectedUser : selectedUsers) {
-            QueryLibs.addUserToResultCenter(selectedUser.getId(), cr_id);
+            QueryLibs.addUserToResultCenter(
+                selectedUser.getId(),
+                cr_id,
+                connectionOptional
+            );
         }
+
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
 
         close(e);
     }

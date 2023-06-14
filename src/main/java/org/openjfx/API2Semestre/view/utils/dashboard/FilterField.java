@@ -46,7 +46,12 @@ public enum FilterField implements HasDisplayName {
         void execute();
     }
 
-    public Optional<FilterControl> create(Appointment[] appointments, ReportInterval[] intervals, FilterCallback filterCallback) {
+    public Optional<FilterControl> create (
+        Appointment[] appointments,
+        ReportInterval[] intervals,
+        FilterCallback filterCallback,
+        Optional<java.sql.Connection> connectionOptional
+    ) {
         final BooleanProperty useFilterPredicate = new SimpleBooleanProperty();
         final BooleanProperty datePickerIsEnd = new SimpleBooleanProperty();
         switch (this) {
@@ -100,7 +105,7 @@ public enum FilterField implements HasDisplayName {
                 .distinct()
                 .collect(Collectors.toList())
                 .stream()
-                .map(id -> QueryLibs.selectResultCenter(id).orElse(null))
+                .map(id -> QueryLibs.selectResultCenter(id, connectionOptional).orElse(null))
                 .filter((ResultCenter resultCenter) -> resultCenter != null)
                 .toArray(ResultCenter[]::new)
             );
@@ -144,7 +149,7 @@ public enum FilterField implements HasDisplayName {
                 .distinct()
                 .collect(Collectors.toList())
                 .stream()
-                .map(id -> QueryLibs.selectClientById(id).orElse(null))
+                .map(id -> QueryLibs.selectClientById(id, connectionOptional).orElse(null))
                 .filter((Client client) -> client != null)
                 .toArray(Client[]::new)
             );
@@ -168,7 +173,7 @@ public enum FilterField implements HasDisplayName {
                 .distinct()
                 .collect(Collectors.toList())
                 .stream()
-                .map(id -> QueryLibs.selectUserById(id).orElse(null))
+                .map(id -> QueryLibs.selectUserById(id, connectionOptional).orElse(null))
                 .filter((User user) -> user != null && (useFilterPredicate.get() ? true : user.getProfile().getProfileLevel() > 0))
                 .toArray(User[]::new)
             );

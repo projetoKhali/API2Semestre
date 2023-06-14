@@ -37,7 +37,13 @@ public class ReportExporter {
     }
 
     // inserir condições do filtro
-    public static void exportCSV(List<ReportInterval> data, Boolean[] camposBoolean, String LocalFile) {
+    public static void exportCSV(
+        List<ReportInterval> data,
+        Boolean[] camposBoolean,
+        String LocalFile,
+        Optional<java.sql.Connection> connectionOptional
+    ) {
+
         try {
             CSVWriter writer = new CSVWriter(new FileWriter(LocalFile));
 
@@ -58,7 +64,10 @@ public class ReportExporter {
             // escreve registros enquanto houver
             for (ReportInterval reportInterval : data) {
 
-                Optional<Appointment> optionalAppointment = QueryLibs.selectAppointmentById(reportInterval.getAppointmmentId());
+                Optional<Appointment> optionalAppointment = QueryLibs.selectAppointmentById(
+                    reportInterval.getAppointmmentId(),
+                    connectionOptional
+                );
 
                 if (optionalAppointment.isEmpty()) {
                     System.out.println("Erro ao retornar apontamento");
