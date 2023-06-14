@@ -68,8 +68,14 @@ public enum DashboardContext implements HasDisplayName {
 
     public Appointment[] loadData(User currentUser) {
         switch (profile) {
-            case Administrator: return QueryLibs.selectAllAppointments();
-            case Colaborador: return QueryLibs.selectAppointmentsByUser(currentUser.getId());
+            case Administrator: 
+            Appointment[] r1 =  QueryLibs.selectAllAppointments();
+            System.out.println("DashboardContext.loadData() -- " + profile.getName() + " | " + r1.length);
+            return r1;
+            case Colaborador: 
+            Appointment[] r2 =  QueryLibs.selectAppointmentsByUser(currentUser.getId());
+            System.out.println("DashboardContext.loadData() -- " + profile.getName() + " | " + r2.length);
+            return r2;
             case Gestor:
                 List<Appointment> appointmentsOfCRsManagedBy = new ArrayList<Appointment>();
                 for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(currentUser.getId())) {
@@ -77,7 +83,10 @@ public enum DashboardContext implements HasDisplayName {
                         Arrays.asList(QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId()))
                     );
                 }
-                return appointmentsOfCRsManagedBy.toArray(Appointment[]::new);
+                
+                Appointment[] r3 =  appointmentsOfCRsManagedBy.toArray(Appointment[]::new);
+                System.out.println("DashboardContext.loadData() -- " + profile.getName() + " | " + r3.length);
+                return r3;
             default: return new Appointment[0];
         }
     }

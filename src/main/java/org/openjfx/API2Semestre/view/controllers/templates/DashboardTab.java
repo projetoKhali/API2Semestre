@@ -1,11 +1,15 @@
 package org.openjfx.api2semestre.view.controllers.templates;
 
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.authentication.Authentication;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.ReportInterval;
 import org.openjfx.api2semestre.utils.AppointmentCalculator;
 import org.openjfx.api2semestre.view.utils.ChartGenerator;
@@ -71,15 +75,38 @@ public class DashboardTab {
         loadedAppointments = context.loadData(Authentication.getCurrentUser());
         loadedIntervals = AppointmentCalculator.calculateReports(loadedAppointments);
 
-        System.out.println(loadedIntervals.length + " intervals | dashboardTab");
+        System.out.println("DashboardTab | loadedAppointments.length: " + loadedAppointments.length);
+        System.out.println("DashboardTab | loadedIntervals.length: " + loadedIntervals.length);
 
         for (Appointment apt : loadedAppointments) {
-            System.out.println(Authentication.getCurrentUser().getName() + " | " + apt.getRequesterName());
+            System.out.println(
+                "setContext | auth.curUsr -- apt: " + Authentication.getCurrentUser().getName() 
+                + " | apt.usr: " + apt.getRequesterName()
+                + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(apt.getStart().getTime()))
+                + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(apt.getEnd().getTime()))
+            );
+        }
+        for (ReportInterval ri : loadedIntervals) {
+            Optional<Appointment> apt = QueryLibs.selectAppointmentById(ri.getAppointmmentId());
+            System.out.println(
+                "setContext | auth.curUsr -- ri: " + Authentication.getCurrentUser().getName() 
+                + " | apt.usr: " + (apt.isEmpty() ? "NULL APT" : apt.get().getRequesterName()) 
+                + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(ri.getStart().getTime()))
+                + " | " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(new Date(ri.getEnd().getTime()))
+            );
         }
 
         createFilters();
 
-        // applyFilter();
+        applyFilter();
+
+        System.out.println("DashboardTab | filteredAppointments.size(): " + filteredAppointments.size());
+        System.out.println("DashboardTab | filteredIntervals.size(): " + filteredIntervals.size());
+
+        // for (Appointment apt : loadedAppointments) {
+        //     System.out.println(Authentication.getCurrentUser().getName() + " | " + apt.getRequesterName());
+        // }
+
     }
 
     private void applyFilter() {        

@@ -71,12 +71,14 @@ public class App extends Application {
         //     "123" //                                <---------------------------- SENHA
         // ));
 
+        scene = new Scene(loadFXML((currentViewFxmlFile = "views/empty")));
+        stage.setScene(scene);
+        stage.show();
 
-        loginView();
+        // loginView();
+        Authentication.login("a@d.m", "123");
+        changeView(Optional.of("views/dashboard"));
 
-        // scene = new Scene(loadFXML((currentViewFxmlFile = "views/resultCenters")));
-        // stage.setScene(scene);
-        // stage.show();
 
     }
 

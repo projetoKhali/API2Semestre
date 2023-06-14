@@ -25,15 +25,15 @@ public class AppointmentCalculator {
 
         LinkedList<ReportInterval> intervalsOnNotice = new LinkedList<>();
 
-        for(Appointment apt: appointments){
+        for (Appointment apt: appointments){
             // System.out.println("start time do apontamento: " + apt.getStart() + " | end time do apontamento: " + apt.getEnd());
 
             LocalDateTime aptStartDateTime = apt.getStart().toLocalDateTime();
             LocalDateTime aptEndDateTime = apt.getEnd().toLocalDateTime();
 
-            double aptTotalTime = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime)) / 60;
+            double aptTotalTime = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime)) / 60.0;
 
-            if(apt.getType() == AppointmentType.OnNotice){
+            if (apt.getType() == AppointmentType.OnNotice){
                 // System.out.println("start time do sobreaviso: " + apt.getStart() + " | end time do sobreaviso: " + apt.getEnd());
                 intervalsOnNotice.add(new ReportInterval(
                     apt.getId(),
@@ -45,9 +45,9 @@ public class AppointmentCalculator {
             else {
                 // System.out.println("é hora extra");
 
-                for(IntervalFee verba: IntervalFee.getVerbas()){
+                for (IntervalFee verba: IntervalFee.getVerbas()) {
 
-                    if(verba.getCode() == 1809 || Week.FDS.compare(verba.getDaysOfWeek())) {
+                    if (verba.getCode() == 1809 || Week.FDS.compare(verba.getDaysOfWeek())) {
                         for(ReportInterval repInt : calculateIntervals(apt, verba)) reportsFinal.add(repInt);
                     }
 
@@ -58,15 +58,15 @@ public class AppointmentCalculator {
                         for(ReportInterval repInt : calculateIntervals(aptLastHours, verba)) reportsFinal.add(repInt);
                     }
 
-                    else{
+                    else {
                         if (aptTotalTime > 2) {
                             Appointment aptFirstHours = apt.copy();
                             aptFirstHours.setEnd(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
                             List<ReportInterval> reportsTemporary = calculateIntervals(aptFirstHours, verba);
-                            for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
+                            for (ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
                         } else {
                             List<ReportInterval> reportsTemporary = calculateIntervals(apt, verba);
-                            for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
+                            for (ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
                         }
                     }
                 }
@@ -74,6 +74,9 @@ public class AppointmentCalculator {
         }
 
         for (ReportInterval repInt : calculateOnNotice(intervalsOnNotice, appointments)) reportsFinal.add(repInt);
+
+
+        System.out.println("AppointmentCalculator.CalculateReports() -- " + reportsFinal.size() + " intervals");
 
         return reportsFinal.toArray(ReportInterval[]::new);
     }

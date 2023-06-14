@@ -172,12 +172,12 @@ public class ChartGenerator {
         XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
 
         for (Integer intervalFee : intervalFees) {
-            System.out.println("intervalFee: " + intervalFee);
+            // System.out.println("intervalFee: " + intervalFee);
 
             double totalHours = 0;
 
             for (ReportInterval reportInterval: reportsInterval) {
-                System.out.println("reportInterval.getVerba(): " + reportInterval.getVerba());
+                // System.out.println("reportInterval.getVerba(): " + reportInterval.getVerba());
                 LocalDateTime start = (reportInterval.getStart()).toLocalDateTime();
                 LocalDateTime end = (reportInterval.getEnd()).toLocalDateTime();
                 // System.out.println("verba: " + verba.getVerba());
