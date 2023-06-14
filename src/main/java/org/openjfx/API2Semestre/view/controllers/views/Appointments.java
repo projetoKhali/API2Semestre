@@ -48,7 +48,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class Appointments implements Initializable {
+public class Appointments {
 
     @FXML
     private TextField tf_cliente;
@@ -117,8 +117,7 @@ public class Appointments implements Initializable {
     private List<Appointment> loadedAppointments;
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize() {
         buildTable();
 
         updateTable();
@@ -127,10 +126,13 @@ public class Appointments implements Initializable {
         Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
 
         // Query all user's resultCenters. TODO: implement pagination
-        ResultCenter[] resultCenters = QueryLibs.selectResultCentersOfMember(Authentication.getCurrentUser().getId());
+        ResultCenter[] resultCenters = QueryLibs.selectResultCentersOfMember(
+            Authentication.getCurrentUser().getId(),
+            connectionOptional
+        );
 
         // Query all clients. TODO: implement pagination
-        Client[] clients = QueryLibs.selectAllClients();
+        Client[] clients = QueryLibs.selectAllClients(connectionOptional);
 
         // Fecha a conexão com o banco de dados
         QueryLibs.close(connectionOptional);
