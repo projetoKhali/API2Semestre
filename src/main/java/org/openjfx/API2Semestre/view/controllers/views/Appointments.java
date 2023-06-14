@@ -194,8 +194,9 @@ public class Appointments {
 
     private void updateTable () {
 
+        System.out.println("current user id: " + Authentication.getCurrentUser().getId());
         loadedAppointments = Arrays.asList(QueryLibs.selectAppointmentsOfUser(Authentication.getCurrentUser().getId()));
-        // System.out.println(loadedAppointments.size() + " appointments returned from select ");
+        System.out.println(loadedAppointments.size() + " appointments returned from select ");
 
         applyFilter();
     }
@@ -225,11 +226,13 @@ public class Appointments {
 
     @FXML
     void inputHoraExtra(ActionEvent event){
+        System.out.println("inputHoraExtra");
         inputAppointment(AppointmentType.Overtime);
     }
 
     @FXML
     void inputSobreaviso(ActionEvent event) {
+        System.out.println("inputSobreaviso");
         inputAppointment(AppointmentType.OnNotice);
     }
 
@@ -240,7 +243,7 @@ public class Appointments {
         Client cliente = lookupTfClient.getSelectedItem();
         Integer cliente_id = cliente.getId();
         try {
-            QueryLibs.insertAppointment(new Appointment(
+            int appointmentId = QueryLibs.insertAppointment(new Appointment(
                 Authentication.getCurrentUser().getId(),
                 type,
                 DateConverter.inputToTimestamp(tf_dataInicio.getValue(), tf_horaInicio.getText()),
@@ -250,6 +253,7 @@ public class Appointments {
                 tf_projeto.getText(),
                 tf_justificativa.getText()
             ));
+            System.out.println("apontamento lançado com id " + appointmentId);
         } catch (Exception e) {
             System.out.println("Erro: Appointments.inputAppointment() -- Falha ao inserir apontamento");
             e.printStackTrace();
