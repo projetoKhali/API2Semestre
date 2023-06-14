@@ -335,7 +335,7 @@ public class QueryLibs {
 
     public static Optional<User> selectUserById (int id) { return selectUserById (id, Optional.empty()); }
     public static Optional<User> selectUserById (int id, Optional<Connection> connectionOptional) {
-        return executeSelectOne(
+        Optional<User> result = executeSelectOne(
             User.class,
             QueryTable.User,
             new QueryParam<?>[] {
@@ -343,6 +343,8 @@ public class QueryLibs {
             },
             connectionOptional
         );
+        System.out.println("selectUserById(" + id + ") " + (result == null ? " NULL " : result.get().getName()));
+        return result;
     }
     
     
@@ -600,20 +602,24 @@ public class QueryLibs {
     ) {
 
         try {
-            ResultSet resultSet = executeQuery(
+            Optional<ResultSet> resultSetOptional = executeQuery(
                 new Query(
                     QueryType.UPDATE,
                     table,
                     params
                 ),
                 connectionOptional
-            ).get();
-            resultSet.next();
-            return resultSet.getInt("id");
+            );
+
+            if (resultSetOptional.isPresent()) {
+                ResultSet resultSet = resultSetOptional.get();
+                resultSet.next();
+                return resultSet.getInt("id");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.println("QueryLibs.executeInsert() -- Erro: nenhum id retornado");
+        System.out.println("QueryLibs.executeUpdate() -- Erro: nenhum id retornado");
         return -1;
     }
 
