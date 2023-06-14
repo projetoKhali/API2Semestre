@@ -13,9 +13,18 @@ public class Expedient {
     private static LocalTime nightShiftEnd = null;
     private static Integer closingDay = null;
 
-    public static Integer getClosingDay() { return closingDay; }
-    public static LocalTime getNightShiftStart() { return nightShiftStart; }
-    public static LocalTime getNightShiftEnd() { return nightShiftEnd; }
+    public static Integer getClosingDay() {
+        if (closingDay == null) loadData(); 
+        return closingDay;
+    }
+    public static LocalTime getNightShiftStart() {
+        if (nightShiftStart == null) loadData(); 
+        return nightShiftStart;
+    }
+    public static LocalTime getNightShiftEnd() {
+        if (nightShiftEnd == null) loadData(); 
+        return nightShiftEnd;
+    }
 
     private static final LocalTime defaultNightShiftStart = LocalTime.of(22, 0, 0);
     private static final LocalTime defaultNightShiftEnd = LocalTime.of(6, 0, 0);
