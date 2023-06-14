@@ -86,7 +86,7 @@
             </VBox>
          </content>
          <graphic>
-            <HBox>
+            <HBox alignment="CENTER_LEFT" spacing="8.0">
                <children>
                   <CheckBox fx:id="cb_fechaAtual" mnemonicParsing="false" text="Período de fechamento vigente">
                      <HBox.margin>

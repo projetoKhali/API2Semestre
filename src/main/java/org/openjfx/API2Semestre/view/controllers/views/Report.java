@@ -9,6 +9,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.App;
+import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.data.Expedient;
 import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.report.ReportExporter;
@@ -174,7 +175,12 @@ public class Report {
     }
 
     private void updateTable () {        
-        loadedIntervals = AppointmentCalculator.calculateReports(QueryLibs.selectAllAppointments());
+        loadedIntervals = AppointmentCalculator.calculateReports(
+            Arrays.asList(QueryLibs.selectAllAppointments())
+            .stream()
+            .filter((Appointment appointment) -> appointment.getStatus().getIntValue() == 1)
+            .toArray(Appointment[]::new)
+        );
         System.out.println(loadedIntervals.length + " intervals");
         applyFilter(true);
     }
