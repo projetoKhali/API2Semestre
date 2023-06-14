@@ -161,8 +161,8 @@ public class LookupTextField<T extends HasDisplayName & HasId> extends TextField
         }
     }
 
+    public java.util.List<T> getSuggestions() {
+        return this.suggestions.stream().collect(java.util.stream.Collectors.toList());
+    }
 
-    // public void setOnActionHandler(EventHandler<ActionEvent> handler) {
-    //     onActionHandler = handler;
-    // }
 }
