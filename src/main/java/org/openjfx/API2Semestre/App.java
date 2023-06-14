@@ -78,7 +78,7 @@ public class App extends Application {
         // loginView();
         Authentication.login("a@d.m", "123");
         try { ViewsManager.handleViews(); } catch (Exception e) { e.printStackTrace(); }
-        changeView(Optional.of("views/dashboard"));
+        changeView(Optional.of("views/report"));
 
 
     }

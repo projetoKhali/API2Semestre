@@ -42,16 +42,16 @@ public class IntervalFee {
     };
 
     public static IntervalFee[] getVerbas () { 
-        System.out.println("IntervalFee.getVerbas");
+        // System.out.println("IntervalFee.getVerbas");
         loadVerbas();
 
-        int i = 0;
-        for (IntervalFee intfee : verbas) {
-            System.out.println(intfee.code + " | " + intfee.startHour.toString() + " | " + intfee.endHour.toString());
-            i++;
-        }
+        // int i = 0;
+        // for (IntervalFee intfee : verbas) {
+        //     System.out.println(intfee.code + " | " + intfee.startHour.toString() + " | " + intfee.endHour.toString());
+        //     i++;
+        // }
 
-        System.out.println(i + " verbas");
+        // System.out.println(i + " verbas");
         return verbas;
     }
 

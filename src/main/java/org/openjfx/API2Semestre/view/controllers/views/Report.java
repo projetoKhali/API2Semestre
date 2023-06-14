@@ -2,6 +2,7 @@ package org.openjfx.api2semestre.view.controllers.views;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Optional;
@@ -83,7 +84,7 @@ public class Report {
         updateTable();
     }
 
-    private void choose_period(){
+    private void choosePeriod() {
         if (cb_fechaAtual.isSelected() || cb_fechaAnterior.isSelected()) {
             dp_inicio.setDisable(true);
             dp_fim.setDisable(true);
@@ -91,21 +92,29 @@ public class Report {
             dp_inicio.setDisable(false);
             dp_fim.setDisable(false);
         }
-        applyFilter();
+        applyFilter(false);
     }
 
-    private void buildCheckBoxesPeriod(){
+    private void buildCheckBoxesPeriod() {
         dp_inicio.setDisable(true);
         dp_fim.setDisable(true);
 
-        dp_inicio.valueProperty().addListener((observable, oldValue, newValue) -> applyFilter());
-        dp_fim.valueProperty().addListener((observable, oldValue, newValue) -> applyFilter());
+        dp_inicio.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ((oldValue == null) != (newValue == null) || oldValue != null && !oldValue.equals(newValue)) {
+                applyFilter(false);
+            }
+        });
+        dp_fim.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if ((oldValue == null) != (newValue == null) || oldValue != null && !oldValue.equals(newValue)) {
+                applyFilter(false);
+            }
+        });
 
         cb_fechaAtual.setSelected(true);
         cb_fechaAnterior.setSelected(true);
 
-        cb_fechaAtual.setOnAction(event -> choose_period());
-        cb_fechaAnterior.setOnAction(event -> choose_period());
+        cb_fechaAtual.setOnAction(event -> choosePeriod());
+        cb_fechaAnterior.setOnAction(event -> choosePeriod());
     }
 
     private void buildCheckBoxes () {
@@ -140,9 +149,8 @@ public class Report {
     @SuppressWarnings("unchecked") private void buildTable () {
 
         ChangeListener<Boolean> applyFilterCallback = new ChangeListener<Boolean>() {
-            @Override
-            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                applyFilter();
+            @Override public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                applyFilter(true);
             }
         };
 
@@ -168,14 +176,14 @@ public class Report {
     private void updateTable () {        
         loadedIntervals = AppointmentCalculator.calculateReports(QueryLibs.selectAllAppointments());
         System.out.println(loadedIntervals.length + " intervals");
-        applyFilter();
+        applyFilter(true);
     }
 
-    // filtro de escrever
-    private void applyFilter () {
-        // System.out.println("applyFilter");
+    private void applyFilter (boolean includeTextFieldFilter) {
+        System.out.println("applyFilter");
 
-        intervalsToExport = IntervalFilter.filterFromView(
+        // filtro de escrever
+        if (includeTextFieldFilter) intervalsToExport = IntervalFilter.filterFromView(
             new LinkedList<ReportIntervalWrapper>(Arrays.asList(loadedIntervals).stream().map(interval -> {
                 return new ReportIntervalWrapper(
                     org.openjfx.api2semestre.database.QueryLibs.selectAppointmentById(interval.getAppointmmentId()).get(),
@@ -189,66 +197,72 @@ public class Report {
             col_cliente_enableFilter.get() ? Optional.of(col_cliente) : Optional.empty(),
             col_projeto_enableFilter.get() ? Optional.of(col_projeto) : Optional.empty()
         );
+        else intervalsToExport = new LinkedList<ReportIntervalWrapper>(Arrays.asList(loadedIntervals).stream().map(interval -> {
+            return new ReportIntervalWrapper(
+                org.openjfx.api2semestre.database.QueryLibs.selectAppointmentById(interval.getAppointmmentId()).get(),
+                interval
+            );
+        }).collect(Collectors.toList()));
 
         Integer dia_inicio;
         Integer dia_fim;
         ObjectProperty<Timestamp> data_inicio = new SimpleObjectProperty<>();
         ObjectProperty<Timestamp> data_fim = new SimpleObjectProperty<>();
 
-        LocalDate hoje = LocalDate.now();
+        LocalDateTime hoje = LocalDate.now().atTime(0, 0, 0);
         Integer mesAtual = hoje.getMonthValue();
         int anoAtual = hoje.getYear();
 
-        data_inicio.set(Timestamp.valueOf((hoje.atTime(23, 59, 59)).minusMonths(6)));
-        data_fim.set(Timestamp.valueOf(hoje.atTime(23, 59, 59)));
+        data_inicio.set(Timestamp.valueOf((hoje.plusDays(1)).minusMonths(6)));
+        data_fim.set(Timestamp.valueOf(hoje.plusDays(1)));
         
-        if(cb_fechaAtual.isSelected() & cb_fechaAnterior.isSelected()){
+        if (cb_fechaAtual.isSelected() & cb_fechaAnterior.isSelected()) {
             dia_fim = Expedient.getClosingDay();
             dia_inicio = dia_fim + 1;
-            if(hoje.getDayOfMonth() >= dia_inicio){
+            if (hoje.getDayOfMonth() >= dia_inicio) {
                 data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(1)));
             }
-            else{
+            else {
                 data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(2)));
             }
-            data_fim.set(Timestamp.valueOf(hoje.atTime(23, 59, 59)));
+            data_fim.set(Timestamp.valueOf(hoje.plusDays(1)));
             
         }
-        else if(cb_fechaAtual.isSelected()){
+        else if (cb_fechaAtual.isSelected()) {
             dia_fim = Expedient.getClosingDay();
             dia_inicio = dia_fim + 1;
-            if(hoje.getDayOfMonth() >= dia_inicio){
+            if (hoje.getDayOfMonth() >= dia_inicio) {
                 data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay())));
             }
-            else{
+            else {
                 data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(1)));
             }
-            data_fim.set(Timestamp.valueOf(hoje.atTime(23, 59, 59)));
+            data_fim.set(Timestamp.valueOf(hoje.plusDays(1)));
             
         }
-        else if(cb_fechaAnterior.isSelected()){
+        else if (cb_fechaAnterior.isSelected()) {
             dia_fim = Expedient.getClosingDay();
             dia_inicio = dia_fim + 1;
-            if(hoje.getDayOfMonth() >= dia_inicio){
-                if(hoje.getDayOfMonth()!= 1){
+            if (hoje.getDayOfMonth() >= dia_inicio) {
+                if (hoje.getDayOfMonth()!= 1) {
                     data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(1)));
-                    data_fim.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_fim).atTime(23, 59, 59))));
+                    data_fim.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_fim + 1).atTime(0, 0, 0))));
                 }
-                else{
+                else {
                     data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(1)));
-                    data_fim.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_fim).atTime(23, 59, 59)).minusMonths(1)));
+                    data_fim.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_fim + 1).atTime(0, 0, 0)).minusMonths(1)));
                 }
             }
-            else{
+            else {
                 data_inicio.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_inicio).atStartOfDay()).minusMonths(2)));
-                data_fim.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_fim).atTime(23, 59, 59)).minusMonths(1)));
+                data_fim.set(Timestamp.valueOf((LocalDate.of(anoAtual, mesAtual, dia_fim + 1).atTime(0, 0, 0)).minusMonths(1)));
             }
         }
 
-        else{
-            if(dp_inicio.getValue() != null && dp_fim.getValue() != null){
+        else {
+            if (dp_inicio.getValue() != null && dp_fim.getValue() != null) {
                 data_inicio.set(Timestamp.valueOf(dp_inicio.getValue().atStartOfDay()));
-                data_fim.set(Timestamp.valueOf(dp_fim.getValue().atTime(23, 59, 59)));
+                data_fim.set(Timestamp.valueOf(dp_fim.getValue().plusDays(1).atTime(0, 0, 0)));
 
             }
 
