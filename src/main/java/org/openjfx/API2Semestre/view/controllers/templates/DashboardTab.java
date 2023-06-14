@@ -73,9 +73,13 @@ public class DashboardTab {
 
         System.out.println(loadedIntervals.length + " intervals | dashboardTab");
 
+        for (Appointment apt : loadedAppointments) {
+            System.out.println(Authentication.getCurrentUser().getName() + " | " + apt.getRequesterName());
+        }
+
         createFilters();
 
-        applyFilter();
+        // applyFilter();
     }
 
     private void applyFilter() {        
@@ -114,7 +118,7 @@ public class DashboardTab {
 
         switch (context.getProfile()) {
             case Administrator:
-                addChart(ChartGenerator.reportIntervalChart(intervalsArray));
+                addChart(ChartGenerator.intervalFeeChart(intervalsArray));
             break;
             case Gestor: case Colaborador:
                 addChart(ChartGenerator.hourIntersectionCountGraph(appointmentsArray));
