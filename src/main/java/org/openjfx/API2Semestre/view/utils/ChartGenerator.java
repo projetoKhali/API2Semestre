@@ -159,7 +159,7 @@ public class ChartGenerator {
     }
 
     // grafico em barra, com o total de horas para cada verba
-    public static BarChart<String, Number> reportIntervalChart(ReportInterval[] reportsInterval) {
+    public static BarChart<String, Number> intervalFeeChart(ReportInterval[] reportsInterval) {
 
         LinkedList<Integer> intervalFees = new LinkedList<Integer>(Arrays.asList(IntervalFee.getVerbas()).stream().map(
             (IntervalFee intervalFee) -> intervalFee.getCode()
@@ -172,14 +172,16 @@ public class ChartGenerator {
         XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
 
         for (Integer intervalFee : intervalFees) {
+            System.out.println("intervalFee: " + intervalFee);
 
             double totalHours = 0;
 
-            for(ReportInterval verba: reportsInterval){
-                LocalDateTime start = (verba.getStart()).toLocalDateTime();
-                LocalDateTime end = (verba.getEnd()).toLocalDateTime();
+            for (ReportInterval reportInterval: reportsInterval) {
+                System.out.println("reportInterval.getVerba(): " + reportInterval.getVerba());
+                LocalDateTime start = (reportInterval.getStart()).toLocalDateTime();
+                LocalDateTime end = (reportInterval.getEnd()).toLocalDateTime();
                 // System.out.println("verba: " + verba.getVerba());
-                if (verba.getVerba() == intervalFee) totalHours += (ChronoUnit.MINUTES.between(start, end)) / 60.0;
+                if (reportInterval.getVerba() == intervalFee) totalHours += (ChronoUnit.MINUTES.between(start, end)) / 60.0;
             }
 
             dataSeries.getData().add(new XYChart.Data<>(String.valueOf(intervalFee), totalHours));
@@ -189,6 +191,13 @@ public class ChartGenerator {
         barChart.getData().add(dataSeries);
         barChart.setTitle("Total de horas por verba");
         barChart.setLegendVisible(false);
+
+        barChart.setMaxWidth(416);
+        barChart.setPrefWidth(-1);
+        barChart.setMinWidth(-1);
+        barChart.setMaxHeight(256);
+        barChart.setPrefHeight(-1);
+        barChart.setMinHeight(-1);
 
         return barChart;
     }
