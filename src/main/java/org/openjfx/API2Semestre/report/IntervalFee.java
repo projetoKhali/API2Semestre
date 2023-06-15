@@ -8,8 +8,10 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.openjfx.api2semestre.appointment.AppointmentType;
 import org.openjfx.api2semestre.data.Expedient;
@@ -17,6 +19,7 @@ import org.openjfx.api2semestre.database.SQLConnection;
 
 public class IntervalFee {
     private static final AppointmentType Overtime = AppointmentType.Overtime;
+    private static final AppointmentType OnNotice = AppointmentType.OnNotice;
 
     // Values
     private int code;
@@ -42,8 +45,23 @@ public class IntervalFee {
     };
 
     public static IntervalFee[] getVerbas () { 
+        // System.out.println("IntervalFee.getVerbas");
         loadVerbas();
+
+        // int i = 0;
+        // for (IntervalFee intfee : verbas) {
+        //     System.out.println(intfee.code + " | " + intfee.startHour.toString() + " | " + intfee.endHour.toString());
+        //     i++;
+        // }
+
+        // System.out.println(i + " verbas");
         return verbas;
+    }
+
+    public static IntervalFee[] getVerbasFull () {
+        List<IntervalFee> verbasFull = new ArrayList<>(Arrays.asList(getVerbas()));
+        verbasFull.add(new IntervalFee(3016, 1, 1, OnNotice, Week.ALL.get(), null, null, 0, false));
+        return verbasFull.toArray(IntervalFee[]::new);
     }
 
     public static void saveVerbas (IntervalFee[] newVerbas) {

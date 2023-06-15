@@ -86,7 +86,7 @@
             </VBox>
          </content>
          <graphic>
-            <HBox>
+            <HBox alignment="CENTER_LEFT" spacing="8.0">
                <children>
                   <CheckBox fx:id="cb_fechaAtual" mnemonicParsing="false" text="Período de fechamento vigente">
                      <HBox.margin>
@@ -129,12 +129,12 @@
       </TitledPane>
       <TableView fx:id="tabela" editable="true" fixedCellSize="0.0" focusTraversable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="302.0" prefWidth="561.0" VBox.vgrow="ALWAYS">
         <columns>
-          <TableColumn fx:id="col_matricula" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" resizable="false" sortable="false" text="Matricula" />
-          <TableColumn fx:id="col_colaborador" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" sortable="false" text="Colaborador" />
-          <TableColumn fx:id="col_verba" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Verba" />
-          <TableColumn fx:id="col_inicio" editable="false" maxWidth="128.0" prefWidth="128" sortable="false" text="Início" />
-          <TableColumn fx:id="col_fim" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Fim" />
-            <TableColumn fx:id="col_total" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Total" />
+          <TableColumn fx:id="col_matricula" editable="false" maxWidth="128.0" minWidth="24.0" prefWidth="96.0" sortable="false" text="Matricula" />
+          <TableColumn fx:id="col_colaborador" editable="false" maxWidth="160.0" minWidth="24.0" prefWidth="104.0" sortable="false" text="Colaborador" />
+          <TableColumn fx:id="col_verba" editable="false" maxWidth="48.0" prefWidth="48" sortable="false" text="Verba" />
+          <TableColumn fx:id="col_inicio" editable="false" maxWidth="144.0" prefWidth="144" sortable="false" text="Início" />
+          <TableColumn fx:id="col_fim" editable="false" maxWidth="144.0" prefWidth="144.0" sortable="false" text="Fim" />
+          <TableColumn fx:id="col_total" editable="false" maxWidth="56.0" prefWidth="56.0" sortable="false" text="Total" />
           <TableColumn fx:id="col_cr" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="CR" />
           <TableColumn fx:id="col_cliente" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Cliente" />
           <TableColumn fx:id="col_projeto" editable="false" maxWidth="128.0" prefWidth="128.0" sortable="false" text="Projeto" />

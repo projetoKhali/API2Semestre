@@ -70,11 +70,15 @@ public class LookupTextField<T extends HasDisplayName & HasId> extends TextField
 
         textProperty().addListener((observable, oldValue, newValue) -> {
             T selItem = selectedItem.get();
-            if (newValue.isBlank() || (selItem != null && newValue.equals(selItem.getName()))) {
+            if (selItem != null && newValue.equals(selItem.getName())) {
                 setStyle("-fx-text-fill: black;");
             } else {
+                if (newValue.isBlank()) {
+                    setStyle("-fx-text-fill: black;");
+                } else {
+                    setStyle("-fx-text-fill: red;");
+                }
                 selectedItem.set(null);
-                setStyle("-fx-text-fill: red;");
             }
             if (focusedProperty().get()) {
                 // System.out.println("newvalue NOT empty");
@@ -157,8 +161,8 @@ public class LookupTextField<T extends HasDisplayName & HasId> extends TextField
         }
     }
 
+    public java.util.List<T> getSuggestions() {
+        return this.suggestions.stream().collect(java.util.stream.Collectors.toList());
+    }
 
-    // public void setOnActionHandler(EventHandler<ActionEvent> handler) {
-    //     onActionHandler = handler;
-    // }
 }

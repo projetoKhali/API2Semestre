@@ -25,15 +25,15 @@ public class AppointmentCalculator {
 
         LinkedList<ReportInterval> intervalsOnNotice = new LinkedList<>();
 
-        for(Appointment apt: appointments){
+        for (Appointment apt: appointments) {
             // System.out.println("start time do apontamento: " + apt.getStart() + " | end time do apontamento: " + apt.getEnd());
 
             LocalDateTime aptStartDateTime = apt.getStart().toLocalDateTime();
             LocalDateTime aptEndDateTime = apt.getEnd().toLocalDateTime();
 
-            double aptTotalTime = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime)) / 60;
+            double aptTotalTime = ((double) ChronoUnit.MINUTES.between(aptStartDateTime, aptEndDateTime)) / 60.0;
 
-            if(apt.getType() == AppointmentType.OnNotice){
+            if (apt.getType() == AppointmentType.OnNotice) {
                 // System.out.println("start time do sobreaviso: " + apt.getStart() + " | end time do sobreaviso: " + apt.getEnd());
                 intervalsOnNotice.add(new ReportInterval(
                     apt.getId(),
@@ -45,28 +45,28 @@ public class AppointmentCalculator {
             else {
                 // System.out.println("é hora extra");
 
-                for(IntervalFee verba: IntervalFee.getVerbas()){
+                for (IntervalFee verba: IntervalFee.getVerbas()) {
 
-                    if(verba.getCode() == 1809 || Week.FDS.compare(verba.getDaysOfWeek())) {
-                        for(ReportInterval repInt : calculateIntervals(apt, verba)) reportsFinal.add(repInt);
+                    if (verba.getCode() == 1809 || Week.FDS.compare(verba.getDaysOfWeek())) {
+                        for (ReportInterval repInt : calculateIntervals(apt, verba)) reportsFinal.add(repInt);
                     }
 
-                    else if (verba.getMinHourCount() != 0){
+                    else if (verba.getMinHourCount() != 0) {
                         if (aptTotalTime <= 2) continue;
                         Appointment aptLastHours = apt.copy();
                         aptLastHours.setStart(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
-                        for(ReportInterval repInt : calculateIntervals(aptLastHours, verba)) reportsFinal.add(repInt);
+                        for (ReportInterval repInt : calculateIntervals(aptLastHours, verba)) reportsFinal.add(repInt);
                     }
 
-                    else{
+                    else {
                         if (aptTotalTime > 2) {
                             Appointment aptFirstHours = apt.copy();
                             aptFirstHours.setEnd(DateConverter.toTimestamp((apt.getStart().toLocalDateTime()).plusHours(2)));
                             List<ReportInterval> reportsTemporary = calculateIntervals(aptFirstHours, verba);
-                            for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
+                            for (ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
                         } else {
                             List<ReportInterval> reportsTemporary = calculateIntervals(apt, verba);
-                            for(ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
+                            for (ReportInterval repInt: reportsTemporary) reportsFinal.add(repInt);
                         }
                     }
                 }
@@ -75,21 +75,14 @@ public class AppointmentCalculator {
 
         for (ReportInterval repInt : calculateOnNotice(intervalsOnNotice, appointments)) reportsFinal.add(repInt);
 
+
+        System.out.println("AppointmentCalculator.CalculateReports() -- " + reportsFinal.size() + " intervals");
+
         return reportsFinal.toArray(ReportInterval[]::new);
     }
 
-    private static List<ReportInterval> calculateOnNotice (LinkedList<ReportInterval> intervals, Appointment[] appointments) {
-
-        // System.out.println("\ncalculateOnNotice");
-        // for (ReportInterval i : intervals) {
-        //     System.out.println("interval | start: " + i.getStart() + " | end: " + i.getEnd());
-        // }
-        // for (Appointment a : appointments) {
-        //     System.out.println("apt | start: " + a.getStartDate() + " | end: " + a.getEndDate());
-
-        // }
-
-        List<ReportInterval> subIntervals = new ArrayList<>();
+    private static ArrayList<ReportInterval> calculateOnNotice (LinkedList<ReportInterval> intervals, Appointment[] appointments) {
+        ArrayList<ReportInterval> subIntervals = new ArrayList<>();
 
         for (int i = 0; i < intervals.size(); i++) {
             ReportInterval currentInterval = intervals.get(i);
@@ -97,13 +90,10 @@ public class AppointmentCalculator {
             Timestamp onNoticeStart = currentInterval.getStart();
             Timestamp onNoticeEnd = currentInterval.getEnd();
 
-            // System.out.println("onNoticeStart " + onNoticeStart);
-            // System.out.println("onNoticeEnd  " + onNoticeEnd);
-
             LocalDateTime onNoticeStartDateTime = onNoticeStart.toLocalDateTime();
             LocalDateTime onNoticeEndDateTime = onNoticeEnd.toLocalDateTime();
 
-            for(Appointment apt : appointments) {
+            for (Appointment apt : appointments) {
                 if (apt.getType() != AppointmentType.Overtime) continue;
 
                 java.sql.Timestamp aptStart = apt.getStart();
@@ -167,7 +157,7 @@ public class AppointmentCalculator {
             }
         }
 
-        List<ReportInterval> intervalsFinal = new ArrayList<>();
+        ArrayList<ReportInterval> intervalsFinal = new ArrayList<>();
 
         for (int i = subIntervals.size() -1; i >= 0; i--) {
             ReportInterval repInt = subIntervals.get(i);
@@ -187,66 +177,65 @@ public class AppointmentCalculator {
         return intervalsFinal;
     }
 
+    private static ArrayList<ReportInterval> calculateIntervals (Appointment apt, IntervalFee intervalFee) {
+        // System.out.println("\nAppointmentCalculator.calculateIntervals()");
 
-    private static boolean detectaInterDiaSemana (IntervalFee intervalFee, LocalDate aptStartLocalDate, LocalDate aptEndLocalDate) {
-        LocalDate actualDay = aptStartLocalDate;
-        while(!actualDay.isAfter(aptEndLocalDate)){
-            int actualDayOfWeek = actualDay.getDayOfWeek().getValue();
-            // uso %7 pois getDayOfWeek().getValue() considera domingo como sendo 7, e para padronizar quero que seja 0
-            if(intervalFee.getDaysOfWeek()[(actualDayOfWeek % 7)]) return true;
-            actualDay = actualDay.plusDays(1);
-            actualDayOfWeek = actualDay.getDayOfWeek().getValue();
-        }
-        return false;
-    }
+        ArrayList<ReportInterval> reportsOvertime = new ArrayList<ReportInterval>();
 
-    private static List<ReportInterval> calculateIntervals(Appointment aptOverTime, IntervalFee intervalFee){
-
-        List<ReportInterval> reportsOvertime = new ArrayList<ReportInterval>();
-
-        LocalDateTime aptStartDateTime = aptOverTime.getStart().toLocalDateTime();
+        LocalDateTime aptStartDateTime = apt.getStart().toLocalDateTime();
         LocalDate aptStartLocalDate = aptStartDateTime.toLocalDate();
 
-        LocalDateTime aptEndDateTime = aptOverTime.getEnd().toLocalDateTime();
+        LocalDateTime aptEndDateTime = apt.getEnd().toLocalDateTime();
         LocalDate aptEndLocalDate = aptEndDateTime.toLocalDate();
 
-        if (!detectaInterDiaSemana(intervalFee, aptStartLocalDate, aptEndLocalDate)) return List.of();
+        // System.out.println("Checking InterDiaSemana | apt: " + apt.getId()
+        //     + " | " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date(apt.getStart().getTime()))
+        //     + " | " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date(apt.getEnd().getTime()))
+        // );
+        if (!detectaInterDiaSemana(intervalFee, aptStartLocalDate, aptEndLocalDate)) return new ArrayList<>(List.of());
 
-        if((intervalFee.getStartHour() != null) && (intervalFee.getEndHour() != null)){
+        if ((intervalFee.getStartHour() != null) && (intervalFee.getEndHour() != null)) {
             for (LocalDate actualDay = aptStartLocalDate; !actualDay.isAfter(aptEndLocalDate); actualDay = actualDay.plusDays(1)) {
                 // System.out.println("actualDay: " + actualDay.toString() + " | start: " + aptStartLocalDate + " | !actualDay.isAfter(" + aptEndLocalDate + ")? " + !actualDay.isAfter(aptEndLocalDate));
 
                 int actualDayOfWeek = actualDay.getDayOfWeek().getValue();
 
-                if(intervalFee.getDaysOfWeek()[actualDayOfWeek % 7]) {
+                if (intervalFee.getDaysOfWeek()[actualDayOfWeek % 7]) {
 
                     LocalDateTime verbastart = actualDay.atTime(intervalFee.getStartHour());
                     LocalDateTime verbaEnd = null;
 
                     // situação em que a hora termina no dia seguinte
-                    if(intervalFee.getEndHour().isBefore(intervalFee.getStartHour())){
-                        if(actualDay == aptStartLocalDate || (Week.FDS.compare(intervalFee.getDaysOfWeek()) && actualDayOfWeek % 7 == 6)){
+                    if (intervalFee.getEndHour().isBefore(intervalFee.getStartHour())) {
+                        if (actualDay == aptStartLocalDate || (Week.FDS.compare(intervalFee.getDaysOfWeek()) && actualDayOfWeek % 7 == 6)) {
 
                             // System.out.println("verba: " + intervalFee.getCode() + " | actualDay: " + actualDay + " == aptStartLocalDate: " + aptStartLocalDate);
                             LocalDateTime verbaStart_ = actualDay.atTime(0, 0);
                             LocalDateTime verbaEnd_ = actualDay.atTime(intervalFee.getEndHour());
 
-                            if(!verbaStart_.isAfter(aptEndDateTime) && !aptStartDateTime.isAfter(verbaEnd_)) {
+                            if (!verbaStart_.isAfter(aptEndDateTime) && !aptStartDateTime.isAfter(verbaEnd_)) {
 
                                 LocalDateTime laterStart_ = Collections.max(Arrays.asList(verbaStart_, aptStartDateTime));
                                 LocalDateTime earlierEnd_ = Collections.min(Arrays.asList(verbaEnd_, aptEndDateTime));
 
-                                reportsOvertime.add(new ReportInterval(
-                                    aptOverTime.getId(),
+                                
+                                ReportInterval ri = new ReportInterval(
+                                    apt.getId(),
                                     intervalFee.getCode(),
                                     DateConverter.toTimestamp(laterStart_),
                                     DateConverter.toTimestamp(earlierEnd_)
-                                ));
+                                );
+                                // System.out.println("AppointmentCalculator.calculateIntervals() -- Added to reportsOvertime | apt: " + ri.getAppointmmentId()
+                                //     + " | " + ri.getVerba()
+                                //     + " | " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date(ri.getStart().getTime()))
+                                //     + " | " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date(ri.getEnd().getTime()))
+                                // );
+                                reportsOvertime.add(ri);
                             }
                         }
 
                         // se no dia seguinte a verba é válida
-                        if(intervalFee.getDaysOfWeek()[(actualDayOfWeek+1) % 7]){
+                        if (intervalFee.getDaysOfWeek()[(actualDayOfWeek + 1) % 7]) {
                             verbaEnd = (actualDay.plusDays(1)).atTime(intervalFee.getEndHour());
                         }
 
@@ -263,12 +252,20 @@ public class AppointmentCalculator {
                         LocalDateTime laterStart = Collections.max(Arrays.asList(verbastart, aptStartDateTime));
                         LocalDateTime earlierEnd = Collections.min(Arrays.asList(verbaEnd, aptEndDateTime));
 
-                        reportsOvertime.add(new ReportInterval(
-                            aptOverTime.getId(),
+                        
+                        ReportInterval ri = new ReportInterval(
+                            apt.getId(),
                             intervalFee.getCode(),
                             DateConverter.toTimestamp(laterStart),
                             DateConverter.toTimestamp(earlierEnd)
-                        ));
+                        );
+                        // System.out.println("AppointmentCalculator.calculateIntervals() -- Added to reportsOvertime | apt: " + ri.getAppointmmentId()
+                        //     + " | " + ri.getVerba()
+                        //     + " | " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date(ri.getStart().getTime()))
+                        //     + " | " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(new java.util.Date(ri.getEnd().getTime()))
+            
+                        // );
+                        reportsOvertime.add(ri);
                     }
 
                 }
@@ -278,5 +275,31 @@ public class AppointmentCalculator {
         return reportsOvertime;
     }
 
+    private static boolean detectaInterDiaSemana (IntervalFee intervalFee, LocalDate aptStartLocalDate, LocalDate aptEndLocalDate) {
+
+        // System.out.println("AppointmentCalculator.detectaInterDiaSemana -- IF: " + intervalFee.getCode() 
+        //     + " | " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(
+        //         java.util.Date.from(aptStartLocalDate.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant())
+        //     )
+        //     + " | " + new java.text.SimpleDateFormat("dd/MM/yyyy HH:mm").format(
+        //         java.util.Date.from(aptEndLocalDate.atStartOfDay(java.time.ZoneId.systemDefault()).toInstant())
+        //     )
+        // );
+
+        LocalDate actualDay = aptStartLocalDate;
+        while (!actualDay.isAfter(aptEndLocalDate)) {
+            int actualDayOfWeek = actualDay.getDayOfWeek().getValue();
+            // uso %7 pois getDayOfWeek().getValue() considera domingo como sendo 7, e para padronizar quero que seja 0
+            if (intervalFee.getDaysOfWeek()[(actualDayOfWeek % 7)]) {
+                // System.out.println("AppointmentCalculator.detectaInterDiaSemana -- result: TRUE");
+                return true;
+            }
+            actualDay = actualDay.plusDays(1);
+            actualDayOfWeek = actualDay.getDayOfWeek().getValue();
+        }
+
+        // System.out.println("AppointmentCalculator.detectaInterDiaSemana -- result: FALSE");
+        return false;
+    }
 }
 

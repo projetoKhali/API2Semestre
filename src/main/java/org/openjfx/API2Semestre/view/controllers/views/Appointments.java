@@ -1,10 +1,8 @@
 package org.openjfx.api2semestre.view.controllers.views;
 
-import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
 import org.openjfx.api2semestre.App;
@@ -35,7 +33,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -48,7 +45,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-public class Appointments implements Initializable {
+public class Appointments {
 
     @FXML
     private TextField tf_cliente;
@@ -117,14 +114,25 @@ public class Appointments implements Initializable {
     private List<Appointment> loadedAppointments;
 
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
+    public void initialize() {
         buildTable();
 
         updateTable();
 
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
         // Query all user's resultCenters. TODO: implement pagination
-        ResultCenter[] resultCenters = QueryLibs.selectResultCentersOfMember(Authentication.getCurrentUser().getId());
+        ResultCenter[] resultCenters = QueryLibs.selectResultCentersOfMember(
+            Authentication.getCurrentUser().getId(),
+            connectionOptional
+        );
+
+        // Query all clients. TODO: implement pagination
+        Client[] clients = QueryLibs.selectAllClients(connectionOptional);
+
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
 
         // Create a new LookupTextField to replace the default javafx TextField at tf_resultCenter
         LookupTextField<ResultCenter> lookupTextFieldResultCenter = new LookupTextField<ResultCenter>(resultCenters);
@@ -133,9 +141,6 @@ public class Appointments implements Initializable {
             lookupTextFieldResultCenter
         );
         tf_resultCenter = lookupTextFieldResultCenter;
-
-        // Query all clients. TODO: implement pagination
-        Client[] clients = QueryLibs.selectAllClients();
 
         // Create a new LookupTextField to replace the default javafx TextField at tf_cliente
         LookupTextField<Client> lookupTextFieldClient = new LookupTextField<Client>(clients);
@@ -189,8 +194,9 @@ public class Appointments implements Initializable {
 
     private void updateTable () {
 
+        System.out.println("current user id: " + Authentication.getCurrentUser().getId());
         loadedAppointments = Arrays.asList(QueryLibs.selectAppointmentsOfUser(Authentication.getCurrentUser().getId()));
-        // System.out.println(loadedAppointments.size() + " appointments returned from select ");
+        System.out.println(loadedAppointments.size() + " appointments returned from select ");
 
         applyFilter();
     }
@@ -220,11 +226,13 @@ public class Appointments implements Initializable {
 
     @FXML
     void inputHoraExtra(ActionEvent event){
+        System.out.println("inputHoraExtra");
         inputAppointment(AppointmentType.Overtime);
     }
 
     @FXML
     void inputSobreaviso(ActionEvent event) {
+        System.out.println("inputSobreaviso");
         inputAppointment(AppointmentType.OnNotice);
     }
 
@@ -235,7 +243,7 @@ public class Appointments implements Initializable {
         Client cliente = lookupTfClient.getSelectedItem();
         Integer cliente_id = cliente.getId();
         try {
-            QueryLibs.insertAppointment(new Appointment(
+            int appointmentId = QueryLibs.insertAppointment(new Appointment(
                 Authentication.getCurrentUser().getId(),
                 type,
                 DateConverter.inputToTimestamp(tf_dataInicio.getValue(), tf_horaInicio.getText()),
@@ -245,6 +253,7 @@ public class Appointments implements Initializable {
                 tf_projeto.getText(),
                 tf_justificativa.getText()
             ));
+            System.out.println("apontamento lançado com id " + appointmentId);
         } catch (Exception e) {
             System.out.println("Erro: Appointments.inputAppointment() -- Falha ao inserir apontamento");
             e.printStackTrace();

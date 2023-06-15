@@ -1,10 +1,12 @@
 package org.openjfx.api2semestre.view.controllers.views;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 import org.openjfx.api2semestre.App;
 import org.openjfx.api2semestre.authentication.Authentication;
 import org.openjfx.api2semestre.authentication.Permission;
+import org.openjfx.api2semestre.database.QueryLibs;
 import org.openjfx.api2semestre.view.controllers.templates.DashboardTab;
 import org.openjfx.api2semestre.view.utils.dashboard.DashboardContext;
 
@@ -33,6 +35,9 @@ public class Dashboard {
         ArrayList<DashboardTab> tabList = new ArrayList<>();
         Permission[] userPermissions = Permission.getPermissions(Authentication.getCurrentUser());
 
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
         for (DashboardContext dashboardContext : DashboardContext.values()) {
             if (!dashboardContext.userHasAccess(userPermissions)) continue;
 
@@ -41,7 +46,7 @@ public class Dashboard {
             try {
                 Parent tabTemplateRoot = loader.load();
                 DashboardTab dashboardTab = loader.getController();
-                dashboardTab.setContext(dashboardContext);
+                dashboardTab.setContext(dashboardContext, connectionOptional);
 
                 // Create the tab and set its content
                 Tab tab = new Tab();
@@ -58,6 +63,9 @@ public class Dashboard {
                 e.printStackTrace();
             }
         }
+
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
 
         tabs = tabList.toArray(DashboardTab[]::new);
     }

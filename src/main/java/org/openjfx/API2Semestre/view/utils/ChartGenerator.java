@@ -16,9 +16,10 @@ import org.openjfx.api2semestre.appointment.Appointment;
 import org.openjfx.api2semestre.report.IntervalFee;
 import org.openjfx.api2semestre.report.ReportInterval;
 
+import javafx.geometry.Insets;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
-import javafx.scene.chart.LineChart;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
@@ -28,12 +29,12 @@ import javafx.util.StringConverter;
 public class ChartGenerator {
 
     @SuppressWarnings("unused") private static class ChartData {
-        LineChart<Number, Number> chart;
+        AreaChart<Number, Number> chart;
         XYChart.Series<Number, Number> series;
         NumberAxis xAxis;
         NumberAxis yAxis;
         public ChartData(
-            LineChart<Number, Number> chart,
+            AreaChart<Number, Number> chart,
             XYChart.Series<Number, Number> series,
             NumberAxis xAxis,
             NumberAxis yAxis
@@ -58,35 +59,35 @@ public class ChartGenerator {
         NumberAxis yAxis = yAxisOptional.isPresent() ? yAxisOptional.get() : new NumberAxis();
 
         // Create the line chart
-        LineChart<Number, Number> lineChart = new LineChart<>(xAxis, yAxis);
+        AreaChart<Number, Number> AreaChart = new AreaChart<>(xAxis, yAxis);
 
         // Set the title of the chart
-        lineChart.setTitle(title);
+        AreaChart.setTitle(title);
 
-        lineChart.setMaxWidth(416);
-        lineChart.setPrefWidth(-1);
-        lineChart.setMinWidth(-1);
-        lineChart.setMaxHeight(256);
-        lineChart.setPrefHeight(-1);
-        lineChart.setMinHeight(-1);
+        AreaChart.setMaxWidth(416);
+        AreaChart.setPrefWidth(-1);
+        AreaChart.setMinWidth(-1);
+        AreaChart.setMaxHeight(256);
+        AreaChart.setPrefHeight(-1);
+        AreaChart.setMinHeight(-1);
 
         // Create a series to hold the data points
         XYChart.Series<Number, Number> series = new XYChart.Series<>();
 
         // Add the series to the line chart
-        lineChart.getData().add(series);
+        AreaChart.getData().add(series);
 
         // Remove os circulos dos pontos da linha
-        lineChart.setCreateSymbols(false);
+        AreaChart.setCreateSymbols(false);
 
         // Remove a legenda
-        lineChart.setLegendVisible(false);
+        AreaChart.setLegendVisible(false);
 
-        return new ChartData(lineChart, series, xAxis, yAxis);
+        return new ChartData(AreaChart, series, xAxis, yAxis);
 
     }
 
-    public static LineChart<Number, Number> hourIntersectionCountGraph (Appointment[] appointments) {
+    public static AreaChart<Number, Number> hourIntersectionCountGraph (Appointment[] appointments) {
 
         NumberAxis xAxis = new NumberAxis(0, 1440, 60);
         xAxis.setTickLabelFormatter(new StringConverter<Number>() {
@@ -103,7 +104,7 @@ public class ChartGenerator {
             Optional.empty()
         );
 
-        LineChart<Number, Number> lineChart = chartData.chart;
+        AreaChart<Number, Number> AreaChart = chartData.chart;
         XYChart.Series<Number, Number> series = chartData.series;
         NumberAxis yAxis = chartData.yAxis;
 
@@ -155,11 +156,11 @@ public class ChartGenerator {
         yAxis.setTickUnit(1.0);
         yAxis.setMinorTickVisible(false);
 
-        return lineChart;
+        return AreaChart;
     }
 
     // grafico em barra, com o total de horas para cada verba
-    public static BarChart<String, Number> reportIntervalChart(ReportInterval[] reportsInterval) {
+    public static BarChart<String, Number> intervalFeeChart(ReportInterval[] reportsInterval) {
 
         LinkedList<Integer> intervalFees = new LinkedList<Integer>(Arrays.asList(IntervalFee.getVerbas()).stream().map(
             (IntervalFee intervalFee) -> intervalFee.getCode()
@@ -172,14 +173,16 @@ public class ChartGenerator {
         XYChart.Series<String, Number> dataSeries = new XYChart.Series<>();
 
         for (Integer intervalFee : intervalFees) {
+            // System.out.println("intervalFee: " + intervalFee);
 
             double totalHours = 0;
 
-            for(ReportInterval verba: reportsInterval){
-                LocalDateTime start = (verba.getStart()).toLocalDateTime();
-                LocalDateTime end = (verba.getEnd()).toLocalDateTime();
-                System.out.println("verba: " + verba.getVerba());
-                if (verba.getVerba() == intervalFee) totalHours += (ChronoUnit.MINUTES.between(start, end)) / 60.0;
+            for (ReportInterval reportInterval: reportsInterval) {
+                // System.out.println("reportInterval.getVerba(): " + reportInterval.getVerba());
+                LocalDateTime start = (reportInterval.getStart()).toLocalDateTime();
+                LocalDateTime end = (reportInterval.getEnd()).toLocalDateTime();
+                // System.out.println("verba: " + verba.getVerba());
+                if (reportInterval.getVerba() == intervalFee) totalHours += (ChronoUnit.MINUTES.between(start, end)) / 60.0;
             }
 
             dataSeries.getData().add(new XYChart.Data<>(String.valueOf(intervalFee), totalHours));
@@ -189,6 +192,13 @@ public class ChartGenerator {
         barChart.getData().add(dataSeries);
         barChart.setTitle("Total de horas por verba");
         barChart.setLegendVisible(false);
+
+        barChart.setMaxWidth(416);
+        barChart.setPrefWidth(-1);
+        barChart.setMinWidth(-1);
+        barChart.setMaxHeight(256);
+        barChart.setPrefHeight(-1);
+        barChart.setMinHeight(-1);
 
         return barChart;
     }
@@ -220,6 +230,7 @@ public class ChartGenerator {
         pieChart.setMaxHeight(224);
         pieChart.setPrefHeight(-1);
         pieChart.setMinHeight(-1);
+        pieChart.setPadding(Insets.EMPTY);
 
         // Estilizar o gráfico para ter um círculo vazio no meio
         pieChart.setClockwise(false);
@@ -233,7 +244,7 @@ public class ChartGenerator {
         return pieChart;
     }
 
-    public static LineChart<Number, Number> weekIntersectionCountGraph (Appointment[] appointments) {
+    public static AreaChart<Number, Number> weekIntersectionCountGraph (Appointment[] appointments) {
 
         // Cria um eixo de categorias para os dias da semana
         NumberAxis xAxis = new NumberAxis();
@@ -251,7 +262,7 @@ public class ChartGenerator {
             Optional.empty()
         );
 
-        LineChart<Number, Number> lineChart = chartData.chart;
+        AreaChart<Number, Number> AreaChart = chartData.chart;
         XYChart.Series<Number, Number> series = chartData.series;
         NumberAxis yAxis = chartData.yAxis;
 
@@ -300,10 +311,10 @@ public class ChartGenerator {
         yAxis.setTickUnit(1.0);
         yAxis.setMinorTickVisible(false);
 
-        return lineChart;
+        return AreaChart;
     }
 
-    public static LineChart<Number, Number> monthIntersectionCountGraph (Appointment[] appointments) {
+    public static AreaChart<Number, Number> monthIntersectionCountGraph (Appointment[] appointments) {
 
         NumberAxis xAxis = new NumberAxis(0, 31, 1);
         xAxis.setTickLabelFormatter(new StringConverter<Number>() {
@@ -320,7 +331,7 @@ public class ChartGenerator {
             Optional.empty()
         );
 
-        LineChart<Number, Number> lineChart = chartData.chart;
+        AreaChart<Number, Number> AreaChart = chartData.chart;
         XYChart.Series<Number, Number> series = chartData.series;
         NumberAxis yAxis = chartData.yAxis;
 
@@ -369,7 +380,7 @@ public class ChartGenerator {
         yAxis.setTickUnit(1.0);
         yAxis.setMinorTickVisible(false);
 
-        return lineChart;
+        return AreaChart;
     }
 
     private static double calculateDurationInHours(LocalDateTime start, LocalDateTime end) {

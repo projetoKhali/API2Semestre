@@ -46,9 +46,14 @@ public enum FilterField implements HasDisplayName {
         void execute();
     }
 
-    public Optional<FilterControl> create(Appointment[] appointments, ReportInterval[] intervals, FilterCallback filterCallback) {
-        final BooleanProperty useFilterPredicate = new SimpleBooleanProperty();
-        final BooleanProperty datePickerIsEnd = new SimpleBooleanProperty();
+    public Optional<FilterControl> create (
+        Appointment[] appointments,
+        ReportInterval[] intervals,
+        FilterCallback filterCallback,
+        Optional<java.sql.Connection> connectionOptional
+    ) {
+
+        final BooleanProperty datePickerIsEnd = new SimpleBooleanProperty(false);
         switch (this) {
             case AppointmentEnd: datePickerIsEnd.set(true);
             case AppointmentStart: 
@@ -92,30 +97,29 @@ public enum FilterField implements HasDisplayName {
             ));
             
             case ResultCenter: 
-            LookupTextField<ResultCenter> ltf_ResultCenter = new LookupTextField<ResultCenter>(
+            LookupTextField<ResultCenter> ltf_resultcenter = new LookupTextField<ResultCenter>(
                 "Centro de Resultado",
                 Arrays.asList(appointments)
                 .stream()
                 .map(Appointment::getResultCenterId)
                 .distinct()
-                .collect(Collectors.toList())
-                .stream()
-                .map(id -> QueryLibs.selectResultCenter(id).orElse(null))
+                .map(id -> QueryLibs.selectResultCenter(id, connectionOptional).orElse(null))
                 .filter((ResultCenter resultCenter) -> resultCenter != null)
                 .toArray(ResultCenter[]::new)
             );
-            ltf_ResultCenter.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            ltf_resultcenter.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            // ltf_resultcenter.textProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
             return Optional.ofNullable(new FilterControl(
-                ltf_ResultCenter,
+                ltf_resultcenter,
                 (Appointment appointment) -> {
-                    ResultCenter lookupTextFieldSelected = ltf_ResultCenter.getSelectedItem();
+                    ResultCenter lookupTextFieldSelected = ltf_resultcenter.getSelectedItem();
                     if (lookupTextFieldSelected == null) return true;
                     return appointment.getResultCenterId() == lookupTextFieldSelected.getId();
                 }
             ));
 
             case Project: 
-            LookupTextField<DisplayName> ltf_Project = new LookupTextField<DisplayName>(
+            LookupTextField<DisplayName> ltf_project = new LookupTextField<DisplayName>(
                 "Projeto",
                 Arrays.asList(appointments)
                 .stream()
@@ -125,58 +129,90 @@ public enum FilterField implements HasDisplayName {
                 .collect(Collectors.toList())
                 .toArray(DisplayName[]::new)
             );
-            ltf_Project.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            ltf_project.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
             return Optional.ofNullable(new FilterControl(
-                ltf_Project,
+                ltf_project,
                 (Appointment appointment) -> {
-                    DisplayName lookupTextFieldSelected = ltf_Project.getSelectedItem();
+                    DisplayName lookupTextFieldSelected = ltf_project.getSelectedItem();
                     if (lookupTextFieldSelected == null) return true;
                     return appointment.getProject() == lookupTextFieldSelected.getName();
                 }
             ));
 
             case Client: 
-            LookupTextField<Client> ltf_Client = new LookupTextField<Client>(
+            LookupTextField<Client> ltf_client = new LookupTextField<Client>(
                 "Cliente",
                 Arrays.asList(appointments)
                 .stream()
                 .map(Appointment::getClientId)
                 .distinct()
-                .collect(Collectors.toList())
-                .stream()
-                .map(id -> QueryLibs.selectClientById(id).orElse(null))
+                .map(id -> QueryLibs.selectClientById(id, connectionOptional).orElse(null))
                 .filter((Client client) -> client != null)
                 .toArray(Client[]::new)
             );
-            ltf_Client.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            ltf_client.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
             return Optional.ofNullable(new FilterControl(
-                ltf_Client,
+                ltf_client,
                 (Appointment appointment) -> {
-                    Client lookupTextFieldSelected = ltf_Client.getSelectedItem();
+                    Client lookupTextFieldSelected = ltf_client.getSelectedItem();
                     if (lookupTextFieldSelected == null) return true;
                     return appointment.getClientId() == lookupTextFieldSelected.getId();
                 }
             ));
 
-            case Manager: useFilterPredicate.set(true);
+            case Manager: 
+            LookupTextField<User> ltf_manager = new LookupTextField<User>(
+                "Gestor",
+                Arrays.asList(appointments)
+                .stream()
+                .map(Appointment::getResultCenterId)
+                .distinct()
+                .map(cr_id -> QueryLibs.selectResultCenter(cr_id, connectionOptional).orElse(null))
+                .filter((ResultCenter cr) -> cr != null)
+                .map(org.openjfx.api2semestre.data.ResultCenter::getManagerId)
+                .distinct()
+                .map(usr_id -> QueryLibs.selectUserById(usr_id, connectionOptional).orElse(null))
+                .filter((User user) -> user != null)
+                .toArray(User[]::new)
+            );
+            System.out.println(ltf_manager.getSuggestions().size() + " user suggestions");
+            ltf_manager.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            return Optional.ofNullable(new FilterControl(
+                ltf_manager,
+                (Appointment appointment) -> {
+                    User lookupTextFieldSelected = ltf_manager.getSelectedItem();
+                    if (lookupTextFieldSelected == null) return true;
+                    Optional<java.sql.Connection> ltf_manager_connectionoptional = QueryLibs.connect();
+                    Optional<ResultCenter> cr = QueryLibs.selectResultCenter(appointment.getResultCenterId(), ltf_manager_connectionoptional);
+                    if (cr.isEmpty()) {
+                        QueryLibs.close(connectionOptional);
+                        return false;
+                    }
+                    Optional<User> manager = QueryLibs.selectUserById(cr.get().getManagerId(), connectionOptional);
+                    QueryLibs.close(connectionOptional);
+                    if (manager.isEmpty()) return false;
+                    return manager.get().getId() == lookupTextFieldSelected.getId();
+                }
+            ));
+
+
             case Requester: 
-            LookupTextField<User> ltf_User = new LookupTextField<User>(
-                useFilterPredicate.get() ? "Gestor" : "Solicitante",
+            LookupTextField<User> ltf_requester = new LookupTextField<User>(
+                "Solicitante",
                 Arrays.asList(appointments)
                 .stream()
                 .map(Appointment::getRequester)
                 .distinct()
-                .collect(Collectors.toList())
-                .stream()
-                .map(id -> QueryLibs.selectUserById(id).orElse(null))
-                .filter((User user) -> user != null && (useFilterPredicate.get() ? true : user.getProfile().getProfileLevel() > 0))
+                .map(usr_id -> QueryLibs.selectUserById(usr_id, connectionOptional).orElse(null))
+                .filter((User user) -> user != null)
                 .toArray(User[]::new)
             );
-            ltf_User.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
+            System.out.println(ltf_requester.getSuggestions().size() + " user suggestions");
+            ltf_requester.selectedItemProperty().addListener((observable, oldValue, newValue) -> filterCallback.execute());
             return Optional.ofNullable(new FilterControl(
-                ltf_User,
+                ltf_requester,
                 (Appointment appointment) -> {
-                    User lookupTextFieldSelected = ltf_User.getSelectedItem();
+                    User lookupTextFieldSelected = ltf_requester.getSelectedItem();
                     if (lookupTextFieldSelected == null) return true;
                     return appointment.getRequester() == lookupTextFieldSelected.getId();
                 }

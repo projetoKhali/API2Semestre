@@ -27,23 +27,28 @@ public class TotalHours {
             totalMinutes += reportInterval.getTotal();
         }
         lblTotalHoras.setText(String.valueOf(
-            new StringBuilder(String.valueOf(totalMinutes / 60)).append(":").append(totalMinutes).toString()
+            new StringBuilder(String.valueOf((int)totalMinutes / 60)).append(":").append(String.valueOf((int)totalMinutes % 60)).toString()
         ));
     }
 
     public void setTotalHoursRemunereted(ReportInterval[] listReportInterval) {
+        // System.out.println("TotalHours.setTotalHoursRemunereted");
         double totalMinutes = 0;
-        IntervalFee[] verbas = IntervalFee.getVerbas();
+        IntervalFee[] verbas = IntervalFee.getVerbasFull();
         for (ReportInterval reportInterval : listReportInterval) {
+            // System.out.println("ri | verba: " + reportInterval.getVerba() + " | " + verbas.length + " | " +listReportInterval.length);
             for (IntervalFee verba : verbas) {
                 if (reportInterval.getVerba() == verba.getCode()) {
-                    totalMinutes += reportInterval.getTotal() * verba.getPercent();
+                    // System.out.println("IF | ri.getVerba " + reportInterval.getVerba() + " | verba.getCode " + verba.getCode());
+                    totalMinutes += reportInterval.getTotal() * verba.getHourDuration();
+                    // System.out.println("totalMunutes += " + reportInterval.getTotal() + " * " + verba.getHourDuration() + " | " + (reportInterval.getTotal() * verba.getHourDuration()));
                     break;
                 }
             }
         }
+        // System.out.println("TotalHours.setTotalHoursRemunereted -- totalMinutes" + totalMinutes);
         lblTotalHorasVerba.setText(String.valueOf(
-            new StringBuilder(String.valueOf(totalMinutes / 60)).append(":").append(totalMinutes).toString()
+            new StringBuilder(String.valueOf((int)totalMinutes / 60)).append(":").append(String.valueOf((int)totalMinutes % 60)).toString()
         ));
     }
 
@@ -52,6 +57,7 @@ public class TotalHours {
     }
 
     public static Parent totalHoursParent(Appointment[] listAppointments, ReportInterval[] listReportInterval) {
+        // System.out.println("TotalHours.totalHoursParent");
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(App.getFXML("templates/totalHours"));
             Parent totalHoursParent = fxmlLoader.load();
@@ -61,7 +67,7 @@ public class TotalHours {
             controller.setTotalHoursRemunereted(listReportInterval);
             return totalHoursParent;
         } catch (Exception e) {
-            System.out.println("Erro - totalHoursParent() | erro ao gerar tela");
+            // System.out.println("Erro - totalHoursParent() | erro ao gerar tela");
             e.printStackTrace();
         }
         return null;

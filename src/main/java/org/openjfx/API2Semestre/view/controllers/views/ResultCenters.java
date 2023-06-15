@@ -257,22 +257,35 @@ public class ResultCenters implements EditableTableView<ResultCenter> {
             return;
         }
 
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
         // insert the new ResultCenter and store the id
-        int cr_id = QueryLibs.insertResultCenter(new ResultCenter(
-            name,
-            sigla,
-            codigo,
-            gestor.getId()
-        ));
+        int cr_id = QueryLibs.insertResultCenter(
+            new ResultCenter(
+                name,
+                sigla,
+                codigo,
+                gestor.getId()
+            ),
+            connectionOptional
+        );
 
         // add the membro_cr relation between each selectedUser and thhe new ResultCenter
         for (User selectedUser : selectedUsers) {
-            QueryLibs.addUserToResultCenter(selectedUser.getId(), cr_id);
+            QueryLibs.addUserToResultCenter(
+                selectedUser.getId(),
+                cr_id,
+                connectionOptional
+            );
 
             // enable the selectedUser back to the suggestions of both LookupTextFields
             lookupTfcolaborador.addSuggestion(selectedUser);
             if (selectedUser.getProfile().getProfileLevel() > 0) lookupTfgestor.addSuggestion(selectedUser);
         }
+
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
 
         // clear the values of each TextField
         tf_name.clear();

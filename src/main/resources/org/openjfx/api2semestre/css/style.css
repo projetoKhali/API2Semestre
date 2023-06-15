@@ -1,6 +1,25 @@
-.default-color0.chart-pie { -fx-pie-color: #6ED678
+.default-color0.chart-pie {
+    -fx-pie-color: #6ED678
 }
-.default-color1.chart-pie { -fx-pie-color: #DD6E6E
+.default-color1.chart-pie {
+    -fx-pie-color: #DD6E6E
 }
-.default-color2.chart-pie { -fx-pie-color: #F7FF98
+.default-color2.chart-pie {
+    -fx-pie-color: #F7FF98
+}
+.chart-pie {
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+.chart-legend {
+    -fx-font-size: 10;
+}
+.default-color0.chart-series-area-fill {
+    -fx-fill: #3375BAA7
+}
+.default-color0.chart-series-area-line {
+    -fx-stroke: #3375BA
+}
+.chart-bar {
+    -fx-bar-fill: #3375BADD
 }

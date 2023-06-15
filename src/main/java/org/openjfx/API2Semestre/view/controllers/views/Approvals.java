@@ -125,17 +125,31 @@ public class Approvals {
 
         // Authentication.login(new User("jhow", Profile.Gestor, "e@xem.plo", "teste", "teste"));
 
-        for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(Authentication.getCurrentUser().getId())) {
+        // Inicia a conexão com o banco de dados
+        Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
+
+        for (ResultCenter resultCenter : QueryLibs.selectResultCentersManagedBy(
+            Authentication.getCurrentUser().getId(),
+            connectionOptional
+        )) {
+
             // System.out.println("resultCenter: " + resultCenter);
-            for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(resultCenter.getId())) {
+            for(Appointment apt : QueryLibs.selectAppointmentsOfResultCenter(
+                resultCenter.getId(),
+                connectionOptional
+            )) {
+
                 // System.out.println("apt: " + apt);
                 // try {
-                    items.add(apt);
+                items.add(apt);
                 // } catch (Exception e) {
                 //     e.printStackTrace();
                 // }
             }
         }
+
+        // Fecha a conexão com o banco de dados
+        QueryLibs.close(connectionOptional);
 
         loadedAppointments = items;
 
@@ -204,12 +218,14 @@ public class Approvals {
             "Aprovar",
             (List<ApprovePopupListItem> controllers) -> {
                 System.out.println("showApprovePopup callback");
+                Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();
                 for (ApprovePopupListItem controller : controllers) {
                     Appointment appointment = controller.getSelected().getAppointment();
                     appointment.setStatus(1);
                     QueryLibs.updateAppointment(appointment);
                     // System.out.println("Apontamento atualizado");
                 }
+                QueryLibs.close(connectionOptional);
                 updateTable();
             }
         );
@@ -234,10 +250,12 @@ public class Approvals {
                     appointment.setStatus(2);
                     appointments.add(appointment);
                 }
+                Optional<java.sql.Connection> connectionOptional = QueryLibs.connect();                
                 for (Appointment appointment : appointments) {
                     QueryLibs.updateAppointment(appointment);
                     // System.out.println("Apontamento atualizado");
                 }
+                QueryLibs.close(connectionOptional);
                 updateTable();
             }
         );

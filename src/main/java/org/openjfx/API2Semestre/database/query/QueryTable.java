@@ -14,8 +14,6 @@ public enum QueryTable {
     Member("public.membro_cr"),
 
     Client("public.cliente"),
-
-    // TODO: IntervalFee,
     ;
 
     private String stringValue;
