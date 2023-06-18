@@ -18,11 +18,14 @@
 
 ## **Detalhes do projeto**
 
+<br>
+
+![people](./Docs/Banners/Equipe-Khali.png)
+
 <details>
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
-![people](./Docs/Banners/EquipeNovo.png)
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -31,18 +34,15 @@
 |[Marcos Malaquias](https://github.com/Incivius) | <a href="https://www.linkedin.com/in/marcos-malaquias-criatividade-%C3%A9-o-que-me-faz-ser-eu/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = "mailto:vitchenso1@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href="https://www.instagram.com/mv.malaquias/?next=%2F" target="blank"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 |[Matheus Almeida](https://github.com/matheusalmsou) |  <a href= - target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = - ><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href=- ><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 |[Paulo Granthon](https://github.com/paulo-granthon) | <a href="https://www.linkedin.com/in/paulo-granthon/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = "mailto:pv.granthon@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href="https://www.instagram.com/p.granthon/?next=%2F"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
-|[Renato Mendes](https://github.com/RenatoCMMendes) |  <a href= - target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = - ><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href=- ><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 |[Tânia Cruz](https://github.com/taniacruzz) | <a href="https://www.linkedin.com/in/t%C3%A2nia-cruz-30ab5812a/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = "mailto:tanicruz112@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href="https://www.instagram.com/tanicruz_/?next=%2F"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 
-
-
 </details>
+
 
 <details>
 <summary> Tema e objetivos </summary>
 <br>
 
-![problema](./Docs/Banners/ObejtivoFinal.png)
 
 > * Aplicação desktop simples (CRUD).
 > * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.
@@ -94,13 +94,10 @@
 # __*Produto*__
 
 ## **Tecnologias e ambientação**
-<details>
-<summary> Tecnologias Utilizadas </summary>
-<br> 
 
-![tools](./Docs/Banners/TecnologiaNovo.png)
+![tools](./Docs/Banners/NovobannerTecnologias.png)
 
-</details>
+
 
 <details>
 <summary> Configurando o Ambiente para a Execução do Programa </summary>
