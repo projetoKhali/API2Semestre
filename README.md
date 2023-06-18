@@ -75,7 +75,7 @@
 * [x] 03/04 a 23/04 - Sprint 2
 * [x] 24/04 a 14/05 - Sprint 3
 * [x] 15/05 a 04/06 - Sprint 4
-* [ ] 13/06 a 14/06 - Feira de soluções
+* [x] 13/06 a 14/06 - Feira de soluções
 
 </details>
 <details>
