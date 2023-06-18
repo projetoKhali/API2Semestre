@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="280.0" prefWidth="784.0" snapToPixel="false" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view.controllers.popups.Feedback">
+   <children>
+      <FlowPane layoutY="4.0" prefHeight="59.0" prefWidth="722.0" AnchorPane.bottomAnchor="207.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0">
+         <children>
+            <TableView fx:id="tabela" prefHeight="54.0" prefWidth="754.0">
+              <columns>
+                <TableColumn fx:id="col_status" prefWidth="98.0" resizable="false" text="Status" />
+                <TableColumn fx:id="col_squad" prefWidth="100.0" resizable="false" text="Squad" />
+                  <TableColumn fx:id="col_tipo" prefWidth="72.0" resizable="false" text="Tipo" />
+                  <TableColumn fx:id="col_inicio" prefWidth="116.0" resizable="false" text="Início" />
+                  <TableColumn fx:id="col_fim" prefWidth="110.0" resizable="false" text="Fim" />
+                  <TableColumn fx:id="col_cliente" prefWidth="78.0" resizable="false" text="Cliente" />
+                  <TableColumn fx:id="col_projeto" prefWidth="82.0" resizable="false" text="Projeto" />
+                  <TableColumn fx:id="col_total" prefWidth="97.0" resizable="false" text="Total" />
+              </columns>
+               <FlowPane.margin>
+                  <Insets left="2.0" right="2.0" />
+               </FlowPane.margin>
+               <columnResizePolicy>
+                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+               </columnResizePolicy>
+            </TableView>
+         </children>
+      </FlowPane>
+      <FlowPane layoutY="105.0" prefHeight="151.0" prefWidth="606.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="14.0">
+         <children>
+            <Label fx:id="lb_feedback" text="Feedback:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+      </FlowPane>
+   </children>
+</AnchorPane>

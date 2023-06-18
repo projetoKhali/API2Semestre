@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<VBox alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="320.0" prefWidth="480.0" spacing="4.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.api2semestre.view.controllers.views.Login">
+   <children>
+      <ImageView fitHeight="113.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../imagens/logoKhali.png" />
+         </image>
+         <VBox.margin>
+            <Insets bottom="32.0" top="16.0" />
+         </VBox.margin>
+      </ImageView>
+      <HBox alignment="CENTER" spacing="4.0" VBox.vgrow="NEVER">
+         <children>
+            <ImageView fitHeight="42.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagens/Login.png" />
+               </image>
+            </ImageView>
+            <TextField fx:id="tf_email" promptText="Email" />
+         </children>
+      </HBox>
+      <HBox alignment="CENTER" spacing="4.0" VBox.vgrow="NEVER">
+         <children>
+            <ImageView fitHeight="42.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../imagens/Password.png" />
+               </image>
+            </ImageView>
+            <PasswordField fx:id="tf_senha" promptText="Senha" />
+         </children>
+      </HBox>
+      <Button mnemonicParsing="false" onAction="#login" prefWidth="128.0" text="Login">
+         <VBox.margin>
+            <Insets bottom="4.0" left="4.0" right="4.0" top="16.0" />
+         </VBox.margin>
+         <padding>
+            <Insets bottom="4.0" left="8.0" right="8.0" top="4.0" />
+         </padding>
+      </Button>
+   </children>
+   <padding>
+      <Insets bottom="64.0" left="64.0" right="64.0" top="64.0" />
+   </padding>
+</VBox>

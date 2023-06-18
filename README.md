@@ -26,14 +26,10 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
-<<<<<<< HEAD
-=======
-![people](./Docs/Banners/NovobannerEquipe.png)
->>>>>>> 8cf0b15181b654abb7cdd3afb2b3c1bd748c600f
+![people](./Docs/Banners/BannerEquipeV3.png)  
 
 | Integrantes | Redes Sociais |
 |-------|--------|
-|[Igor Cerutti](https://github.com/IgorCeruttiL) |  <a href= - target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = - ><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href=- ><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 |[Jhonatan Lopes](https://github.com/jhonatanlop) | <a href="https://www.linkedin.com/in/jhonatan-oliveira-lopes/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = "mailto:jhooliveira.lopes@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href="https://www.instagram.com/jhonatan_lopes_lmao/?next=%2F" target="_blank"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 |[Marcos Malaquias](https://github.com/Incivius) | <a href="https://www.linkedin.com/in/marcos-malaquias-criatividade-%C3%A9-o-que-me-faz-ser-eu/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = "mailto:vitchenso1@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href="https://www.instagram.com/mv.malaquias/?next=%2F" target="blank"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 |[Matheus Almeida](https://github.com/matheusalmsou) |  <a href= - target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = - ><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href=- ><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
@@ -79,8 +75,8 @@
 - [x] 13/02 a 03/03 - Kick-off
 - [x] 13/03 a 02/04 - Sprint 1
 - [x] 03/04 a 23/04 - Sprint 2
-- [ ] 24/04 a 14/05 - Sprint 3
-- [ ] 15/05 a 04/06 - Sptint 4
+- [x] 24/04 a 14/05 - Sprint 3
+- [x] 15/05 a 04/06 - Sprint 4
 - [ ] 13/06 a 14/06 - Feira de soluções
 
 </details>
@@ -92,6 +88,10 @@
 
 ![image](https://user-images.githubusercontent.com/79020769/233870703-35cb9ada-bca1-4812-a1a4-47e435f4a8cd.png)
 
+![image](https://github.com/projetoKhali/API2Semestre/assets/79020769/048e3e03-e52a-476c-a399-6399b83de7fa)
+ 
+![image](https://github.com/projetoKhali/API2Semestre/assets/79020769/79639f7f-48f2-4a5c-9f23-46afb1daf39b)
+
 </details>
 <br> 
 
@@ -100,29 +100,6 @@
 ## **Tecnologias e ambientação**
 
 ![tools](./Docs/Banners/NovobannerTecnologias.png)
-<<<<<<< HEAD
-
-=======
->>>>>>> 8cf0b15181b654abb7cdd3afb2b3c1bd748c600f
-
-
-<details>
-<summary> Configurando o Ambiente para a Execução do Programa </summary>
-<br>
-
-~~~java
-Insira o código aqui: 
-~~~
-
-#### Digite em seu terminal os seguintes comandos:
-
-~~~java
-Insira o código aqui: 
-~~~
-
-</details>
-
-<br>
 
 ## **Fluxos e manual de utilização**
 
@@ -243,7 +220,7 @@ CR e colaborador.
 <details>
 
 <summary> SPRINT 3: </summary>
- 
+
  | COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
  |---------|----------------------|------|------------|
  | Administrador | cadastrar colaboradores, gestores e administradores | que eu possa designá-los às permissões corretas no sistema. | 1 |
@@ -258,7 +235,7 @@ CR e colaborador.
 
 <details>
 <summary> SPRINT 4: </summary>
- 
+
  | COMO UM | PRECISO SER CAPAZ DE | PARA | PRIORIDADE |
  |---------|----------------------|------|------------|
  | Administrador | acessar um Dashboard com informações da jornada de trabalho de todos os meus colaboradores | melhor visualização e tratamento dos dados. | 1 |
