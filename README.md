@@ -5,8 +5,8 @@
 ## 📍 Sumário
   * [Projeto API](#projeto-api)
     * [Detalhes do projeto](#detalhes-do-projeto)   
-  * [Produto Khali](#produto)
-    * [Tecnologias e ambientação](#tecnologias-e-ambientação)
+    * [Produto Khali](#produto)
+    * [Tecnologias](#tecnologias)
     * [Fluxos e manual de utilização](#fluxos-e-manual-de-utilização)
     * [Requisitos do projeto](#requisitos-do-projeto)
     * [Backlog](#backlog)
