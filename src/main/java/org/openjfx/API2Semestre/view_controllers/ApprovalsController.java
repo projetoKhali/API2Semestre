@@ -24,19 +24,17 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -184,11 +182,54 @@ public class ApprovalsController implements Initializable {
     }
 
     @FXML
-    private void showPopUp () {
-        createPopup();
+    private void showApprovePopup (ActionEvent event) throws IOException {
+        System.out.println("showApprovePopup");
+        createPopup(
+            "approvePopupListItem.fxml",
+            "Aprovar",
+            (List<ApprovePopupListItem> controllers) -> {
+                System.out.println("showApprovePopup callback");
+                for (ApprovePopupListItem controller : controllers) {
+                    Appointment appointment = controller.getSelected().getAppointment();
+                    appointment.setStatus(1);
+                    QueryLibs.updateTable(appointment);
+                    System.out.println("Apontamento atualizado");
+                }
+                updateTable();
+            }
+        );
     }
 
-    private Stage createPopup() {
+    @FXML
+    private void showRejectPopup (ActionEvent event) throws IOException {
+        System.out.println("showRejectPopup");
+        createPopup(
+            "rejectPopupListItem.fxml",
+            "Rejeitar",
+            (List<RejectPopupListItem> controllers) -> {
+                System.out.println("showRejectPopup callback");
+                List<Appointment> appointments = new ArrayList<>();
+                for (RejectPopupListItem controller : controllers) {
+                    String feedback = controller.getFeedback();
+                    if (feedback == null || feedback.isEmpty()) {
+                        System.out.println("feedback não preenchido");
+                        return;
+                    }
+                    Appointment appointment = controller.getSelected().getAppointment();
+                    appointment.setFeedback(feedback);
+                    appointment.setStatus(2);
+                    appointments.add(appointment);
+                }
+                for (Appointment appointment : appointments) {
+                    QueryLibs.updateTable(appointment);
+                    System.out.println("Apontamento atualizado");
+                }
+                updateTable();
+            }
+        );
+    }
+
+    private <T extends PopupController> Stage createPopup (String popupFxmlFile, String actionText, PopupCallbackHandler<T> callback) {
 
         // Get the list of items from the main application
         List<AppointmentWrapper> selectedAppointments = getSelected();
@@ -196,22 +237,22 @@ public class ApprovalsController implements Initializable {
         // Create a new stage for the popup
         Stage popupStage = new Stage();
         popupStage.initModality(Modality.APPLICATION_MODAL);
-        popupStage.setTitle("Rejeitar " + selectedAppointments.size() + " apontamentos selecionados");
+        popupStage.setTitle(actionText + " " + selectedAppointments.size() + " apontamentos selecionados");
 
         // Create a VBox to hold the HBox controls for each item
         VBox vbox = new VBox();
         vbox.setSpacing(8);
         vbox.setPadding(new Insets(16));
 
-        List<RejectPopupListItem> controllers = selectedAppointments.stream().map((AppointmentWrapper aptWrapper) -> {
+        List<T> controllers = selectedAppointments.stream().map((AppointmentWrapper aptWrapper) -> {
             try {
                 // Load the FXML file for the list item
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("rejectPopupListItem.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(popupFxmlFile));
                 VBox listItem = loader.load();
-                RejectPopupListItem controller = loader.getController();
+                T controller = loader.getController();
 
 
-                controller.apt_selected = aptWrapper;
+                controller.setSelected(aptWrapper);
                 controller.buildTable();
 
                 // TextField textField = (TextField) listItem.lookup("#textField");
@@ -233,26 +274,10 @@ public class ApprovalsController implements Initializable {
         scrollPane.setFitToWidth(true);
 
         // Create a button to close the popup
-        Button closeButton = new Button("Rejeitar");
+        Button closeButton = new Button(actionText);
         closeButton.setOnAction(event -> {
-            List<Appointment> appointments = new ArrayList<>();
-            for (RejectPopupListItem controller : controllers) {
-                String feedback = controller.getFeedback();
-                if (feedback == null || feedback.isEmpty()) {
-                    System.out.println("feedback não preenchido");
-                    return;
-                }
-                Appointment appointment = controller.apt_selected.getAppointment();
-                appointment.setFeedback(feedback);
-                appointment.setStatus(2);
-                appointments.add(appointment);;
-            }
-            for (Appointment appointment : appointments) {
-                QueryLibs.updateTable(appointment);
-                System.out.println("Apontamento atualizado");
-            }
+            callback.handlePopupList(controllers);
             popupStage.close();
-            updateTable();
         });
 
         // Create a VBox to hold the scroll pane and close button

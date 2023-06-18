@@ -26,6 +26,10 @@
 <summary> Integrantes da Equipe Khali </summary>
 <br>
 
+<<<<<<< HEAD
+=======
+![people](./Docs/Banners/NovobannerEquipe.png)
+>>>>>>> 8cf0b15181b654abb7cdd3afb2b3c1bd748c600f
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -96,7 +100,10 @@
 ## **Tecnologias e ambientação**
 
 ![tools](./Docs/Banners/NovobannerTecnologias.png)
+<<<<<<< HEAD
 
+=======
+>>>>>>> 8cf0b15181b654abb7cdd3afb2b3c1bd748c600f
 
 
 <details>
@@ -158,15 +165,21 @@ https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-
 
 > ![31/03/2023 Release V3.0](./Docs/ERD/Diagrama%20-%20Banco%20de%20Dados%20para%20Apontamento%20de%20HorasV5.png)
 
-> ![31/03/2023 Release V3.0](./Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
+> ![Diagrama de Cardinalidades](./Docs/ERD/Diagrama%20de%20Cardinalidade.png)  
 
 </details>
 
 <details>
 <summary> Vídeos com Funcionalidades </summary>
+
+
+https://user-images.githubusercontent.com/79020769/233886119-ace28f22-fccd-45e4-aaa3-85e3d52fce98.mp4
+
+
+
 <br> 
 
-> * 
+
 
 </details>
 
