@@ -16,17 +16,15 @@
 
 # _**Projeto API**_
 
-## **Detalhes do projeto**
+## **Equipe**
 
 <br>
 
-![people](./Docs/Banners/Equipe-Khali.png)
+![people](./Docs/Banners/Equipe-Khali.png)  
 
 <details>
 <summary> Integrantes da Equipe Khali </summary>
 <br>
-
-![people](./Docs/Banners/BannerEquipeV3.png)  
 
 | Integrantes | Redes Sociais |
 |-------|--------|
@@ -37,19 +35,17 @@
 |[Tânia Cruz](https://github.com/taniacruzz) | <a href="https://www.linkedin.com/in/t%C3%A2nia-cruz-30ab5812a/" target="_blank"><img src="https://img.shields.io/badge/-LinkedIn-%230077B5?style=for-the-badge&logo=linkedin&logoColor=white" target="_blank"></a> <a href = "mailto:tanicruz112@gmail.com"><img src="https://img.shields.io/badge/-Gmail-%23333?style=for-the-badge&logo=gmail&logoColor=white" target="_blank"></a> <a href="https://www.instagram.com/tanicruz_/?next=%2F"><img src="https://img.shields.io/badge/-Instagram-%23E4405F?style=for-the-badge&logo=instagram&logoColor=white" target="_blank"></a> |
 
 </details>
-
-
-<details>
-<summary> Tema e objetivos </summary>
 <br>
+
+## **Detalhes do projeto**
+
+### Tema e objetivos
 
 ![problema](./Docs/Banners/ObejtivoFinal.png)  
 
-> * Aplicação desktop simples (CRUD).
-> * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.
-> * A primeira entrega não deve envolver acesso ao Banco de Dados.
-
-</details>
+> * Aplicação desktop simples (CRUD).  
+> * Os requisitos devem proporcionar uma modelagem de Banco de Dados relacional.  
+> * A primeira entrega não deve envolver acesso ao Banco de Dados.  
 
 <details>
 <summary> Conhecimentos Exigidos </summary>
@@ -59,6 +55,7 @@
 > * Levantar e registrar Requisitos Funcionais e Não Funcionais usando técnicas de Métodos Ágeis e Tradicionais
 > * Projetar Arquitetura Lógica do Sistema
 > * Implementar Aplicação (com persistência) usando Linguagem de Programação Java Desktop
+
 </details>
 
 <details>
@@ -73,12 +70,12 @@
 <summary> Prazos </summary>
 <br>
 
-- [x] 13/02 a 03/03 - Kick-off
-- [x] 13/03 a 02/04 - Sprint 1
-- [x] 03/04 a 23/04 - Sprint 2
-- [x] 24/04 a 14/05 - Sprint 3
-- [x] 15/05 a 04/06 - Sprint 4
-- [ ] 13/06 a 14/06 - Feira de soluções
+* [x] 13/02 a 03/03 - Kick-off
+* [x] 13/03 a 02/04 - Sprint 1
+* [x] 03/04 a 23/04 - Sprint 2
+* [x] 24/04 a 14/05 - Sprint 3
+* [x] 15/05 a 04/06 - Sprint 4
+* [ ] 13/06 a 14/06 - Feira de soluções
 
 </details>
 <details>
@@ -98,7 +95,7 @@
 
 # __*Produto*__
 
-## **Tecnologias e ambientação**
+## **Tecnologias**
 
 ![tools](./Docs/Banners/NovobannerTecnologias.png)
 
@@ -153,14 +150,8 @@ https://user-images.githubusercontent.com/79020769/229377162-bf07ebee-5a1c-4112-
 
 https://user-images.githubusercontent.com/79020769/233886119-ace28f22-fccd-45e4-aaa3-85e3d52fce98.mp4
 
-
-
 <br> 
-
-
-
 </details>
-
 <br>
 
 ## **Requisitos do projeto**
